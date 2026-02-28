@@ -35,7 +35,7 @@ const Index = () => {
                   Shop Now <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" className="gap-2 bg-green-500 text-base text-white hover:bg-green-600 shadow-lg shadow-green-500/30">
+              <Button asChild size="lg" className="gap-2 bg-accent text-base text-accent-foreground hover:bg-accent/90 shadow-lg shadow-accent/30 font-semibold">
                 <a href="https://wa.me/27645436734" target="_blank" rel="noopener noreferrer">
                   WhatsApp Us
                 </a>
