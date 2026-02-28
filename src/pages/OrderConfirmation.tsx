@@ -48,8 +48,12 @@ export default function OrderConfirmation() {
                   <span className="font-medium">Tripplefour</span>
                 </div>
                 <div className="flex justify-between">
+                  <span className="text-muted-foreground">Account Type</span>
+                  <span className="font-medium">Gold Business Account</span>
+                </div>
+                <div className="flex justify-between">
                   <span className="text-muted-foreground">Account Number</span>
-                  <span className="font-medium">— Contact us —</span>
+                  <span className="font-mono font-bold">63182773870</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Branch Code</span>
