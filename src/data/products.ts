@@ -64,16 +64,13 @@ export const products: Product[] = [
   { id: "ind-1", name: "Indoor Dust 1G", category: "Indoor Dust", price: 255, description: "Premium indoor-grown dust, 1 gram pack.", image: categoryImages["Indoor Dust"] },
 
   // Pre-rolls
-  { id: "pr-10gh", name: "10 Prerolls Greenhouse", category: "Pre-rolls", price: 535, description: "Pack of 10 greenhouse pre-rolls. Ready to enjoy.", image: categoryImages["Pre-rolls"] },
-  { id: "pr-5gh", name: "5 Prerolls Greenhouse", category: "Pre-rolls", price: 385, description: "Pack of 5 greenhouse pre-rolls.", image: categoryImages["Pre-rolls"] },
+  { id: "pr-4gh", name: "4 Prerolls Greenhouse", category: "Pre-rolls", price: 385, description: "Pack of 4 greenhouse pre-rolls.", image: categoryImages["Pre-rolls"] },
   { id: "pr-1in", name: "Indoor Preroll", category: "Pre-rolls", price: 95, description: "Single indoor pre-roll. Premium quality.", image: categoryImages["Pre-rolls"] },
   { id: "pr-1gh", name: "1 Preroll Greenhouse", category: "Pre-rolls", price: 75, description: "Single greenhouse pre-roll.", image: categoryImages["Pre-rolls"] },
   { id: "pr-out", name: "Outdoor Pre-roll", category: "Pre-rolls", price: 55, description: "Single outdoor pre-roll. Great value.", image: categoryImages["Pre-rolls"] },
 
   // Edibles
-  { id: "ed-lolly5", name: "Lolly Pop 5x", category: "Edibles", price: 500, description: "Pack of 5 cannabis-infused lollipops.", image: categoryImages["Edibles"] },
   { id: "ed-oreo3", name: "Oreo Caramel Treat 3x", category: "Edibles", price: 215, description: "Pack of 3 Oreo caramel treats, cannabis-infused.", image: categoryImages["Edibles"] },
-  { id: "ed-lolly1", name: "Lolly Pop 1x", category: "Edibles", price: 185, description: "Single cannabis-infused lollipop.", image: categoryImages["Edibles"] },
   { id: "ed-soda", name: "Sodaze Cannabis Soda", category: "Edibles", price: 60, description: "Flavored cannabis-infused soda by Sodaze.", image: categoryImages["Edibles"] },
 
   // Vapes
