@@ -14,7 +14,98 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      delivery_zones: {
+        Row: {
+          created_at: string
+          fee: number
+          id: string
+          max_km: number
+          min_km: number
+          zone_name: string
+        }
+        Insert: {
+          created_at?: string
+          fee: number
+          id?: string
+          max_km: number
+          min_km?: number
+          zone_name: string
+        }
+        Update: {
+          created_at?: string
+          fee?: number
+          id?: string
+          max_km?: number
+          min_km?: number
+          zone_name?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          created_at: string
+          customer_email: string
+          customer_name: string
+          customer_phone: string
+          delivery_address: string
+          delivery_fee: number
+          delivery_zone_id: string | null
+          id: string
+          items: Json
+          order_ref: string
+          payment_method: string
+          payment_status: string
+          status: string
+          subtotal: number
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_email: string
+          customer_name: string
+          customer_phone: string
+          delivery_address: string
+          delivery_fee?: number
+          delivery_zone_id?: string | null
+          id?: string
+          items?: Json
+          order_ref: string
+          payment_method?: string
+          payment_status?: string
+          status?: string
+          subtotal: number
+          total: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string
+          delivery_address?: string
+          delivery_fee?: number
+          delivery_zone_id?: string | null
+          id?: string
+          items?: Json
+          order_ref?: string
+          payment_method?: string
+          payment_status?: string
+          status?: string
+          subtotal?: number
+          total?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_delivery_zone_id_fkey"
+            columns: ["delivery_zone_id"]
+            isOneToOne: false
+            referencedRelation: "delivery_zones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
