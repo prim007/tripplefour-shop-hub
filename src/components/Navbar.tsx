@@ -87,6 +87,15 @@ export default function Navbar() {
                     {link.label}
                   </Link>
                 ))}
+                <a
+                  href="https://cuddles-ai.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-1 text-lg font-medium text-primary"
+                >
+                  Cuddles AI <ExternalLink className="h-4 w-4" />
+                </a>
               </nav>
             </SheetContent>
           </Sheet>
