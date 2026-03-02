@@ -49,6 +49,12 @@ const categoryImages: Record<ProductCategory, string> = {
 };
 
 export const products: Product[] = [
+  // Pre-rolls
+  { id: "pr-4gh", name: "4 Prerolls Greenhouse", category: "Pre-rolls", price: 385, description: "Pack of 4 greenhouse pre-rolls.", image: categoryImages["Pre-rolls"] },
+  { id: "pr-1in", name: "Indoor Preroll", category: "Pre-rolls", price: 95, description: "Single indoor pre-roll. Premium quality.", image: categoryImages["Pre-rolls"] },
+  { id: "pr-1gh", name: "1 Preroll Greenhouse", category: "Pre-rolls", price: 75, description: "Single greenhouse pre-roll.", image: categoryImages["Pre-rolls"] },
+  { id: "pr-out", name: "Outdoor Pre-roll", category: "Pre-rolls", price: 55, description: "Single outdoor pre-roll. Great value.", image: categoryImages["Pre-rolls"] },
+
   // Greenhouse Dust
   { id: "ghd-50", name: "Greenhouse Dust 50G", category: "Greenhouse Dust", price: 945, description: "Premium greenhouse dust, 50 gram pack. Quality blend for the connoisseur.", image: categoryImages["Greenhouse Dust"] },
   { id: "ghd-20", name: "Greenhouse Dust 20G", category: "Greenhouse Dust", price: 595, description: "Premium greenhouse dust, 20 gram pack.", image: categoryImages["Greenhouse Dust"] },
@@ -66,12 +72,6 @@ export const products: Product[] = [
   { id: "ind-2", name: "Indoor Dust 2G", category: "Indoor Dust", price: 315, description: "Premium indoor-grown dust, 2 gram pack.", image: categoryImages["Indoor Dust"] },
   { id: "ind-1", name: "Indoor Dust 1G", category: "Indoor Dust", price: 255, description: "Premium indoor-grown dust, 1 gram pack.", image: categoryImages["Indoor Dust"] },
 
-  // Pre-rolls
-  { id: "pr-4gh", name: "4 Prerolls Greenhouse", category: "Pre-rolls", price: 385, description: "Pack of 4 greenhouse pre-rolls.", image: categoryImages["Pre-rolls"] },
-  { id: "pr-1in", name: "Indoor Preroll", category: "Pre-rolls", price: 95, description: "Single indoor pre-roll. Premium quality.", image: categoryImages["Pre-rolls"] },
-  { id: "pr-1gh", name: "1 Preroll Greenhouse", category: "Pre-rolls", price: 75, description: "Single greenhouse pre-roll.", image: categoryImages["Pre-rolls"] },
-  { id: "pr-out", name: "Outdoor Pre-roll", category: "Pre-rolls", price: 55, description: "Single outdoor pre-roll. Great value.", image: categoryImages["Pre-rolls"] },
-
   // Edibles
   { id: "ed-oreo3", name: "Oreo Caramel Treat 3x", category: "Edibles", price: 215, description: "Pack of 3 Oreo caramel treats, cannabis-infused.", image: categoryImages["Edibles"] },
   { id: "ed-soda", name: "Sodaze Cannabis Soda", category: "Edibles", price: 60, description: "Flavored cannabis-infused soda by Sodaze.", image: categoryImages["Edibles"] },
@@ -79,6 +79,9 @@ export const products: Product[] = [
   // Vapes
   { id: "vp-pen", name: "Vape Pen 1ml 91% THC", category: "Vapes", price: 550, description: "1ml vape pen cartridge with 91% THC concentration.", image: categoryImages["Vapes"] },
   { id: "vp-disp", name: "Disposable Juice 10ml", category: "Vapes", price: 320, description: "10ml disposable vape juice.", image: categoryImages["Vapes"] },
+
+  // Dab
+  { id: "dab-1", name: "Dab Concentrate 1G", category: "Dab", price: 350, description: "Premium cannabis dab concentrate, 1 gram.", image: categoryImages["Dab"] },
 
   // Other
   { id: "ot-moon", name: "Moon Sticks", category: "Other", price: 125, description: "Premium moon sticks for an elevated experience.", image: categoryImages["Other"] },
