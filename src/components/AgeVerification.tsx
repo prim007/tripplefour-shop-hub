@@ -1,0 +1,65 @@
+import { useState, useEffect } from "react";
+import { AlertTriangle, Leaf } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+const AGE_KEY = "tripplefour_age_verified";
+
+export default function AgeVerification() {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const verified = localStorage.getItem(AGE_KEY);
+    if (!verified) setShow(true);
+  }, []);
+
+  const handleConfirm = () => {
+    localStorage.setItem(AGE_KEY, "true");
+    setShow(false);
+  };
+
+  const handleDecline = () => {
+    window.location.href = "https://www.google.com";
+  };
+
+  if (!show) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+      <div className="w-full max-w-md rounded-2xl border bg-card p-8 text-center shadow-2xl">
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+          <Leaf className="h-7 w-7 text-primary" />
+        </div>
+
+        <h2 className="font-display text-2xl font-bold">Age Verification</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          You must be <strong>21 years or older</strong> to enter this site.
+        </p>
+
+        <div className="mt-5 rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-left">
+          <div className="flex items-start gap-2">
+            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
+            <div className="text-xs text-muted-foreground space-y-1">
+              <p className="font-semibold text-destructive">⚠️ Health & Legal Caution</p>
+              <p>Cannabis products may impair your ability to drive or operate machinery. Use responsibly.</p>
+              <p>Keep out of reach of children. Not recommended for pregnant or breastfeeding women.</p>
+              <p>By entering, you confirm you are of legal age and agree to our terms of use.</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 flex gap-3">
+          <Button variant="outline" className="flex-1" onClick={handleDecline}>
+            I'm Under 21
+          </Button>
+          <Button className="flex-1" onClick={handleConfirm}>
+            I'm 21 or Older
+          </Button>
+        </div>
+
+        <p className="mt-4 text-[11px] text-muted-foreground">
+          This website contains products intended for adults only. By proceeding you accept full responsibility.
+        </p>
+      </div>
+    </div>
+  );
+}
