@@ -130,6 +130,18 @@ export default function Checkout() {
                       <span className="font-medium">250 655</span>
                     </div>
                   </div>
+
+                  <div className="mt-3 rounded-lg border border-destructive/30 bg-destructive/5 p-3 space-y-2">
+                    <h4 className="text-sm font-semibold text-destructive flex items-center gap-1.5">
+                      ⚠️ Important Payment Instructions
+                    </h4>
+                    <ul className="text-xs text-muted-foreground space-y-1 list-disc pl-4">
+                      <li>Include your <strong>full name</strong> and <strong>exact delivery location</strong> as payment reference</li>
+                      <li>A <strong>delivery fee of R50 – R100</strong> will be added depending on your location</li>
+                      <li>Orders are processed within <strong>24 hours</strong> of confirmed payment</li>
+                      <li className="text-destructive font-medium">Payment must be made immediately — orders without immediate payment will NOT be processed</li>
+                    </ul>
+                  </div>
                 </div>
               )}
 

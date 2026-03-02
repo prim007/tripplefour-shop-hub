@@ -1,10 +1,28 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Leaf, Truck, Shield } from "lucide-react";
+import { ArrowRight, Leaf, Truck, Shield, Clock, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { products, categories } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+
+import banner1 from "@/assets/banners/banner-1.jpg";
+import banner2 from "@/assets/banners/banner-2.jpg";
+import banner3 from "@/assets/banners/banner-3.jpg";
+import banner4 from "@/assets/banners/banner-4.jpg";
+
+const banners = [
+  { src: banner1, alt: "Premium cannabis buds with golden trichomes" },
+  { src: banner2, alt: "Cannabis pre-rolls, edibles and vape products" },
+  { src: banner3, alt: "Greenhouse cannabis cultivation" },
+  { src: banner4, alt: "Cannabis wellness tinctures and oils" },
+];
 
 const featured = products.filter((p) => !p.comingSoon).slice(0, 4);
 
@@ -13,20 +31,39 @@ const Index = () => {
     <div className="flex min-h-screen flex-col">
       <Navbar />
       <main className="flex-1">
-        {/* Hero */}
-        <section className="relative overflow-hidden bg-primary px-4 py-24 text-primary-foreground md:py-32">
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute -right-20 -top-20 h-96 w-96 rounded-full bg-accent" />
-            <div className="absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-accent" />
+        {/* Hero with Carousel */}
+        <section className="relative overflow-hidden bg-primary text-primary-foreground">
+          {/* Banner Carousel */}
+          <div className="absolute inset-0">
+            <Carousel
+              opts={{ loop: true, align: "start" }}
+              plugins={[Autoplay({ delay: 4000, stopOnInteraction: false })]}
+              className="h-full"
+            >
+              <CarouselContent className="-ml-0 h-full">
+                {banners.map((b, i) => (
+                  <CarouselItem key={i} className="pl-0 h-full">
+                    <img
+                      src={b.src}
+                      alt={b.alt}
+                      className="h-full w-full object-cover"
+                    />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-black/60" />
           </div>
-          <div className="relative mx-auto max-w-7xl text-center">
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-foreground/10">
+
+          <div className="relative mx-auto max-w-7xl px-4 py-28 text-center md:py-40">
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-foreground/10 backdrop-blur-sm">
               <Leaf className="h-8 w-8" />
             </div>
-            <h1 className="font-display text-4xl font-extrabold tracking-tight md:text-6xl">
+            <h1 className="font-display text-4xl font-extrabold tracking-tight drop-shadow-lg md:text-6xl">
               Tripplefour
             </h1>
-            <p className="mx-auto mt-4 max-w-xl text-lg opacity-90 md:text-xl">
+            <p className="mx-auto mt-4 max-w-xl text-lg opacity-90 drop-shadow-md md:text-xl">
               Dispensery we deliver allover — Premium cannabis health products at your doorstep.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -40,6 +77,24 @@ const Index = () => {
                   WhatsApp Us
                 </a>
               </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Important Notices */}
+        <section className="border-b bg-destructive/5 px-4 py-4">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-6 text-sm">
+            <div className="flex items-center gap-2">
+              <Truck className="h-4 w-4 text-primary" />
+              <span><strong>Delivery Fee:</strong> R50 – R100 depending on location</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4 text-primary" />
+              <span>Orders processed within <strong>24 hours</strong> of payment</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 text-destructive" />
+              <span><strong>Immediate payment required</strong> — no payment, no order</span>
             </div>
           </div>
         </section>
