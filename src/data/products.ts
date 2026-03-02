@@ -27,12 +27,13 @@ export interface Product {
 }
 
 export const categories: ProductCategory[] = [
+  "Pre-rolls",
   "Greenhouse Dust",
   "Greenhouse Strains",
   "Indoor Dust",
-  "Pre-rolls",
   "Edibles",
   "Vapes",
+  "Dab",
   "Other",
 ];
 
