@@ -24,7 +24,7 @@ export default function ProductCard({ product }: Props) {
   return (
     <Link to={`/product/${product.id}`}>
       <Card className="group overflow-hidden transition-shadow hover:shadow-lg">
-        <div className="relative aspect-square overflow-hidden bg-muted">
+        <div className="relative aspect-[4/3] overflow-hidden bg-muted">
           <img
             src={product.image}
             alt={product.name}
