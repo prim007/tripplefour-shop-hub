@@ -21,6 +21,7 @@ const App = () => (
       <CartProvider>
         <Toaster />
         <Sonner />
+        <AgeVerification />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
