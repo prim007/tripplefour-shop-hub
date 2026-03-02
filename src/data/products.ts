@@ -38,12 +38,13 @@ export const categories: ProductCategory[] = [
 ];
 
 const categoryImages: Record<ProductCategory, string> = {
+  "Pre-rolls": prerollsImg,
   "Greenhouse Dust": greenhouseDustImg,
   "Greenhouse Strains": greenhouseStrainsImg,
   "Indoor Dust": indoorDustImg,
-  "Pre-rolls": prerollsImg,
   "Edibles": ediblesImg,
   "Vapes": vapesImg,
+  "Dab": otherImg,
   "Other": otherImg,
 };
 
