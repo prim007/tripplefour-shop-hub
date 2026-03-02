@@ -82,13 +82,13 @@ export default function Checkout() {
 
               <h2 className="font-display text-lg font-semibold">Payment Method</h2>
               <div className="grid gap-3 sm:grid-cols-2">
-                <button
+              <button
                   type="button"
                   onClick={() => setPayment("eft")}
                   className={`rounded-xl border-2 p-4 text-left transition-colors ${payment === "eft" ? "border-primary bg-primary/5" : "border-border"}`}
                 >
-                  <p className="font-semibold">Manual EFT</p>
-                  <p className="mt-1 text-xs text-muted-foreground">Pay via bank transfer to our FNB account</p>
+                  <p className="font-semibold">Manual EFT / Bank Transfer</p>
+                  <p className="mt-1 text-xs text-muted-foreground">Pay directly into our FNB Gold Business Account</p>
                 </button>
                 <button
                   type="button"
