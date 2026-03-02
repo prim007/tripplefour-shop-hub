@@ -50,10 +50,14 @@ const categoryImages: Record<ProductCategory, string> = {
 
 export const products: Product[] = [
   // Pre-rolls
-  { id: "pr-4gh", name: "4 Prerolls Greenhouse", category: "Pre-rolls", price: 385, description: "Pack of 4 greenhouse pre-rolls.", image: categoryImages["Pre-rolls"] },
-  { id: "pr-1in", name: "Indoor Preroll", category: "Pre-rolls", price: 95, description: "Single indoor pre-roll. Premium quality.", image: categoryImages["Pre-rolls"] },
+  { id: "pr-4gh", name: "4 Prerolls Greenhouse", category: "Pre-rolls", price: 165, description: "Pack of 4 greenhouse pre-rolls.", image: categoryImages["Pre-rolls"] },
+  { id: "pr-1in", name: "Indoor Preroll", category: "Pre-rolls", price: 90, description: "Single indoor pre-roll. Premium quality.", image: categoryImages["Pre-rolls"] },
   { id: "pr-1gh", name: "1 Preroll Greenhouse", category: "Pre-rolls", price: 75, description: "Single greenhouse pre-roll.", image: categoryImages["Pre-rolls"] },
-  { id: "pr-out", name: "Outdoor Pre-roll", category: "Pre-rolls", price: 55, description: "Single outdoor pre-roll. Great value.", image: categoryImages["Pre-rolls"] },
+  { id: "pr-out", name: "Outdoor Pre-roll", category: "Pre-rolls", price: 50, description: "Single outdoor pre-roll. Great value.", image: categoryImages["Pre-rolls"] },
+
+  // Small Banky Bags
+  { id: "sb-out5", name: "Small Banky Bag Outdoor 5G", category: "Other", price: 80, description: "Small banky bag with 5 grams of outdoor.", image: categoryImages["Other"] },
+  { id: "sb-swazi", name: "Small Banky Bag Swazi", category: "Other", price: 60, description: "Small banky bag of Swazi.", image: categoryImages["Other"] },
 
   // Greenhouse Dust
   { id: "ghd-50", name: "Greenhouse Dust 50G", category: "Greenhouse Dust", price: 945, description: "Premium greenhouse dust, 50 gram pack. Quality blend for the connoisseur.", image: categoryImages["Greenhouse Dust"] },
