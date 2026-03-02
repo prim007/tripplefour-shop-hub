@@ -82,13 +82,13 @@ export default function Checkout() {
 
               <h2 className="font-display text-lg font-semibold">Payment Method</h2>
               <div className="grid gap-3 sm:grid-cols-2">
-                <button
+              <button
                   type="button"
                   onClick={() => setPayment("eft")}
                   className={`rounded-xl border-2 p-4 text-left transition-colors ${payment === "eft" ? "border-primary bg-primary/5" : "border-border"}`}
                 >
-                  <p className="font-semibold">Manual EFT</p>
-                  <p className="mt-1 text-xs text-muted-foreground">Pay via bank transfer to our FNB account</p>
+                  <p className="font-semibold">Manual EFT / Bank Transfer</p>
+                  <p className="mt-1 text-xs text-muted-foreground">Pay directly into our FNB Gold Business Account</p>
                 </button>
                 <button
                   type="button"
@@ -99,6 +99,39 @@ export default function Checkout() {
                   <p className="mt-1 text-xs text-muted-foreground">Pay online via FNB payment gateway</p>
                 </button>
               </div>
+
+              {payment === "eft" && (
+                <div className="rounded-xl border-2 border-primary/30 bg-primary/5 p-5 space-y-3">
+                  <h3 className="font-display text-base font-semibold flex items-center gap-2">
+                    🏦 FNB Banking Details
+                  </h3>
+                  <p className="text-xs text-muted-foreground">
+                    Transfer the total amount below and use your <strong>order reference</strong> (shown after placing your order) as the payment reference.
+                  </p>
+                  <div className="space-y-1.5 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Bank</span>
+                      <span className="font-medium">FNB / RMB</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Account Holder</span>
+                      <span className="font-medium">TRIPPLE444 (Pty) Ltd</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Account Type</span>
+                      <span className="font-medium">Gold Business Account</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Account Number</span>
+                      <span className="font-mono font-bold">631 827 73870</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Branch Code</span>
+                      <span className="font-medium">250 655</span>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <Button type="submit" size="lg" className="w-full" disabled={submitting}>
                 Place Order — R{totalPrice.toLocaleString()}

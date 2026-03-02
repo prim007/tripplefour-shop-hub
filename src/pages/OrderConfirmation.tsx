@@ -34,18 +34,18 @@ export default function OrderConfirmation() {
 
           {payment === "eft" && (
             <div className="mt-8 rounded-xl border bg-card p-6 text-left">
-              <h2 className="font-display text-lg font-semibold">FNB Banking Details</h2>
+              <h2 className="font-display text-lg font-semibold">🏦 FNB Banking Details</h2>
               <p className="mt-1 text-sm text-muted-foreground">
                 Please use your order reference <strong>{ref}</strong> as the payment reference.
               </p>
               <div className="mt-4 space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Bank</span>
-                  <span className="font-medium">FNB (First National Bank)</span>
+                  <span className="font-medium">FNB / RMB</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Account Name</span>
-                  <span className="font-medium">Tripplefour</span>
+                  <span className="text-muted-foreground">Account Holder</span>
+                  <span className="font-medium">TRIPPLE444 (Pty) Ltd</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Account Type</span>
@@ -53,11 +53,11 @@ export default function OrderConfirmation() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Account Number</span>
-                  <span className="font-mono font-bold">63182773870</span>
+                  <span className="font-mono font-bold">631 827 73870</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Branch Code</span>
-                  <span className="font-medium">250655</span>
+                  <span className="font-medium">250 655</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Reference</span>
