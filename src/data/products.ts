@@ -7,12 +7,13 @@ import vapesImg from "@/assets/products/vapes.jpg";
 import otherImg from "@/assets/products/other.jpg";
 
 export type ProductCategory =
+  | "Pre-rolls"
   | "Greenhouse Dust"
   | "Greenhouse Strains"
   | "Indoor Dust"
-  | "Pre-rolls"
   | "Edibles"
   | "Vapes"
+  | "Dab"
   | "Other";
 
 export interface Product {
