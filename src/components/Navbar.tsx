@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ShoppingCart, Menu, X, Leaf } from "lucide-react";
+import { ShoppingCart, Menu, X, Leaf, ExternalLink } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -37,6 +37,14 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
+          <a
+            href="https://cuddles-ai.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+          >
+            Cuddles AI <ExternalLink className="h-3 w-3" />
+          </a>
           <Link to="/cart" className="relative">
             <Button variant="outline" size="icon">
               <ShoppingCart className="h-5 w-5" />
@@ -79,6 +87,15 @@ export default function Navbar() {
                     {link.label}
                   </Link>
                 ))}
+                <a
+                  href="https://cuddles-ai.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-1 text-lg font-medium text-primary"
+                >
+                  Cuddles AI <ExternalLink className="h-4 w-4" />
+                </a>
               </nav>
             </SheetContent>
           </Sheet>
