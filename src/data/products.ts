@@ -86,7 +86,7 @@ export const products: Product[] = [
   { id: "vp-disp", name: "Disposable Juice 10ml", category: "Vapes", price: 320, description: "10ml disposable vape juice.", image: categoryImages["Vapes"] },
 
   // Dab
-  { id: "dab-1", name: "Dab Concentrate 1G", category: "Dab", price: 350, description: "Premium cannabis dab concentrate, 1 gram.", image: categoryImages["Dab"] },
+  { id: "dab-1", name: "Dab Concentrate", category: "Dab", price: 350, description: "Premium cannabis dab concentrate.", image: categoryImages["Dab"] },
 
   // Other
   { id: "ot-moon", name: "Moon Sticks", category: "Other", price: 125, description: "Premium moon sticks for an elevated experience.", image: categoryImages["Other"] },
