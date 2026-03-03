@@ -84,7 +84,7 @@ const Index = () => {
               Tripplefour
             </h1>
             <p className="groovy-gradient-text mx-auto mt-2 text-xl font-display md:text-2xl">
-              ✌️ Good Vibes Only ✌️
+              ✌️ If it's from the ground, it is sound ✌️
             </p>
             <p className="mx-auto mt-4 max-w-xl text-lg opacity-90 drop-shadow-md md:text-xl text-white/90">
               Dispensery we deliver allover — Premium cannabis health products at your doorstep.
