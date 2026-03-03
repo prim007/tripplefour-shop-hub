@@ -3,6 +3,7 @@ import greenhouseStrainsImg from "@/assets/products/greenhouse-strains.jpg";
 import indoorDustImg from "@/assets/products/indoor-dust.jpg";
 import prerollsImg from "@/assets/products/prerolls.jpg";
 import ediblesImg from "@/assets/products/edibles.jpg";
+import edibleCubeImg from "@/assets/products/edible-cube.jpg";
 import vapesImg from "@/assets/products/vapes.jpg";
 import otherImg from "@/assets/products/other.jpg";
 
