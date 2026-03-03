@@ -85,10 +85,36 @@ export default function Checkout() {
 
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name.trim() || !form.email.trim() || !form.phone.trim() || !form.address.trim()) {
+    
+    const name = form.name.trim();
+    const email = form.email.trim();
+    const phone = form.phone.trim();
+    const address = form.address.trim();
+
+    if (!name || !email || !phone || !address) {
       toast({ title: "Missing fields", description: "Please fill in all fields.", variant: "destructive" });
       return;
     }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast({ title: "Invalid email", description: "Please enter a valid email address.", variant: "destructive" });
+      return;
+    }
+
+    // Validate phone (SA format, digits and spaces only)
+    const phoneClean = phone.replace(/[\s\-()]/g, "");
+    if (!/^\+?\d{9,15}$/.test(phoneClean)) {
+      toast({ title: "Invalid phone", description: "Please enter a valid phone number.", variant: "destructive" });
+      return;
+    }
+
+    if (name.length > 100 || email.length > 255 || address.length > 300) {
+      toast({ title: "Input too long", description: "Please shorten your inputs.", variant: "destructive" });
+      return;
+    }
+
     if (!selectedZone) {
       toast({ title: "Select delivery zone", description: "Please select your delivery area.", variant: "destructive" });
       return;
@@ -108,10 +134,10 @@ export default function Checkout() {
       .from("orders")
       .insert({
         order_ref: ref,
-        customer_name: form.name,
-        customer_email: form.email,
-        customer_phone: form.phone,
-        delivery_address: form.address,
+        customer_name: name,
+        customer_email: email,
+        customer_phone: phone,
+        delivery_address: address,
         delivery_zone_id: selectedZone.id,
         delivery_fee: deliveryFee,
         subtotal: totalPrice,
