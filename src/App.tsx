@@ -28,6 +28,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <AgeVerification />
+        <CuddlesChatbot />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
