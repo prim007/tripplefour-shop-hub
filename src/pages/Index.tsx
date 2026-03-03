@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Leaf, Truck, Shield, Clock, AlertTriangle } from "lucide-react";
+import { ArrowRight, Leaf, Truck, Shield, Clock, AlertTriangle, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { products, categories } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
@@ -26,13 +26,15 @@ const banners = [
 
 const featured = products.filter((p) => !p.comingSoon).slice(0, 4);
 
+const vibes = ["☮️", "🌿", "✌️", "🌻", "🍃", "💚"];
+
 const Index = () => {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col overflow-hidden">
       <Navbar />
       <main className="flex-1">
         {/* Hero with Carousel */}
-        <section className="relative overflow-hidden bg-primary text-primary-foreground">
+        <section className="relative overflow-hidden">
           {/* Banner Carousel */}
           <div className="absolute inset-0">
             <Carousel
@@ -52,67 +54,105 @@ const Index = () => {
                 ))}
               </CarouselContent>
             </Carousel>
-            {/* Dark overlay for text readability */}
-            <div className="absolute inset-0 bg-black/60" />
+            {/* Groovy overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-transparent" />
+            <div className="absolute inset-0 groovy-gradient opacity-30 mix-blend-overlay" />
           </div>
 
-          <div className="relative mx-auto max-w-7xl px-4 py-28 text-center md:py-40">
-            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-foreground/10 backdrop-blur-sm">
-              <Leaf className="h-8 w-8" />
+          <div className="relative mx-auto max-w-7xl px-4 py-32 text-center md:py-44">
+            {/* Floating emojis */}
+            <div className="pointer-events-none absolute inset-0 overflow-hidden">
+              {vibes.map((v, i) => (
+                <span
+                  key={i}
+                  className="absolute text-3xl opacity-20 animate-float"
+                  style={{
+                    left: `${15 + i * 14}%`,
+                    top: `${20 + (i % 3) * 25}%`,
+                    animationDelay: `${i * 0.7}s`,
+                  }}
+                >
+                  {v}
+                </span>
+              ))}
             </div>
-            <h1 className="font-display text-4xl font-extrabold tracking-tight drop-shadow-lg md:text-6xl">
+
+            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/20 backdrop-blur-md animate-groovy-pulse">
+              <Leaf className="h-10 w-10 text-primary-foreground drop-shadow-lg" />
+            </div>
+            <h1 className="font-display text-5xl font-extrabold tracking-tight drop-shadow-lg md:text-7xl text-white">
               Tripplefour
             </h1>
-            <p className="mx-auto mt-4 max-w-xl text-lg opacity-90 drop-shadow-md md:text-xl">
+            <p className="groovy-gradient-text mx-auto mt-2 text-xl font-display md:text-2xl">
+              ✌️ Good Vibes Only ✌️
+            </p>
+            <p className="mx-auto mt-4 max-w-xl text-lg opacity-90 drop-shadow-md md:text-xl text-white/90">
               Dispensery we deliver allover — Premium cannabis health products at your doorstep.
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button asChild size="lg" variant="secondary" className="gap-2 text-base">
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              <Button
+                asChild
+                size="lg"
+                className="gap-2 text-base rounded-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl shadow-primary/30 transition-transform hover:scale-105"
+              >
                 <Link to="/shop">
-                  Shop Now <ArrowRight className="h-4 w-4" />
+                  <Sparkles className="h-4 w-4" /> Shop Now <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" className="gap-2 bg-accent text-base text-accent-foreground hover:bg-accent/90 shadow-lg shadow-accent/30 font-semibold">
+              <Button
+                asChild
+                size="lg"
+                className="gap-2 rounded-full bg-accent text-base text-accent-foreground hover:bg-accent/90 shadow-xl shadow-accent/30 font-semibold transition-transform hover:scale-105"
+              >
                 <a href="https://wa.me/27645436734" target="_blank" rel="noopener noreferrer">
-                  WhatsApp Us
+                  ☮️ WhatsApp Us
                 </a>
               </Button>
             </div>
           </div>
         </section>
 
-        {/* Important Notices */}
-        <section className="border-b bg-destructive/5 px-4 py-4">
+        {/* Wavy divider */}
+        <div className="relative -mt-1">
+          <svg viewBox="0 0 1440 60" className="w-full fill-background" preserveAspectRatio="none">
+            <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,30 1440,30 L1440,60 L0,60 Z" />
+          </svg>
+        </div>
+
+        {/* Important Notices - with groovy styling */}
+        <section className="px-4 py-4 relative">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-6 text-sm">
-            <div className="flex items-center gap-2">
-              <Truck className="h-4 w-4 text-primary" />
-              <span><strong>Delivery Fee:</strong> R50 – R100 depending on location</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-primary" />
-              <span>Orders processed within <strong>24 hours</strong> of payment</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-destructive" />
-              <span><strong>Immediate payment required</strong> — no payment, no order</span>
-            </div>
+            {[
+              { icon: Truck, text: <><strong>Delivery Fee:</strong> R50 – R100 depending on location</>, color: "text-primary" },
+              { icon: Clock, text: <>Orders processed within <strong>24 hours</strong> of payment</>, color: "text-primary" },
+              { icon: AlertTriangle, text: <><strong>Immediate payment required</strong> — no payment, no order</>, color: "text-destructive" },
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-2 rounded-full border bg-card px-4 py-2 shadow-sm animate-fade-in" style={{ animationDelay: `${i * 0.15}s` }}>
+                <item.icon className={`h-4 w-4 ${item.color}`} />
+                <span>{item.text}</span>
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* Features */}
-        <section className="border-b bg-card px-4 py-12">
-          <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-3">
+        {/* Features - Groovy cards */}
+        <section className="px-4 py-14 relative peace-bg overflow-hidden">
+          <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-3">
             {[
-              { icon: Truck, title: "Delivery Nationwide", desc: "We deliver allover South Africa" },
-              { icon: Shield, title: "Quality Guaranteed", desc: "Premium tested products" },
-              { icon: Leaf, title: "Natural & Organic", desc: "Cannabis health & wellness" },
+              { icon: Truck, title: "Delivery Nationwide 🚚", desc: "We deliver allover South Africa", delay: 0 },
+              { icon: Shield, title: "Quality Guaranteed 🌟", desc: "Premium tested products", delay: 0.1 },
+              { icon: Leaf, title: "Natural & Organic 🌿", desc: "Cannabis health & wellness", delay: 0.2 },
             ].map((f) => (
-              <div key={f.title} className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                  <f.icon className="h-5 w-5 text-primary" />
+              <div
+                key={f.title}
+                className="group flex items-start gap-4 rounded-2xl border-2 border-border bg-card p-6 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-primary/40 animate-fade-in"
+                style={{ animationDelay: `${f.delay}s` }}
+              >
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10 transition-colors group-hover:bg-primary/20">
+                  <f.icon className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-display text-sm font-semibold">{f.title}</h3>
+                  <h3 className="font-display text-base font-semibold">{f.title}</h3>
                   <p className="text-sm text-muted-foreground">{f.desc}</p>
                 </div>
               </div>
@@ -120,19 +160,25 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Categories */}
-        <section className="px-4 py-16">
+        {/* Categories - Groovy grid */}
+        <section className="px-4 py-16 bg-secondary/30">
           <div className="mx-auto max-w-7xl">
-            <h2 className="font-display text-2xl font-bold md:text-3xl">Browse Categories</h2>
-            <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
-              {categories.map((cat) => (
+            <h2 className="font-display text-3xl font-bold md:text-4xl text-center">
+              <span className="groovy-gradient-text">Browse Categories</span> 🌻
+            </h2>
+            <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+              {categories.map((cat, i) => (
                 <Link
                   key={cat}
                   to={`/shop?category=${encodeURIComponent(cat)}`}
-                  className="group rounded-xl border bg-card p-5 text-center transition-colors hover:border-primary hover:bg-primary/5"
+                  className="group relative overflow-hidden rounded-2xl border-2 border-border bg-card p-6 text-center transition-all duration-300 hover:border-primary hover:shadow-lg hover:-translate-y-1 animate-fade-in"
+                  style={{ animationDelay: `${i * 0.08}s` }}
                 >
-                  <Leaf className="mx-auto mb-2 h-6 w-6 text-primary opacity-60 transition-opacity group-hover:opacity-100" />
-                  <span className="text-sm font-medium">{cat}</span>
+                  <div className="absolute inset-0 groovy-gradient opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
+                  <span className="text-3xl block mb-2 transition-transform duration-300 group-hover:scale-125">
+                    {["🌿", "🌱", "💨", "🍪", "✨", "🌸", "🔥", "🍃"][i % 8]}
+                  </span>
+                  <span className="text-sm font-semibold font-display">{cat}</span>
                 </Link>
               ))}
             </div>
@@ -140,20 +186,43 @@ const Index = () => {
         </section>
 
         {/* Featured Products */}
-        <section className="bg-muted/50 px-4 py-16">
+        <section className="px-4 py-16 relative">
           <div className="mx-auto max-w-7xl">
-            <div className="flex items-center justify-between">
-              <h2 className="font-display text-2xl font-bold md:text-3xl">Featured Products</h2>
-              <Button asChild variant="ghost" className="gap-1">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="font-display text-3xl font-bold md:text-4xl">
+                <span className="groovy-gradient-text">Featured</span> ✨
+              </h2>
+              <Button asChild variant="outline" className="gap-1 rounded-full transition-transform hover:scale-105">
                 <Link to="/shop">View All <ArrowRight className="h-4 w-4" /></Link>
               </Button>
             </div>
-            <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-              {featured.map((product) => (
-                <ProductCard key={product.id} product={product} />
+            <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
+              {featured.map((product, i) => (
+                <div key={product.id} className="animate-fade-in" style={{ animationDelay: `${i * 0.1}s` }}>
+                  <ProductCard product={product} />
+                </div>
               ))}
             </div>
           </div>
+        </section>
+
+        {/* Vibes banner */}
+        <section className="groovy-gradient py-10 text-center text-white relative overflow-hidden">
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <span className="text-[200px] opacity-10 animate-spin-slow">☮</span>
+          </div>
+          <h2 className="font-display text-3xl md:text-4xl font-bold relative z-10 drop-shadow-lg">
+            Stay Groovy, Stay Green 🌿
+          </h2>
+          <p className="mt-2 text-lg opacity-90 relative z-10">Premium cannabis for the conscious soul</p>
+          <Button
+            asChild
+            size="lg"
+            variant="secondary"
+            className="mt-6 rounded-full relative z-10 transition-transform hover:scale-105"
+          >
+            <Link to="/shop">Explore the Shop ✌️</Link>
+          </Button>
         </section>
       </main>
       <Footer />
