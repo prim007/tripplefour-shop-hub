@@ -47,6 +47,13 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        groovy: {
+          purple: "hsl(var(--groovy-purple))",
+          orange: "hsl(var(--groovy-orange))",
+          pink: "hsl(var(--groovy-pink))",
+          yellow: "hsl(var(--groovy-yellow))",
+          teal: "hsl(var(--groovy-teal))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

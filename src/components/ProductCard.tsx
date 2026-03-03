@@ -18,22 +18,23 @@ export default function ProductCard({ product }: Props) {
     e.preventDefault();
     if (product.comingSoon) return;
     addItem(product);
-    toast({ title: "Added to cart", description: `${product.name} added.` });
+    toast({ title: "Added to cart ✌️", description: `${product.name} added.` });
   };
 
   return (
     <Link to={`/product/${product.id}`}>
-      <Card className="group overflow-hidden transition-shadow hover:shadow-lg">
+      <Card className="group overflow-hidden rounded-2xl border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-primary/30">
         <div className="relative aspect-[4/3] overflow-hidden bg-muted">
           <img
             src={product.image}
             alt={product.name}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
             loading="lazy"
           />
+          <div className="absolute inset-0 groovy-gradient opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
           {product.comingSoon && (
-            <div className="absolute inset-0 flex items-center justify-center bg-background/70">
-              <Badge variant="secondary" className="text-sm">Coming Soon</Badge>
+            <div className="absolute inset-0 flex items-center justify-center bg-background/70 backdrop-blur-sm">
+              <Badge variant="secondary" className="text-sm rounded-full px-4">Coming Soon ✨</Badge>
             </div>
           )}
         </div>
@@ -45,7 +46,7 @@ export default function ProductCard({ product }: Props) {
               {product.comingSoon ? "TBA" : `R${product.price.toLocaleString()}`}
             </span>
             {!product.comingSoon && (
-              <Button size="sm" onClick={handleAdd} className="gap-1">
+              <Button size="sm" onClick={handleAdd} className="gap-1 rounded-full transition-transform hover:scale-105">
                 <ShoppingCart className="h-4 w-4" />
                 Add
               </Button>
