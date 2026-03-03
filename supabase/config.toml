@@ -1,1 +1,4 @@
 project_id = "yytjfmadcreajcrkjsrk"
+
+[functions.cuddles-chat]
+verify_jwt = false
