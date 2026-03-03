@@ -3,6 +3,7 @@ import greenhouseStrainsImg from "@/assets/products/greenhouse-strains.jpg";
 import indoorDustImg from "@/assets/products/indoor-dust.jpg";
 import prerollsImg from "@/assets/products/prerolls.jpg";
 import ediblesImg from "@/assets/products/edibles.jpg";
+import edibleCubeImg from "@/assets/products/edible-cube.jpg";
 import vapesImg from "@/assets/products/vapes.jpg";
 import otherImg from "@/assets/products/other.jpg";
 
@@ -77,7 +78,7 @@ export const products: Product[] = [
   { id: "ind-1", name: "Indoor Dust 1G", category: "Indoor Dust", price: 255, description: "Premium indoor-grown dust, 1 gram pack.", image: categoryImages["Indoor Dust"] },
 
   // Edibles
-  { id: "ed-oreo3", name: "Oreo Caramel Treat 3x", category: "Edibles", price: 215, description: "Pack of 3 Oreo caramel treats, cannabis-infused.", image: categoryImages["Edibles"] },
+  { id: "ed-cube40", name: "Edible Cube 40mg", category: "Edibles", price: 60, description: "Cannabis-infused edible cube, 40mg per piece.", image: edibleCubeImg },
   { id: "ed-soda", name: "Sodaze Cannabis Soda", category: "Edibles", price: 60, description: "Flavored cannabis-infused soda by Sodaze.", image: categoryImages["Edibles"] },
 
   // Vapes
@@ -85,7 +86,7 @@ export const products: Product[] = [
   { id: "vp-disp", name: "Disposable Juice 10ml", category: "Vapes", price: 320, description: "10ml disposable vape juice.", image: categoryImages["Vapes"] },
 
   // Dab
-  { id: "dab-1", name: "Dab Concentrate 1G", category: "Dab", price: 350, description: "Premium cannabis dab concentrate, 1 gram.", image: categoryImages["Dab"] },
+  { id: "dab-1", name: "Dab Concentrate", category: "Dab", price: 350, description: "Premium cannabis dab concentrate.", image: categoryImages["Dab"] },
 
   // Other
   { id: "ot-moon", name: "Moon Sticks", category: "Other", price: 125, description: "Premium moon sticks for an elevated experience.", image: categoryImages["Other"] },
