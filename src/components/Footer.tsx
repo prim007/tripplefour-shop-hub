@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="border-t bg-card">
       <div className="mx-auto max-w-7xl px-4 py-12">
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-4">
           <div>
             <Link to="/" className="flex items-center gap-2">
               <Leaf className="h-6 w-6 text-primary" />
