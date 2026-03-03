@@ -134,10 +134,10 @@ export default function Checkout() {
       .from("orders")
       .insert({
         order_ref: ref,
-        customer_name: form.name,
-        customer_email: form.email,
-        customer_phone: form.phone,
-        delivery_address: form.address,
+        customer_name: name,
+        customer_email: email,
+        customer_phone: phone,
+        delivery_address: address,
         delivery_zone_id: selectedZone.id,
         delivery_fee: deliveryFee,
         subtotal: totalPrice,
