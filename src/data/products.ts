@@ -78,7 +78,7 @@ export const products: Product[] = [
   { id: "ind-1", name: "Indoor Dust 1G", category: "Indoor Dust", price: 255, description: "Premium indoor-grown dust, 1 gram pack.", image: categoryImages["Indoor Dust"] },
 
   // Edibles
-  { id: "ed-oreo3", name: "Oreo Caramel Treat 3x", category: "Edibles", price: 215, description: "Pack of 3 Oreo caramel treats, cannabis-infused.", image: categoryImages["Edibles"] },
+  { id: "ed-cube40", name: "Edible Cube 40mg", category: "Edibles", price: 60, description: "Cannabis-infused edible cube, 40mg per piece.", image: edibleCubeImg },
   { id: "ed-soda", name: "Sodaze Cannabis Soda", category: "Edibles", price: 60, description: "Flavored cannabis-infused soda by Sodaze.", image: categoryImages["Edibles"] },
 
   // Vapes
