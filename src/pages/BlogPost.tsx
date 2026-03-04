@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Calendar, ArrowLeft, ExternalLink } from "lucide-react";
+import { Calendar, ArrowLeft, ExternalLink, MessageCircle } from "lucide-react";
+import { Analytics } from "@/lib/analytics";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -118,6 +119,29 @@ export default function BlogPost() {
               </ul>
             </div>
           )}
+
+          {/* AI Chat CTA */}
+          <div className="mt-10 rounded-2xl border-2 border-primary/20 bg-primary/5 p-6 text-center">
+            <p className="text-3xl mb-2">🌿</p>
+            <h3 className="font-display text-lg font-bold text-foreground">
+              Got questions about this topic?
+            </h3>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Ask Cuddles AI — your groovy cannabis assistant is just a click away!
+            </p>
+            <button
+              onClick={() => {
+                Analytics.blogChatOpened(post.slug);
+                // Trigger the chatbot by clicking the floating button
+                const chatBtn = document.querySelector('[aria-label="Open Cuddles AI chat"]') as HTMLButtonElement;
+                if (chatBtn) chatBtn.click();
+              }}
+              className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-105"
+            >
+              <MessageCircle className="h-4 w-4" />
+              Chat with Cuddles ✌️
+            </button>
+          </div>
         </article>
       </main>
       <Footer />

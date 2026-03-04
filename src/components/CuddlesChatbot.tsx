@@ -2,47 +2,75 @@ import { useState, useEffect, useRef } from "react";
 import { MessageCircle, X, Send, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
+import { Analytics } from "@/lib/analytics";
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cuddles-chat`;
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-export default function CuddlesChatbot() {
+const PROMPT_STARTERS = [
+  "🌿 Recommend a strain for sleep",
+  "🍪 Best edibles for beginners",
+  "🚚 How does delivery work?",
+  "💰 What are your prices?",
+];
+
+interface CuddlesChatbotProps {
+  initialPrompt?: string;
+  autoOpen?: boolean;
+}
+
+export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatbotProps) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [hasShownOnce, setHasShownOnce] = useState(false);
+  const [hasTrackedInit, setHasTrackedInit] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Auto-open on first visit after 3 seconds
+  // Auto-open on first visit after 3 seconds, or if autoOpen prop
   useEffect(() => {
+    if (autoOpen) {
+      setOpen(true);
+      return;
+    }
     const seen = sessionStorage.getItem("cuddles-shown");
     if (!seen) {
       const timer = setTimeout(() => {
         setOpen(true);
-        setHasShownOnce(true);
         sessionStorage.setItem("cuddles-shown", "1");
       }, 3000);
       return () => clearTimeout(timer);
-    } else {
-      setHasShownOnce(true);
     }
-  }, []);
+  }, [autoOpen]);
 
-  // Scroll to bottom on new messages
+  // Handle initial prompt from blog posts
+  useEffect(() => {
+    if (initialPrompt && open && messages.length === 0) {
+      sendMessage(initialPrompt);
+    }
+  }, [initialPrompt, open]);
+
+  // Track chat initiated
+  useEffect(() => {
+    if (open && !hasTrackedInit) {
+      Analytics.chatInitiated();
+      setHasTrackedInit(true);
+    }
+  }, [open, hasTrackedInit]);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const send = async () => {
-    const text = input.trim();
-    if (!text || isLoading) return;
+  const sendMessage = async (text: string) => {
+    if (!text.trim() || isLoading) return;
 
-    const userMsg: Msg = { role: "user", content: text };
+    const userMsg: Msg = { role: "user", content: text.trim() };
     setInput("");
     setMessages((prev) => [...prev, userMsg]);
     setIsLoading(true);
+    Analytics.chatMessageSent(text);
 
     let assistantSoFar = "";
     const allMessages = [...messages, userMsg];
@@ -108,6 +136,11 @@ export default function CuddlesChatbot() {
           }
         }
       }
+
+      // Track recommendation if response contains product-related content
+      if (assistantSoFar.toLowerCase().match(/recommend|try|suggest|perfect for/)) {
+        Analytics.recommendationGiven();
+      }
     } catch (e) {
       console.error("Cuddles chat error:", e);
       setMessages((prev) => [
@@ -120,6 +153,11 @@ export default function CuddlesChatbot() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handlePromptStarter = (prompt: string) => {
+    Analytics.promptStarterClicked(prompt);
+    sendMessage(prompt);
   };
 
   return (
@@ -150,10 +188,22 @@ export default function CuddlesChatbot() {
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {messages.length === 0 && (
-              <div className="text-center text-sm text-muted-foreground mt-8">
+              <div className="text-center text-sm text-muted-foreground mt-4">
                 <p className="text-3xl mb-2">🌿</p>
                 <p className="font-display">Hey there! I'm Cuddles ✌️</p>
-                <p className="mt-1">Ask me anything about our products!</p>
+                <p className="mt-1 mb-4">Ask me anything about our products!</p>
+                {/* Prompt starters */}
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {PROMPT_STARTERS.map((prompt) => (
+                    <button
+                      key={prompt}
+                      onClick={() => handlePromptStarter(prompt)}
+                      className="rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs font-medium text-foreground transition-all hover:bg-primary/15 hover:border-primary/50 hover:scale-105"
+                    >
+                      {prompt}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
             {messages.map((msg, i) => (
@@ -193,7 +243,7 @@ export default function CuddlesChatbot() {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                send();
+                sendMessage(input);
               }}
               className="flex gap-2"
             >

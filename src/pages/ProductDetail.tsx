@@ -1,11 +1,12 @@
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ShoppingCart, Minus, Plus } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getProductById, products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
+import { Analytics } from "@/lib/analytics";
 import ProductCard from "@/components/ProductCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -15,6 +16,12 @@ export default function ProductDetail() {
   const product = getProductById(id || "");
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
+
+  useEffect(() => {
+    if (product) {
+      Analytics.viewItem(product.id, product.name, product.price);
+    }
+  }, [product]);
 
   if (!product) {
     return (
@@ -37,6 +44,7 @@ export default function ProductDetail() {
 
   const handleAdd = () => {
     addItem(product, qty);
+    Analytics.addToCart(product.id, product.name, product.price * qty);
     toast({ title: "Added to cart", description: `${qty}x ${product.name} added.` });
   };
 

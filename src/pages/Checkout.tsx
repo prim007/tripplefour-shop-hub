@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { CheckCircle, Clock, Truck, AlertTriangle } from "lucide-react";
+import { Analytics } from "@/lib/analytics";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -65,6 +66,7 @@ export default function Checkout() {
           if (updated.payment_status === "confirmed") {
             setStep("confirmed");
             clearCart();
+            Analytics.purchase(orderRef || orderId, grandTotal);
           }
         }
       )
@@ -160,6 +162,7 @@ export default function Checkout() {
     setOrderRef(ref);
     setStep("awaiting-payment");
     setSubmitting(false);
+    Analytics.beginCheckout(grandTotal);
   };
 
   // Step: Payment confirmed
