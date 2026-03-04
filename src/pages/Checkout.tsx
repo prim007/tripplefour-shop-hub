@@ -161,6 +161,7 @@ export default function Checkout() {
     setOrderRef(ref);
     setStep("awaiting-payment");
     setSubmitting(false);
+    Analytics.beginCheckout(grandTotal);
   };
 
   // Step: Payment confirmed
