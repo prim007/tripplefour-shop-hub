@@ -17,6 +17,12 @@ export default function ProductDetail() {
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
 
+  useEffect(() => {
+    if (product) {
+      Analytics.viewItem(product.id, product.name, product.price);
+    }
+  }, [product]);
+
   if (!product) {
     return (
       <div className="flex min-h-screen flex-col">
