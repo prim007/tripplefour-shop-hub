@@ -66,6 +66,7 @@ export default function Checkout() {
           if (updated.payment_status === "confirmed") {
             setStep("confirmed");
             clearCart();
+            Analytics.purchase(orderRef || orderId, grandTotal);
           }
         }
       )

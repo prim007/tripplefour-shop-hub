@@ -44,6 +44,7 @@ export default function ProductDetail() {
 
   const handleAdd = () => {
     addItem(product, qty);
+    Analytics.addToCart(product.id, product.name, product.price * qty);
     toast({ title: "Added to cart", description: `${qty}x ${product.name} added.` });
   };
 
