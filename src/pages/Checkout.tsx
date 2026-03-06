@@ -248,11 +248,18 @@ export default function Checkout() {
               </div>
             </div>
 
+            <div className="rounded-xl border-2 border-green-500/30 bg-green-500/5 p-4 space-y-2">
+              <h4 className="text-sm font-semibold text-green-700 dark:text-green-400 flex items-center gap-1.5">⚡ Immediate Processing</h4>
+              <p className="text-sm text-muted-foreground">
+                Orders paid <strong className="text-foreground">immediately</strong> will be <strong className="text-foreground">processed immediately</strong> — expect delivery within <strong className="text-foreground">24–48 hours</strong>.
+              </p>
+            </div>
+
             <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-3 space-y-2">
               <h4 className="text-sm font-semibold text-destructive flex items-center gap-1.5">⚠️ Important</h4>
               <ul className="text-xs text-muted-foreground space-y-1 list-disc pl-4">
                 <li>Use <strong>{orderRef}</strong> as your payment reference</li>
-                <li>Payment must be made immediately — orders without payment will NOT be processed</li>
+                <li>Payment must be made immediately — orders without payment will <strong>NOT</strong> be processed</li>
                 <li>This page will update automatically once payment is confirmed</li>
               </ul>
             </div>
