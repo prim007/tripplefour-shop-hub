@@ -32,6 +32,13 @@ export default function OrderConfirmation() {
             </Button>
           </div>
 
+          <div className="mt-8 rounded-xl border-2 border-green-500/30 bg-green-500/5 p-4 space-y-2 text-left">
+            <h4 className="text-sm font-semibold text-green-700 dark:text-green-400 flex items-center gap-1.5">⚡ Immediate Processing</h4>
+            <p className="text-sm text-muted-foreground">
+              Orders paid <strong className="text-foreground">immediately</strong> will be <strong className="text-foreground">processed immediately</strong> — expect delivery within <strong className="text-foreground">24–48 hours</strong>.
+            </p>
+          </div>
+
           {payment === "eft" && (
             <div className="mt-8 rounded-xl border bg-card p-6 text-left">
               <h2 className="font-display text-lg font-semibold">🏦 FNB Banking Details</h2>
