@@ -313,6 +313,12 @@ export default function Checkout() {
               <h3 className="font-display text-base font-semibold">Payment Summary</h3>
               <div className="mt-3 space-y-2 text-sm">
                 <div className="flex justify-between"><span className="text-muted-foreground">Subtotal</span><span>R{totalPrice.toLocaleString()}</span></div>
+                {promoApplied && discountAmount > 0 && (
+                  <div className="flex justify-between text-primary">
+                    <span>Discount ({promoDiscount}%)</span>
+                    <span>-R{discountAmount.toLocaleString()}</span>
+                  </div>
+                )}
                 <div className="flex justify-between"><span className="text-muted-foreground">Delivery ({selectedZone?.zone_name})</span><span>R{deliveryFee.toLocaleString()}</span></div>
                 <Separator className="my-2" />
                 <div className="flex justify-between font-bold text-base"><span>Total to Pay</span><span className="text-primary">R{grandTotal.toLocaleString()}</span></div>
