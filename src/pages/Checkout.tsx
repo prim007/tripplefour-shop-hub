@@ -398,6 +398,35 @@ export default function Checkout() {
                 ))}
               </div>
 
+              <Separator />
+
+              <h2 className="font-display text-lg font-semibold flex items-center gap-2">
+                <Tag className="h-4 w-4" /> Promo Code
+              </h2>
+              {promoApplied ? (
+                <div className="flex items-center justify-between rounded-lg border-2 border-primary/30 bg-primary/5 p-3">
+                  <div>
+                    <p className="text-sm font-semibold text-primary">{promoCode.toUpperCase()}</p>
+                    <p className="text-xs text-muted-foreground">{promoDiscount}% discount applied</p>
+                  </div>
+                  <Button type="button" variant="ghost" size="sm" onClick={handleRemovePromo}>Remove</Button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="Enter promo code"
+                      value={promoCode}
+                      onChange={(e) => { setPromoCode(e.target.value); setPromoError(""); }}
+                    />
+                    <Button type="button" variant="outline" onClick={handleApplyPromo} disabled={promoValidating || !promoCode.trim()}>
+                      {promoValidating ? <Loader2 className="h-4 w-4 animate-spin" /> : "Apply"}
+                    </Button>
+                  </div>
+                  {promoError && <p className="text-xs text-destructive">{promoError}</p>}
+                </div>
+              )}
+
               <Button type="submit" size="lg" className="w-full" disabled={submitting || !selectedZone}>
                 {!selectedZone ? "Select a delivery zone to continue" : `Place Order — R${grandTotal.toLocaleString()}`}
               </Button>
@@ -420,6 +449,12 @@ export default function Checkout() {
                   <span className="text-muted-foreground">Subtotal</span>
                   <span>R{totalPrice.toLocaleString()}</span>
                 </div>
+                {promoApplied && (
+                  <div className="flex justify-between text-primary">
+                    <span>Discount ({promoDiscount}%)</span>
+                    <span>-R{discountAmount.toLocaleString()}</span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Delivery</span>
                   <span>{selectedZone ? `R${deliveryFee.toLocaleString()}` : "—"}</span>
