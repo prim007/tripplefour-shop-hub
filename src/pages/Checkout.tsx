@@ -52,9 +52,15 @@ export default function Checkout() {
   const [orderId, setOrderId] = useState<string | null>(null);
   const [orderRef, setOrderRef] = useState<string>("");
   const [submitting, setSubmitting] = useState(false);
+  const [promoCode, setPromoCode] = useState("");
+  const [promoDiscount, setPromoDiscount] = useState(0);
+  const [promoApplied, setPromoApplied] = useState(false);
+  const [promoValidating, setPromoValidating] = useState(false);
+  const [promoError, setPromoError] = useState("");
 
+  const discountAmount = Math.round(totalPrice * (promoDiscount / 100));
   const deliveryFee = selectedZone?.fee ?? 0;
-  const grandTotal = totalPrice + deliveryFee;
+  const grandTotal = totalPrice - discountAmount + deliveryFee;
 
   // Fetch delivery zones
   useEffect(() => {
