@@ -111,6 +111,36 @@ export default function Checkout() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
+  const handleApplyPromo = async () => {
+    const code = promoCode.trim();
+    if (!code) return;
+    setPromoValidating(true);
+    setPromoError("");
+    try {
+      const result = await validatePromo(code);
+      if (result.valid) {
+        setPromoDiscount(result.discount_percent);
+        setPromoApplied(true);
+        toast({ title: "Promo applied!", description: `${result.discount_percent}% discount applied.` });
+      } else {
+        setPromoError(result.error || "Invalid promo code");
+        setPromoDiscount(0);
+        setPromoApplied(false);
+      }
+    } catch {
+      setPromoError("Failed to validate promo code");
+    } finally {
+      setPromoValidating(false);
+    }
+  };
+
+  const handleRemovePromo = () => {
+    setPromoCode("");
+    setPromoDiscount(0);
+    setPromoApplied(false);
+    setPromoError("");
+  };
+
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -124,14 +154,12 @@ export default function Checkout() {
       return;
     }
 
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       toast({ title: "Invalid email", description: "Please enter a valid email address.", variant: "destructive" });
       return;
     }
 
-    // Validate phone (SA format, digits and spaces only)
     const phoneClean = phone.replace(/[\s\-()]/g, "");
     if (!/^\+?\d{9,15}$/.test(phoneClean)) {
       toast({ title: "Invalid phone", description: "Please enter a valid phone number.", variant: "destructive" });
@@ -149,6 +177,23 @@ export default function Checkout() {
     }
 
     setSubmitting(true);
+
+    // Redeem promo code if applied
+    if (promoApplied && promoCode.trim()) {
+      try {
+        const redeemResult = await redeemPromo(promoCode.trim());
+        if (!redeemResult.valid && redeemResult.error) {
+          toast({ title: "Promo code error", description: redeemResult.error, variant: "destructive" });
+          setSubmitting(false);
+          return;
+        }
+      } catch {
+        toast({ title: "Error", description: "Failed to redeem promo code.", variant: "destructive" });
+        setSubmitting(false);
+        return;
+      }
+    }
+
     const ref = `TF-${Date.now().toString(36).toUpperCase()}`;
 
     const orderItems = items.map((i) => ({
