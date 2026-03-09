@@ -7,10 +7,30 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { CheckCircle, Clock, Truck, AlertTriangle } from "lucide-react";
+import { CheckCircle, Clock, Truck, AlertTriangle, Tag, Loader2 } from "lucide-react";
 import { Analytics } from "@/lib/analytics";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
+const CUDDLES_URL = "https://rcigcarkcpinnniddxcm.supabase.co/functions/v1/validate-promo-code";
+
+const validatePromo = async (code: string) => {
+  const res = await fetch(CUDDLES_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code, action: "validate" }),
+  });
+  return res.json();
+};
+
+const redeemPromo = async (code: string) => {
+  const res = await fetch(CUDDLES_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code, action: "redeem" }),
+  });
+  return res.json();
+};
 
 interface DeliveryZone {
   id: string;
