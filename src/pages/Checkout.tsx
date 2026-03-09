@@ -7,10 +7,30 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { CheckCircle, Clock, Truck, AlertTriangle } from "lucide-react";
+import { CheckCircle, Clock, Truck, AlertTriangle, Tag, Loader2 } from "lucide-react";
 import { Analytics } from "@/lib/analytics";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
+const CUDDLES_URL = "https://rcigcarkcpinnniddxcm.supabase.co/functions/v1/validate-promo-code";
+
+const validatePromo = async (code: string) => {
+  const res = await fetch(CUDDLES_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code, action: "validate" }),
+  });
+  return res.json();
+};
+
+const redeemPromo = async (code: string) => {
+  const res = await fetch(CUDDLES_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code, action: "redeem" }),
+  });
+  return res.json();
+};
 
 interface DeliveryZone {
   id: string;
@@ -32,9 +52,15 @@ export default function Checkout() {
   const [orderId, setOrderId] = useState<string | null>(null);
   const [orderRef, setOrderRef] = useState<string>("");
   const [submitting, setSubmitting] = useState(false);
+  const [promoCode, setPromoCode] = useState("");
+  const [promoDiscount, setPromoDiscount] = useState(0);
+  const [promoApplied, setPromoApplied] = useState(false);
+  const [promoValidating, setPromoValidating] = useState(false);
+  const [promoError, setPromoError] = useState("");
 
+  const discountAmount = Math.round(totalPrice * (promoDiscount / 100));
   const deliveryFee = selectedZone?.fee ?? 0;
-  const grandTotal = totalPrice + deliveryFee;
+  const grandTotal = totalPrice - discountAmount + deliveryFee;
 
   // Fetch delivery zones
   useEffect(() => {
@@ -85,6 +111,36 @@ export default function Checkout() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
+  const handleApplyPromo = async () => {
+    const code = promoCode.trim();
+    if (!code) return;
+    setPromoValidating(true);
+    setPromoError("");
+    try {
+      const result = await validatePromo(code);
+      if (result.valid) {
+        setPromoDiscount(result.discount_percent);
+        setPromoApplied(true);
+        toast({ title: "Promo applied!", description: `${result.discount_percent}% discount applied.` });
+      } else {
+        setPromoError(result.error || "Invalid promo code");
+        setPromoDiscount(0);
+        setPromoApplied(false);
+      }
+    } catch {
+      setPromoError("Failed to validate promo code");
+    } finally {
+      setPromoValidating(false);
+    }
+  };
+
+  const handleRemovePromo = () => {
+    setPromoCode("");
+    setPromoDiscount(0);
+    setPromoApplied(false);
+    setPromoError("");
+  };
+
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -98,14 +154,12 @@ export default function Checkout() {
       return;
     }
 
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       toast({ title: "Invalid email", description: "Please enter a valid email address.", variant: "destructive" });
       return;
     }
 
-    // Validate phone (SA format, digits and spaces only)
     const phoneClean = phone.replace(/[\s\-()]/g, "");
     if (!/^\+?\d{9,15}$/.test(phoneClean)) {
       toast({ title: "Invalid phone", description: "Please enter a valid phone number.", variant: "destructive" });
@@ -123,6 +177,23 @@ export default function Checkout() {
     }
 
     setSubmitting(true);
+
+    // Redeem promo code if applied
+    if (promoApplied && promoCode.trim()) {
+      try {
+        const redeemResult = await redeemPromo(promoCode.trim());
+        if (!redeemResult.valid && redeemResult.error) {
+          toast({ title: "Promo code error", description: redeemResult.error, variant: "destructive" });
+          setSubmitting(false);
+          return;
+        }
+      } catch {
+        toast({ title: "Error", description: "Failed to redeem promo code.", variant: "destructive" });
+        setSubmitting(false);
+        return;
+      }
+    }
+
     const ref = `TF-${Date.now().toString(36).toUpperCase()}`;
 
     const orderItems = items.map((i) => ({
@@ -327,6 +398,35 @@ export default function Checkout() {
                 ))}
               </div>
 
+              <Separator />
+
+              <h2 className="font-display text-lg font-semibold flex items-center gap-2">
+                <Tag className="h-4 w-4" /> Promo Code
+              </h2>
+              {promoApplied ? (
+                <div className="flex items-center justify-between rounded-lg border-2 border-primary/30 bg-primary/5 p-3">
+                  <div>
+                    <p className="text-sm font-semibold text-primary">{promoCode.toUpperCase()}</p>
+                    <p className="text-xs text-muted-foreground">{promoDiscount}% discount applied</p>
+                  </div>
+                  <Button type="button" variant="ghost" size="sm" onClick={handleRemovePromo}>Remove</Button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="Enter promo code"
+                      value={promoCode}
+                      onChange={(e) => { setPromoCode(e.target.value); setPromoError(""); }}
+                    />
+                    <Button type="button" variant="outline" onClick={handleApplyPromo} disabled={promoValidating || !promoCode.trim()}>
+                      {promoValidating ? <Loader2 className="h-4 w-4 animate-spin" /> : "Apply"}
+                    </Button>
+                  </div>
+                  {promoError && <p className="text-xs text-destructive">{promoError}</p>}
+                </div>
+              )}
+
               <Button type="submit" size="lg" className="w-full" disabled={submitting || !selectedZone}>
                 {!selectedZone ? "Select a delivery zone to continue" : `Place Order — R${grandTotal.toLocaleString()}`}
               </Button>
@@ -349,6 +449,12 @@ export default function Checkout() {
                   <span className="text-muted-foreground">Subtotal</span>
                   <span>R{totalPrice.toLocaleString()}</span>
                 </div>
+                {promoApplied && (
+                  <div className="flex justify-between text-primary">
+                    <span>Discount ({promoDiscount}%)</span>
+                    <span>-R{discountAmount.toLocaleString()}</span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Delivery</span>
                   <span>{selectedZone ? `R${deliveryFee.toLocaleString()}` : "—"}</span>
