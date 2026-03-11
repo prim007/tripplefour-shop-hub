@@ -120,6 +120,9 @@ export default function ProductDetail() {
           )}
         </div>
       </main>
+
+      <StickyAddToCart product={product} qty={qty} onAdd={handleAdd} />
+
       <Footer />
     </div>
   );
