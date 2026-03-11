@@ -8,6 +8,9 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { Analytics } from "@/lib/analytics";
 import ProductCard from "@/components/ProductCard";
+import TrustBadges from "@/components/TrustBadges";
+import SocialProof from "@/components/SocialProof";
+import StickyAddToCart from "@/components/StickyAddToCart";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
