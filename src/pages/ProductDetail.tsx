@@ -74,6 +74,13 @@ export default function ProductDetail() {
               <p className="text-sm font-medium text-muted-foreground">{product.category}</p>
               <h1 className="mt-1 font-display text-3xl font-bold">{product.name}</h1>
               <p className="mt-3 text-muted-foreground">{product.description}</p>
+
+              {!product.comingSoon && (
+                <div className="mt-3">
+                  <SocialProof productId={product.id} />
+                </div>
+              )}
+
               <p className="mt-4 text-3xl font-bold text-primary">
                 {product.comingSoon ? "Price TBA" : `R${product.price.toLocaleString()}`}
               </p>
