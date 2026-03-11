@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { CheckCircle, Clock, Truck, AlertTriangle, Tag, Loader2 } from "lucide-react";
+import { CheckCircle, Clock, Truck, AlertTriangle, Tag, Loader2, Shield } from "lucide-react";
 import { Analytics } from "@/lib/analytics";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -436,6 +436,12 @@ export default function Checkout() {
               <Button type="submit" size="lg" className="w-full" disabled={submitting || !selectedZone}>
                 {!selectedZone ? "Select a delivery zone to continue" : `Place Order — R${grandTotal.toLocaleString()}`}
               </Button>
+
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground">
+                <span className="flex items-center gap-1"><Shield className="h-3.5 w-3.5 text-primary" />Quality Guaranteed</span>
+                <span className="flex items-center gap-1"><Truck className="h-3.5 w-3.5 text-primary" />24-48hr Delivery</span>
+                <span className="flex items-center gap-1"><Tag className="h-3.5 w-3.5 text-primary" />Secure Checkout</span>
+              </div>
             </div>
 
             {/* Order Summary Sidebar */}

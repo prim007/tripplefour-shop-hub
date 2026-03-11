@@ -8,6 +8,9 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { Analytics } from "@/lib/analytics";
 import ProductCard from "@/components/ProductCard";
+import TrustBadges from "@/components/TrustBadges";
+import SocialProof from "@/components/SocialProof";
+import StickyAddToCart from "@/components/StickyAddToCart";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -71,6 +74,13 @@ export default function ProductDetail() {
               <p className="text-sm font-medium text-muted-foreground">{product.category}</p>
               <h1 className="mt-1 font-display text-3xl font-bold">{product.name}</h1>
               <p className="mt-3 text-muted-foreground">{product.description}</p>
+
+              {!product.comingSoon && (
+                <div className="mt-3">
+                  <SocialProof productId={product.id} />
+                </div>
+              )}
+
               <p className="mt-4 text-3xl font-bold text-primary">
                 {product.comingSoon ? "Price TBA" : `R${product.price.toLocaleString()}`}
               </p>
@@ -91,6 +101,10 @@ export default function ProductDetail() {
                   </Button>
                 </div>
               )}
+
+              <div className="mt-6">
+                <TrustBadges compact />
+              </div>
             </div>
           </div>
 
@@ -106,6 +120,9 @@ export default function ProductDetail() {
           )}
         </div>
       </main>
+
+      <StickyAddToCart product={product} qty={qty} onAdd={handleAdd} />
+
       <Footer />
     </div>
   );
