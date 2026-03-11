@@ -101,6 +101,10 @@ export default function ProductDetail() {
                   </Button>
                 </div>
               )}
+
+              <div className="mt-6">
+                <TrustBadges compact />
+              </div>
             </div>
           </div>
 
