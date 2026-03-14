@@ -52,6 +52,13 @@ export default function ProductDetail() {
     addItem(product, qty);
     Analytics.addToCart(product.id, product.name, product.price * qty);
     toast({ title: "Added to cart", description: `${qty}x ${product.name} added.` });
+    openDrawer();
+  };
+
+  const handleBuyNow = () => {
+    addItem(product, qty);
+    Analytics.addToCart(product.id, product.name, product.price * qty);
+    navigate("/checkout");
   };
 
   return (
