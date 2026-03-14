@@ -96,23 +96,25 @@ export default function ProductDetail() {
               </p>
 
               {!product.comingSoon && (
-                <div className="mt-6 flex items-center gap-4">
-                  <div className="flex items-center gap-2 rounded-lg border p-1">
-                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setQty(Math.max(1, qty - 1))}>
-                      <Minus className="h-4 w-4" />
-                    </Button>
-                    <span className="w-8 text-center font-medium">{qty}</span>
-                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setQty(qty + 1)}>
-                      <Plus className="h-4 w-4" />
+                <>
+                  <div className="mt-6 flex items-center gap-4">
+                    <div className="flex items-center gap-2 rounded-lg border p-1">
+                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setQty(Math.max(1, qty - 1))}>
+                        <Minus className="h-4 w-4" />
+                      </Button>
+                      <span className="w-8 text-center font-medium">{qty}</span>
+                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setQty(qty + 1)}>
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <Button size="lg" className="gap-2" onClick={handleAdd}>
+                      <ShoppingCart className="h-5 w-5" /> Add to Cart
                     </Button>
                   </div>
-                  <Button size="lg" className="gap-2" onClick={handleAdd}>
-                    <ShoppingCart className="h-5 w-5" /> Add to Cart
+                  <Button size="lg" variant="secondary" className="mt-3 w-full gap-2 font-semibold" onClick={handleBuyNow}>
+                    <Zap className="h-5 w-5" /> Buy Now — R{(product.price * qty).toLocaleString()}
                   </Button>
-                </div>
-                <Button size="lg" variant="secondary" className="mt-3 w-full gap-2 font-semibold" onClick={handleBuyNow}>
-                  <Zap className="h-5 w-5" /> Buy Now — R{(product.price * qty).toLocaleString()}
-                </Button>
+                </>
               )}
 
               <div className="mt-6">
