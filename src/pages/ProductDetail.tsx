@@ -11,6 +11,7 @@ import ProductCard from "@/components/ProductCard";
 import TrustBadges from "@/components/TrustBadges";
 import SocialProof from "@/components/SocialProof";
 import StickyAddToCart from "@/components/StickyAddToCart";
+import { useCartDrawer } from "@/context/CartDrawerContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
