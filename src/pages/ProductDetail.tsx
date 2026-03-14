@@ -19,6 +19,8 @@ export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const product = getProductById(id || "");
   const { addItem } = useCart();
+  const { open: openDrawer } = useCartDrawer();
+  const navigate = useNavigate();
   const [qty, setQty] = useState(1);
 
   useEffect(() => {
