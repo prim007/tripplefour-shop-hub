@@ -110,6 +110,9 @@ export default function ProductDetail() {
                     <ShoppingCart className="h-5 w-5" /> Add to Cart
                   </Button>
                 </div>
+                <Button size="lg" variant="secondary" className="mt-3 w-full gap-2 font-semibold" onClick={handleBuyNow}>
+                  <Zap className="h-5 w-5" /> Buy Now — R{(product.price * qty).toLocaleString()}
+                </Button>
               )}
 
               <div className="mt-6">

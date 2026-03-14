@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
-import { ShoppingCart } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ShoppingCart, Zap } from "lucide-react";
 import type { Product } from "@/data/products";
 import { useCart } from "@/context/CartContext";
+import { useCartDrawer } from "@/context/CartDrawerContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,12 +14,22 @@ interface Props {
 
 export default function ProductCard({ product }: Props) {
   const { addItem } = useCart();
+  const { open } = useCartDrawer();
+  const navigate = useNavigate();
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     if (product.comingSoon) return;
     addItem(product);
     toast({ title: "Added to cart ✌️", description: `${product.name} added.` });
+    open();
+  };
+
+  const handleBuyNow = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (product.comingSoon) return;
+    addItem(product);
+    navigate("/checkout");
   };
 
   return (
@@ -52,6 +63,17 @@ export default function ProductCard({ product }: Props) {
               </Button>
             )}
           </div>
+          {!product.comingSoon && (
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={handleBuyNow}
+              className="mt-2 w-full gap-1 rounded-full text-xs font-semibold"
+            >
+              <Zap className="h-3.5 w-3.5" />
+              Buy Now
+            </Button>
+          )}
         </CardContent>
       </Card>
     </Link>
