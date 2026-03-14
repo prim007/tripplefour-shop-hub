@@ -62,14 +62,19 @@ export default function Checkout() {
   const deliveryFee = selectedZone?.fee ?? 0;
   const grandTotal = totalPrice - discountAmount + deliveryFee;
 
-  // Fetch delivery zones
+  // Fetch delivery zones & auto-select cheapest
   useEffect(() => {
     supabase
       .from("delivery_zones")
       .select("*")
       .order("min_km", { ascending: true })
       .then(({ data }) => {
-        if (data) setZones(data);
+        if (data) {
+          setZones(data);
+          if (data.length > 0 && !selectedZone) {
+            setSelectedZone(data[0]);
+          }
+        }
       });
   }, []);
 

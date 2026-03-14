@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/context/CartContext";
+import { CartDrawerProvider } from "@/context/CartDrawerContext";
+import CartDrawer from "@/components/CartDrawer";
 import AgeVerification from "@/components/AgeVerification";
 import CuddlesChatbot from "@/components/CuddlesChatbot";
 import Index from "./pages/Index";
@@ -25,11 +27,13 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <CartProvider>
+        <CartDrawerProvider>
         <Toaster />
         <Sonner />
         <AgeVerification />
         <CuddlesChatbot />
         <BrowserRouter>
+        <CartDrawer />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/shop" element={<Shop />} />
@@ -45,6 +49,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+        </CartDrawerProvider>
       </CartProvider>
     </TooltipProvider>
   </QueryClientProvider>
