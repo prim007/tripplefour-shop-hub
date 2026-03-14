@@ -1,5 +1,5 @@
-import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ShoppingCart, Minus, Plus } from "lucide-react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, ShoppingCart, Minus, Plus, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getProductById, products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
