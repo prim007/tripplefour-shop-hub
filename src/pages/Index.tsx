@@ -10,6 +10,12 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import Autoplay from "embla-carousel-autoplay";
 
 import banner1 from "@/assets/banners/banner-1.jpg";
@@ -26,7 +32,32 @@ const banners = [
 
 const featured = products.filter((p) => !p.comingSoon).slice(0, 4);
 
-const vibes = ["☮️", "🌿", "✌️", "🌻", "🍃", "💚"];
+const FAQ_ITEMS = [
+  {
+    q: "Where do you deliver in South Africa?",
+    a: "We deliver nationwide across South Africa — Johannesburg, Cape Town, Durban, Pretoria, Port Elizabeth, Bloemfontein, Soweto, and everywhere in between. Delivery fees range from R50 to R100 depending on your location.",
+  },
+  {
+    q: "How long does delivery take?",
+    a: "Orders are processed within 24 hours of confirmed payment. Delivery typically takes 1–3 business days depending on your city. Johannesburg and Pretoria orders often arrive next day.",
+  },
+  {
+    q: "What payment methods do you accept?",
+    a: "We accept EFT (bank transfer) and cash on delivery in select areas. Payment must be confirmed before your order is dispatched — no payment, no order.",
+  },
+  {
+    q: "What cannabis products do you sell?",
+    a: "We stock a full range: greenhouse strains, indoor strains, pre-rolls, edibles (gummies & brownies), vape cartridges, dab concentrates, and more. All products are tested for quality.",
+  },
+  {
+    q: "Is it legal to order cannabis in South Africa?",
+    a: "South Africa's Constitutional Court ruled in 2018 that private use, possession, and cultivation of cannabis by adults is legal. We operate within the bounds of personal-use provisions.",
+  },
+  {
+    q: "How do I track my order?",
+    a: "After payment confirmation, you'll receive an order reference via WhatsApp or email. You can contact us anytime on WhatsApp at +27 64 543 6734 for updates on your delivery.",
+  },
+];
 
 const Index = () => {
   return (
@@ -35,7 +66,6 @@ const Index = () => {
       <main className="flex-1">
         {/* Hero with Carousel */}
         <section className="relative overflow-hidden">
-          {/* Banner Carousel */}
           <div className="absolute inset-0">
             <Carousel
               opts={{ loop: true, align: "start" }}
@@ -54,42 +84,18 @@ const Index = () => {
                 ))}
               </CarouselContent>
             </Carousel>
-            {/* Groovy overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-transparent" />
             <div className="absolute inset-0 groovy-gradient opacity-30 mix-blend-overlay" />
           </div>
 
-          <div className="relative mx-auto max-w-7xl px-4 py-32 text-center md:py-44">
-            {/* Floating emojis */}
-            <div className="pointer-events-none absolute inset-0 overflow-hidden">
-              {vibes.map((v, i) => (
-                <span
-                  key={i}
-                  className="absolute text-3xl opacity-20 animate-float"
-                  style={{
-                    left: `${15 + i * 14}%`,
-                    top: `${20 + (i % 3) * 25}%`,
-                    animationDelay: `${i * 0.7}s`,
-                  }}
-                >
-                  {v}
-                </span>
-              ))}
-            </div>
-
-            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/20 backdrop-blur-md animate-groovy-pulse">
-              <Leaf className="h-10 w-10 text-primary-foreground drop-shadow-lg" />
-            </div>
-            <h1 className="font-display text-5xl font-extrabold tracking-tight drop-shadow-lg md:text-7xl text-white">
-              Tripplefour
+          <div className="relative mx-auto max-w-7xl px-4 py-24 text-center md:py-36">
+            <h1 className="font-display text-4xl font-extrabold tracking-tight drop-shadow-lg md:text-6xl text-white leading-tight">
+              Cannabis Delivered<br />Anywhere in South Africa
             </h1>
-            <p className="groovy-gradient-text mx-auto mt-2 text-xl font-display md:text-2xl">
-              ✌️ If it's from the ground, it is sound ✌️
+            <p className="mx-auto mt-4 max-w-xl text-lg opacity-95 drop-shadow-md md:text-xl text-white/90">
+              Strains, edibles, pre-rolls & vapes — order now, delivered to your door in 1–3 days.
             </p>
-            <p className="mx-auto mt-4 max-w-xl text-lg opacity-90 drop-shadow-md md:text-xl text-white/90">
-              Dispensery we deliver allover — Premium cannabis health products at your doorstep.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
               <Button
                 asChild
                 size="lg"
@@ -105,9 +111,15 @@ const Index = () => {
                 className="gap-2 rounded-full bg-accent text-base text-accent-foreground hover:bg-accent/90 shadow-xl shadow-accent/30 font-semibold transition-transform hover:scale-105"
               >
                 <a href="https://wa.me/27645436734" target="_blank" rel="noopener noreferrer">
-                  ☮️ WhatsApp Us
+                  WhatsApp Order
                 </a>
               </Button>
+            </div>
+            {/* Trust signals right in hero */}
+            <div className="mt-8 flex flex-wrap justify-center gap-4 text-white/80 text-sm">
+              <span className="flex items-center gap-1.5"><Truck className="h-4 w-4" /> Nationwide Delivery</span>
+              <span className="flex items-center gap-1.5"><Shield className="h-4 w-4" /> Quality Tested</span>
+              <span className="flex items-center gap-1.5"><Clock className="h-4 w-4" /> 24hr Dispatch</span>
             </div>
           </div>
         </section>
@@ -119,15 +131,15 @@ const Index = () => {
           </svg>
         </div>
 
-        {/* Important Notices - with groovy styling */}
+        {/* Notices */}
         <section className="px-4 py-4 relative">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-6 text-sm">
             {[
-              { icon: Truck, text: <><strong>Delivery Fee:</strong> R50 – R100 depending on location</>, color: "text-primary" },
-              { icon: Clock, text: <>Orders processed within <strong>24 hours</strong> of payment</>, color: "text-primary" },
-              { icon: AlertTriangle, text: <><strong>Immediate payment required</strong> — no payment, no order</>, color: "text-destructive" },
+              { icon: Truck, text: <><strong>Delivery:</strong> R50–R100 depending on location</>, color: "text-primary" },
+              { icon: Clock, text: <>Orders dispatched within <strong>24 hours</strong></>, color: "text-primary" },
+              { icon: AlertTriangle, text: <><strong>Payment required</strong> before dispatch</>, color: "text-destructive" },
             ].map((item, i) => (
-              <div key={i} className="flex items-center gap-2 rounded-full border bg-card px-4 py-2 shadow-sm animate-fade-in" style={{ animationDelay: `${i * 0.15}s` }}>
+              <div key={i} className="flex items-center gap-2 rounded-full border bg-card px-4 py-2 shadow-sm">
                 <item.icon className={`h-4 w-4 ${item.color}`} />
                 <span>{item.text}</span>
               </div>
@@ -135,18 +147,17 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Features - Groovy cards */}
+        {/* Features */}
         <section className="px-4 py-14 relative peace-bg overflow-hidden">
           <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-3">
             {[
-              { icon: Truck, title: "Delivery Nationwide 🚚", desc: "We deliver allover South Africa", delay: 0 },
-              { icon: Shield, title: "Quality Guaranteed 🌟", desc: "Premium tested products", delay: 0.1 },
-              { icon: Leaf, title: "Natural & Organic 🌿", desc: "Cannabis health & wellness", delay: 0.2 },
+              { icon: Truck, title: "Delivery Nationwide", desc: "Johannesburg, Cape Town, Durban & all of SA" },
+              { icon: Shield, title: "Quality Guaranteed", desc: "Every product tested before it reaches you" },
+              { icon: Leaf, title: "Natural & Organic", desc: "Premium cannabis for health & wellness" },
             ].map((f) => (
               <div
                 key={f.title}
-                className="group flex items-start gap-4 rounded-2xl border-2 border-border bg-card p-6 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-primary/40 animate-fade-in"
-                style={{ animationDelay: `${f.delay}s` }}
+                className="group flex items-start gap-4 rounded-2xl border-2 border-border bg-card p-6 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-primary/40"
               >
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10 transition-colors group-hover:bg-primary/20">
                   <f.icon className="h-6 w-6 text-primary" />
@@ -160,19 +171,18 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Categories - Groovy grid */}
+        {/* Categories */}
         <section className="px-4 py-16 bg-secondary/30">
           <div className="mx-auto max-w-7xl">
             <h2 className="font-display text-3xl font-bold md:text-4xl text-center">
-              <span className="groovy-gradient-text">Browse Categories</span> 🌻
+              <span className="groovy-gradient-text">Browse Categories</span>
             </h2>
             <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
               {categories.map((cat, i) => (
                 <Link
                   key={cat}
                   to={`/shop?category=${encodeURIComponent(cat)}`}
-                  className="group relative overflow-hidden rounded-2xl border-2 border-border bg-card p-6 text-center transition-all duration-300 hover:border-primary hover:shadow-lg hover:-translate-y-1 animate-fade-in"
-                  style={{ animationDelay: `${i * 0.08}s` }}
+                  className="group relative overflow-hidden rounded-2xl border-2 border-border bg-card p-6 text-center transition-all duration-300 hover:border-primary hover:shadow-lg hover:-translate-y-1"
                 >
                   <div className="absolute inset-0 groovy-gradient opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
                   <span className="text-3xl block mb-2 transition-transform duration-300 group-hover:scale-125">
@@ -190,15 +200,15 @@ const Index = () => {
           <div className="mx-auto max-w-7xl">
             <div className="flex items-center justify-between mb-8">
               <h2 className="font-display text-3xl font-bold md:text-4xl">
-                <span className="groovy-gradient-text">Featured</span> ✨
+                <span className="groovy-gradient-text">Featured</span>
               </h2>
               <Button asChild variant="outline" className="gap-1 rounded-full transition-transform hover:scale-105">
                 <Link to="/shop">View All <ArrowRight className="h-4 w-4" /></Link>
               </Button>
             </div>
             <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
-              {featured.map((product, i) => (
-                <div key={product.id} className="animate-fade-in" style={{ animationDelay: `${i * 0.1}s` }}>
+              {featured.map((product) => (
+                <div key={product.id}>
                   <ProductCard product={product} />
                 </div>
               ))}
@@ -206,22 +216,40 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Vibes banner */}
-        <section className="groovy-gradient py-10 text-center text-white relative overflow-hidden">
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <span className="text-[200px] opacity-10 animate-spin-slow">☮</span>
+        {/* FAQ Section for SEO */}
+        <section className="px-4 py-16 bg-secondary/30">
+          <div className="mx-auto max-w-3xl">
+            <h2 className="font-display text-3xl font-bold md:text-4xl text-center mb-8">
+              <span className="groovy-gradient-text">Frequently Asked Questions</span>
+            </h2>
+            <Accordion type="single" collapsible className="w-full">
+              {FAQ_ITEMS.map((faq, i) => (
+                <AccordionItem key={i} value={`faq-${i}`}>
+                  <AccordionTrigger className="text-left font-display font-semibold">
+                    {faq.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    {faq.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
+        </section>
+
+        {/* CTA banner */}
+        <section className="groovy-gradient py-10 text-center text-white relative overflow-hidden">
           <h2 className="font-display text-3xl md:text-4xl font-bold relative z-10 drop-shadow-lg">
-            Stay Groovy, Stay Green 🌿
+            Ready to Order? 🌿
           </h2>
-          <p className="mt-2 text-lg opacity-90 relative z-10">Premium cannabis for the conscious soul</p>
+          <p className="mt-2 text-lg opacity-90 relative z-10">Premium cannabis delivered across South Africa</p>
           <Button
             asChild
             size="lg"
             variant="secondary"
             className="mt-6 rounded-full relative z-10 transition-transform hover:scale-105"
           >
-            <Link to="/shop">Explore the Shop ✌️</Link>
+            <Link to="/shop">Shop Now</Link>
           </Button>
         </section>
       </main>

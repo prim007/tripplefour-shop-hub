@@ -9,10 +9,10 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cuddles-chat
 type Msg = { role: "user" | "assistant"; content: string };
 
 const PROMPT_STARTERS = [
-  "🌿 Recommend a strain for sleep",
-  "🍪 Best edibles for beginners",
-  "🚚 How does delivery work?",
-  "💰 What are your prices?",
+  "🌙 I need something to help me sleep tonight",
+  "🎉 Best strain for a chill weekend vibe?",
+  "🍪 I'm new — what edible should I try first?",
+  "🚚 Can you deliver to my area?",
 ];
 
 interface CuddlesChatbotProps {
@@ -190,8 +190,8 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
             {messages.length === 0 && (
               <div className="text-center text-sm text-muted-foreground mt-4">
                 <p className="text-3xl mb-2">🌿</p>
-                <p className="font-display">Hey there! I'm Cuddles ✌️</p>
-                <p className="mt-1 mb-4">Ask me anything about our products!</p>
+                <p className="font-display font-bold text-foreground">What vibe are you after tonight?</p>
+                <p className="mt-1 mb-4">Tell me what you're looking for and I'll find the perfect match 👇</p>
                 {/* Prompt starters */}
                 <div className="flex flex-wrap gap-2 justify-center">
                   {PROMPT_STARTERS.map((prompt) => (
