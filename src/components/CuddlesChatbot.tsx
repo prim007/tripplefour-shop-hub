@@ -9,10 +9,10 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cuddles-chat
 type Msg = { role: "user" | "assistant"; content: string };
 
 const PROMPT_STARTERS = [
-  "🌿 Recommend a strain for sleep",
-  "🍪 Best edibles for beginners",
-  "🚚 How does delivery work?",
-  "💰 What are your prices?",
+  "🌙 I need something to help me sleep tonight",
+  "🎉 Best strain for a chill weekend vibe?",
+  "🍪 I'm new — what edible should I try first?",
+  "🚚 Can you deliver to my area?",
 ];
 
 interface CuddlesChatbotProps {
