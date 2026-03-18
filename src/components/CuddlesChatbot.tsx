@@ -190,8 +190,8 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
             {messages.length === 0 && (
               <div className="text-center text-sm text-muted-foreground mt-4">
                 <p className="text-3xl mb-2">🌿</p>
-                <p className="font-display">Hey there! I'm Cuddles ✌️</p>
-                <p className="mt-1 mb-4">Ask me anything about our products!</p>
+                <p className="font-display font-bold text-foreground">What vibe are you after tonight?</p>
+                <p className="mt-1 mb-4">Tell me what you're looking for and I'll find the perfect match 👇</p>
                 {/* Prompt starters */}
                 <div className="flex flex-wrap gap-2 justify-center">
                   {PROMPT_STARTERS.map((prompt) => (
