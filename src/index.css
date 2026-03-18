@@ -115,7 +115,8 @@
 
 @layer utilities {
   .font-display {
-    font-family: 'Righteous', cursive;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
   }
   .font-body {
     font-family: 'Space Grotesk', sans-serif;
