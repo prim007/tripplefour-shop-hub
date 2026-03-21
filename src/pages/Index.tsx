@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Leaf, Truck, Shield, Clock, AlertTriangle, Sparkles } from "lucide-react";
+import { ArrowRight, Leaf, Truck, Shield, Clock, Sparkles, Flame, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { products, categories } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
@@ -30,7 +30,8 @@ const banners = [
   { src: banner4, alt: "Cannabis wellness tinctures and oils" },
 ];
 
-const featured = products.filter((p) => !p.comingSoon).slice(0, 4);
+const bestSellers = products.filter((p) => !p.comingSoon).slice(0, 8);
+const budgetPicks = products.filter((p) => !p.comingSoon && p.price <= 100).slice(0, 4);
 
 const FAQ_ITEMS = [
   {
@@ -64,6 +65,15 @@ const Index = () => {
     <div className="flex min-h-screen flex-col overflow-hidden">
       <Navbar />
       <main className="flex-1">
+        {/* Urgency ticker */}
+        <div className="bg-primary text-primary-foreground py-2 overflow-hidden">
+          <div className="flex items-center justify-center gap-2 text-sm font-semibold animate-pulse">
+            <Flame className="h-4 w-4" />
+            <span>Order before 2PM — dispatched same day! Free delivery on orders over R500</span>
+            <Flame className="h-4 w-4" />
+          </div>
+        </div>
+
         {/* Hero with Carousel */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0">
@@ -88,12 +98,12 @@ const Index = () => {
             <div className="absolute inset-0 groovy-gradient opacity-30 mix-blend-overlay" />
           </div>
 
-          <div className="relative mx-auto max-w-7xl px-4 py-24 text-center md:py-36">
+          <div className="relative mx-auto max-w-7xl px-4 py-20 text-center md:py-28">
             <h1 className="font-display text-4xl font-extrabold tracking-tight drop-shadow-lg md:text-6xl text-white leading-tight">
               Cannabis Delivered<br />Anywhere in South Africa
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-lg opacity-95 drop-shadow-md md:text-xl text-white/90">
-              Strains, edibles, pre-rolls & vapes — order now, delivered to your door in 1–3 days.
+              Strains, edibles, pre-rolls & vapes — delivered to your door in 1–3 days.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <Button
@@ -115,7 +125,6 @@ const Index = () => {
                 </a>
               </Button>
             </div>
-            {/* Trust signals right in hero */}
             <div className="mt-8 flex flex-wrap justify-center gap-4 text-white/80 text-sm">
               <span className="flex items-center gap-1.5"><Truck className="h-4 w-4" /> Nationwide Delivery</span>
               <span className="flex items-center gap-1.5"><Shield className="h-4 w-4" /> Quality Tested</span>
@@ -131,58 +140,64 @@ const Index = () => {
           </svg>
         </div>
 
-        {/* Notices */}
-        <section className="px-4 py-4 relative">
-          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-6 text-sm">
-            {[
-              { icon: Truck, text: <><strong>Delivery:</strong> R50–R100 depending on location</>, color: "text-primary" },
-              { icon: Clock, text: <>Orders dispatched within <strong>24 hours</strong></>, color: "text-primary" },
-              { icon: AlertTriangle, text: <><strong>Payment required</strong> before dispatch</>, color: "text-destructive" },
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-2 rounded-full border bg-card px-4 py-2 shadow-sm">
-                <item.icon className={`h-4 w-4 ${item.color}`} />
-                <span>{item.text}</span>
+        {/* 🔥 BEST SELLERS — moved immediately after hero */}
+        <section className="px-4 py-10 relative">
+          <div className="mx-auto max-w-7xl">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <Flame className="h-6 w-6 text-destructive" />
+                <h2 className="font-display text-2xl font-bold md:text-3xl">
+                  Best Sellers
+                </h2>
               </div>
-            ))}
+              <Button asChild variant="outline" className="gap-1 rounded-full transition-transform hover:scale-105">
+                <Link to="/shop">View All <ArrowRight className="h-4 w-4" /></Link>
+              </Button>
+            </div>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+              {bestSellers.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Features */}
-        <section className="px-4 py-14 relative peace-bg overflow-hidden">
-          <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-3">
-            {[
-              { icon: Truck, title: "Delivery Nationwide", desc: "Johannesburg, Cape Town, Durban & all of SA" },
-              { icon: Shield, title: "Quality Guaranteed", desc: "Every product tested before it reaches you" },
-              { icon: Leaf, title: "Natural & Organic", desc: "Premium cannabis for health & wellness" },
-            ].map((f) => (
-              <div
-                key={f.title}
-                className="group flex items-start gap-4 rounded-2xl border-2 border-border bg-card p-6 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-primary/40"
-              >
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10 transition-colors group-hover:bg-primary/20">
-                  <f.icon className="h-6 w-6 text-primary" />
+        {/* Budget Picks — low price entry point */}
+        {budgetPicks.length > 0 && (
+          <section className="px-4 py-10 bg-secondary/30">
+            <div className="mx-auto max-w-7xl">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-2">
+                  <Zap className="h-6 w-6 text-primary" />
+                  <h2 className="font-display text-2xl font-bold md:text-3xl">
+                    Under R100
+                  </h2>
                 </div>
-                <div>
-                  <h3 className="font-display text-base font-semibold">{f.title}</h3>
-                  <p className="text-sm text-muted-foreground">{f.desc}</p>
-                </div>
+                <Button asChild variant="outline" className="gap-1 rounded-full transition-transform hover:scale-105">
+                  <Link to="/shop">Shop All <ArrowRight className="h-4 w-4" /></Link>
+                </Button>
               </div>
-            ))}
-          </div>
-        </section>
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                {budgetPicks.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Categories */}
-        <section className="px-4 py-16 bg-secondary/30">
+        <section className="px-4 py-12">
           <div className="mx-auto max-w-7xl">
-            <h2 className="font-display text-3xl font-bold md:text-4xl text-center">
+            <h2 className="font-display text-2xl font-bold md:text-3xl text-center mb-6">
               <span className="groovy-gradient-text">Browse Categories</span>
             </h2>
-            <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
               {categories.map((cat, i) => (
                 <Link
                   key={cat}
                   to={`/shop?category=${encodeURIComponent(cat)}`}
-                  className="group relative overflow-hidden rounded-2xl border-2 border-border bg-card p-6 text-center transition-all duration-300 hover:border-primary hover:shadow-lg hover:-translate-y-1"
+                  className="group relative overflow-hidden rounded-2xl border-2 border-border bg-card p-5 text-center transition-all duration-300 hover:border-primary hover:shadow-lg hover:-translate-y-1"
                 >
                   <div className="absolute inset-0 groovy-gradient opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
                   <span className="text-3xl block mb-2 transition-transform duration-300 group-hover:scale-125">
@@ -195,31 +210,34 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Featured Products */}
-        <section className="px-4 py-16 relative">
-          <div className="mx-auto max-w-7xl">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="font-display text-3xl font-bold md:text-4xl">
-                <span className="groovy-gradient-text">Featured</span>
-              </h2>
-              <Button asChild variant="outline" className="gap-1 rounded-full transition-transform hover:scale-105">
-                <Link to="/shop">View All <ArrowRight className="h-4 w-4" /></Link>
-              </Button>
-            </div>
-            <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
-              {featured.map((product) => (
-                <div key={product.id}>
-                  <ProductCard product={product} />
+        {/* Trust Features */}
+        <section className="px-4 py-10 bg-secondary/30">
+          <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-3">
+            {[
+              { icon: Truck, title: "Delivery Nationwide", desc: "Johannesburg, Cape Town, Durban & all of SA" },
+              { icon: Shield, title: "Quality Guaranteed", desc: "Every product tested before it reaches you" },
+              { icon: Leaf, title: "Natural & Organic", desc: "Premium cannabis for health & wellness" },
+            ].map((f) => (
+              <div
+                key={f.title}
+                className="group flex items-start gap-4 rounded-2xl border-2 border-border bg-card p-5 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-primary/40"
+              >
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 transition-colors group-hover:bg-primary/20">
+                  <f.icon className="h-5 w-5 text-primary" />
                 </div>
-              ))}
-            </div>
+                <div>
+                  <h3 className="font-display text-sm font-semibold">{f.title}</h3>
+                  <p className="text-xs text-muted-foreground">{f.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
         {/* FAQ Section for SEO */}
-        <section className="px-4 py-16 bg-secondary/30">
+        <section className="px-4 py-12">
           <div className="mx-auto max-w-3xl">
-            <h2 className="font-display text-3xl font-bold md:text-4xl text-center mb-8">
+            <h2 className="font-display text-2xl font-bold md:text-3xl text-center mb-6">
               <span className="groovy-gradient-text">Frequently Asked Questions</span>
             </h2>
             <Accordion type="single" collapsible className="w-full">
@@ -238,19 +256,30 @@ const Index = () => {
         </section>
 
         {/* CTA banner */}
-        <section className="groovy-gradient py-10 text-center text-white relative overflow-hidden">
-          <h2 className="font-display text-3xl md:text-4xl font-bold relative z-10 drop-shadow-lg">
+        <section className="groovy-gradient py-8 text-center text-white relative overflow-hidden">
+          <h2 className="font-display text-2xl md:text-3xl font-bold relative z-10 drop-shadow-lg">
             Ready to Order? 🌿
           </h2>
-          <p className="mt-2 text-lg opacity-90 relative z-10">Premium cannabis delivered across South Africa</p>
-          <Button
-            asChild
-            size="lg"
-            variant="secondary"
-            className="mt-6 rounded-full relative z-10 transition-transform hover:scale-105"
-          >
-            <Link to="/shop">Shop Now</Link>
-          </Button>
+          <p className="mt-2 text-base opacity-90 relative z-10">Premium cannabis delivered across South Africa</p>
+          <div className="mt-4 flex flex-wrap justify-center gap-3 relative z-10">
+            <Button
+              asChild
+              size="lg"
+              variant="secondary"
+              className="rounded-full transition-transform hover:scale-105"
+            >
+              <Link to="/shop">Shop Now</Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              className="rounded-full bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm transition-transform hover:scale-105"
+            >
+              <a href="https://wa.me/27645436734" target="_blank" rel="noopener noreferrer">
+                WhatsApp Us
+              </a>
+            </Button>
+          </div>
         </section>
       </main>
       <Footer />
