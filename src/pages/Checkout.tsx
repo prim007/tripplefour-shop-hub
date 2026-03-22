@@ -239,6 +239,25 @@ export default function Checkout() {
     setStep("awaiting-payment");
     setSubmitting(false);
     Analytics.beginCheckout(grandTotal);
+
+    // Send order confirmation email (fire-and-forget)
+    supabase.functions.invoke("send-transactional-email", {
+      body: {
+        templateName: "order-confirmation",
+        recipientEmail: email,
+        idempotencyKey: `order-confirm-${data.id}`,
+        templateData: {
+          customerName: name,
+          orderRef: ref,
+          items: orderItems,
+          subtotal: totalPrice,
+          discount: discountAmount,
+          deliveryFee,
+          total: grandTotal,
+          deliveryZone: selectedZone.zone_name,
+        },
+      },
+    }).catch((err) => console.error("Email send failed:", err));
   };
 
   // Step: Payment confirmed
