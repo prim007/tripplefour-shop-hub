@@ -12,22 +12,13 @@ import { Analytics } from "@/lib/analytics";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const CUDDLES_URL = "https://rcigcarkcpinnniddxcm.supabase.co/functions/v1/validate-promo-code";
+const PROMO_URL = "https://rcigcarkcpinnniddxcm.supabase.co/functions/v1/validate-promo-code";
 
 const validatePromo = async (code: string) => {
-  const res = await fetch(CUDDLES_URL, {
+  const res = await fetch(PROMO_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ code, action: "validate" }),
-  });
-  return res.json();
-};
-
-const redeemPromo = async (code: string) => {
-  const res = await fetch(CUDDLES_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ code, action: "redeem" }),
   });
   return res.json();
 };
@@ -57,6 +48,9 @@ export default function Checkout() {
   const [promoApplied, setPromoApplied] = useState(false);
   const [promoValidating, setPromoValidating] = useState(false);
   const [promoError, setPromoError] = useState("");
+  const [serverTotal, setServerTotal] = useState<number | null>(null);
+  const [serverDiscount, setServerDiscount] = useState(0);
+  const [deliveryZoneName, setDeliveryZoneName] = useState("");
 
   const discountAmount = Math.round(totalPrice * (promoDiscount / 100));
   const deliveryFee = selectedZone?.fee ?? 0;
@@ -78,35 +72,28 @@ export default function Checkout() {
       });
   }, []);
 
-  // Realtime: listen for payment confirmation
+  // Poll for payment confirmation instead of realtime (since SELECT is now restricted)
   useEffect(() => {
-    if (!orderId || step !== "awaiting-payment") return;
+    if (!orderId || !orderRef || step !== "awaiting-payment") return;
 
-    const channel = supabase
-      .channel(`order-${orderId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "orders",
-          filter: `id=eq.${orderId}`,
-        },
-        (payload) => {
-          const updated = payload.new as any;
-          if (updated.payment_status === "confirmed") {
+    const interval = setInterval(async () => {
+      try {
+        const { data, error } = await supabase.rpc("get_order_by_ref", { p_order_ref: orderRef });
+        if (!error && data && data.length > 0) {
+          const order = data[0];
+          if (order.payment_status === "confirmed") {
             setStep("confirmed");
             clearCart();
-            Analytics.purchase(orderRef || orderId, grandTotal);
+            Analytics.purchase(orderRef, serverTotal || grandTotal);
           }
         }
-      )
-      .subscribe();
+      } catch (e) {
+        console.error("Poll error:", e);
+      }
+    }, 5000);
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [orderId, step, clearCart]);
+    return () => clearInterval(interval);
+  }, [orderId, orderRef, step, clearCart]);
 
   if (items.length === 0 && step === "details") {
     navigate("/cart");
@@ -183,82 +170,69 @@ export default function Checkout() {
 
     setSubmitting(true);
 
-    // Redeem promo code if applied
-    if (promoApplied && promoCode.trim()) {
-      try {
-        const redeemResult = await redeemPromo(promoCode.trim());
-        if (!redeemResult.valid && redeemResult.error) {
-          toast({ title: "Promo code error", description: redeemResult.error, variant: "destructive" });
-          setSubmitting(false);
-          return;
-        }
-      } catch {
-        toast({ title: "Error", description: "Failed to redeem promo code.", variant: "destructive" });
-        setSubmitting(false);
-        return;
-      }
-    }
-
-    const ref = `TF-${Date.now().toString(36).toUpperCase()}`;
-
     const orderItems = items.map((i) => ({
       id: i.product.id,
       name: i.product.name,
-      price: i.product.price,
       quantity: i.quantity,
     }));
 
-    const { data, error } = await supabase
-      .from("orders")
-      .insert({
-        order_ref: ref,
-        customer_name: name,
-        customer_email: email,
-        customer_phone: phone,
-        delivery_address: address,
-        delivery_zone_id: selectedZone.id,
-        delivery_fee: deliveryFee,
-        subtotal: totalPrice,
-        total: grandTotal,
-        items: orderItems,
-        payment_method: "eft",
-        payment_status: "pending",
-        status: "pending",
-      })
-      .select()
-      .single();
+    try {
+      // Create order via server-side edge function (prices calculated server-side)
+      const { data: result, error } = await supabase.functions.invoke("create-order", {
+        body: {
+          customer_name: name,
+          customer_email: email,
+          customer_phone: phone,
+          delivery_address: address,
+          delivery_zone_id: selectedZone.id,
+          items: orderItems,
+          promo_code: promoApplied ? promoCode.trim() : undefined,
+        },
+      });
 
-    if (error) {
+      if (error || !result?.id) {
+        toast({ title: "Error", description: result?.error || "Failed to place order. Please try again.", variant: "destructive" });
+        setSubmitting(false);
+        return;
+      }
+
+      setOrderId(result.id);
+      setOrderRef(result.order_ref);
+      setServerTotal(result.total);
+      setServerDiscount(result.discount || 0);
+      setDeliveryZoneName(result.delivery_zone_name || selectedZone.zone_name);
+      setStep("awaiting-payment");
+      setSubmitting(false);
+      Analytics.beginCheckout(result.total);
+
+      // Send order confirmation email (fire-and-forget)
+      supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "order-confirmation",
+          recipientEmail: email,
+          idempotencyKey: `order-confirm-${result.id}`,
+          templateData: {
+            customerName: name,
+            orderRef: result.order_ref,
+            items: orderItems.map((i) => ({ ...i, price: items.find((ci) => ci.product.id === i.id)?.product.price || 0 })),
+            subtotal: result.subtotal,
+            discount: result.discount || 0,
+            deliveryFee: result.delivery_fee,
+            total: result.total,
+            deliveryZone: result.delivery_zone_name || selectedZone.zone_name,
+          },
+        },
+      }).catch((err) => console.error("Email send failed:", err));
+    } catch (err) {
+      console.error("Order submission error:", err);
       toast({ title: "Error", description: "Failed to place order. Please try again.", variant: "destructive" });
       setSubmitting(false);
-      return;
     }
-
-    setOrderId(data.id);
-    setOrderRef(ref);
-    setStep("awaiting-payment");
-    setSubmitting(false);
-    Analytics.beginCheckout(grandTotal);
-
-    // Send order confirmation email (fire-and-forget)
-    supabase.functions.invoke("send-transactional-email", {
-      body: {
-        templateName: "order-confirmation",
-        recipientEmail: email,
-        idempotencyKey: `order-confirm-${data.id}`,
-        templateData: {
-          customerName: name,
-          orderRef: ref,
-          items: orderItems,
-          subtotal: totalPrice,
-          discount: discountAmount,
-          deliveryFee,
-          total: grandTotal,
-          deliveryZone: selectedZone.zone_name,
-        },
-      },
-    }).catch((err) => console.error("Email send failed:", err));
   };
+
+  const displayTotal = serverTotal ?? grandTotal;
+  const displayDiscount = serverTotal ? serverDiscount : discountAmount;
+  const displayDeliveryFee = serverTotal ? (displayTotal - (totalPrice - displayDiscount)) : deliveryFee;
 
   // Step: Payment confirmed
   if (step === "confirmed") {
@@ -337,15 +311,15 @@ export default function Checkout() {
               <h3 className="font-display text-base font-semibold">Payment Summary</h3>
               <div className="mt-3 space-y-2 text-sm">
                 <div className="flex justify-between"><span className="text-muted-foreground">Subtotal</span><span>R{totalPrice.toLocaleString()}</span></div>
-                {promoApplied && discountAmount > 0 && (
+                {displayDiscount > 0 && (
                   <div className="flex justify-between text-primary">
-                    <span>Discount ({promoDiscount}%)</span>
-                    <span>-R{discountAmount.toLocaleString()}</span>
+                    <span>Discount</span>
+                    <span>-R{displayDiscount.toLocaleString()}</span>
                   </div>
                 )}
-                <div className="flex justify-between"><span className="text-muted-foreground">Delivery ({selectedZone?.zone_name})</span><span>R{deliveryFee.toLocaleString()}</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Delivery ({deliveryZoneName || selectedZone?.zone_name})</span><span>R{deliveryFee.toLocaleString()}</span></div>
                 <Separator className="my-2" />
-                <div className="flex justify-between font-bold text-base"><span>Total to Pay</span><span className="text-primary">R{grandTotal.toLocaleString()}</span></div>
+                <div className="flex justify-between font-bold text-base"><span>Total to Pay</span><span className="text-primary">R{displayTotal.toLocaleString()}</span></div>
               </div>
             </div>
 
@@ -366,7 +340,7 @@ export default function Checkout() {
             </div>
 
             <Button asChild variant="outline" className="w-full">
-              <a href={`https://wa.me/27645436734?text=${encodeURIComponent(`Hi, I just placed order ${orderRef} and made payment of R${grandTotal}`)}`} target="_blank" rel="noopener noreferrer">
+              <a href={`https://wa.me/27645436734?text=${encodeURIComponent(`Hi, I just placed order ${orderRef} and made payment of R${displayTotal}`)}`} target="_blank" rel="noopener noreferrer">
                 Notify us on WhatsApp
               </a>
             </Button>
@@ -422,84 +396,78 @@ export default function Checkout() {
                     }`}
                   >
                     <p className="font-semibold">{zone.zone_name}</p>
-                    <p className="mt-1 text-xs text-muted-foreground">{zone.min_km} – {zone.max_km} km from CBD</p>
-                    <p className="mt-1 text-sm font-bold text-primary">R{zone.fee.toLocaleString()}</p>
+                    <p className="text-sm text-muted-foreground">{zone.min_km}–{zone.max_km} km</p>
+                    <p className="mt-1 font-bold text-primary">R{zone.fee}</p>
                   </button>
                 ))}
               </div>
 
               <Separator />
 
-              <h2 className="font-display text-lg font-semibold flex items-center gap-2">
-                <Tag className="h-4 w-4" /> Promo Code
-              </h2>
-              {promoApplied ? (
-                <div className="flex items-center justify-between rounded-lg border-2 border-primary/30 bg-primary/5 p-3">
-                  <div>
-                    <p className="text-sm font-semibold text-primary">{promoCode.toUpperCase()}</p>
-                    <p className="text-xs text-muted-foreground">{promoDiscount}% discount applied</p>
+              {/* Promo Code Section */}
+              <div className="space-y-3">
+                <h2 className="font-display text-lg font-semibold flex items-center gap-2">
+                  <Tag className="h-5 w-5" /> Promo Code
+                </h2>
+                {promoApplied ? (
+                  <div className="flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/5 px-4 py-3">
+                    <CheckCircle className="h-5 w-5 text-primary shrink-0" />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-primary">{promoDiscount}% discount applied</p>
+                      <p className="text-xs text-muted-foreground">Code: {promoCode}</p>
+                    </div>
+                    <Button type="button" variant="ghost" size="sm" onClick={handleRemovePromo}>Remove</Button>
                   </div>
-                  <Button type="button" variant="ghost" size="sm" onClick={handleRemovePromo}>Remove</Button>
-                </div>
-              ) : (
-                <div className="space-y-2">
+                ) : (
                   <div className="flex gap-2">
                     <Input
-                      placeholder="Enter promo code"
                       value={promoCode}
                       onChange={(e) => { setPromoCode(e.target.value); setPromoError(""); }}
+                      placeholder="Enter promo code"
+                      maxLength={30}
                     />
                     <Button type="button" variant="outline" onClick={handleApplyPromo} disabled={promoValidating || !promoCode.trim()}>
                       {promoValidating ? <Loader2 className="h-4 w-4 animate-spin" /> : "Apply"}
                     </Button>
                   </div>
-                  {promoError && <p className="text-xs text-destructive">{promoError}</p>}
-                </div>
-              )}
-
-              <Button type="submit" size="lg" className="w-full" disabled={submitting || !selectedZone}>
-                {!selectedZone ? "Select a delivery zone to continue" : `Place Order — R${grandTotal.toLocaleString()}`}
-              </Button>
-
-              <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1"><Shield className="h-3.5 w-3.5 text-primary" />Quality Guaranteed</span>
-                <span className="flex items-center gap-1"><Truck className="h-3.5 w-3.5 text-primary" />24-48hr Delivery</span>
-                <span className="flex items-center gap-1"><Tag className="h-3.5 w-3.5 text-primary" />Secure Checkout</span>
+                )}
+                {promoError && <p className="text-sm text-destructive">{promoError}</p>}
               </div>
             </div>
 
-            {/* Order Summary Sidebar */}
-            <div className="rounded-xl border bg-card p-5">
-              <h2 className="font-display text-lg font-semibold">Order Summary</h2>
-              <div className="mt-4 space-y-3">
-                {items.map((item) => (
-                  <div key={item.product.id} className="flex justify-between text-sm">
-                    <span>{item.quantity}x {item.product.name}</span>
-                    <span className="font-medium">R{(item.product.price * item.quantity).toLocaleString()}</span>
-                  </div>
-                ))}
-              </div>
-              <Separator className="my-3" />
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Subtotal</span>
-                  <span>R{totalPrice.toLocaleString()}</span>
+            {/* Order Summary */}
+            <div className="space-y-4">
+              <div className="rounded-xl border bg-card p-5 space-y-4 sticky top-24">
+                <h2 className="font-display text-lg font-semibold">Order Summary</h2>
+                <div className="space-y-3">
+                  {items.map((item) => (
+                    <div key={item.product.id} className="flex justify-between text-sm">
+                      <span>{item.product.name} × {item.quantity}</span>
+                      <span className="font-medium">R{(item.product.price * item.quantity).toLocaleString()}</span>
+                    </div>
+                  ))}
                 </div>
-                {promoApplied && (
-                  <div className="flex justify-between text-primary">
-                    <span>Discount ({promoDiscount}%)</span>
-                    <span>-R{discountAmount.toLocaleString()}</span>
-                  </div>
-                )}
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Delivery</span>
-                  <span>{selectedZone ? `R${deliveryFee.toLocaleString()}` : "—"}</span>
+                <Separator />
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between"><span className="text-muted-foreground">Subtotal</span><span>R{totalPrice.toLocaleString()}</span></div>
+                  {promoApplied && discountAmount > 0 && (
+                    <div className="flex justify-between text-primary">
+                      <span>Discount ({promoDiscount}%)</span>
+                      <span>-R{discountAmount.toLocaleString()}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between"><span className="text-muted-foreground">Delivery</span><span>R{deliveryFee.toLocaleString()}</span></div>
+                  <Separator />
+                  <div className="flex justify-between font-bold text-base"><span>Total</span><span className="text-primary">R{grandTotal.toLocaleString()}</span></div>
                 </div>
-              </div>
-              <Separator className="my-3" />
-              <div className="flex justify-between font-bold">
-                <span>Total</span>
-                <span className="text-primary">R{grandTotal.toLocaleString()}</span>
+                <Button type="submit" className="w-full" size="lg" disabled={submitting}>
+                  {submitting ? (
+                    <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Placing Order...</>
+                  ) : (
+                    <><Shield className="mr-2 h-4 w-4" /> Place Order</>
+                  )}
+                </Button>
+                <p className="text-xs text-center text-muted-foreground">Prices verified server-side for your protection</p>
               </div>
             </div>
           </form>
