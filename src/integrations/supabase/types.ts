@@ -272,33 +272,6 @@ export type Database = {
         Args: { payload: Json; queue_name: string }
         Returns: number
       }
-      get_order_by_ref: {
-        Args: { p_order_ref: string }
-        Returns: {
-          created_at: string
-          customer_email: string
-          customer_name: string
-          customer_phone: string
-          delivery_address: string
-          delivery_fee: number
-          delivery_zone_id: string | null
-          id: string
-          items: Json
-          order_ref: string
-          payment_method: string
-          payment_status: string
-          status: string
-          subtotal: number
-          total: number
-          updated_at: string
-        }[]
-        SetofOptions: {
-          from: "*"
-          to: "orders"
-          isOneToOne: false
-          isSetofReturn: true
-        }
-      }
       move_to_dlq: {
         Args: {
           dlq_name: string
