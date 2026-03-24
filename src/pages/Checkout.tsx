@@ -217,29 +217,12 @@ export default function Checkout() {
       setOrderRef(result.order_ref);
       setServerTotal(result.total);
       setServerDiscount(result.discount || 0);
+      setServerDeliveryFee(result.delivery_fee ?? null);
       setDeliveryZoneName(result.delivery_zone_name || selectedZone.zone_name);
+      setStatusToken(result.status_token || "");
       setStep("awaiting-payment");
       setSubmitting(false);
       Analytics.beginCheckout(result.total);
-
-      // Send order confirmation email (fire-and-forget)
-      supabase.functions.invoke("send-transactional-email", {
-        body: {
-          templateName: "order-confirmation",
-          recipientEmail: email,
-          idempotencyKey: `order-confirm-${result.id}`,
-          templateData: {
-            customerName: name,
-            orderRef: result.order_ref,
-            items: orderItems.map((i) => ({ ...i, price: items.find((ci) => ci.product.id === i.id)?.product.price || 0 })),
-            subtotal: result.subtotal,
-            discount: result.discount || 0,
-            deliveryFee: result.delivery_fee,
-            total: result.total,
-            deliveryZone: result.delivery_zone_name || selectedZone.zone_name,
-          },
-        },
-      }).catch((err) => console.error("Email send failed:", err));
     } catch (err) {
       console.error("Order submission error:", err);
       toast({ title: "Error", description: "Failed to place order. Please try again.", variant: "destructive" });
