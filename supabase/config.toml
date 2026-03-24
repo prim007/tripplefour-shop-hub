@@ -15,3 +15,7 @@ project_id = "yytjfmadcreajcrkjsrk"
     verify_jwt = false
   [functions.handle-email-suppression]
     verify_jwt = false
+  [functions.create-order]
+    verify_jwt = false
+  [functions.admin-orders]
+    verify_jwt = false
