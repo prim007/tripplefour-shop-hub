@@ -69,7 +69,7 @@ const Index = () => {
         <div className="bg-primary text-primary-foreground py-2 overflow-hidden">
           <div className="flex items-center justify-center gap-2 text-sm font-semibold animate-pulse">
             <Flame className="h-4 w-4" />
-            <span>Order before 2PM — dispatched same day! Free delivery on orders over R500</span>
+            <span>🔥 Order now — same-day dispatch before 2PM! Free delivery over R500</span>
             <Flame className="h-4 w-4" />
           </div>
         </div>
@@ -100,10 +100,10 @@ const Index = () => {
 
           <div className="relative mx-auto max-w-7xl px-4 py-20 text-center md:py-28">
             <h1 className="font-display text-4xl font-extrabold tracking-tight drop-shadow-lg md:text-6xl text-white leading-tight">
-              Cannabis Delivered<br />Anywhere in South Africa
+              Buy Cannabis Online<br />Delivered Across SA
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-lg opacity-95 drop-shadow-md md:text-xl text-white/90">
-              Strains, edibles, pre-rolls & vapes — delivered to your door in 1–3 days.
+              Strains from R255 · Pre-rolls from R50 · Edibles from R60 — order now, delivered in 1–3 days.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <Button
@@ -258,9 +258,9 @@ const Index = () => {
         {/* CTA banner */}
         <section className="groovy-gradient py-8 text-center text-white relative overflow-hidden">
           <h2 className="font-display text-2xl md:text-3xl font-bold relative z-10 drop-shadow-lg">
-            Ready to Order? 🌿
+            Order Now — Prices from R50 🌿
           </h2>
-          <p className="mt-2 text-base opacity-90 relative z-10">Premium cannabis delivered across South Africa</p>
+          <p className="mt-2 text-base opacity-90 relative z-10">Buy cannabis online · Pay by EFT or cash · Delivered to your door across SA</p>
           <div className="mt-4 flex flex-wrap justify-center gap-3 relative z-10">
             <Button
               asChild
