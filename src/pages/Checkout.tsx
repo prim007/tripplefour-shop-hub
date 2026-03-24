@@ -51,7 +51,9 @@ export default function Checkout() {
   const [promoError, setPromoError] = useState("");
   const [serverTotal, setServerTotal] = useState<number | null>(null);
   const [serverDiscount, setServerDiscount] = useState(0);
+  const [serverDeliveryFee, setServerDeliveryFee] = useState<number | null>(null);
   const [deliveryZoneName, setDeliveryZoneName] = useState("");
+  const [statusToken, setStatusToken] = useState("");
 
   const discountAmount = Math.round(totalPrice * (promoDiscount / 100));
   const deliveryFee = selectedZone?.fee ?? 0;
