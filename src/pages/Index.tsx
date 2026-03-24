@@ -258,9 +258,9 @@ const Index = () => {
         {/* CTA banner */}
         <section className="groovy-gradient py-8 text-center text-white relative overflow-hidden">
           <h2 className="font-display text-2xl md:text-3xl font-bold relative z-10 drop-shadow-lg">
-            Ready to Order? 🌿
+            Order Now — Prices from R50 🌿
           </h2>
-          <p className="mt-2 text-base opacity-90 relative z-10">Premium cannabis delivered across South Africa</p>
+          <p className="mt-2 text-base opacity-90 relative z-10">Buy cannabis online · Pay by EFT or cash · Delivered to your door across SA</p>
           <div className="mt-4 flex flex-wrap justify-center gap-3 relative z-10">
             <Button
               asChild
