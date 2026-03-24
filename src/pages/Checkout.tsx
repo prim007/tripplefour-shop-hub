@@ -317,7 +317,7 @@ export default function Checkout() {
                     <span>-R{displayDiscount.toLocaleString()}</span>
                   </div>
                 )}
-                <div className="flex justify-between"><span className="text-muted-foreground">Delivery ({deliveryZoneName || selectedZone?.zone_name})</span><span>R{deliveryFee.toLocaleString()}</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Delivery ({deliveryZoneName || selectedZone?.zone_name})</span><span>R{displayDeliveryFee.toLocaleString()}</span></div>
                 <Separator className="my-2" />
                 <div className="flex justify-between font-bold text-base"><span>Total to Pay</span><span className="text-primary">R{displayTotal.toLocaleString()}</span></div>
               </div>
