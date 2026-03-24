@@ -202,7 +202,7 @@ Deno.serve(async (req) => {
       }
     }
 
-    const total = subtotal - discountAmount + deliveryFee;
+    const total = Math.max(deliveryFee, subtotal - discountAmount + deliveryFee);
     const orderRef = `TF-${crypto.randomUUID().replace(/-/g, "").slice(0, 10).toUpperCase()}`;
 
     const { data: order, error: insertError } = await supabase
