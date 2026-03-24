@@ -75,20 +75,23 @@ export default function Checkout() {
       });
   }, []);
 
-  // Poll for payment confirmation instead of realtime (since SELECT is now restricted)
+  // Poll payment status through token-protected edge function
   useEffect(() => {
-    if (!orderId || !orderRef || step !== "awaiting-payment") return;
+    if (!orderId || !orderRef || !statusToken || step !== "awaiting-payment") return;
 
     const interval = setInterval(async () => {
       try {
-        const { data, error } = await supabase.rpc("get_order_by_ref", { p_order_ref: orderRef });
-        if (!error && data && data.length > 0) {
-          const order = data[0];
-          if (order.payment_status === "confirmed") {
-            setStep("confirmed");
-            clearCart();
-            Analytics.purchase(orderRef, serverTotal || grandTotal);
-          }
+        const { data, error } = await supabase.functions.invoke("get-order-status", {
+          body: {
+            order_ref: orderRef,
+            status_token: statusToken,
+          },
+        });
+
+        if (!error && data?.payment_status === "confirmed") {
+          setStep("confirmed");
+          clearCart();
+          Analytics.purchase(orderRef, serverTotal || grandTotal);
         }
       } catch (e) {
         console.error("Poll error:", e);
@@ -96,7 +99,7 @@ export default function Checkout() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [orderId, orderRef, step, clearCart]);
+  }, [orderId, orderRef, statusToken, step, clearCart, serverTotal, grandTotal]);
 
   if (items.length === 0 && step === "details") {
     navigate("/cart");
