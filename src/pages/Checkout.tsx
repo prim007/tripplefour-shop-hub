@@ -232,7 +232,7 @@ export default function Checkout() {
 
   const displayTotal = serverTotal ?? grandTotal;
   const displayDiscount = serverTotal ? serverDiscount : discountAmount;
-  const displayDeliveryFee = serverTotal ? (displayTotal - (totalPrice - displayDiscount)) : deliveryFee;
+  const displayDeliveryFee = serverDeliveryFee ?? deliveryFee;
 
   // Step: Payment confirmed
   if (step === "confirmed") {
