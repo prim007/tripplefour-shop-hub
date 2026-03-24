@@ -188,7 +188,8 @@ Deno.serve(async (req) => {
 
         const promoResult = await promoRes.json();
         if (promoResult.valid && typeof promoResult.discount_percent === "number") {
-          discountAmount = Math.round(subtotal * (promoResult.discount_percent / 100));
+          const discountPercent = Math.min(Math.max(0, promoResult.discount_percent), 90);
+          discountAmount = Math.round(subtotal * (discountPercent / 100));
 
           await fetch("https://rcigcarkcpinnniddxcm.supabase.co/functions/v1/validate-promo-code", {
             method: "POST",
