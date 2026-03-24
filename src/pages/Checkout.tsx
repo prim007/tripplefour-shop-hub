@@ -174,6 +174,16 @@ export default function Checkout() {
       return;
     }
 
+    const ageToken = localStorage.getItem(AGE_TOKEN_KEY);
+    if (!ageToken) {
+      toast({
+        title: "Age verification required",
+        description: "Please complete age verification before placing an order.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setSubmitting(true);
 
     const orderItems = items.map((i) => ({
@@ -183,7 +193,7 @@ export default function Checkout() {
     }));
 
     try {
-      // Create order via server-side edge function (prices calculated server-side)
+      // Create order via server-side edge function (prices + age token validated server-side)
       const { data: result, error } = await supabase.functions.invoke("create-order", {
         body: {
           customer_name: name,
@@ -193,6 +203,7 @@ export default function Checkout() {
           delivery_zone_id: selectedZone.id,
           items: orderItems,
           promo_code: promoApplied ? promoCode.trim() : undefined,
+          age_token: ageToken,
         },
       });
 
