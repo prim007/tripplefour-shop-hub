@@ -1,15 +1,65 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-serve(async (req) => {
+const MAX_MESSAGES = 10;
+const MAX_CONTENT_LENGTH = 1000;
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const MAX_REQUESTS_PER_WINDOW = 15;
+
+// Simple in-memory rate limiter (per isolate)
+const rateLimitMap = new Map<string, { count: number; windowStart: number }>();
+
+function isRateLimited(clientIp: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(clientIp);
+  if (!entry || now - entry.windowStart > RATE_LIMIT_WINDOW_MS) {
+    rateLimitMap.set(clientIp, { count: 1, windowStart: now });
+    return false;
+  }
+  entry.count++;
+  if (entry.count > MAX_REQUESTS_PER_WINDOW) {
+    return true;
+  }
+  return false;
+}
+
+Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { messages } = await req.json();
+    // Rate limit by IP
+    const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+    if (isRateLimited(clientIp)) {
+      return new Response(JSON.stringify({ error: "Too many requests. Please wait a moment before trying again 🌿" }), {
+        status: 429,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const body = await req.json();
+    const { messages } = body;
+
+    // Validate messages input
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return new Response(JSON.stringify({ error: "Invalid request" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Limit conversation depth to prevent token abuse
+    const trimmedMessages = messages.slice(-MAX_MESSAGES);
+
+    // Validate and truncate individual message content
+    const sanitizedMessages = trimmedMessages.map((msg: any) => ({
+      role: msg.role === "assistant" ? "assistant" : "user",
+      content: typeof msg.content === "string" ? msg.content.slice(0, MAX_CONTENT_LENGTH) : "",
+    }));
+
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
@@ -33,7 +83,7 @@ serve(async (req) => {
 
 Keep answers concise and friendly. Use peace signs ✌️ and leaf emojis 🌿 occasionally. If someone asks about something you don't know, suggest they WhatsApp the team. Never give medical advice — suggest consulting a doctor for health concerns.`
           },
-          ...messages,
+          ...sanitizedMessages,
         ],
         stream: true,
       }),
@@ -65,7 +115,7 @@ Keep answers concise and friendly. Use peace signs ✌️ and leaf emojis 🌿 o
     });
   } catch (e) {
     console.error("cuddles-chat error:", e);
-    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
+    return new Response(JSON.stringify({ error: "Something went wrong. Please try again." }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
