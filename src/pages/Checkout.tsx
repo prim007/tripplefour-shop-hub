@@ -9,6 +9,7 @@ import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { CheckCircle, Clock, Truck, AlertTriangle, Tag, Loader2, Shield } from "lucide-react";
 import { Analytics } from "@/lib/analytics";
+import { AGE_TOKEN_KEY } from "@/lib/age-verification";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
