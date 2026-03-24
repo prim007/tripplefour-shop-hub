@@ -100,10 +100,10 @@ const Index = () => {
 
           <div className="relative mx-auto max-w-7xl px-4 py-20 text-center md:py-28">
             <h1 className="font-display text-4xl font-extrabold tracking-tight drop-shadow-lg md:text-6xl text-white leading-tight">
-              Cannabis Delivered<br />Anywhere in South Africa
+              Buy Cannabis Online<br />Delivered Across SA
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-lg opacity-95 drop-shadow-md md:text-xl text-white/90">
-              Strains, edibles, pre-rolls & vapes — delivered to your door in 1–3 days.
+              Strains from R255 · Pre-rolls from R50 · Edibles from R60 — order now, delivered in 1–3 days.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <Button
