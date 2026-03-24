@@ -37,9 +37,9 @@ export default function Shop() {
         <div className="mx-auto max-w-7xl">
           {/* Header with urgency */}
           <div className="rounded-2xl groovy-gradient p-6 text-white mb-6">
-            <h1 className="font-display text-2xl font-bold md:text-3xl">Shop All Products</h1>
+            <h1 className="font-display text-2xl font-bold md:text-3xl">Buy Cannabis Online — Shop All Products</h1>
             <p className="mt-1 text-white/80 text-sm">
-              Free delivery on orders over R500 · Dispatched within 24hrs
+              Prices from R50 · Free delivery over R500 · Dispatched within 24hrs
             </p>
           </div>
 
