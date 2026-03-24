@@ -1,20 +1,47 @@
 import { useState, useEffect } from "react";
 import { AlertTriangle, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const AGE_KEY = "tripplefour_age_verified";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
+import { AGE_TOKEN_KEY, AGE_VERIFIED_KEY, hasUnexpiredAgeToken } from "@/lib/age-verification";
 
 export default function AgeVerification() {
   const [show, setShow] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    const verified = localStorage.getItem(AGE_KEY);
-    if (!verified) setShow(true);
+    const verified = localStorage.getItem(AGE_VERIFIED_KEY) === "true";
+    const token = localStorage.getItem(AGE_TOKEN_KEY);
+
+    if (!verified || !hasUnexpiredAgeToken(token)) {
+      setShow(true);
+    }
   }, []);
 
-  const handleConfirm = () => {
-    localStorage.setItem(AGE_KEY, "true");
-    setShow(false);
+  const handleConfirm = async () => {
+    setSubmitting(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("issue-age-token", {
+        body: {},
+      });
+
+      if (error || !data?.token) {
+        throw new Error("Failed to verify age");
+      }
+
+      localStorage.setItem(AGE_VERIFIED_KEY, "true");
+      localStorage.setItem(AGE_TOKEN_KEY, data.token);
+      setShow(false);
+    } catch (error) {
+      console.error("Age verification error:", error);
+      toast({
+        title: "Verification failed",
+        description: "Please try again to continue.",
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleDecline = () => {
@@ -48,11 +75,11 @@ export default function AgeVerification() {
         </div>
 
         <div className="mt-6 flex gap-3">
-          <Button variant="outline" className="flex-1" onClick={handleDecline}>
-            I'm Under 21
+          <Button variant="outline" className="flex-1" onClick={handleDecline} disabled={submitting}>
+            I&apos;m Under 21
           </Button>
-          <Button className="flex-1" onClick={handleConfirm}>
-            I'm 21 or Older
+          <Button className="flex-1" onClick={handleConfirm} disabled={submitting}>
+            {submitting ? "Verifying..." : "I&apos;m 21 or Older"}
           </Button>
         </div>
 

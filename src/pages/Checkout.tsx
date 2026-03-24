@@ -9,6 +9,7 @@ import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { CheckCircle, Clock, Truck, AlertTriangle, Tag, Loader2, Shield } from "lucide-react";
 import { Analytics } from "@/lib/analytics";
+import { AGE_TOKEN_KEY } from "@/lib/age-verification";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -50,7 +51,9 @@ export default function Checkout() {
   const [promoError, setPromoError] = useState("");
   const [serverTotal, setServerTotal] = useState<number | null>(null);
   const [serverDiscount, setServerDiscount] = useState(0);
+  const [serverDeliveryFee, setServerDeliveryFee] = useState<number | null>(null);
   const [deliveryZoneName, setDeliveryZoneName] = useState("");
+  const [statusToken, setStatusToken] = useState("");
 
   const discountAmount = Math.round(totalPrice * (promoDiscount / 100));
   const deliveryFee = selectedZone?.fee ?? 0;
@@ -72,20 +75,23 @@ export default function Checkout() {
       });
   }, []);
 
-  // Poll for payment confirmation instead of realtime (since SELECT is now restricted)
+  // Poll payment status through token-protected edge function
   useEffect(() => {
-    if (!orderId || !orderRef || step !== "awaiting-payment") return;
+    if (!orderId || !orderRef || !statusToken || step !== "awaiting-payment") return;
 
     const interval = setInterval(async () => {
       try {
-        const { data, error } = await supabase.rpc("get_order_by_ref", { p_order_ref: orderRef });
-        if (!error && data && data.length > 0) {
-          const order = data[0];
-          if (order.payment_status === "confirmed") {
-            setStep("confirmed");
-            clearCart();
-            Analytics.purchase(orderRef, serverTotal || grandTotal);
-          }
+        const { data, error } = await supabase.functions.invoke("get-order-status", {
+          body: {
+            order_ref: orderRef,
+            status_token: statusToken,
+          },
+        });
+
+        if (!error && data?.payment_status === "confirmed") {
+          setStep("confirmed");
+          clearCart();
+          Analytics.purchase(orderRef, serverTotal || grandTotal);
         }
       } catch (e) {
         console.error("Poll error:", e);
@@ -93,7 +99,7 @@ export default function Checkout() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [orderId, orderRef, step, clearCart]);
+  }, [orderId, orderRef, statusToken, step, clearCart, serverTotal, grandTotal]);
 
   if (items.length === 0 && step === "details") {
     navigate("/cart");
@@ -168,6 +174,16 @@ export default function Checkout() {
       return;
     }
 
+    const ageToken = localStorage.getItem(AGE_TOKEN_KEY);
+    if (!ageToken) {
+      toast({
+        title: "Age verification required",
+        description: "Please complete age verification before placing an order.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setSubmitting(true);
 
     const orderItems = items.map((i) => ({
@@ -177,7 +193,7 @@ export default function Checkout() {
     }));
 
     try {
-      // Create order via server-side edge function (prices calculated server-side)
+      // Create order via server-side edge function (prices + age token validated server-side)
       const { data: result, error } = await supabase.functions.invoke("create-order", {
         body: {
           customer_name: name,
@@ -187,6 +203,7 @@ export default function Checkout() {
           delivery_zone_id: selectedZone.id,
           items: orderItems,
           promo_code: promoApplied ? promoCode.trim() : undefined,
+          age_token: ageToken,
         },
       });
 
@@ -200,29 +217,12 @@ export default function Checkout() {
       setOrderRef(result.order_ref);
       setServerTotal(result.total);
       setServerDiscount(result.discount || 0);
+      setServerDeliveryFee(result.delivery_fee ?? null);
       setDeliveryZoneName(result.delivery_zone_name || selectedZone.zone_name);
+      setStatusToken(result.status_token || "");
       setStep("awaiting-payment");
       setSubmitting(false);
       Analytics.beginCheckout(result.total);
-
-      // Send order confirmation email (fire-and-forget)
-      supabase.functions.invoke("send-transactional-email", {
-        body: {
-          templateName: "order-confirmation",
-          recipientEmail: email,
-          idempotencyKey: `order-confirm-${result.id}`,
-          templateData: {
-            customerName: name,
-            orderRef: result.order_ref,
-            items: orderItems.map((i) => ({ ...i, price: items.find((ci) => ci.product.id === i.id)?.product.price || 0 })),
-            subtotal: result.subtotal,
-            discount: result.discount || 0,
-            deliveryFee: result.delivery_fee,
-            total: result.total,
-            deliveryZone: result.delivery_zone_name || selectedZone.zone_name,
-          },
-        },
-      }).catch((err) => console.error("Email send failed:", err));
     } catch (err) {
       console.error("Order submission error:", err);
       toast({ title: "Error", description: "Failed to place order. Please try again.", variant: "destructive" });
@@ -232,7 +232,7 @@ export default function Checkout() {
 
   const displayTotal = serverTotal ?? grandTotal;
   const displayDiscount = serverTotal ? serverDiscount : discountAmount;
-  const displayDeliveryFee = serverTotal ? (displayTotal - (totalPrice - displayDiscount)) : deliveryFee;
+  const displayDeliveryFee = serverDeliveryFee ?? deliveryFee;
 
   // Step: Payment confirmed
   if (step === "confirmed") {
@@ -317,7 +317,7 @@ export default function Checkout() {
                     <span>-R{displayDiscount.toLocaleString()}</span>
                   </div>
                 )}
-                <div className="flex justify-between"><span className="text-muted-foreground">Delivery ({deliveryZoneName || selectedZone?.zone_name})</span><span>R{deliveryFee.toLocaleString()}</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Delivery ({deliveryZoneName || selectedZone?.zone_name})</span><span>R{displayDeliveryFee.toLocaleString()}</span></div>
                 <Separator className="my-2" />
                 <div className="flex justify-between font-bold text-base"><span>Total to Pay</span><span className="text-primary">R{displayTotal.toLocaleString()}</span></div>
               </div>
