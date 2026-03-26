@@ -69,7 +69,7 @@ const Index = () => {
         <div className="bg-primary text-primary-foreground py-2 overflow-hidden">
           <div className="flex items-center justify-center gap-2 text-sm font-semibold animate-pulse">
             <Flame className="h-4 w-4" />
-            <span>🔥 Order now — same-day dispatch before 2PM! Free delivery over R500</span>
+            <span>🔥 Buy now — same-day dispatch before 2PM! Free delivery over R500 🛒</span>
             <Flame className="h-4 w-4" />
           </div>
         </div>
