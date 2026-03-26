@@ -82,8 +82,9 @@ export default function ProductDetail() {
 
             <div className="flex flex-col justify-center">
               <p className="text-sm font-medium text-muted-foreground">{product.category}</p>
-              <h1 className="mt-1 font-display text-3xl font-bold">Buy {product.name}</h1>
-              <p className="mt-3 text-muted-foreground">{product.description} Order online for fast delivery across South Africa.</p>
+              <h1 className="mt-1 font-display text-3xl font-bold">Buy {product.name} Online</h1>
+              <p className="mt-3 text-muted-foreground">{product.description}</p>
+              <p className="mt-1 text-sm text-primary font-medium">✅ In stock — order now for fast delivery across South Africa</p>
 
               {!product.comingSoon && (
                 <div className="mt-3">
