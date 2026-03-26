@@ -112,9 +112,10 @@ export default function ProductDetail() {
                       <ShoppingCart className="h-5 w-5" /> Add to Cart
                     </Button>
                   </div>
-                  <Button size="lg" variant="secondary" className="mt-3 w-full gap-2 font-semibold" onClick={handleBuyNow}>
-                    <Zap className="h-5 w-5" /> Buy Now — R{(product.price * qty).toLocaleString()}
+                  <Button size="lg" className="mt-3 w-full gap-2 font-semibold groovy-gradient text-white hover:opacity-90 border-0" onClick={handleBuyNow}>
+                    <Zap className="h-5 w-5" /> Purchase Now — R{(product.price * qty).toLocaleString()}
                   </Button>
+                  <p className="mt-2 text-xs text-muted-foreground text-center">🚚 Free delivery on orders over R500 · Pay by EFT or Cash</p>
                 </>
               )}
 

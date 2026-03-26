@@ -103,7 +103,7 @@ const Index = () => {
               Buy Cannabis Online<br />Delivered Across SA
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-lg opacity-95 drop-shadow-md md:text-xl text-white/90">
-              Strains from R255 · Pre-rolls from R50 · Edibles from R60 — order now, delivered in 1–3 days.
+              Purchase strains from R255 · Pre-rolls from R50 · Edibles from R60 — buy now, delivered in 1–3 days.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <Button

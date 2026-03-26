@@ -49,10 +49,13 @@ export default function ProductCard({ product }: Props) {
             </div>
           )}
         </div>
-        <CardContent className="p-4">
+        <CardContent className="p-3 sm:p-4">
           <p className="text-xs font-medium text-muted-foreground">{product.category}</p>
-          <h3 className="mt-1 font-display text-base font-semibold leading-tight">{product.name}</h3>
-          <div className="mt-3 flex items-center justify-between">
+          <h3 className="mt-1 font-display text-sm sm:text-base font-semibold leading-tight line-clamp-2">{product.name}</h3>
+          {!product.comingSoon && (
+            <p className="mt-1 text-[10px] text-primary/80 font-medium animate-pulse">🔥 Selling fast — order now</p>
+          )}
+          <div className="mt-2 flex items-center justify-between">
             <span className="text-lg font-bold text-primary">
               {product.comingSoon ? "TBA" : `R${product.price.toLocaleString()}`}
             </span>
@@ -68,10 +71,10 @@ export default function ProductCard({ product }: Props) {
               size="sm"
               variant="secondary"
               onClick={handleBuyNow}
-              className="mt-2 w-full gap-1 rounded-full text-xs font-semibold"
+              className="mt-2 w-full gap-1 rounded-full text-xs font-semibold bg-primary/10 hover:bg-primary/20 text-primary"
             >
               <Zap className="h-3.5 w-3.5" />
-              Buy Now
+              Buy Now — R{product.price.toLocaleString()}
             </Button>
           )}
         </CardContent>
