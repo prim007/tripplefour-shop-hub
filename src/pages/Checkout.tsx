@@ -44,6 +44,7 @@ export default function Checkout() {
   const [orderId, setOrderId] = useState<string | null>(null);
   const [orderRef, setOrderRef] = useState<string>("");
   const [submitting, setSubmitting] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<"payfast" | "eft">("payfast");
   const [promoCode, setPromoCode] = useState("");
   const [promoDiscount, setPromoDiscount] = useState(0);
   const [promoApplied, setPromoApplied] = useState(false);
