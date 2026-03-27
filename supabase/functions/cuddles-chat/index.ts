@@ -79,9 +79,9 @@ Deno.serve(async (req) => {
 - Ordering info (delivery fees R50-R100, orders processed within 24 hours of payment)
 - Payment info (immediate EFT payment required)
 - General cannabis wellness questions
-- WhatsApp contact: wa.me/27645436734
+- Website: tripplefourshophub.online — direct customers here to browse and order
 
-Keep answers concise and friendly. Use peace signs ✌️ and leaf emojis 🌿 occasionally. If someone asks about something you don't know, suggest they WhatsApp the team. Never give medical advice — suggest consulting a doctor for health concerns.`
+Keep answers concise and friendly. Use peace signs ✌️ and leaf emojis 🌿 occasionally. If someone asks about something you don't know, suggest they visit tripplefourshophub.online for more info. Never give medical advice — suggest consulting a doctor for health concerns.`
           },
           ...sanitizedMessages,
         ],
