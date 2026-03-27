@@ -9,10 +9,11 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cuddles-chat
 type Msg = { role: "user" | "assistant"; content: string };
 
 const PROMPT_STARTERS = [
-  "🌙 I need something to help me sleep tonight",
-  "🎉 Best strain for a chill weekend vibe?",
-  "🍪 I'm new — what edible should I try first?",
-  "🚚 Can you deliver to my area?",
+  "🌙 Find a strain for deep sleep and relaxation",
+  "🎉 Suggest an uplifting sativa for a social night out",
+  "🌱 First time trying cannabis? Walk me through the basics",
+  "💪 Show me high-CBD options for muscle recovery without the heavy high",
+  "🔥 What are the trending exotic terpene profiles right now?",
 ];
 
 interface CuddlesChatbotProps {
