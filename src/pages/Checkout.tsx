@@ -32,7 +32,7 @@ interface DeliveryZone {
   fee: number;
 }
 
-type CheckoutStep = "details" | "awaiting-payment" | "confirmed";
+type CheckoutStep = "details" | "awaiting-payment" | "redirecting-payfast" | "confirmed";
 
 export default function Checkout() {
   const { items, totalPrice, clearCart } = useCart();
@@ -44,6 +44,7 @@ export default function Checkout() {
   const [orderId, setOrderId] = useState<string | null>(null);
   const [orderRef, setOrderRef] = useState<string>("");
   const [submitting, setSubmitting] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<"payfast" | "eft">("payfast");
   const [promoCode, setPromoCode] = useState("");
   const [promoDiscount, setPromoDiscount] = useState(0);
   const [promoApplied, setPromoApplied] = useState(false);
@@ -220,9 +221,47 @@ export default function Checkout() {
       setServerDeliveryFee(result.delivery_fee ?? null);
       setDeliveryZoneName(result.delivery_zone_name || selectedZone.zone_name);
       setStatusToken(result.status_token || "");
+      Analytics.beginCheckout(result.total);
+
+      if (paymentMethod === "payfast") {
+        // Redirect to Payfast
+        setStep("redirecting-payfast");
+        try {
+          const { data: pfData, error: pfError } = await supabase.functions.invoke("payfast-payment", {
+            body: { order_id: result.id },
+          });
+
+          if (pfError || !pfData?.payfast_url) {
+            toast({ title: "Payment error", description: "Failed to initiate payment. Please try EFT instead.", variant: "destructive" });
+            setStep("awaiting-payment");
+            setSubmitting(false);
+            return;
+          }
+
+          // Create and submit a form to Payfast
+          const form = document.createElement("form");
+          form.method = "POST";
+          form.action = pfData.payfast_url;
+          for (const [key, value] of Object.entries(pfData.payfast_data)) {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = key;
+            input.value = value as string;
+            form.appendChild(input);
+          }
+          document.body.appendChild(form);
+          form.submit();
+          return;
+        } catch {
+          toast({ title: "Payment error", description: "Failed to redirect to payment. Falling back to EFT.", variant: "destructive" });
+          setStep("awaiting-payment");
+          setSubmitting(false);
+          return;
+        }
+      }
+
       setStep("awaiting-payment");
       setSubmitting(false);
-      Analytics.beginCheckout(result.total);
     } catch (err) {
       console.error("Order submission error:", err);
       toast({ title: "Error", description: "Failed to place order. Please try again.", variant: "destructive" });
@@ -233,6 +272,25 @@ export default function Checkout() {
   const displayTotal = serverTotal ?? grandTotal;
   const displayDiscount = serverTotal ? serverDiscount : discountAmount;
   const displayDeliveryFee = serverDeliveryFee ?? deliveryFee;
+
+  // Step: Redirecting to Payfast
+  if (step === "redirecting-payfast") {
+    return (
+      <div className="flex min-h-screen flex-col">
+        <Navbar />
+        <main className="flex flex-1 items-center justify-center px-4 py-16">
+          <div className="mx-auto max-w-lg text-center space-y-6">
+            <Loader2 className="mx-auto h-16 w-16 text-primary animate-spin" />
+            <h1 className="font-display text-3xl font-bold">Redirecting to Payment...</h1>
+            <p className="text-muted-foreground">
+              You're being redirected to Payfast to complete your payment securely.
+            </p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   // Step: Payment confirmed
   if (step === "confirmed") {
@@ -400,6 +458,37 @@ export default function Checkout() {
                     <p className="mt-1 font-bold text-primary">R{zone.fee}</p>
                   </button>
                 ))}
+              </div>
+
+              <Separator />
+
+              {/* Payment Method */}
+              <div className="space-y-3">
+                <h2 className="font-display text-lg font-semibold flex items-center gap-2">
+                  <Shield className="h-5 w-5" /> Payment Method
+                </h2>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod("payfast")}
+                    className={`rounded-xl border-2 p-4 text-left transition-colors ${
+                      paymentMethod === "payfast" ? "border-primary bg-primary/5" : "border-border"
+                    }`}
+                  >
+                    <p className="font-semibold">💳 Payfast</p>
+                    <p className="text-xs text-muted-foreground">Card, EFT, SnapScan, Mobicred</p>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod("eft")}
+                    className={`rounded-xl border-2 p-4 text-left transition-colors ${
+                      paymentMethod === "eft" ? "border-primary bg-primary/5" : "border-border"
+                    }`}
+                  >
+                    <p className="font-semibold">🏦 Manual EFT</p>
+                    <p className="text-xs text-muted-foreground">Direct bank transfer to FNB</p>
+                  </button>
+                </div>
               </div>
 
               <Separator />
