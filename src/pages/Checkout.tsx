@@ -32,7 +32,7 @@ interface DeliveryZone {
   fee: number;
 }
 
-type CheckoutStep = "details" | "awaiting-payment" | "confirmed";
+type CheckoutStep = "details" | "awaiting-payment" | "redirecting-payfast" | "confirmed";
 
 export default function Checkout() {
   const { items, totalPrice, clearCart } = useCart();
