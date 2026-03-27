@@ -33,7 +33,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <AgeVerification />
-        <CuddlesChatbot />
+        
         <BrowserRouter>
         <CartDrawer />
           <Routes>
