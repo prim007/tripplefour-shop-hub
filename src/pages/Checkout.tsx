@@ -221,9 +221,47 @@ export default function Checkout() {
       setServerDeliveryFee(result.delivery_fee ?? null);
       setDeliveryZoneName(result.delivery_zone_name || selectedZone.zone_name);
       setStatusToken(result.status_token || "");
+      Analytics.beginCheckout(result.total);
+
+      if (paymentMethod === "payfast") {
+        // Redirect to Payfast
+        setStep("redirecting-payfast");
+        try {
+          const { data: pfData, error: pfError } = await supabase.functions.invoke("payfast-payment", {
+            body: { order_id: result.id },
+          });
+
+          if (pfError || !pfData?.payfast_url) {
+            toast({ title: "Payment error", description: "Failed to initiate payment. Please try EFT instead.", variant: "destructive" });
+            setStep("awaiting-payment");
+            setSubmitting(false);
+            return;
+          }
+
+          // Create and submit a form to Payfast
+          const form = document.createElement("form");
+          form.method = "POST";
+          form.action = pfData.payfast_url;
+          for (const [key, value] of Object.entries(pfData.payfast_data)) {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = key;
+            input.value = value as string;
+            form.appendChild(input);
+          }
+          document.body.appendChild(form);
+          form.submit();
+          return;
+        } catch {
+          toast({ title: "Payment error", description: "Failed to redirect to payment. Falling back to EFT.", variant: "destructive" });
+          setStep("awaiting-payment");
+          setSubmitting(false);
+          return;
+        }
+      }
+
       setStep("awaiting-payment");
       setSubmitting(false);
-      Analytics.beginCheckout(result.total);
     } catch (err) {
       console.error("Order submission error:", err);
       toast({ title: "Error", description: "Failed to place order. Please try again.", variant: "destructive" });
