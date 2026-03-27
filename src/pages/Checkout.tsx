@@ -462,6 +462,37 @@ export default function Checkout() {
 
               <Separator />
 
+              {/* Payment Method */}
+              <div className="space-y-3">
+                <h2 className="font-display text-lg font-semibold flex items-center gap-2">
+                  <Shield className="h-5 w-5" /> Payment Method
+                </h2>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod("payfast")}
+                    className={`rounded-xl border-2 p-4 text-left transition-colors ${
+                      paymentMethod === "payfast" ? "border-primary bg-primary/5" : "border-border"
+                    }`}
+                  >
+                    <p className="font-semibold">💳 Payfast</p>
+                    <p className="text-xs text-muted-foreground">Card, EFT, SnapScan, Mobicred</p>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod("eft")}
+                    className={`rounded-xl border-2 p-4 text-left transition-colors ${
+                      paymentMethod === "eft" ? "border-primary bg-primary/5" : "border-border"
+                    }`}
+                  >
+                    <p className="font-semibold">🏦 Manual EFT</p>
+                    <p className="text-xs text-muted-foreground">Direct bank transfer to FNB</p>
+                  </button>
+                </div>
+              </div>
+
+              <Separator />
+
               {/* Promo Code Section */}
               <div className="space-y-3">
                 <h2 className="font-display text-lg font-semibold flex items-center gap-2">
