@@ -273,6 +273,25 @@ export default function Checkout() {
   const displayDiscount = serverTotal ? serverDiscount : discountAmount;
   const displayDeliveryFee = serverDeliveryFee ?? deliveryFee;
 
+  // Step: Redirecting to Payfast
+  if (step === "redirecting-payfast") {
+    return (
+      <div className="flex min-h-screen flex-col">
+        <Navbar />
+        <main className="flex flex-1 items-center justify-center px-4 py-16">
+          <div className="mx-auto max-w-lg text-center space-y-6">
+            <Loader2 className="mx-auto h-16 w-16 text-primary animate-spin" />
+            <h1 className="font-display text-3xl font-bold">Redirecting to Payment...</h1>
+            <p className="text-muted-foreground">
+              You're being redirected to Payfast to complete your payment securely.
+            </p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   // Step: Payment confirmed
   if (step === "confirmed") {
     return (
