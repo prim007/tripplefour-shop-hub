@@ -23,3 +23,7 @@ project_id = "yytjfmadcreajcrkjsrk"
     verify_jwt = false
   [functions.admin-orders]
     verify_jwt = false
+  [functions.payfast-payment]
+    verify_jwt = false
+  [functions.payfast-itn]
+    verify_jwt = false
