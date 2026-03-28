@@ -11,11 +11,12 @@ const encoder = new TextEncoder();
 const PRODUCT_PRICES: Record<string, number> = {
   "pr-4gh": 165, "pr-1in": 90, "pr-1gh": 75, "pr-out": 50,
   "sb-out5": 80, "sb-swazi": 60,
-  "ghd-50": 945, "ghd-20": 595, "ghd-10": 445, "ghd-5": 325, "ghd-2": 255,
   "ghs-50": 1085, "ghs-20": 735, "ghs-2": 260,
   "ind-10": 500, "ind-2": 315, "ind-1": 255,
   "ed-cube40": 60, "ed-soda": 60,
-  "vp-pen": 550, "vp-disp": 320,
+  "vp-disp": 290,
+  "vp-lz-toffee": 370, "vp-lz-cherry": 370, "vp-lz-peach": 370,
+  "vp-lz-blueberry": 370, "vp-lz-greenapple": 370, "vp-lz-oil": 370,
   "dab-1": 350,
   "ot-moon": 125,
 };

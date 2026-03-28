@@ -30,7 +30,11 @@ const banners = [
   { src: banner4, alt: "Cannabis wellness tinctures and oils" },
 ];
 
-const bestSellers = products.filter((p) => !p.comingSoon).slice(0, 8);
+const vapeIds = ["vp-disp", "vp-lz-toffee", "vp-lz-cherry", "vp-lz-peach", "vp-lz-blueberry", "vp-lz-greenapple", "vp-lz-oil"];
+const bestSellers = [
+  ...products.filter((p) => vapeIds.includes(p.id)),
+  ...products.filter((p) => !p.comingSoon && !vapeIds.includes(p.id)).slice(0, 1),
+].slice(0, 8);
 const budgetPicks = products.filter((p) => !p.comingSoon && p.price <= 100).slice(0, 4);
 
 const FAQ_ITEMS = [
