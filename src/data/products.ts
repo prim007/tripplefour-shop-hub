@@ -11,6 +11,7 @@ import liquidZolCherryImg from "@/assets/products/liquid-zol-cherry-heat.png";
 import liquidZolPeachImg from "@/assets/products/liquid-zol-peach.png";
 import liquidZolBlueberryImg from "@/assets/products/liquid-zol-blueberry.png";
 import liquidZolGreenAppleImg from "@/assets/products/liquid-zol-green-apple.png";
+import liquidZolOilImg from "@/assets/products/liquid-zol-concentrated-oil.jpeg";
 
 export type ProductCategory =
   | "Pre-rolls"
