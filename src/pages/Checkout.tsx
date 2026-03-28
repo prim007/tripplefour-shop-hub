@@ -104,6 +104,27 @@ export default function Checkout() {
     return () => clearInterval(interval);
   }, [orderId, orderRef, statusToken, step, clearCart, serverTotal, grandTotal]);
 
+  // Redirect to auth if not logged in
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate("/auth?redirect=/checkout", { replace: true });
+    }
+  }, [authLoading, user, navigate]);
+
+  if (authLoading) {
+    return (
+      <div className="flex min-h-screen flex-col">
+        <Navbar />
+        <main className="flex flex-1 items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!user) return null;
+
   if (items.length === 0 && step === "details") {
     navigate("/cart");
     return null;
