@@ -7,6 +7,7 @@ import edibleCubeImg from "@/assets/products/edible-cube.jpg";
 import vapesImg from "@/assets/products/vapes.jpg";
 import otherImg from "@/assets/products/other.jpg";
 import vapePen1mlImg from "@/assets/products/vape-pen-1ml.png";
+import dispJuice10mlImg from "@/assets/products/disposable-juice-10ml.jpeg";
 import liquidZolToffeeImg from "@/assets/products/liquid-zol-toffee-popcorn.png";
 import liquidZolCherryImg from "@/assets/products/liquid-zol-cherry-heat.png";
 import liquidZolPeachImg from "@/assets/products/liquid-zol-peach.png";
