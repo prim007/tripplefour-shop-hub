@@ -93,7 +93,7 @@ export const products: Product[] = [
   // Other
   { id: "ot-moon", name: "Moon Sticks", category: "Other", price: 125, description: "Premium moon sticks for an elevated experience.", image: categoryImages["Pre-rolls"] },
   { id: "ot-gold", name: "Premium Gold Box", category: "Other", price: 0, description: "Our premium gold box collection. Coming soon!", image: categoryImages["Other"], comingSoon: true },
-  { id: "ot-papers", name: "Weedness Papers Pack", category: "Other", price: 1, description: "Test product — Weedness rolling papers pack.", image: weednessPapersImg },
+  
 ];
 
 export function getProductById(id: string): Product | undefined {
