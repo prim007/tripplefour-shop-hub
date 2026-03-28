@@ -7,6 +7,7 @@ import edibleCubeImg from "@/assets/products/edible-cube.jpg";
 import vapesImg from "@/assets/products/vapes.jpg";
 import otherImg from "@/assets/products/other.jpg";
 import vapePen1mlImg from "@/assets/products/vape-pen-1ml.png";
+import dispJuice10mlImg from "@/assets/products/disposable-juice-10ml.jpeg";
 import liquidZolToffeeImg from "@/assets/products/liquid-zol-toffee-popcorn.png";
 import liquidZolCherryImg from "@/assets/products/liquid-zol-cherry-heat.png";
 import liquidZolPeachImg from "@/assets/products/liquid-zol-peach.png";
@@ -89,7 +90,7 @@ export const products: Product[] = [
 
   // Vapes
   { id: "vp-pen", name: "Vape Pen 1ml 91% THC", category: "Vapes", price: 550, description: "1ml vape pen cartridge with 91% THC concentration.", image: vapePen1mlImg },
-  { id: "vp-disp", name: "Disposable Juice 10ml", category: "Vapes", price: 320, description: "10ml disposable vape juice.", image: categoryImages["Vapes"] },
+  { id: "vp-disp", name: "Disposable Juice 10ml", category: "Vapes", price: 290, description: "10ml disposable vape juice.", image: dispJuice10mlImg },
   { id: "vp-lz-toffee", name: "Liquid Zol Toffee Popcorn", category: "Vapes", price: 370, description: "Disposable THC vape — Toffee Popcorn flavour. Caramel revolution with rich taste and big vapor.", image: liquidZolToffeeImg },
   { id: "vp-lz-cherry", name: "Liquid Zol Cherry Heat", category: "Vapes", price: 370, description: "Disposable THC vape — Cherry Heat Ignition. Premium edition with rich taste and big vapor.", image: liquidZolCherryImg },
   { id: "vp-lz-peach", name: "Liquid Zol Peach", category: "Vapes", price: 370, description: "Disposable THC vape — Peach Revolution. Premium edition with rich taste and big vapor.", image: liquidZolPeachImg },
