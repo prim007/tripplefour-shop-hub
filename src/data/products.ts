@@ -12,7 +12,7 @@ import liquidZolPeachImg from "@/assets/products/liquid-zol-peach.png";
 import liquidZolBlueberryImg from "@/assets/products/liquid-zol-blueberry.png";
 import liquidZolGreenAppleImg from "@/assets/products/liquid-zol-green-apple.png";
 import liquidZolOilImg from "@/assets/products/liquid-zol-concentrated-oil.jpeg";
-import weednessPapersImg from "@/assets/products/weedness-papers.webp";
+
 
 export type ProductCategory =
   | "Pre-rolls"
@@ -93,7 +93,7 @@ export const products: Product[] = [
   // Other
   { id: "ot-moon", name: "Moon Sticks", category: "Other", price: 125, description: "Premium moon sticks for an elevated experience.", image: categoryImages["Pre-rolls"] },
   { id: "ot-gold", name: "Premium Gold Box", category: "Other", price: 0, description: "Our premium gold box collection. Coming soon!", image: categoryImages["Other"], comingSoon: true },
-  { id: "ot-papers", name: "Weedness Papers Pack", category: "Other", price: 1, description: "Test product — Weedness rolling papers pack.", image: weednessPapersImg },
+  
 ];
 
 export function getProductById(id: string): Product | undefined {
