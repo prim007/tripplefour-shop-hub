@@ -62,13 +62,6 @@ export const products: Product[] = [
   { id: "sb-out5", name: "Small Banky Bag Outdoor 5G", category: "Other", price: 80, description: "Small banky bag with 5 grams of outdoor.", image: categoryImages["Other"] },
   { id: "sb-swazi", name: "Small Banky Bag Swazi", category: "Other", price: 60, description: "Small banky bag of Swazi.", image: categoryImages["Other"] },
 
-  // Greenhouse Dust
-  { id: "ghd-50", name: "Greenhouse Dust 50G", category: "Greenhouse Dust", price: 945, description: "Premium greenhouse dust, 50 gram pack. Quality blend for the connoisseur.", image: categoryImages["Greenhouse Dust"] },
-  { id: "ghd-20", name: "Greenhouse Dust 20G", category: "Greenhouse Dust", price: 595, description: "Premium greenhouse dust, 20 gram pack.", image: categoryImages["Greenhouse Dust"] },
-  { id: "ghd-10", name: "Greenhouse Dust 10G", category: "Greenhouse Dust", price: 445, description: "Premium greenhouse dust, 10 gram pack.", image: categoryImages["Greenhouse Dust"] },
-  { id: "ghd-5", name: "Greenhouse Dust 5G", category: "Greenhouse Dust", price: 325, description: "Premium greenhouse dust, 5 gram pack.", image: categoryImages["Greenhouse Dust"] },
-  { id: "ghd-2", name: "Greenhouse Dust 2G", category: "Greenhouse Dust", price: 255, description: "Premium greenhouse dust, 2 gram pack. Perfect starter size.", image: categoryImages["Greenhouse Dust"] },
-
   // Greenhouse Strains
   { id: "ghs-50", name: "Greenhouse Strains 50G", category: "Greenhouse Strains", price: 1085, description: "Top-shelf greenhouse strains, 50 gram pack.", image: categoryImages["Greenhouse Strains"] },
   { id: "ghs-20", name: "Greenhouse Strains 20G", category: "Greenhouse Strains", price: 735, description: "Top-shelf greenhouse strains, 20 gram pack.", image: categoryImages["Greenhouse Strains"] },
@@ -84,7 +77,6 @@ export const products: Product[] = [
   { id: "ed-soda", name: "Sodaze Cannabis Soda", category: "Edibles", price: 60, description: "Flavored cannabis-infused soda by Sodaze.", image: categoryImages["Edibles"] },
 
   // Vapes
-  { id: "vp-pen", name: "Vape Pen 1ml 91% THC", category: "Vapes", price: 550, description: "1ml vape pen cartridge with 91% THC concentration.", image: vapePen1mlImg },
   { id: "vp-disp", name: "Disposable Juice 10ml", category: "Vapes", price: 290, description: "10ml disposable vape juice.", image: dispJuice10mlImg },
   { id: "vp-lz-toffee", name: "Liquid Zol Toffee Popcorn", category: "Vapes", price: 370, description: "Disposable THC vape — Toffee Popcorn flavour. Caramel revolution with rich taste and big vapor.", image: liquidZolToffeeImg },
   { id: "vp-lz-cherry", name: "Liquid Zol Cherry Heat", category: "Vapes", price: 370, description: "Disposable THC vape — Cherry Heat Ignition. Premium edition with rich taste and big vapor.", image: liquidZolCherryImg },
