@@ -62,7 +62,14 @@ export default function Checkout() {
   const deliveryFee = selectedZone?.fee ?? 0;
   const grandTotal = totalPrice - discountAmount + deliveryFee;
 
-  // Fetch delivery zones & auto-select cheapest
+  // Pre-fill email from auth
+  useEffect(() => {
+    if (user?.email && !form.email) {
+      setForm((prev) => ({ ...prev, email: user.email! }));
+    }
+  }, [user]);
+
+
   useEffect(() => {
     supabase
       .from("delivery_zones")
