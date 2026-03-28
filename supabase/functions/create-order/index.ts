@@ -16,7 +16,7 @@ const PRODUCT_PRICES: Record<string, number> = {
   "ed-cube40": 60, "ed-soda": 60,
   "vp-disp": 290,
   "vp-lz-toffee": 370, "vp-lz-cherry": 370, "vp-lz-peach": 370,
-  "vp-lz-blueberry": 370, "vp-lz-greenapple": 370, "vp-lz-oil": 370,
+  "vp-lz-blueberry": 370, "vp-lz-greenapple": 370, "vp-lz-oil": 290,
   "dab-1": 350,
   "ot-moon": 125,
 };

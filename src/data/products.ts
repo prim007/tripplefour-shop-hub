@@ -84,7 +84,7 @@ export const products: Product[] = [
   { id: "vp-lz-peach", name: "Liquid Zol Peach", category: "Vapes", price: 370, description: "Disposable THC vape — Peach Revolution. Premium edition with rich taste and big vapor.", image: liquidZolPeachImg },
   { id: "vp-lz-blueberry", name: "Liquid Zol Blueberry", category: "Vapes", price: 370, description: "Disposable THC vape — Neon Blueberry Smash. Premium edition with rich taste and big vapor.", image: liquidZolBlueberryImg },
   { id: "vp-lz-greenapple", name: "Liquid Zol Green Apple", category: "Vapes", price: 370, description: "Disposable THC vape — Green Apple Fury. Flavour explosion with rich taste and big vapor.", image: liquidZolGreenAppleImg },
-  { id: "vp-lz-oil", name: "Liquid Zol Concentrated Oil", category: "Vapes", price: 370, description: "Concentrated THC oil for vaping. Premium quality extract.", image: categoryImages["Vapes"] },
+  { id: "vp-lz-oil", name: "Liquid Zol Concentrated Oil", category: "Vapes", price: 290, description: "Concentrated THC oil for vaping. Premium quality extract.", image: liquidZolOilImg },
 
   // Dab
   { id: "dab-1", name: "Dab Concentrate", category: "Dab", price: 350, description: "Premium cannabis dab concentrate.", image: categoryImages["Dab"] },
