@@ -37,6 +37,7 @@ type CheckoutStep = "details" | "awaiting-payment" | "redirecting-payfast" | "co
 
 export default function Checkout() {
   const { items, totalPrice, clearCart } = useCart();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ name: "", email: "", phone: "", address: "" });
   const [zones, setZones] = useState<DeliveryZone[]>([]);
