@@ -6,6 +6,11 @@ import ediblesImg from "@/assets/products/edibles.jpg";
 import edibleCubeImg from "@/assets/products/edible-cube.jpg";
 import vapesImg from "@/assets/products/vapes.jpg";
 import otherImg from "@/assets/products/other.jpg";
+import liquidZolToffeeImg from "@/assets/products/liquid-zol-toffee-popcorn.png";
+import liquidZolCherryImg from "@/assets/products/liquid-zol-cherry-heat.png";
+import liquidZolPeachImg from "@/assets/products/liquid-zol-peach.png";
+import liquidZolBlueberryImg from "@/assets/products/liquid-zol-blueberry.png";
+import liquidZolGreenAppleImg from "@/assets/products/liquid-zol-green-apple.png";
 
 export type ProductCategory =
   | "Pre-rolls"
