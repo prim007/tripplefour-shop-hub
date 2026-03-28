@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -36,6 +37,7 @@ type CheckoutStep = "details" | "awaiting-payment" | "redirecting-payfast" | "co
 
 export default function Checkout() {
   const { items, totalPrice, clearCart } = useCart();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ name: "", email: "", phone: "", address: "" });
   const [zones, setZones] = useState<DeliveryZone[]>([]);
@@ -60,7 +62,14 @@ export default function Checkout() {
   const deliveryFee = selectedZone?.fee ?? 0;
   const grandTotal = totalPrice - discountAmount + deliveryFee;
 
-  // Fetch delivery zones & auto-select cheapest
+  // Pre-fill email from auth
+  useEffect(() => {
+    if (user?.email && !form.email) {
+      setForm((prev) => ({ ...prev, email: user.email! }));
+    }
+  }, [user]);
+
+
   useEffect(() => {
     supabase
       .from("delivery_zones")
@@ -101,6 +110,27 @@ export default function Checkout() {
 
     return () => clearInterval(interval);
   }, [orderId, orderRef, statusToken, step, clearCart, serverTotal, grandTotal]);
+
+  // Redirect to auth if not logged in
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate("/auth?redirect=/checkout", { replace: true });
+    }
+  }, [authLoading, user, navigate]);
+
+  if (authLoading) {
+    return (
+      <div className="flex min-h-screen flex-col">
+        <Navbar />
+        <main className="flex flex-1 items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!user) return null;
 
   if (items.length === 0 && step === "details") {
     navigate("/cart");
