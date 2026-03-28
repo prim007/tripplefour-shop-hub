@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
-import { ShoppingCart, Menu, Leaf, ExternalLink } from "lucide-react";
+import { ShoppingCart, Menu, Leaf, ExternalLink, User, LogOut } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 
 const navLinks = [
@@ -15,6 +17,7 @@ const navLinks = [
 
 export default function Navbar() {
   const { totalItems } = useCart();
+  const { user, signOut } = useAuth();
   const [open, setOpen] = useState(false);
 
   return (
@@ -49,6 +52,31 @@ export default function Navbar() {
           >
             Cuddles AI <ExternalLink className="h-3 w-3" />
           </a>
+
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon" className="rounded-full ml-1">
+                  <User className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem className="text-xs text-muted-foreground cursor-default">
+                  {user.email}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut()} className="text-destructive">
+                  <LogOut className="h-3.5 w-3.5 mr-1.5" /> Sign out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link to="/auth">
+              <Button variant="outline" size="sm" className="rounded-full ml-1">
+                Sign In
+              </Button>
+            </Link>
+          )}
+
           <Link to="/cart" className="relative ml-2">
             <Button variant="outline" size="icon" className="rounded-full transition-transform hover:scale-110">
               <ShoppingCart className="h-5 w-5" />
@@ -100,6 +128,25 @@ export default function Navbar() {
                 >
                   Cuddles AI <ExternalLink className="h-4 w-4" />
                 </a>
+                {user ? (
+                  <>
+                    <div className="px-4 py-2 text-xs text-muted-foreground truncate">{user.email}</div>
+                    <button
+                      onClick={() => { signOut(); setOpen(false); }}
+                      className="flex items-center gap-1.5 rounded-xl px-4 py-3 text-lg font-display font-medium text-destructive hover:bg-destructive/5"
+                    >
+                      <LogOut className="h-4 w-4" /> Sign out
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    to="/auth"
+                    onClick={() => setOpen(false)}
+                    className="rounded-xl px-4 py-3 text-lg font-display font-medium text-primary hover:bg-primary/5"
+                  >
+                    Sign In
+                  </Link>
+                )}
               </nav>
             </SheetContent>
           </Sheet>
