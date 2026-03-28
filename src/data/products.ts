@@ -88,7 +88,7 @@ export const products: Product[] = [
   { id: "ed-soda", name: "Sodaze Cannabis Soda", category: "Edibles", price: 60, description: "Flavored cannabis-infused soda by Sodaze.", image: categoryImages["Edibles"] },
 
   // Vapes
-  { id: "vp-pen", name: "Vape Pen 1ml 91% THC", category: "Vapes", price: 550, description: "1ml vape pen cartridge with 91% THC concentration.", image: categoryImages["Vapes"] },
+  { id: "vp-pen", name: "Vape Pen 1ml 91% THC", category: "Vapes", price: 550, description: "1ml vape pen cartridge with 91% THC concentration.", image: vapePen1mlImg },
   { id: "vp-disp", name: "Disposable Juice 10ml", category: "Vapes", price: 320, description: "10ml disposable vape juice.", image: categoryImages["Vapes"] },
   { id: "vp-lz-toffee", name: "Liquid Zol Toffee Popcorn", category: "Vapes", price: 370, description: "Disposable THC vape — Toffee Popcorn flavour. Caramel revolution with rich taste and big vapor.", image: liquidZolToffeeImg },
   { id: "vp-lz-cherry", name: "Liquid Zol Cherry Heat", category: "Vapes", price: 370, description: "Disposable THC vape — Cherry Heat Ignition. Premium edition with rich taste and big vapor.", image: liquidZolCherryImg },
