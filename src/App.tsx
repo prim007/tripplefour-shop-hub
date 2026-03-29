@@ -8,6 +8,7 @@ import { CartDrawerProvider } from "@/context/CartDrawerContext";
 import { AuthProvider } from "@/context/AuthContext";
 import CartDrawer from "@/components/CartDrawer";
 import AgeVerification from "@/components/AgeVerification";
+import CuddlesChatbot from "@/components/CuddlesChatbot";
 
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
@@ -58,6 +59,7 @@ const App = () => (
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              <CuddlesChatbot />
             </BrowserRouter>
           </CartDrawerProvider>
         </CartProvider>
