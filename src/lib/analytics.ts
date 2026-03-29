@@ -48,8 +48,14 @@ export const Analytics = {
   blogChatOpened: (slug: string) =>
     trackEvent("blog_chat_opened", { blog_slug: slug }),
   chatProductAdded: (itemId: string, itemName: string) =>
-    trackEvent("chat_product_added", { item_id: itemId, item_name: itemName, source: "cuddles_ai" }),
+    trackEvent("chat_product_added", {
+      item_id: itemId,
+      item_name: itemName,
+      source: "cuddles_ai",
+    }),
   chatProductViewed: (itemId: string) =>
-    trackEvent("chat_product_viewed", { item_id: itemId, source: "cuddles_ai" }),
+    trackEvent("chat_product_viewed", {
+      item_id: itemId,
+      source: "cuddles_ai",
+    }),
 };
-
