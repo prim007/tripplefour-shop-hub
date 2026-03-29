@@ -52,3 +52,4 @@ export const Analytics = {
   chatProductViewed: (itemId: string) =>
     trackEvent("chat_product_viewed", { item_id: itemId, source: "cuddles_ai" }),
 };
+
