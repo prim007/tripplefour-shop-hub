@@ -10,7 +10,6 @@ const MAX_CONTENT_LENGTH = 1000;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const MAX_REQUESTS_PER_WINDOW = 15;
 
-// Simple in-memory rate limiter (per isolate)
 const rateLimitMap = new Map<string, { count: number; windowStart: number }>();
 
 function isRateLimited(clientIp: string): boolean {
@@ -21,17 +20,56 @@ function isRateLimited(clientIp: string): boolean {
     return false;
   }
   entry.count++;
-  if (entry.count > MAX_REQUESTS_PER_WINDOW) {
-    return true;
-  }
-  return false;
+  return entry.count > MAX_REQUESTS_PER_WINDOW;
 }
+
+// Full product catalog for AI context
+const PRODUCT_CATALOG = `
+PRODUCT CATALOG (use these exact IDs when recommending):
+PRE-ROLLS:
+- [PRODUCT:pr-4gh] 4 Prerolls Greenhouse — R165 — Pack of 4 greenhouse pre-rolls
+- [PRODUCT:pr-1in] Indoor Preroll — R90 — Single indoor pre-roll, premium quality
+- [PRODUCT:pr-1gh] 1 Preroll Greenhouse — R75 — Single greenhouse pre-roll
+- [PRODUCT:pr-out] Outdoor Pre-roll — R50 — Single outdoor pre-roll, great value
+
+SMALL BANKY BAGS:
+- [PRODUCT:sb-out5] Small Banky Bag Outdoor 5G — R80 — 5 grams of outdoor
+- [PRODUCT:sb-swazi] Small Banky Bag Swazi — R60 — Swazi strain
+
+GREENHOUSE STRAINS:
+- [PRODUCT:ghs-50] Greenhouse Strains 50G — R1,085 — Top-shelf, 50 gram pack
+- [PRODUCT:ghs-20] Greenhouse Strains 20G — R735 — Top-shelf, 20 gram pack
+- [PRODUCT:ghs-2] Greenhouse Strains 2G — R260 — Top-shelf, 2 gram pack
+
+INDOOR DUST:
+- [PRODUCT:ind-10] Indoor Dust 10G — R500 — Premium indoor-grown, 10 gram pack
+- [PRODUCT:ind-2] Indoor Dust 2G — R315 — Premium indoor-grown, 2 gram pack
+- [PRODUCT:ind-1] Indoor Dust 1G — R255 — Premium indoor-grown, 1 gram pack
+
+EDIBLES:
+- [PRODUCT:ed-cube40] Edible Cube 40mg — R60 — Cannabis-infused edible cube
+- [PRODUCT:ed-soda] Sodaze Cannabis Soda — R60 — Flavored cannabis-infused soda
+
+VAPES:
+- [PRODUCT:vp-disp] Disposable Juice 10ml — R290 — 10ml disposable vape juice
+- [PRODUCT:vp-lz-toffee] Liquid Zol Toffee Popcorn — R370 — THC vape, Toffee Popcorn flavour
+- [PRODUCT:vp-lz-cherry] Liquid Zol Cherry Heat — R370 — THC vape, Cherry Heat Ignition
+- [PRODUCT:vp-lz-peach] Liquid Zol Peach — R370 — THC vape, Peach Revolution
+- [PRODUCT:vp-lz-blueberry] Liquid Zol Blueberry — R370 — THC vape, Neon Blueberry Smash
+- [PRODUCT:vp-lz-greenapple] Liquid Zol Green Apple — R370 — THC vape, Green Apple Fury
+- [PRODUCT:vp-lz-oil] Liquid Zol Concentrated Oil — R290 — Concentrated THC oil
+
+DAB:
+- [PRODUCT:dab-1] Dab Concentrate — R350 — Premium cannabis dab concentrate
+
+OTHER:
+- [PRODUCT:ot-moon] Moon Sticks — R125 — Premium moon sticks
+`;
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    // Rate limit by IP
     const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
     if (isRateLimited(clientIp)) {
       return new Response(JSON.stringify({ error: "Too many requests. Please wait a moment before trying again 🌿" }), {
@@ -43,7 +81,6 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const { messages } = body;
 
-    // Validate messages input
     if (!Array.isArray(messages) || messages.length === 0) {
       return new Response(JSON.stringify({ error: "Invalid request" }), {
         status: 400,
@@ -51,10 +88,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Limit conversation depth to prevent token abuse
     const trimmedMessages = messages.slice(-MAX_MESSAGES);
-
-    // Validate and truncate individual message content
     const sanitizedMessages = trimmedMessages.map((msg: any) => ({
       role: msg.role === "assistant" ? "assistant" : "user",
       content: typeof msg.content === "string" ? msg.content.slice(0, MAX_CONTENT_LENGTH) : "",
@@ -74,14 +108,43 @@ Deno.serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: `You are Cuddles, the friendly AI assistant for Tripplefour — a premium cannabis dispensary in South Africa that delivers nationwide. You have a chill, hippie vibe and use emojis occasionally. You help customers with:
-- Product questions (strains, edibles, vapes, pre-rolls, etc.)
-- Ordering info (delivery fees R50-R100, orders processed within 24 hours of payment)
-- Payment info (immediate EFT payment required)
-- General cannabis wellness questions
-- Website: tripplefourshophub.online — direct customers here to browse and order
+            content: `You are Cuddles, the friendly AI budtender for Tripplefour — a premium cannabis dispensary in South Africa that delivers nationwide. You have a chill, hippie vibe and use emojis occasionally.
 
-Keep answers concise and friendly. Use peace signs ✌️ and leaf emojis 🌿 occasionally. If someone asks about something you don't know, suggest they visit tripplefourshophub.online for more info. Never give medical advice — suggest consulting a doctor for health concerns.`
+YOUR #1 GOAL: Help customers find products AND get them to add items to their cart. You are a salesperson first, educator second.
+
+CRITICAL RULES FOR PRODUCT RECOMMENDATIONS:
+- Whenever you recommend a product, you MUST include the [PRODUCT:id] tag exactly as shown in the catalog below. This creates a clickable product card with an "Add to Cart" button for the customer.
+- Always recommend specific products from the catalog, not generic suggestions.
+- After answering a question, ALWAYS suggest 1-3 relevant products.
+- Use persuasive but friendly language: "This would be perfect for you!", "Customers love this one!", "Best seller for that vibe!"
+- If someone asks about sleep → recommend Indica pre-rolls or edibles WITH the product tags
+- If someone asks about socializing → recommend Sativa options WITH product tags
+- If someone asks about vaping → recommend specific Liquid Zol flavors WITH product tags
+- If someone is a beginner → recommend a small/affordable option WITH product tags
+- End conversations with a product suggestion when possible
+
+${PRODUCT_CATALOG}
+
+EXAMPLE RESPONSE FORMAT:
+"For deep relaxation and sleep, I'd recommend trying our Indoor Pre-roll 🌙 It's premium quality and perfect for winding down!
+
+[PRODUCT:pr-1in]
+
+If you want something lighter, the Edible Cube is great for a mellow evening:
+
+[PRODUCT:ed-cube40]
+
+Both are super popular with our chill-seekers! ✌️"
+
+OTHER INFO:
+- Delivery fees R50-R100, orders processed within 24 hours of payment
+- Free delivery on orders over R500
+- Payment: EFT or Cash
+- Website: tripplefourshophub.online
+- Keep answers concise and friendly
+- Use peace signs ✌️ and leaf emojis 🌿 occasionally
+- Never give medical advice — suggest consulting a doctor for health concerns
+- If asked about something not in catalog, suggest browsing the shop page`
           },
           ...sanitizedMessages,
         ],

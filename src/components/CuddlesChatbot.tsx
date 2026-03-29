@@ -3,6 +3,7 @@ import { MessageCircle, X, Send, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
 import { Analytics } from "@/lib/analytics";
+import ChatProductCard from "@/components/ChatProductCard";
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cuddles-chat`;
 
@@ -15,6 +16,46 @@ const PROMPT_STARTERS = [
   "💪 Show me high-CBD options for muscle recovery without the heavy high",
   "🔥 What are the trending exotic terpene profiles right now?",
 ];
+
+// Parse message content and split into text segments and product cards
+function parseMessageContent(content: string): Array<{ type: "text"; value: string } | { type: "product"; id: string }> {
+  const parts: Array<{ type: "text"; value: string } | { type: "product"; id: string }> = [];
+  const regex = /\[PRODUCT:([a-z0-9-]+)\]/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(content)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push({ type: "text", value: content.slice(lastIndex, match.index) });
+    }
+    parts.push({ type: "product", id: match[1] });
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < content.length) {
+    parts.push({ type: "text", value: content.slice(lastIndex) });
+  }
+
+  return parts;
+}
+
+function AssistantMessage({ content }: { content: string }) {
+  const parts = parseMessageContent(content);
+
+  return (
+    <>
+      {parts.map((part, i) =>
+        part.type === "product" ? (
+          <ChatProductCard key={`p-${i}`} productId={part.id} />
+        ) : (
+          <div key={`t-${i}`} className="prose prose-sm max-w-none dark:prose-invert [&>p]:m-0">
+            <ReactMarkdown>{part.value.trim()}</ReactMarkdown>
+          </div>
+        )
+      )}
+    </>
+  );
+}
 
 interface CuddlesChatbotProps {
   initialPrompt?: string;
@@ -29,12 +70,8 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
   const [hasTrackedInit, setHasTrackedInit] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Auto-open on first visit after 3 seconds, or if autoOpen prop
   useEffect(() => {
-    if (autoOpen) {
-      setOpen(true);
-      return;
-    }
+    if (autoOpen) { setOpen(true); return; }
     const seen = sessionStorage.getItem("cuddles-shown");
     if (!seen) {
       const timer = setTimeout(() => {
@@ -45,14 +82,12 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
     }
   }, [autoOpen]);
 
-  // Handle initial prompt from blog posts
   useEffect(() => {
     if (initialPrompt && open && messages.length === 0) {
       sendMessage(initialPrompt);
     }
   }, [initialPrompt, open]);
 
-  // Track chat initiated
   useEffect(() => {
     if (open && !hasTrackedInit) {
       Analytics.chatInitiated();
@@ -111,10 +146,7 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
           if (!line.startsWith("data: ")) continue;
 
           const jsonStr = line.slice(6).trim();
-          if (jsonStr === "[DONE]") {
-            streamDone = true;
-            break;
-          }
+          if (jsonStr === "[DONE]") { streamDone = true; break; }
 
           try {
             const parsed = JSON.parse(jsonStr);
@@ -124,9 +156,7 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
               setMessages((prev) => {
                 const last = prev[prev.length - 1];
                 if (last?.role === "assistant") {
-                  return prev.map((m, i) =>
-                    i === prev.length - 1 ? { ...m, content: assistantSoFar } : m
-                  );
+                  return prev.map((m, i) => i === prev.length - 1 ? { ...m, content: assistantSoFar } : m);
                 }
                 return [...prev, { role: "assistant", content: assistantSoFar }];
               });
@@ -138,7 +168,6 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
         }
       }
 
-      // Track recommendation if response contains product-related content
       if (assistantSoFar.toLowerCase().match(/recommend|try|suggest|perfect for/)) {
         Analytics.recommendationGiven();
       }
@@ -146,10 +175,7 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
       console.error("Cuddles chat error:", e);
       setMessages((prev) => [
         ...prev,
-        {
-          role: "assistant",
-          content: "Oops, something went wrong 😅 Try again or WhatsApp us at wa.me/27645436734 ✌️",
-        },
+        { role: "assistant", content: "Oops, something went wrong 😅 Try again or WhatsApp us at wa.me/27645436734 ✌️" },
       ]);
     } finally {
       setIsLoading(false);
@@ -163,7 +189,6 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
 
   return (
     <>
-      {/* Floating button */}
       <button
         onClick={() => setOpen(!open)}
         className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl animate-groovy-pulse"
@@ -172,28 +197,24 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
         {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
       </button>
 
-      {/* Chat window */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 flex h-[480px] w-[360px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border-2 border-primary/20 bg-card shadow-2xl animate-scale-in">
-          {/* Header */}
+        <div className="fixed bottom-24 right-6 z-50 flex h-[520px] w-[380px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border-2 border-primary/20 bg-card shadow-2xl animate-scale-in">
           <div className="groovy-gradient px-4 py-3 text-white">
             <div className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 animate-wiggle" />
               <div>
                 <h3 className="font-display text-base font-bold">Cuddles AI ✌️</h3>
-                <p className="text-xs opacity-80">Your groovy assistant</p>
+                <p className="text-xs opacity-80">Your groovy budtender</p>
               </div>
             </div>
           </div>
 
-          {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {messages.length === 0 && (
               <div className="text-center text-sm text-muted-foreground mt-4">
                 <p className="text-3xl mb-2">🌿</p>
                 <p className="font-display font-bold text-foreground">What vibe are you after tonight?</p>
                 <p className="mt-1 mb-4">Tell me what you're looking for and I'll find the perfect match 👇</p>
-                {/* Prompt starters */}
                 <div className="flex flex-wrap gap-2 justify-center">
                   {PROMPT_STARTERS.map((prompt) => (
                     <button
@@ -208,21 +229,16 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
               </div>
             )}
             {messages.map((msg, i) => (
-              <div
-                key={i}
-                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-              >
+              <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm ${
+                  className={`max-w-[85%] rounded-2xl px-4 py-2 text-sm ${
                     msg.role === "user"
                       ? "bg-primary text-primary-foreground rounded-br-sm"
                       : "bg-muted text-foreground rounded-bl-sm"
                   }`}
                 >
                   {msg.role === "assistant" ? (
-                    <div className="prose prose-sm max-w-none dark:prose-invert [&>p]:m-0">
-                      <ReactMarkdown>{msg.content}</ReactMarkdown>
-                    </div>
+                    <AssistantMessage content={msg.content} />
                   ) : (
                     msg.content
                   )}
@@ -239,15 +255,8 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input */}
           <div className="border-t p-3">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                sendMessage(input);
-              }}
-              className="flex gap-2"
-            >
+            <form onSubmit={(e) => { e.preventDefault(); sendMessage(input); }} className="flex gap-2">
               <input
                 type="text"
                 value={input}
@@ -256,12 +265,7 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
                 className="flex-1 rounded-full border bg-background px-4 py-2 text-sm outline-none focus:border-primary"
                 disabled={isLoading}
               />
-              <Button
-                type="submit"
-                size="icon"
-                disabled={isLoading || !input.trim()}
-                className="rounded-full shrink-0"
-              >
+              <Button type="submit" size="icon" disabled={isLoading || !input.trim()} className="rounded-full shrink-0">
                 <Send className="h-4 w-4" />
               </Button>
             </form>
