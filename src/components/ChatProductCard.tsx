@@ -23,7 +23,7 @@ export default function ChatProductCard({ productId }: ChatProductCardProps) {
     e.stopPropagation();
     addItem(product, 1);
     Analytics.addToCart(product.id, product.name, product.price);
-    Analytics.chatProductAdded(product.id, product.name);
+    trackEvent("chat_product_added", { item_id: product.id, item_name: product.name, source: "cuddles_ai" });
     toast({ title: "Added to cart! 🛒", description: `${product.name} — R${product.price}` });
     openDrawer();
   };
