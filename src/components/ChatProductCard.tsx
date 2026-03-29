@@ -5,7 +5,7 @@ import { useCart } from "@/context/CartContext";
 import { useCartDrawer } from "@/context/CartDrawerContext";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
-import { Analytics } from "@/lib/analytics";
+import { Analytics, trackEvent } from "@/lib/analytics";
 
 interface ChatProductCardProps {
   productId: string;
