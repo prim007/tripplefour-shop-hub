@@ -59,6 +59,7 @@ const App = () => (
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              <CuddlesChatbot />
             </BrowserRouter>
           </CartDrawerProvider>
         </CartProvider>
