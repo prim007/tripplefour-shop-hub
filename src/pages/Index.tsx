@@ -205,7 +205,7 @@ const Index = () => {
                 >
                   <div className="absolute inset-0 groovy-gradient opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
                   <span className="text-3xl block mb-2 transition-transform duration-300 group-hover:scale-125">
-                    {["🌿", "🌱", "💨", "🍪", "✨", "🌸", "🔥", "🍃"][i % 8]}
+                    {["🍪", "✨", "🌸", "🎒", "🔥"][i % 5]}
                   </span>
                   <span className="text-sm font-semibold font-display">{cat}</span>
                 </Link>
