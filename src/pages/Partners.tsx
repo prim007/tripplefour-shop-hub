@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SponsorInquiryForm from "@/components/SponsorInquiryForm";
 import { ExternalLink, Star, Filter } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
