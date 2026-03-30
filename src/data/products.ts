@@ -15,12 +15,10 @@ import liquidZolOilImg from "@/assets/products/liquid-zol-concentrated-oil.jpeg"
 
 
 export type ProductCategory =
-  | "Pre-rolls"
-  | "Greenhouse Strains"
-  | "Indoor Dust"
   | "Edibles"
   | "Vapes"
   | "Dab"
+  | "Accessories"
   | "Other";
 
 export interface Product {
