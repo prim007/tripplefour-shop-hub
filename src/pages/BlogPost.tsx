@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Calendar, ArrowLeft, ExternalLink, MessageCircle } from "lucide-react";
+import SocialShare from "@/components/SocialShare";
 import { Analytics } from "@/lib/analytics";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
