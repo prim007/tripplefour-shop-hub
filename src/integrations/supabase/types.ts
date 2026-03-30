@@ -235,6 +235,45 @@ export type Database = {
           },
         ]
       }
+      sponsor_inquiries: {
+        Row: {
+          budget_range: string | null
+          company_name: string
+          contact_email: string
+          contact_name: string
+          created_at: string
+          id: string
+          message: string | null
+          placement_interest: string
+          product_description: string
+          website_url: string | null
+        }
+        Insert: {
+          budget_range?: string | null
+          company_name: string
+          contact_email: string
+          contact_name: string
+          created_at?: string
+          id?: string
+          message?: string | null
+          placement_interest?: string
+          product_description: string
+          website_url?: string | null
+        }
+        Update: {
+          budget_range?: string | null
+          company_name?: string
+          contact_email?: string
+          contact_name?: string
+          created_at?: string
+          id?: string
+          message?: string | null
+          placement_interest?: string
+          product_description?: string
+          website_url?: string | null
+        }
+        Relationships: []
+      }
       suppressed_emails: {
         Row: {
           created_at: string

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SponsorInquiryForm from "@/components/SponsorInquiryForm";
 import { ExternalLink, Star, Filter } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -102,19 +103,14 @@ export default function Partners() {
             <h3 className="font-display text-xl font-bold">
               Want your brand featured here?
             </h3>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
               We offer sponsored placements, banner ads, and content
               partnerships. Reach thousands of cannabis enthusiasts monthly.
+              Fill in the form below and we'll get back to you within 48 hours.
             </p>
-            <Button asChild className="mt-4 rounded-full gap-2" size="lg">
-              <a
-                href="https://wa.me/27645436734?text=Hi%2C%20I%27m%20interested%20in%20advertising%20on%20your%20site"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Get in Touch
-              </a>
-            </Button>
+            <div className="mt-6">
+              <SponsorInquiryForm />
+            </div>
           </div>
         </div>
       </main>
