@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Calendar, ArrowLeft, ExternalLink, MessageCircle } from "lucide-react";
+import SocialShare from "@/components/SocialShare";
 import { Analytics } from "@/lib/analytics";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -94,6 +95,13 @@ export default function BlogPost() {
           <h1 className="mt-3 font-display text-3xl font-bold text-foreground sm:text-4xl">
             {post.title}
           </h1>
+
+          <SocialShare
+            url={`/blog/${post.slug}`}
+            title={post.title}
+            campaign="blog_share"
+            className="mt-4"
+          />
 
           <div className="prose-custom mt-8 space-y-4 text-foreground/90 leading-relaxed whitespace-pre-line text-[15px]">
             {post.content}

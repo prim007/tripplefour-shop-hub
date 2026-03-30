@@ -11,6 +11,7 @@ import ProductCard from "@/components/ProductCard";
 import TrustBadges from "@/components/TrustBadges";
 import SocialProof from "@/components/SocialProof";
 import StickyAddToCart from "@/components/StickyAddToCart";
+import SocialShare from "@/components/SocialShare";
 import { useCartDrawer } from "@/context/CartDrawerContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -83,6 +84,12 @@ export default function ProductDetail() {
             <div className="flex flex-col justify-center">
               <p className="text-sm font-medium text-muted-foreground">{product.category}</p>
               <h1 className="mt-1 font-display text-3xl font-bold">Buy {product.name} Online</h1>
+              <SocialShare
+                url={`/product/${product.id}`}
+                title={`${product.name} — R${product.price}`}
+                campaign="product_share"
+                className="mt-2"
+              />
               <p className="mt-3 text-muted-foreground">{product.description}</p>
               <p className="mt-1 text-sm text-primary font-medium">✅ In stock — order now for fast delivery across South Africa</p>
 

@@ -58,4 +58,15 @@ export const Analytics = {
       item_id: itemId,
       source: "cuddles_ai",
     }),
+  affiliateClick: (itemId: string, itemName: string, url: string) =>
+    trackEvent("affiliate_click", {
+      item_id: itemId,
+      item_name: itemName,
+      link_url: url,
+    }),
+  socialShare: (platform: string, contentUrl: string) =>
+    trackEvent("social_share", {
+      platform,
+      content_url: contentUrl,
+    }),
 };
