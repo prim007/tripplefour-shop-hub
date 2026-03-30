@@ -96,6 +96,13 @@ export default function BlogPost() {
             {post.title}
           </h1>
 
+          <SocialShare
+            url={`/blog/${post.slug}`}
+            title={post.title}
+            campaign="blog_share"
+            className="mt-4"
+          />
+
           <div className="prose-custom mt-8 space-y-4 text-foreground/90 leading-relaxed whitespace-pre-line text-[15px]">
             {post.content}
           </div>
