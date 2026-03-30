@@ -76,10 +76,10 @@ export default function AgeVerification() {
 
         <div className="mt-6 flex gap-3">
           <Button variant="outline" className="flex-1" onClick={handleDecline} disabled={submitting}>
-            I&apos;m Under 21
+            I'm Under 21
           </Button>
           <Button className="flex-1" onClick={handleConfirm} disabled={submitting}>
-            {submitting ? "Verifying..." : "I&apos;m 21 or Older"}
+            {submitting ? "Verifying..." : "I'm 21 or Older"}
           </Button>
         </div>
 
