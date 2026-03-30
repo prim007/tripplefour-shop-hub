@@ -20,6 +20,7 @@ import PaymentReturn from "./pages/PaymentReturn";
 import Admin from "./pages/Admin";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import Partners from "./pages/Partners";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import Unsubscribe from "./pages/Unsubscribe";
