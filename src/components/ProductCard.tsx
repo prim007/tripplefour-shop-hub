@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
+import { trackFunnel } from "@/lib/funnel";
 
 interface Props {
   product: Product;
@@ -21,6 +22,7 @@ export default function ProductCard({ product }: Props) {
     e.preventDefault();
     if (product.comingSoon) return;
     addItem(product);
+    trackFunnel("add_to_cart", product.id, { name: product.name, value: product.price, source: "card" });
     toast({ title: "Added to cart ✌️", description: `${product.name} added.` });
     open();
   };

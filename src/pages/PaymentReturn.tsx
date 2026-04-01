@@ -4,6 +4,7 @@ import { CheckCircle, XCircle, Loader2, Truck, AlertTriangle } from "lucide-reac
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/context/CartContext";
+import { trackFunnel } from "@/lib/funnel";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -33,6 +34,7 @@ export default function PaymentReturn() {
         if (data?.payment_status === "confirmed") {
           setStatus("confirmed");
           clearCart();
+          trackFunnel("purchase", undefined, { order_ref: ref, source: "payfast" });
           clearInterval(poll);
         } else if (data?.payment_status === "failed") {
           setStatus("failed");

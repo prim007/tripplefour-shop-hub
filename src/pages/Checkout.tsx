@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { CheckCircle, Clock, Truck, AlertTriangle, Tag, Loader2, Shield } from "lucide-react";
 import { Analytics } from "@/lib/analytics";
 import { AGE_TOKEN_KEY } from "@/lib/age-verification";
+import { trackFunnel } from "@/lib/funnel";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -102,6 +103,7 @@ export default function Checkout() {
           setStep("confirmed");
           clearCart();
           Analytics.purchase(orderRef, serverTotal || grandTotal);
+          trackFunnel("purchase", undefined, { order_ref: orderRef, total: serverTotal || grandTotal });
         }
       } catch (e) {
         console.error("Poll error:", e);
@@ -252,6 +254,7 @@ export default function Checkout() {
       setDeliveryZoneName(result.delivery_zone_name || selectedZone.zone_name);
       setStatusToken(result.status_token || "");
       Analytics.beginCheckout(result.total);
+      trackFunnel("begin_checkout", undefined, { total: result.total, method: paymentMethod, items: items.length });
 
       if (paymentMethod === "payfast") {
         // Redirect to Payfast
