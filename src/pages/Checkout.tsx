@@ -253,6 +253,7 @@ export default function Checkout() {
       setDeliveryZoneName(result.delivery_zone_name || selectedZone.zone_name);
       setStatusToken(result.status_token || "");
       Analytics.beginCheckout(result.total);
+      trackFunnel("begin_checkout", undefined, { total: result.total, method: paymentMethod, items: items.length });
 
       if (paymentMethod === "payfast") {
         // Redirect to Payfast
