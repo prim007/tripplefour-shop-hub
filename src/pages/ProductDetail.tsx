@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { Analytics } from "@/lib/analytics";
+import { trackFunnel } from "@/lib/funnel";
 import ProductCard from "@/components/ProductCard";
 import TrustBadges from "@/components/TrustBadges";
 import SocialProof from "@/components/SocialProof";
