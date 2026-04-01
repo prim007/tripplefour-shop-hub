@@ -28,6 +28,7 @@ export default function ProductDetail() {
   useEffect(() => {
     if (product) {
       Analytics.viewItem(product.id, product.name, product.price);
+      trackFunnel("view_product", product.id, { name: product.name, price: product.price });
     }
   }, [product]);
 
