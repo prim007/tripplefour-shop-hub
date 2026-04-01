@@ -103,6 +103,7 @@ export default function Checkout() {
           setStep("confirmed");
           clearCart();
           Analytics.purchase(orderRef, serverTotal || grandTotal);
+          trackFunnel("purchase", undefined, { order_ref: orderRef, total: serverTotal || grandTotal });
         }
       } catch (e) {
         console.error("Poll error:", e);

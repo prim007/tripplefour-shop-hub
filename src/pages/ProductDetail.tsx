@@ -54,6 +54,7 @@ export default function ProductDetail() {
   const handleAdd = () => {
     addItem(product, qty);
     Analytics.addToCart(product.id, product.name, product.price * qty);
+    trackFunnel("add_to_cart", product.id, { name: product.name, quantity: qty, value: product.price * qty });
     toast({ title: "Added to cart", description: `${qty}x ${product.name} added.` });
     openDrawer();
   };

@@ -22,6 +22,7 @@ export default function ProductCard({ product }: Props) {
     e.preventDefault();
     if (product.comingSoon) return;
     addItem(product);
+    trackFunnel("add_to_cart", product.id, { name: product.name, value: product.price, source: "card" });
     toast({ title: "Added to cart ✌️", description: `${product.name} added.` });
     open();
   };
