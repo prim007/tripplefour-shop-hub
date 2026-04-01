@@ -34,6 +34,7 @@ export default function PaymentReturn() {
         if (data?.payment_status === "confirmed") {
           setStatus("confirmed");
           clearCart();
+          trackFunnel("purchase", undefined, { order_ref: ref, source: "payfast" });
           clearInterval(poll);
         } else if (data?.payment_status === "failed") {
           setStatus("failed");
