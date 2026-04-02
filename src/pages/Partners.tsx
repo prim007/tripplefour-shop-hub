@@ -144,6 +144,24 @@ export default function Partners() {
             </div>
           </div>
 
+          {/* Partnership Terms & Conditions */}
+          <div className="mb-16">
+            <h2 className="font-display text-2xl font-bold mb-6 text-center">
+              <span className="groovy-gradient-text">Partnership Terms &amp; Conditions</span>
+            </h2>
+            <div className="space-y-4 text-sm text-muted-foreground leading-relaxed rounded-2xl border border-border bg-card p-6">
+              <p><strong className="text-foreground">1. Agreement Duration:</strong> All sponsorship packages run on a month-to-month basis unless a longer term is agreed upon in writing. Either party may cancel with 14 days written notice before the next billing cycle.</p>
+              <p><strong className="text-foreground">2. Payment Terms:</strong> Payment is due upfront before your campaign goes live. We accept EFT, PayFast, PayPal, and cryptocurrency. Invoices are issued on request.</p>
+              <p><strong className="text-foreground">3. Content Guidelines:</strong> All partner content must comply with South African advertising standards. Tripplefour reserves the right to reject or remove any content that is misleading, offensive, or not aligned with our brand values.</p>
+              <p><strong className="text-foreground">4. Brand Representation:</strong> Partners may not imply endorsement by Tripplefour beyond the agreed sponsorship placement. Use of our logo or brand name requires prior written approval.</p>
+              <p><strong className="text-foreground">5. Performance &amp; Reporting:</strong> Starter and Growth partners receive basic analytics. Premium partners receive detailed monthly reports including impressions, clicks, and engagement metrics.</p>
+              <p><strong className="text-foreground">6. Liability:</strong> Tripplefour is not liable for the performance, quality, or legality of any partner products or services. Partners are solely responsible for their own offerings and compliance with applicable laws.</p>
+              <p><strong className="text-foreground">7. Refunds:</strong> Sponsorship fees are non-refundable once the campaign is live. If Tripplefour is unable to deliver the agreed placement, a pro-rata refund or credit will be issued.</p>
+              <p><strong className="text-foreground">8. Modifications:</strong> Tripplefour reserves the right to update these partnership terms at any time. Partners will be notified of any material changes via email.</p>
+              <p className="text-xs pt-2 border-t border-border">By submitting a sponsor inquiry below, you acknowledge that you have read and agree to these partnership terms.</p>
+            </div>
+          </div>
+
           {/* Sponsor Inquiry Form */}
           <div className="rounded-2xl border-2 border-dashed border-primary/30 bg-primary/5 p-8 text-center">
             <h3 className="font-display text-xl font-bold">
