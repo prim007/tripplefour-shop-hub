@@ -24,74 +24,7 @@ export const affiliateCategories: AffiliateCategory[] = [
   "SaaS & POS Tools",
 ];
 
-// Placeholder affiliate entries — replace URLs with real affiliate links
 export const affiliates: AffiliateLink[] = [
-  {
-    id: "aff-storz",
-    name: "Storz & Bickel",
-    description:
-      "German-engineered desktop and portable vaporizers — the gold standard for dry herb vaping.",
-    category: "Vaporizers & Devices",
-    url: "#",
-    cta: "Shop Vaporizers",
-    featured: true,
-  },
-  {
-    id: "aff-pax",
-    name: "PAX Vaporizers",
-    description:
-      "Sleek, pocket-sized vaporizers with app-controlled temperature and session settings.",
-    category: "Vaporizers & Devices",
-    url: "#",
-    cta: "View PAX Range",
-  },
-  {
-    id: "aff-marshydro",
-    name: "Mars Hydro",
-    description:
-      "Industry-leading LED grow lights and grow tent kits for home cultivators.",
-    category: "Growing Equipment",
-    url: "#",
-    cta: "Browse Grow Lights",
-    featured: true,
-  },
-  {
-    id: "aff-acinfinity",
-    name: "AC Infinity",
-    description:
-      "Smart ventilation fans, carbon filters, and climate controllers for indoor grows.",
-    category: "Growing Equipment",
-    url: "#",
-    cta: "Shop Climate Gear",
-  },
-  {
-    id: "aff-dutchie",
-    name: "Dutchie POS",
-    description:
-      "All-in-one point-of-sale, e-commerce, and payments platform built for dispensaries.",
-    category: "SaaS & POS Tools",
-    url: "#",
-    cta: "Request Demo",
-    featured: true,
-  },
-  {
-    id: "aff-canix",
-    name: "Canix",
-    description:
-      "Seed-to-sale tracking and compliance software for cannabis operators.",
-    category: "SaaS & POS Tools",
-    url: "#",
-    cta: "Learn More",
-  },
-  {
-    id: "aff-sana",
-    name: "Sana Packaging",
-    description:
-      "Sustainable, ocean-plastic and hemp-based packaging for cannabis brands.",
-    category: "Packaging & Supplies",
-    url: "#",
-    cta: "Explore Packaging",
-  },
   {
     id: "aff-liquidzol",
     name: "Liquid Zol",
@@ -102,14 +35,61 @@ export const affiliates: AffiliateLink[] = [
     cta: "Shop Liquid Zol",
     featured: true,
   },
+];
+
+export interface SponsorTier {
+  name: string;
+  priceZAR: number;
+  priceUSD: number;
+  priceEUR: number;
+  priceGBP: number;
+  period: string;
+  features: string[];
+  popular?: boolean;
+}
+
+export const sponsorTiers: SponsorTier[] = [
   {
-    id: "aff-session",
-    name: "Session Goods",
-    description:
-      "Beautifully designed smoking accessories — pipes, trays, and storage.",
-    category: "Lifestyle & Accessories",
-    url: "#",
-    cta: "Shop Accessories",
-    featured: true,
+    name: "Starter",
+    priceZAR: 499,
+    priceUSD: 27,
+    priceEUR: 25,
+    priceGBP: 22,
+    period: "/month",
+    features: [
+      "Logo on Partners page",
+      "Basic listing with description",
+      "Link to your website",
+    ],
+  },
+  {
+    name: "Growth",
+    priceZAR: 999,
+    priceUSD: 55,
+    priceEUR: 50,
+    priceGBP: 43,
+    period: "/month",
+    features: [
+      "Everything in Starter",
+      "Featured badge & priority placement",
+      "Banner ad on Shop page",
+      "Monthly analytics report",
+    ],
+    popular: true,
+  },
+  {
+    name: "Premium",
+    priceZAR: 1999,
+    priceUSD: 110,
+    priceEUR: 100,
+    priceGBP: 86,
+    period: "/month",
+    features: [
+      "Everything in Growth",
+      "Sponsored blog article",
+      "Homepage banner rotation",
+      "Social media shout-out",
+      "Dedicated account manager",
+    ],
   },
 ];

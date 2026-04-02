@@ -1,24 +1,31 @@
 import { useState } from "react";
 import SponsorInquiryForm from "@/components/SponsorInquiryForm";
-import { ExternalLink, Star, Filter } from "lucide-react";
+import { ExternalLink, Star, Check } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  affiliates,
-  affiliateCategories,
-  type AffiliateCategory,
-} from "@/data/affiliates";
+import { affiliates, sponsorTiers } from "@/data/affiliates";
 import { Analytics } from "@/lib/analytics";
 
-export default function Partners() {
-  const [activeCategory, setActiveCategory] = useState<AffiliateCategory | "All">("All");
+type Currency = "ZAR" | "USD" | "EUR" | "GBP";
+const currencySymbols: Record<Currency, string> = {
+  ZAR: "R",
+  USD: "$",
+  EUR: "€",
+  GBP: "£",
+};
 
-  const filtered =
-    activeCategory === "All"
-      ? affiliates
-      : affiliates.filter((a) => a.category === activeCategory);
+export default function Partners() {
+  const [currency, setCurrency] = useState<Currency>("ZAR");
+
+  const getPrice = (tier: (typeof sponsorTiers)[0]) => {
+    switch (currency) {
+      case "USD": return tier.priceUSD;
+      case "EUR": return tier.priceEUR;
+      case "GBP": return tier.priceGBP;
+      default: return tier.priceZAR;
+    }
+  };
 
   const handleClick = (id: string, name: string, url: string) => {
     Analytics.affiliateClick(id, name, url);
@@ -32,41 +39,16 @@ export default function Partners() {
           {/* Header */}
           <div className="mb-10 text-center">
             <h1 className="font-display text-4xl font-bold">
-              <span className="groovy-gradient-text">Recommended Tools & Partners</span>
+              <span className="groovy-gradient-text">Our Partners</span>
             </h1>
             <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-              Hand-picked products, platforms, and gear trusted by cultivators,
-              dispensaries, and enthusiasts worldwide.
+              Trusted brands we proudly work with.
             </p>
           </div>
 
-          {/* Category filter */}
-          <div className="mb-8 flex flex-wrap items-center justify-center gap-2">
-            <Filter className="h-4 w-4 text-muted-foreground" />
-            <Button
-              variant={activeCategory === "All" ? "default" : "outline"}
-              size="sm"
-              className="rounded-full"
-              onClick={() => setActiveCategory("All")}
-            >
-              All
-            </Button>
-            {affiliateCategories.map((cat) => (
-              <Button
-                key={cat}
-                variant={activeCategory === cat ? "default" : "outline"}
-                size="sm"
-                className="rounded-full"
-                onClick={() => setActiveCategory(cat)}
-              >
-                {cat}
-              </Button>
-            ))}
-          </div>
-
-          {/* Grid */}
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((item) => (
+          {/* Partner cards */}
+          <div className="mb-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {affiliates.map((item) => (
               <a
                 key={item.id}
                 href={item.url}
@@ -98,15 +80,78 @@ export default function Partners() {
             ))}
           </div>
 
-          {/* Sponsor CTA */}
-          <div className="mt-16 rounded-2xl border-2 border-dashed border-primary/30 bg-primary/5 p-8 text-center">
+          {/* Sponsorship Pricing */}
+          <div className="mb-16">
+            <div className="mb-8 text-center">
+              <h2 className="font-display text-3xl font-bold">
+                <span className="groovy-gradient-text">Advertise With Us</span>
+              </h2>
+              <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
+                Get your brand in front of thousands of cannabis enthusiasts monthly.
+                Affordable plans for every budget.
+              </p>
+
+              {/* Currency selector */}
+              <div className="mt-4 inline-flex items-center gap-1 rounded-full border border-border p-1">
+                {(["ZAR", "USD", "EUR", "GBP"] as Currency[]).map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => setCurrency(c)}
+                    className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+                      currency === c
+                        ? "bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-3">
+              {sponsorTiers.map((tier) => (
+                <div
+                  key={tier.name}
+                  className={`relative flex flex-col rounded-2xl border-2 p-6 transition-all ${
+                    tier.popular
+                      ? "border-primary bg-primary/5 shadow-lg scale-[1.02]"
+                      : "border-border bg-card"
+                  }`}
+                >
+                  {tier.popular && (
+                    <Badge className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground">
+                      Most Popular
+                    </Badge>
+                  )}
+                  <h3 className="font-display text-lg font-bold">{tier.name}</h3>
+                  <div className="mt-3 flex items-baseline gap-1">
+                    <span className="font-display text-4xl font-bold text-primary">
+                      {currencySymbols[currency]}{getPrice(tier)}
+                    </span>
+                    <span className="text-sm text-muted-foreground">{tier.period}</span>
+                  </div>
+                  <ul className="mt-5 flex-1 space-y-2.5">
+                    {tier.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Sponsor Inquiry Form */}
+          <div className="rounded-2xl border-2 border-dashed border-primary/30 bg-primary/5 p-8 text-center">
             <h3 className="font-display text-xl font-bold">
-              Want your brand featured here?
+              Ready to get started?
             </h3>
             <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
-              We offer sponsored placements, banner ads, and content
-              partnerships. Reach thousands of cannabis enthusiasts monthly.
-              Fill in the form below and we'll get back to you within 48 hours.
+              Fill in the form below and we'll get back to you within 48 hours
+              with everything you need to launch your campaign.
             </p>
             <div className="mt-6">
               <SponsorInquiryForm />
