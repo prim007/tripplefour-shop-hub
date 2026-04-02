@@ -56,7 +56,14 @@ export default function PrivacyPolicy() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="font-display text-xl font-semibold">7. Changes to This Policy</h2>
+            <h2 className="font-display text-xl font-semibold">7. Sponsorship &amp; Partner Data</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              If you submit a sponsorship inquiry through our Partners page, we collect your company name, contact details, product description, and budget information. This data is used solely to evaluate and respond to your inquiry. We do not share partner inquiry data with third parties.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="font-display text-xl font-semibold">8. Changes to This Policy</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
               We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date.
             </p>

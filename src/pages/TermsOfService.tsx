@@ -63,7 +63,14 @@ export default function TermsOfService() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="font-display text-xl font-semibold">8. Contact</h2>
+            <h2 className="font-display text-xl font-semibold">8. Sponsorship &amp; Partnerships</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Tripplefour offers advertising and sponsorship placements on its website. All partnerships are governed by our Partnership Terms &amp; Conditions available on the <a href="/partners" className="text-primary underline hover:no-underline">Partners</a> page. Sponsorship fees are non-refundable once a campaign is live. Tripplefour is not responsible for the products, services, or claims made by partner brands featured on our site.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="font-display text-xl font-semibold">9. Contact</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
               For any questions regarding these terms, please contact us via WhatsApp at +27 64 543 6734.
             </p>
