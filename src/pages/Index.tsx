@@ -265,7 +265,7 @@ const Index = () => {
           <h2 className="font-display text-2xl md:text-3xl font-bold relative z-10 drop-shadow-lg">
             Order Now — Prices from R50 🌿
           </h2>
-          <p className="mt-2 text-base opacity-90 relative z-10">Buy cannabis online · Pay by EFT or cash · Delivered to your door across SA</p>
+          <p className="mt-2 text-base opacity-90 relative z-10">Buy cannabis infused products online · Pay by EFT or cash · Delivered to your door across South Africa</p>
           <div className="mt-4 flex flex-wrap justify-center gap-3 relative z-10">
             <Button
               asChild
