@@ -52,7 +52,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "What cannabis products do you sell?",
-    a: "We stock a full range: greenhouse strains, indoor strains, pre-rolls, edibles (gummies & brownies), vape cartridges, dab concentrates, and more. All products are tested for quality.",
+    a: "We stock a full range of cannabis infused products: edibles (gummies & brownies), Liquid Zol vape cartridges, dab concentrates, and accessories. All products are tested for quality and delivered across South Africa.",
   },
   {
     q: "Is it legal to order cannabis in South Africa?",
