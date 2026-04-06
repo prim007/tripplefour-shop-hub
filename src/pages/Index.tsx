@@ -52,7 +52,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "What cannabis products do you sell?",
-    a: "We stock a full range: greenhouse strains, indoor strains, pre-rolls, edibles (gummies & brownies), vape cartridges, dab concentrates, and more. All products are tested for quality.",
+    a: "We stock a full range of cannabis infused products: edibles (gummies & brownies), Liquid Zol vape cartridges, dab concentrates, and accessories. All products are tested for quality and delivered across South Africa.",
   },
   {
     q: "Is it legal to order cannabis in South Africa?",
@@ -104,10 +104,11 @@ const Index = () => {
 
           <div className="relative mx-auto max-w-7xl px-4 py-20 text-center md:py-28">
             <h1 className="font-display text-4xl font-extrabold tracking-tight drop-shadow-lg md:text-6xl text-white leading-tight">
-              Cannabis Infused Products
+              Cannabis Infused Products<br className="hidden md:block" />
+              <span className="text-white/90 text-2xl md:text-4xl font-bold">Delivered Across South Africa</span>
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-lg opacity-95 drop-shadow-md md:text-xl text-white/90">
-              Purchase strains from R255 · Pre-rolls from R50 · Edibles from R60 — buy now, delivered in 1–3 days.
+              Edibles from R60 · Vapes from R85 · Dab from R350 — order now, delivered in 1–3 days to Joburg, Cape Town, Durban & nationwide.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <Button
@@ -264,7 +265,7 @@ const Index = () => {
           <h2 className="font-display text-2xl md:text-3xl font-bold relative z-10 drop-shadow-lg">
             Order Now — Prices from R50 🌿
           </h2>
-          <p className="mt-2 text-base opacity-90 relative z-10">Buy cannabis online · Pay by EFT or cash · Delivered to your door across SA</p>
+          <p className="mt-2 text-base opacity-90 relative z-10">Buy cannabis infused products online · Pay by EFT or cash · Delivered to your door across South Africa</p>
           <div className="mt-4 flex flex-wrap justify-center gap-3 relative z-10">
             <Button
               asChild

@@ -94,7 +94,7 @@ export default function ProductDetail() {
                 className="mt-2"
               />
               <p className="mt-3 text-muted-foreground">{product.description}</p>
-              <p className="mt-1 text-sm text-primary font-medium">✅ In stock — order now for fast delivery across South Africa</p>
+              <p className="mt-1 text-sm text-primary font-medium">✅ In stock — order now for fast delivery across South Africa (Joburg, Cape Town, Durban & more)</p>
 
               {!product.comingSoon && (
                 <div className="mt-3">
