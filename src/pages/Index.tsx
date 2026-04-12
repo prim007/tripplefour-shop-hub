@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Leaf, Truck, Shield, Clock, Sparkles, Flame, Zap } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { products, categories } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
@@ -67,6 +68,11 @@ const FAQ_ITEMS = [
 const Index = () => {
   return (
     <div className="flex min-h-screen flex-col overflow-hidden">
+      <Helmet>
+        <title>Cannabis Infused Products Online South Africa | Delivery Joburg & Nationwide | Tripplefour</title>
+        <meta name="description" content="Buy cannabis infused products online in South Africa — edibles, vapes, dab concentrates & more from R50. Fast delivery to Johannesburg, Cape Town, Durban & nationwide. Order now, pay on delivery." />
+        <link rel="canonical" href="https://tripplefourshophub.online/" />
+      </Helmet>
       <Navbar />
       <main className="flex-1">
         {/* Urgency ticker */}
