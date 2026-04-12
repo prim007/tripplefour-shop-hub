@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, ShoppingCart, Minus, Plus, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { getProductById, products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
@@ -65,8 +66,57 @@ export default function ProductDetail() {
     navigate("/checkout");
   };
 
+  const pageTitle = `Buy ${product.name} Online South Africa — R${product.price} | Tripplefour`;
+  const pageDesc = `${product.description} From R${product.price}. Fast delivery across South Africa — Johannesburg, Cape Town, Durban & nationwide.`;
+  const pageUrl = `https://tripplefourshophub.online/product/${product.id}`;
+
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.name,
+    "description": product.description,
+    "image": product.image,
+    "brand": { "@type": "Brand", "name": "Tripplefour" },
+    "offers": {
+      "@type": "Offer",
+      "url": pageUrl,
+      "priceCurrency": "ZAR",
+      "price": product.price,
+      "availability": product.comingSoon ? "https://schema.org/PreOrder" : "https://schema.org/InStock",
+      "seller": { "@type": "Organization", "name": "Tripplefour" },
+      "shippingDetails": {
+        "@type": "OfferShippingDetails",
+        "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "ZA" },
+        "deliveryTime": { "@type": "ShippingDeliveryTime", "handlingTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 3, "unitCode": "d" } }
+      }
+    }
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://tripplefourshophub.online/" },
+      { "@type": "ListItem", "position": 2, "name": "Shop", "item": "https://tripplefourshophub.online/shop" },
+      { "@type": "ListItem", "position": 3, "name": product.name, "item": pageUrl }
+    ]
+  };
+
   return (
     <div className="flex min-h-screen flex-col">
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDesc} />
+        <link rel="canonical" href={pageUrl} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDesc} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:type" content="product" />
+        <meta property="product:price:amount" content={String(product.price)} />
+        <meta property="product:price:currency" content="ZAR" />
+        <script type="application/ld+json">{JSON.stringify(productJsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbJsonLd)}</script>
+      </Helmet>
       <Navbar />
       <main className="flex-1 px-4 py-8">
         <div className="mx-auto max-w-7xl">
