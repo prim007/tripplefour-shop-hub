@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Calendar, ArrowRight, ExternalLink } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -35,6 +36,11 @@ export default function Blog() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <Helmet>
+        <title>Cannabis Blog South Africa — News, Guides & Tips | Tripplefour</title>
+        <meta name="description" content="Read the latest cannabis news, guides and tips for South Africa. Edibles, vapes, legal updates and more from Tripplefour." />
+        <link rel="canonical" href="https://tripplefourshophub.online/blog" />
+      </Helmet>
       <Navbar />
       <main className="flex-1 px-4 py-12">
         <div className="mx-auto max-w-4xl">

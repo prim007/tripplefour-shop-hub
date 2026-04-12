@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search, Flame, SlidersHorizontal } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { products, type ProductCategory } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import CategoryFilter from "@/components/CategoryFilter";
@@ -32,6 +33,14 @@ export default function Shop() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <Helmet>
+        <title>Shop Cannabis Infused Products Online South Africa | Edibles, Vapes & Dab | Tripplefour</title>
+        <meta name="description" content="Browse and buy cannabis infused edibles, vapes, dab concentrates & accessories online. Prices from R50. Fast delivery to Johannesburg, Cape Town, Durban & nationwide." />
+        <link rel="canonical" href="https://tripplefourshophub.online/shop" />
+        <meta property="og:title" content="Shop Cannabis Infused Products Online SA | Tripplefour" />
+        <meta property="og:description" content="Browse edibles, vapes, dab & more from R50. Fast delivery across South Africa." />
+        <meta property="og:url" content="https://tripplefourshophub.online/shop" />
+      </Helmet>
       <Navbar />
       <main className="flex-1 px-4 py-6">
         <div className="mx-auto max-w-7xl">
