@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
 import { Calendar, ArrowLeft, ExternalLink, MessageCircle } from "lucide-react";
 import SocialShare from "@/components/SocialShare";
@@ -74,8 +75,49 @@ export default function BlogPost() {
     );
   }
 
+  const pageUrl = `https://tripplefourshophub.online/blog/${post.slug}`;
+  const excerpt = post.content.slice(0, 155).replace(/\n/g, " ").trim() + "…";
+  const pageTitle = `${post.title} | Tripplefour Cannabis Blog`;
+
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": post.title,
+    "datePublished": post.published_at,
+    "author": { "@type": "Organization", "name": "Tripplefour" },
+    "publisher": { "@type": "Organization", "name": "Tripplefour", "url": "https://tripplefourshophub.online" },
+    "url": pageUrl,
+    "mainEntityOfPage": pageUrl,
+    ...(post.cover_image ? { image: post.cover_image } : {}),
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://tripplefourshophub.online/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://tripplefourshophub.online/blog" },
+      { "@type": "ListItem", "position": 3, "name": post.title, "item": pageUrl }
+    ]
+  };
+
   return (
     <div className="flex min-h-screen flex-col">
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={excerpt} />
+        <link rel="canonical" href={pageUrl} />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={excerpt} />
+        <meta property="og:url" content={pageUrl} />
+        {post.cover_image && <meta property="og:image" content={post.cover_image} />}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={excerpt} />
+        <script type="application/ld+json">{JSON.stringify(articleJsonLd)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbJsonLd)}</script>
+      </Helmet>
       <Navbar />
       <main className="flex-1 px-4 py-12">
         <article className="mx-auto max-w-3xl">
