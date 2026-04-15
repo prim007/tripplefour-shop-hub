@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import SponsorInquiryForm from "@/components/SponsorInquiryForm";
 import { ExternalLink, Star, Check } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -33,6 +34,14 @@ export default function Partners() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <Helmet>
+        <title>Partners & Sponsors | Tripplefour — Cannabis Infused Products South Africa</title>
+        <meta name="description" content="Partner with Tripplefour — South Africa's growing cannabis infused products brand. Explore sponsorship tiers and affiliate opportunities." />
+        <link rel="canonical" href="https://tripplefourshophub.online/partners" />
+        <meta property="og:title" content="Partners & Sponsors | Tripplefour" />
+        <meta property="og:description" content="Partner with Tripplefour — South Africa's growing cannabis brand. Sponsorship tiers & affiliate opportunities." />
+        <meta property="og:url" content="https://tripplefourshophub.online/partners" />
+      </Helmet>
       <Navbar />
       <main className="flex-1 px-4 py-12">
         <div className="mx-auto max-w-5xl">
