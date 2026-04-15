@@ -126,7 +126,7 @@ export default function ProductDetail() {
 
           <div className="grid gap-8 md:grid-cols-2">
             <div className="aspect-square overflow-hidden rounded-2xl bg-muted">
-              <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
+              <img src={product.image} alt={`Buy ${product.name} online South Africa — R${product.price} cannabis infused product`} className="h-full w-full object-cover" />
               {product.comingSoon && (
                 <div className="absolute inset-0 flex items-center justify-center bg-background/70">
                   <Badge variant="secondary">Coming Soon</Badge>
