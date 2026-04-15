@@ -43,6 +43,7 @@ export default function Partners() {
         <meta property="og:url" content="https://tripplefourshophub.online/partners" />
       </Helmet>
       <Navbar />
+      <main className="flex-1 px-4 py-12">
         <div className="mx-auto max-w-5xl">
           {/* Header */}
           <div className="mb-10 text-center">
