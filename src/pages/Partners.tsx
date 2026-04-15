@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import SponsorInquiryForm from "@/components/SponsorInquiryForm";
 import { ExternalLink, Star, Check } from "lucide-react";
 import Navbar from "@/components/Navbar";

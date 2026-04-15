@@ -1,9 +1,16 @@
+import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function PrivacyPolicy() {
   return (
     <div className="flex min-h-screen flex-col">
+      <Helmet>
+        <title>Privacy Policy | Tripplefour — Cannabis Infused Products South Africa</title>
+        <meta name="description" content="Read Tripplefour's privacy policy. Learn how we handle your personal information when you order cannabis infused products online in South Africa." />
+        <link rel="canonical" href="https://tripplefourshophub.online/privacy-policy" />
+        <meta name="robots" content="noindex, follow" />
+      </Helmet>
       <Navbar />
       <main className="flex-1 px-4 py-12">
         <div className="mx-auto max-w-3xl space-y-8">

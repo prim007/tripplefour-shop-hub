@@ -1,9 +1,16 @@
+import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function TermsOfService() {
   return (
     <div className="flex min-h-screen flex-col">
+      <Helmet>
+        <title>Terms of Service | Tripplefour — Cannabis Infused Products South Africa</title>
+        <meta name="description" content="Review Tripplefour's terms of service for purchasing cannabis infused products online in South Africa. Age requirements, payment terms & delivery policies." />
+        <link rel="canonical" href="https://tripplefourshophub.online/terms-of-service" />
+        <meta name="robots" content="noindex, follow" />
+      </Helmet>
       <Navbar />
       <main className="flex-1 px-4 py-12">
         <div className="mx-auto max-w-3xl space-y-8">
