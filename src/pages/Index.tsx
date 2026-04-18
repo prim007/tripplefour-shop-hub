@@ -106,6 +106,12 @@ const Index = () => {
             </Carousel>
             <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-transparent" />
             <div className="absolute inset-0 groovy-gradient opacity-30 mix-blend-overlay" />
+
+            {/* Bouncing groovy emoji accents — lightweight GPU-only transforms */}
+            <span aria-hidden="true" className="pointer-events-none absolute top-[15%] left-[8%] text-4xl md:text-5xl drop-shadow-lg animate-bounce-around will-change-transform">🍪</span>
+            <span aria-hidden="true" className="pointer-events-none absolute top-[20%] right-[10%] text-4xl md:text-5xl drop-shadow-lg animate-float-slow will-change-transform" style={{ animationDelay: "0.5s" }}>✨</span>
+            <span aria-hidden="true" className="pointer-events-none absolute bottom-[18%] left-[12%] text-3xl md:text-4xl drop-shadow-lg animate-float-slow will-change-transform" style={{ animationDelay: "1s" }}>🌿</span>
+            <span aria-hidden="true" className="pointer-events-none absolute bottom-[22%] right-[8%] text-4xl md:text-5xl drop-shadow-lg animate-bounce-around will-change-transform" style={{ animationDelay: "1.5s" }}>💨</span>
           </div>
 
           <div className="relative mx-auto max-w-7xl px-4 py-20 text-center md:py-28">

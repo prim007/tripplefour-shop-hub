@@ -62,8 +62,6 @@ export const products: Product[] = [
   // Dab
   { id: "dab-1", name: "Dab Concentrate", category: "Dab", price: 350, description: "Premium cannabis dab concentrate.", image: categoryImages["Dab"] },
 
-  // Other
-  { id: "ot-moon", name: "Moon Sticks", category: "Other", price: 125, description: "Premium moon sticks for an elevated experience.", image: categoryImages["Other"] },
 ];
 
 export function getProductById(id: string): Product | undefined {
