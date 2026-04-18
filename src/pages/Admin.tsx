@@ -66,7 +66,10 @@ export default function Admin() {
     setLoading(false);
   };
 
-  const confirmPayment = async (orderId: string) => {
+  const confirmPayment = async (orderId: string, orderRef: string) => {
+    if (!window.confirm(`Mark order ${orderRef} as PAID? The customer's awaiting-payment screen will auto-update within ~5 seconds.`)) {
+      return;
+    }
     setConfirming(orderId);
     try {
       const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-orders?action=confirm-payment`;
@@ -80,10 +83,10 @@ export default function Admin() {
       });
 
       if (!response.ok) throw new Error("Failed");
-      toast({ title: "Payment confirmed!", description: "Customer has been notified." });
+      toast({ title: "✅ Marked as paid", description: `Order ${orderRef} confirmed. Customer will be notified automatically.` });
       fetchOrders();
     } catch {
-      toast({ title: "Error", description: "Failed to confirm payment.", variant: "destructive" });
+      toast({ title: "Error", description: "Failed to mark order as paid.", variant: "destructive" });
     }
     setConfirming(null);
   };
@@ -183,10 +186,11 @@ export default function Admin() {
                   {order.payment_status !== "confirmed" && (
                     <Button
                       size="sm"
-                      onClick={() => confirmPayment(order.id)}
+                      onClick={() => confirmPayment(order.id, order.order_ref)}
                       disabled={confirming === order.id}
                     >
-                      {confirming === order.id ? "Confirming..." : "Confirm Payment"}
+                      <CheckCircle className="h-4 w-4 mr-1.5" />
+                      {confirming === order.id ? "Marking..." : "Mark as Paid"}
                     </Button>
                   )}
                 </div>
