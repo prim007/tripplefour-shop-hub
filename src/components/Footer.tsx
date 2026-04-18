@@ -1,5 +1,13 @@
-import { Leaf, MessageCircle } from "lucide-react";
+import { Leaf, MessageCircle, Instagram, Facebook, Youtube, Music2, Twitter } from "lucide-react";
 import { Link } from "react-router-dom";
+
+const socials = [
+  { href: "https://www.instagram.com/tripple444canny", label: "Instagram", Icon: Instagram },
+  { href: "https://www.tiktok.com/@tripple444canny", label: "TikTok", Icon: Music2 },
+  { href: "https://www.facebook.com/tripple444canny", label: "Facebook", Icon: Facebook },
+  { href: "https://x.com/tripple444canny", label: "X (Twitter)", Icon: Twitter },
+  { href: "https://www.youtube.com/@tripple444canny", label: "YouTube", Icon: Youtube },
+];
 
 export default function Footer() {
   return (
@@ -47,6 +55,24 @@ export default function Footer() {
               <MessageCircle className="h-4 w-4" />
               WhatsApp Us ✌️
             </a>
+            <div className="mt-4">
+              <h4 className="font-display text-sm font-semibold mb-2">Follow @tripple444canny</h4>
+              <div className="flex flex-wrap gap-2">
+                {socials.map(({ href, label, Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    title={label}
+                    className="flex h-9 w-9 items-center justify-center rounded-full border text-muted-foreground transition-all hover:text-primary hover:bg-primary/5 hover:scale-110"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
         <div className="mt-8 border-t pt-6 text-center text-xs text-muted-foreground">
