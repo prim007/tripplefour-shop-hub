@@ -10,6 +10,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import CartDrawer from "@/components/CartDrawer";
 import AgeVerification from "@/components/AgeVerification";
 import CuddlesChatbot from "@/components/CuddlesChatbot";
+import WelcomeDiscountPopup from "@/components/WelcomeDiscountPopup";
 
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
@@ -64,6 +65,7 @@ const App = () => (
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <CuddlesChatbot />
+              <WelcomeDiscountPopup />
             </BrowserRouter>
           </CartDrawerProvider>
         </CartProvider>

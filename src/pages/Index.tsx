@@ -77,10 +77,10 @@ const Index = () => {
       <main className="flex-1">
         {/* Urgency ticker */}
         <div className="bg-primary text-primary-foreground py-2 overflow-hidden">
-          <div className="flex items-center justify-center gap-2 text-sm font-semibold animate-pulse">
-            <Flame className="h-4 w-4" />
-            <span>🔥 Buy now — same-day dispatch before 2PM! Free delivery over R500 🛒</span>
-            <Flame className="h-4 w-4" />
+          <div className="flex items-center justify-center gap-2 text-sm font-semibold animate-pulse text-center px-4">
+            <Flame className="h-4 w-4 shrink-0" />
+            <span>🔥 Use code <strong className="font-mono">WELCOME10</strong> for 10% off · Same-day dispatch before 2PM 🛒</span>
+            <Flame className="h-4 w-4 shrink-0" />
           </div>
         </div>
 
@@ -114,39 +114,53 @@ const Index = () => {
             <span aria-hidden="true" className="pointer-events-none absolute bottom-[22%] right-[8%] text-4xl md:text-5xl drop-shadow-lg animate-bounce-around will-change-transform" style={{ animationDelay: "1.5s" }}>💨</span>
           </div>
 
-          <div className="relative mx-auto max-w-7xl px-4 py-20 text-center md:py-28">
+          <div className="relative mx-auto max-w-7xl px-4 py-16 text-center md:py-20">
+            {/* Delivery promise badge */}
+            <div className="inline-flex items-center gap-2 rounded-full bg-primary/90 backdrop-blur px-4 py-1.5 text-xs md:text-sm font-bold text-primary-foreground shadow-lg mb-4">
+              <Truck className="h-3.5 w-3.5" /> 24–48hr Delivery · Joburg & Nationwide
+            </div>
+
             <h1 className="font-display text-4xl font-extrabold tracking-tight drop-shadow-lg md:text-6xl text-white leading-tight">
-              Cannabis Infused Products<br className="hidden md:block" />
-              <span className="text-white/90 text-2xl md:text-4xl font-bold">Delivered Across South Africa</span>
+              Cannabis Delivered.<br className="hidden md:block" />
+              <span className="groovy-gradient-text bg-clip-text">Same Day. No Stress.</span>
             </h1>
-            <p className="mx-auto mt-4 max-w-xl text-lg opacity-95 drop-shadow-md md:text-xl text-white/90">
-              Edibles from R60 · Vapes from R85 · Dab from R350 — order now, delivered in 1–3 days to Joburg, Cape Town, Durban & nationwide.
+            <p className="mx-auto mt-3 max-w-xl text-base opacity-95 drop-shadow-md md:text-lg text-white/90">
+              Edibles · Vapes · Dab · Pre-rolls — from <strong className="text-white">R50</strong>. Pay by EFT, delivered to your door.
             </p>
+
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <Button
                 asChild
                 size="lg"
-                className="gap-2 text-base rounded-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl shadow-primary/30 transition-transform hover:scale-105"
+                className="gap-2 text-lg px-8 py-6 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl shadow-primary/40 transition-transform hover:scale-105 font-bold"
               >
                 <Link to="/shop">
-                  <Sparkles className="h-4 w-4" /> Shop Now <ArrowRight className="h-4 w-4" />
+                  <Sparkles className="h-5 w-5" /> Shop Now <ArrowRight className="h-5 w-5" />
                 </Link>
               </Button>
               <Button
                 asChild
                 size="lg"
-                className="gap-2 rounded-full bg-accent text-base text-accent-foreground hover:bg-accent/90 shadow-xl shadow-accent/30 font-semibold transition-transform hover:scale-105"
+                variant="outline"
+                className="gap-2 rounded-full bg-white/10 backdrop-blur border-white/40 text-white text-base hover:bg-white/20 font-semibold"
               >
                 <a href="https://wa.me/27645436734" target="_blank" rel="noopener noreferrer">
-                  WhatsApp Order
+                  💬 WhatsApp Order
                 </a>
               </Button>
             </div>
-            <div className="mt-8 flex flex-wrap justify-center gap-4 text-white/80 text-sm">
-              <span className="flex items-center gap-1.5"><Truck className="h-4 w-4" /> Nationwide Delivery</span>
+
+            {/* Trust badges */}
+            <div className="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-2 text-white/90 text-xs md:text-sm font-medium">
               <span className="flex items-center gap-1.5"><Shield className="h-4 w-4" /> Quality Tested</span>
-              <span className="flex items-center gap-1.5"><Clock className="h-4 w-4" /> 24hr Dispatch</span>
+              <span className="flex items-center gap-1.5"><Clock className="h-4 w-4" /> Same-Day Dispatch</span>
+              <span className="flex items-center gap-1.5"><Leaf className="h-4 w-4" /> 100% Discreet</span>
             </div>
+
+            {/* First-order code teaser */}
+            <p className="mt-4 text-xs md:text-sm text-white/80">
+              ✨ New here? Use code <strong className="font-mono text-white bg-white/15 px-2 py-0.5 rounded">WELCOME10</strong> for 10% off
+            </p>
           </div>
         </section>
 
