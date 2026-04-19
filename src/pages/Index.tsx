@@ -77,10 +77,10 @@ const Index = () => {
       <main className="flex-1">
         {/* Urgency ticker */}
         <div className="bg-primary text-primary-foreground py-2 overflow-hidden">
-          <div className="flex items-center justify-center gap-2 text-sm font-semibold animate-pulse">
-            <Flame className="h-4 w-4" />
-            <span>🔥 Buy now — same-day dispatch before 2PM! Free delivery over R500 🛒</span>
-            <Flame className="h-4 w-4" />
+          <div className="flex items-center justify-center gap-2 text-sm font-semibold animate-pulse text-center px-4">
+            <Flame className="h-4 w-4 shrink-0" />
+            <span>🔥 Use code <strong className="font-mono">WELCOME10</strong> for 10% off · Same-day dispatch before 2PM 🛒</span>
+            <Flame className="h-4 w-4 shrink-0" />
           </div>
         </div>
 
