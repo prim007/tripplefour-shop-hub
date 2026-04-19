@@ -256,6 +256,20 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
             <div ref={messagesEndRef} />
           </div>
 
+          <div className="border-t bg-secondary/30 px-3 py-2">
+            <Button
+              asChild
+              size="sm"
+              variant="outline"
+              className="w-full gap-1.5 rounded-full text-xs font-semibold border-primary/40 text-primary hover:bg-primary/10"
+              onClick={() => trackEvent("cuddles_shop_cta_clicked")}
+            >
+              <Link to="/shop">
+                <ShoppingBag className="h-3.5 w-3.5" /> Shop All Strains & Edibles
+              </Link>
+            </Button>
+          </div>
+
           <div className="border-t p-3">
             <form onSubmit={(e) => { e.preventDefault(); sendMessage(input); }} className="flex gap-2">
               <input
