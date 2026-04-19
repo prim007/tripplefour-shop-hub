@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { MessageCircle, X, Send, Sparkles } from "lucide-react";
+import { MessageCircle, X, Send, Sparkles, ShoppingBag } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
-import { Analytics } from "@/lib/analytics";
+import { Analytics, trackEvent } from "@/lib/analytics";
 import ChatProductCard from "@/components/ChatProductCard";
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cuddles-chat`;
