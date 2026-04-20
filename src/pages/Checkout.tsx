@@ -236,6 +236,7 @@ export default function Checkout() {
           items: orderItems,
           promo_code: promoApplied ? promoCode.trim() : undefined,
           age_token: ageToken,
+          affiliate_code: (await import("@/lib/affiliate")).getStoredAffiliateCode() ?? undefined,
         },
       });
 
