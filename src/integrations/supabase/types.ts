@@ -14,6 +14,98 @@ export type Database = {
   }
   public: {
     Tables: {
+      affiliate_referrals: {
+        Row: {
+          affiliate_id: string
+          commission_amount: number
+          commission_percent: number
+          created_at: string
+          id: string
+          order_id: string
+          order_ref: string
+          order_subtotal: number
+          paid_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          affiliate_id: string
+          commission_amount: number
+          commission_percent: number
+          created_at?: string
+          id?: string
+          order_id: string
+          order_ref: string
+          order_subtotal: number
+          paid_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          affiliate_id?: string
+          commission_amount?: number
+          commission_percent?: number
+          created_at?: string
+          id?: string
+          order_id?: string
+          order_ref?: string
+          order_subtotal?: number
+          paid_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "affiliate_referrals_affiliate_id_fkey"
+            columns: ["affiliate_id"]
+            isOneToOne: false
+            referencedRelation: "affiliates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      affiliates: {
+        Row: {
+          active: boolean
+          code: string
+          commission_percent: number
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          social_handle: string | null
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          code: string
+          commission_percent?: number
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          social_handle?: string | null
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          code?: string
+          commission_percent?: number
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          social_handle?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       blog_posts: {
         Row: {
           content: string
@@ -202,6 +294,7 @@ export type Database = {
       }
       orders: {
         Row: {
+          affiliate_code: string | null
           created_at: string
           customer_email: string
           customer_name: string
@@ -220,6 +313,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          affiliate_code?: string | null
           created_at?: string
           customer_email: string
           customer_name: string
@@ -238,6 +332,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          affiliate_code?: string | null
           created_at?: string
           customer_email?: string
           customer_name?: string

@@ -83,9 +83,90 @@ Deno.serve(async (req) => {
         .single();
 
       if (error) throw error;
+
+      // When the order is paid, mark its referral as confirmed
+      await supabase
+        .from("affiliate_referrals")
+        .update({ status: "confirmed" })
+        .eq("order_id", order_id)
+        .eq("status", "pending");
+
       return new Response(JSON.stringify(data), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
+    }
+
+    // ===== Affiliates =====
+    if (action === "list-affiliates") {
+      const { data: affiliates, error } = await supabase
+        .from("affiliates")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+
+      const { data: referrals } = await supabase
+        .from("affiliate_referrals")
+        .select("affiliate_id, commission_amount, status");
+
+      const stats: Record<string, { sales: number; pending: number; confirmed: number; paid: number }> = {};
+      for (const r of referrals ?? []) {
+        const s = stats[r.affiliate_id] ??= { sales: 0, pending: 0, confirmed: 0, paid: 0 };
+        s.sales += 1;
+        const amt = Number(r.commission_amount);
+        if (r.status === "pending") s.pending += amt;
+        if (r.status === "confirmed") s.confirmed += amt;
+        if (r.status === "paid") s.paid += amt;
+      }
+
+      return new Response(
+        JSON.stringify((affiliates ?? []).map((a) => ({ ...a, stats: stats[a.id] ?? { sales: 0, pending: 0, confirmed: 0, paid: 0 } }))),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
+    if (action === "create-affiliate") {
+      const body = await req.json();
+      const code = String(body.code || "").trim().toUpperCase().slice(0, 32);
+      const name = String(body.name || "").trim().slice(0, 100);
+      const email = body.email ? String(body.email).trim().slice(0, 255) : null;
+      const phone = body.phone ? String(body.phone).trim().slice(0, 30) : null;
+      const social_handle = body.social_handle ? String(body.social_handle).trim().slice(0, 100) : null;
+      const commission_percent = Math.min(Math.max(Number(body.commission_percent) || 15, 0), 50);
+
+      if (!code || !/^[A-Z0-9_-]{2,32}$/.test(code) || !name) {
+        return new Response(JSON.stringify({ error: "Invalid code or name" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+
+      const { data, error } = await supabase
+        .from("affiliates")
+        .insert({ code, name, email, phone, social_handle, commission_percent })
+        .select()
+        .single();
+      if (error) {
+        return new Response(JSON.stringify({ error: error.message }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+      return new Response(JSON.stringify(data), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    if (action === "toggle-affiliate") {
+      const { id, active } = await req.json();
+      if (!id) return new Response(JSON.stringify({ error: "id required" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      const { data, error } = await supabase.from("affiliates").update({ active: Boolean(active) }).eq("id", id).select().single();
+      if (error) throw error;
+      return new Response(JSON.stringify(data), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    if (action === "mark-payouts-paid") {
+      const { affiliate_id } = await req.json();
+      if (!affiliate_id) return new Response(JSON.stringify({ error: "affiliate_id required" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      const { data, error } = await supabase
+        .from("affiliate_referrals")
+        .update({ status: "paid", paid_at: new Date().toISOString() })
+        .eq("affiliate_id", affiliate_id)
+        .eq("status", "confirmed")
+        .select();
+      if (error) throw error;
+      return new Response(JSON.stringify({ count: data?.length ?? 0 }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     return new Response(JSON.stringify({ error: "Unknown action" }), {
