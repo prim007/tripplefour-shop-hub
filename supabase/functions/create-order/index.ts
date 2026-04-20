@@ -94,6 +94,7 @@ Deno.serve(async (req) => {
       items,
       promo_code,
       age_token,
+      affiliate_code,
     } = body;
 
     if (!customer_name || !customer_email || !customer_phone || !delivery_address || !delivery_zone_id || !Array.isArray(items) || items.length === 0) {
@@ -206,6 +207,21 @@ Deno.serve(async (req) => {
     const total = Math.max(deliveryFee, subtotal - discountAmount + deliveryFee);
     const orderRef = `TF-${crypto.randomUUID().replace(/-/g, "").slice(0, 10).toUpperCase()}`;
 
+    // Validate affiliate code (optional)
+    let affiliate: { id: string; code: string; commission_percent: number } | null = null;
+    if (affiliate_code && typeof affiliate_code === "string") {
+      const cleanCode = affiliate_code.trim().toUpperCase().slice(0, 32);
+      if (/^[A-Z0-9_-]{2,32}$/.test(cleanCode)) {
+        const { data: aff } = await supabase
+          .from("affiliates")
+          .select("id, code, commission_percent, active")
+          .eq("code", cleanCode)
+          .eq("active", true)
+          .maybeSingle();
+        if (aff) affiliate = { id: aff.id, code: aff.code, commission_percent: Number(aff.commission_percent) };
+      }
+    }
+
     const { data: order, error: insertError } = await supabase
       .from("orders")
       .insert({
@@ -222,6 +238,7 @@ Deno.serve(async (req) => {
         payment_method: "eft",
         payment_status: "pending",
         status: "pending",
+        affiliate_code: affiliate?.code ?? null,
       })
       .select("id, order_ref, subtotal, total, delivery_fee")
       .single();
@@ -231,6 +248,20 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ error: "Failed to create order" }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Record affiliate referral
+    if (affiliate) {
+      const commissionAmount = Math.round((subtotal * affiliate.commission_percent) / 100 * 100) / 100;
+      await supabase.from("affiliate_referrals").insert({
+        affiliate_id: affiliate.id,
+        order_id: order.id,
+        order_ref: order.order_ref,
+        order_subtotal: subtotal,
+        commission_percent: affiliate.commission_percent,
+        commission_amount: commissionAmount,
+        status: "pending",
       });
     }
 
