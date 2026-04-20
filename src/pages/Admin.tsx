@@ -8,6 +8,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { CheckCircle, Clock, Lock, Package, RefreshCw } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AdminAffiliates from "@/components/AdminAffiliates";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Order {
   id: string;
@@ -127,14 +129,23 @@ export default function Admin() {
       <main className="flex-1 px-4 py-8">
         <div className="mx-auto max-w-5xl">
           <div className="flex items-center justify-between">
-            <h1 className="font-display text-3xl font-bold">Order Management</h1>
-            <Button variant="outline" size="sm" onClick={() => fetchOrders()} disabled={loading}>
-              <RefreshCw className={`h-4 w-4 mr-1 ${loading ? "animate-spin" : ""}`} />
-              Refresh
-            </Button>
+            <h1 className="font-display text-3xl font-bold">Admin Dashboard</h1>
           </div>
 
-          <div className="mt-8 space-y-4">
+          <Tabs defaultValue="orders" className="mt-6">
+            <TabsList>
+              <TabsTrigger value="orders">Orders</TabsTrigger>
+              <TabsTrigger value="affiliates">Affiliates</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="orders" className="mt-4">
+              <div className="flex justify-end mb-3">
+                <Button variant="outline" size="sm" onClick={() => fetchOrders()} disabled={loading}>
+                  <RefreshCw className={`h-4 w-4 mr-1 ${loading ? "animate-spin" : ""}`} />
+                  Refresh
+                </Button>
+              </div>
+              <div className="space-y-4">
             {orders.length === 0 && !loading && (
               <div className="text-center py-12 text-muted-foreground">
                 <Package className="mx-auto h-12 w-12 mb-3" />
@@ -196,7 +207,13 @@ export default function Admin() {
                 </div>
               </div>
             ))}
-          </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="affiliates" className="mt-4">
+              <AdminAffiliates adminKey={adminKey} />
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
       <Footer />
