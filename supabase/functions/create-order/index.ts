@@ -14,12 +14,11 @@ const PRODUCT_PRICES: Record<string, number> = {
   "ghs-50": 1085, "ghs-20": 735, "ghs-2": 260,
   "ind-10": 500, "ind-2": 315, "ind-1": 255,
   "ed-cube40": 60, "ed-soda": 60,
-  "vp-disp": 290,
-  "vp-lz-toffee": 370, "vp-lz-cherry": 370, "vp-lz-peach": 370,
-  "vp-lz-blueberry": 370, "vp-lz-greenapple": 370, "vp-lz-oil": 290,
+  "vp-disp": 390,
+  "vp-lz-toffee": 390, "vp-lz-cherry": 390, "vp-lz-peach": 390,
+  "vp-lz-blueberry": 390, "vp-lz-greenapple": 390, "vp-lz-oil": 320,
   "dab-1": 350,
   "ot-moon": 125,
-  
 };
 
 function toBase64Url(input: string): string {

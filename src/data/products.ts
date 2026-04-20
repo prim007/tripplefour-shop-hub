@@ -51,13 +51,13 @@ export const products: Product[] = [
   { id: "ed-icecream", name: "Cannabis Infused Ice Cream", category: "Edibles", price: 0, description: "Delicious cannabis-infused ice cream. Coming soon!", image: categoryImages["Edibles"], comingSoon: true },
 
   // Vapes
-  { id: "vp-disp", name: "Disposable Juice 10ml", category: "Vapes", price: 290, description: "10ml disposable vape juice.", image: dispJuice10mlImg },
-  { id: "vp-lz-toffee", name: "Liquid Zol Toffee Popcorn", category: "Vapes", price: 370, description: "Disposable THC vape — Toffee Popcorn flavour. Caramel revolution with rich taste and big vapor.", image: liquidZolToffeeImg },
-  { id: "vp-lz-cherry", name: "Liquid Zol Cherry Heat", category: "Vapes", price: 370, description: "Disposable THC vape — Cherry Heat Ignition. Premium edition with rich taste and big vapor.", image: liquidZolCherryImg },
-  { id: "vp-lz-peach", name: "Liquid Zol Peach", category: "Vapes", price: 370, description: "Disposable THC vape — Peach Revolution. Premium edition with rich taste and big vapor.", image: liquidZolPeachImg },
-  { id: "vp-lz-blueberry", name: "Liquid Zol Blueberry", category: "Vapes", price: 370, description: "Disposable THC vape — Neon Blueberry Smash. Premium edition with rich taste and big vapor.", image: liquidZolBlueberryImg },
-  { id: "vp-lz-greenapple", name: "Liquid Zol Green Apple", category: "Vapes", price: 370, description: "Disposable THC vape — Green Apple Fury. Flavour explosion with rich taste and big vapor.", image: liquidZolGreenAppleImg },
-  { id: "vp-lz-oil", name: "Liquid Zol Concentrated Oil", category: "Vapes", price: 290, description: "Concentrated THC oil for vaping. Premium quality extract.", image: liquidZolOilImg },
+  { id: "vp-disp", name: "Disposable Juice 10ml", category: "Vapes", price: 390, description: "10ml disposable vape juice.", image: dispJuice10mlImg },
+  { id: "vp-lz-toffee", name: "Liquid Zol Toffee Popcorn", category: "Vapes", price: 390, description: "Disposable THC vape — Toffee Popcorn flavour. Caramel revolution with rich taste and big vapor.", image: liquidZolToffeeImg },
+  { id: "vp-lz-cherry", name: "Liquid Zol Cherry Heat", category: "Vapes", price: 390, description: "Disposable THC vape — Cherry Heat Ignition. Premium edition with rich taste and big vapor.", image: liquidZolCherryImg },
+  { id: "vp-lz-peach", name: "Liquid Zol Peach", category: "Vapes", price: 390, description: "Disposable THC vape — Peach Revolution. Premium edition with rich taste and big vapor.", image: liquidZolPeachImg },
+  { id: "vp-lz-blueberry", name: "Liquid Zol Blueberry", category: "Vapes", price: 390, description: "Disposable THC vape — Neon Blueberry Smash. Premium edition with rich taste and big vapor.", image: liquidZolBlueberryImg },
+  { id: "vp-lz-greenapple", name: "Liquid Zol Green Apple", category: "Vapes", price: 390, description: "Disposable THC vape — Green Apple Fury. Flavour explosion with rich taste and big vapor.", image: liquidZolGreenAppleImg },
+  { id: "vp-lz-oil", name: "Liquid Zol Concentrated Oil", category: "Vapes", price: 320, description: "Concentrated THC oil for vaping. Premium quality extract.", image: liquidZolOilImg },
 
   // Dab
   { id: "dab-1", name: "Dab Concentrate", category: "Dab", price: 350, description: "Premium cannabis dab concentrate.", image: categoryImages["Dab"] },
