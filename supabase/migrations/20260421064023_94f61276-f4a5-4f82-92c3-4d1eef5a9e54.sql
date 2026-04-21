@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "Public can read active affiliate codes" ON public.affiliates;
