@@ -120,9 +120,9 @@ const Index = () => {
               <Truck className="h-3.5 w-3.5" /> 24–48hr Delivery · Joburg & Nationwide
             </div>
 
-            <h1 className="font-display text-4xl font-extrabold tracking-tight drop-shadow-lg md:text-6xl text-white leading-tight">
-              Cannabis Delivered.<br className="hidden md:block" />
-              <span className="groovy-gradient-text bg-clip-text">Same Day. No Stress.</span>
+<h1 className="font-display text-3xl font-extrabold tracking-tight drop-shadow-lg md:text-5xl text-white leading-tight">
+              Cannabis Infused Products.<br className="hidden md:block" />
+              <span className="groovy-gradient-text bg-clip-text">Not Just Cannabis.</span>
             </h1>
             <p className="mx-auto mt-3 max-w-xl text-base opacity-95 drop-shadow-md md:text-lg text-white/90">
               Edibles · Vapes · Dab · Pre-rolls — from <strong className="text-white">R50</strong>. Pay by EFT, delivered to your door.
