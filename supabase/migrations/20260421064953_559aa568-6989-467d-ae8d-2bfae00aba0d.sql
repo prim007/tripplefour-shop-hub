@@ -1,0 +1,1 @@
+DELETE FROM public.affiliate_applications WHERE email = 'qa-mobile@tripplefour.test';
