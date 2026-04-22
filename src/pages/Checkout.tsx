@@ -8,12 +8,13 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { CheckCircle, Clock, Truck, AlertTriangle, Tag, Loader2, Shield } from "lucide-react";
+import { CheckCircle, Clock, Truck, AlertTriangle, Tag, Loader2, Shield, Heart } from "lucide-react";
 import { Analytics } from "@/lib/analytics";
 import { AGE_TOKEN_KEY } from "@/lib/age-verification";
 import { trackFunnel } from "@/lib/funnel";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { getStoredAffiliateCode } from "@/lib/affiliate";
 
 const PROMO_URL = "https://rcigcarkcpinnniddxcm.supabase.co/functions/v1/validate-promo-code";
 
@@ -57,6 +58,13 @@ export default function Checkout() {
   const [serverDeliveryFee, setServerDeliveryFee] = useState<number | null>(null);
   const [deliveryZoneName, setDeliveryZoneName] = useState("");
   const [statusToken, setStatusToken] = useState("");
+  const [affiliateCode, setAffiliateCode] = useState("");
+
+  // Pre-fill affiliate code from stored ?ref= URL param
+  useEffect(() => {
+    const stored = getStoredAffiliateCode();
+    if (stored) setAffiliateCode(stored);
+  }, []);
 
   const discountAmount = Math.round(totalPrice * (promoDiscount / 100));
   const deliveryFee = selectedZone?.fee ?? 0;
