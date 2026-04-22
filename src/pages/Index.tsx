@@ -85,7 +85,7 @@ const Index = () => {
         </div>
 
         {/* Hero with Carousel */}
-        <section className="relative overflow-hidden">
+        <section className="relative overflow-hidden aspect-[16/9] max-h-[560px] min-h-[420px] md:min-h-[480px]">
           <div className="absolute inset-0">
             <Carousel
               opts={{ loop: true, align: "start" }}
@@ -98,7 +98,8 @@ const Index = () => {
                     <img
                       src={b.src}
                       alt={b.alt}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover object-center"
+                      loading={i === 0 ? "eager" : "lazy"}
                     />
                   </CarouselItem>
                 ))}
@@ -114,7 +115,7 @@ const Index = () => {
             <span aria-hidden="true" className="pointer-events-none absolute bottom-[22%] right-[8%] text-4xl md:text-5xl drop-shadow-lg animate-bounce-around will-change-transform" style={{ animationDelay: "1.5s" }}>💨</span>
           </div>
 
-          <div className="relative mx-auto max-w-7xl px-4 py-16 text-center md:py-20">
+          <div className="relative mx-auto flex h-full max-w-7xl flex-col items-center justify-center px-4 py-8 text-center md:py-12">
             {/* Delivery promise badge */}
             <div className="inline-flex items-center gap-2 rounded-full bg-primary/90 backdrop-blur px-4 py-1.5 text-xs md:text-sm font-bold text-primary-foreground shadow-lg mb-4">
               <Truck className="h-3.5 w-3.5" /> 24–48hr Delivery · Joburg & Nationwide
