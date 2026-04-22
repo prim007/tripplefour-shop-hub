@@ -85,20 +85,20 @@ const Index = () => {
         </div>
 
         {/* Hero with Carousel */}
-        <section className="relative overflow-hidden aspect-[16/9] max-h-[560px] min-h-[420px] md:min-h-[480px]">
-          <div className="absolute inset-0">
+        <section className="relative w-full overflow-hidden h-[480px] sm:h-[520px] md:h-[560px] lg:h-[600px]">
+          <div className="absolute inset-0 w-full h-full">
             <Carousel
               opts={{ loop: true, align: "start" }}
               plugins={[Autoplay({ delay: 4000, stopOnInteraction: false })]}
-              className="h-full"
+              className="h-full w-full"
             >
-              <CarouselContent className="-ml-0 h-full">
+              <CarouselContent className="-ml-0 h-full w-full">
                 {banners.map((b, i) => (
-                  <CarouselItem key={i} className="pl-0 h-full">
+                  <CarouselItem key={i} className="pl-0 h-full basis-full shrink-0 grow-0">
                     <img
                       src={b.src}
                       alt={b.alt}
-                      className="h-full w-full object-cover object-center"
+                      className="block h-full w-full object-cover object-center"
                       loading={i === 0 ? "eager" : "lazy"}
                     />
                   </CarouselItem>
