@@ -244,7 +244,7 @@ export default function Checkout() {
           items: orderItems,
           promo_code: promoApplied ? promoCode.trim() : undefined,
           age_token: ageToken,
-          affiliate_code: (await import("@/lib/affiliate")).getStoredAffiliateCode() ?? undefined,
+          affiliate_code: affiliateCode.trim() || undefined,
         },
       });
 
@@ -488,6 +488,25 @@ export default function Checkout() {
                   </div>
                 )}
                 {promoError && <p className="text-sm text-destructive">{promoError}</p>}
+              </div>
+
+              <Separator />
+
+              {/* Affiliate / Creator Code */}
+              <div className="space-y-3">
+                <h2 className="font-display text-lg font-semibold flex items-center gap-2">
+                  <Heart className="h-5 w-5 text-primary" /> Creator / Affiliate Code <span className="text-xs font-normal text-muted-foreground">(optional)</span>
+                </h2>
+                <p className="text-xs text-muted-foreground">
+                  Heard about us from a creator? Drop their code so they get credit for your order. ❤️
+                </p>
+                <Input
+                  value={affiliateCode}
+                  onChange={(e) => setAffiliateCode(e.target.value.toUpperCase().slice(0, 32))}
+                  placeholder="e.g. CANNYQUEEN"
+                  maxLength={32}
+                  className="font-mono uppercase"
+                />
               </div>
             </div>
 
