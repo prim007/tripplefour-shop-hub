@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { trackFunnel } from "@/lib/funnel";
+import { Analytics } from "@/lib/analytics";
 
 interface Props {
   product: Product;
@@ -23,6 +24,8 @@ export default function ProductCard({ product }: Props) {
     if (product.comingSoon) return;
     addItem(product);
     trackFunnel("add_to_cart", product.id, { name: product.name, value: product.price, source: "card" });
+    Analytics.selectItem("Shop card", { item_id: product.id, item_name: product.name, item_category: product.category, price: product.price });
+    Analytics.addToCart(product.id, product.name, product.price, 1, product.category);
     toast({ title: "Added to cart ✌️", description: `${product.name} added.` });
     open();
   };
@@ -31,6 +34,7 @@ export default function ProductCard({ product }: Props) {
     e.preventDefault();
     if (product.comingSoon) return;
     addItem(product);
+    Analytics.addToCart(product.id, product.name, product.price, 1, product.category);
     navigate("/checkout");
   };
 
