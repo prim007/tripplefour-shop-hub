@@ -178,6 +178,7 @@ export default function Checkout() {
       if (result.valid) {
         setPromoDiscount(result.discount_percent);
         setPromoApplied(true);
+        Analytics.promoCodeApplied(code, result.discount_percent);
         toast({ title: "Promo applied!", description: `${result.discount_percent}% discount applied.` });
       } else {
         setPromoError(result.error || "Invalid promo code");
