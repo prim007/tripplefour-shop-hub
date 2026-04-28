@@ -70,6 +70,22 @@ export default function Checkout() {
   const deliveryFee = selectedZone?.fee ?? 0;
   const grandTotal = totalPrice - discountAmount + deliveryFee;
 
+  // GA4 items[] payload built from the cart
+  const gaItems = items.map((it) => ({
+    item_id: it.product.id,
+    item_name: it.product.name,
+    item_category: it.product.category,
+    price: it.product.price,
+    quantity: it.quantity,
+  }));
+
+  // Fire add_shipping_info when delivery zone is selected
+  useEffect(() => {
+    if (!selectedZone || items.length === 0) return;
+    Analytics.addShippingInfo(gaItems, selectedZone.zone_name, grandTotal);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedZone?.id]);
+
   // Pre-fill email from auth
   useEffect(() => {
     if (user?.email && !form.email) {
@@ -109,7 +125,10 @@ export default function Checkout() {
         if (!error && data?.payment_status === "confirmed") {
           setStep("confirmed");
           clearCart();
-          Analytics.purchase(orderRef, serverTotal || grandTotal);
+          Analytics.purchase(orderRef, serverTotal || grandTotal, gaItems, {
+            shipping: serverDeliveryFee ?? deliveryFee,
+            coupon: promoApplied ? promoCode : undefined,
+          });
           trackFunnel("purchase", undefined, { order_ref: orderRef, total: serverTotal || grandTotal });
         }
       } catch (e) {
@@ -159,6 +178,7 @@ export default function Checkout() {
       if (result.valid) {
         setPromoDiscount(result.discount_percent);
         setPromoApplied(true);
+        Analytics.promoCodeApplied(code, result.discount_percent);
         toast({ title: "Promo applied!", description: `${result.discount_percent}% discount applied.` });
       } else {
         setPromoError(result.error || "Invalid promo code");
@@ -261,7 +281,8 @@ export default function Checkout() {
       setServerDeliveryFee(result.delivery_fee ?? null);
       setDeliveryZoneName(result.delivery_zone_name || selectedZone.zone_name);
       setStatusToken(result.status_token || "");
-      Analytics.beginCheckout(result.total);
+      Analytics.beginCheckout(gaItems, result.total, promoApplied ? promoCode : undefined);
+      Analytics.addPaymentInfo(gaItems, "eft_or_payfast", result.total);
       trackFunnel("begin_checkout", undefined, { total: result.total, method: "eft", items: items.length });
 
       setStep("awaiting-payment");

@@ -10,6 +10,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Analytics } from "@/lib/analytics";
 
 export default function Auth() {
   const [mode, setMode] = useState<"login" | "signup" | "forgot">("login");
@@ -59,6 +60,7 @@ export default function Auth() {
     if (error) {
       toast({ title: "Signup failed", description: error.message, variant: "destructive" });
     } else {
+      Analytics.signUp("email");
       toast({ title: "Check your email 📬", description: "We sent you a confirmation link. Please verify your email to sign in." });
       setMode("login");
     }

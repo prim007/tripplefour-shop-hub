@@ -2,6 +2,7 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 import type { CartItem as CartItemType } from "@/context/CartContext";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
+import { Analytics } from "@/lib/analytics";
 
 interface Props {
   item: CartItemType;
@@ -40,7 +41,14 @@ export default function CartItem({ item }: Props) {
           <Plus className="h-3 w-3" />
         </Button>
       </div>
-      <Button variant="ghost" size="icon" onClick={() => removeItem(product.id)}>
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={() => {
+          Analytics.removeFromCart(product.id, product.name, product.price, quantity);
+          removeItem(product.id);
+        }}
+      >
         <Trash2 className="h-4 w-4 text-destructive" />
       </Button>
     </div>

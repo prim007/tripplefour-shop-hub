@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { AGE_TOKEN_KEY, AGE_VERIFIED_KEY, hasUnexpiredAgeToken } from "@/lib/age-verification";
+import { Analytics } from "@/lib/analytics";
 
 export default function AgeVerification() {
   const [show, setShow] = useState(false);
@@ -31,6 +32,7 @@ export default function AgeVerification() {
 
       localStorage.setItem(AGE_VERIFIED_KEY, "true");
       localStorage.setItem(AGE_TOKEN_KEY, data.token);
+      Analytics.ageVerified();
       setShow(false);
     } catch (error) {
       console.error("Age verification error:", error);

@@ -28,7 +28,7 @@ export default function ProductDetail() {
 
   useEffect(() => {
     if (product) {
-      Analytics.viewItem(product.id, product.name, product.price);
+      Analytics.viewItem(product.id, product.name, product.price, product.category);
       trackFunnel("view_product", product.id, { name: product.name, price: product.price });
     }
   }, [product]);
@@ -54,7 +54,7 @@ export default function ProductDetail() {
 
   const handleAdd = () => {
     addItem(product, qty);
-    Analytics.addToCart(product.id, product.name, product.price * qty);
+    Analytics.addToCart(product.id, product.name, product.price, qty, product.category);
     trackFunnel("add_to_cart", product.id, { name: product.name, quantity: qty, value: product.price * qty });
     toast({ title: "Added to cart", description: `${qty}x ${product.name} added.` });
     openDrawer();
@@ -62,7 +62,7 @@ export default function ProductDetail() {
 
   const handleBuyNow = () => {
     addItem(product, qty);
-    Analytics.addToCart(product.id, product.name, product.price * qty);
+    Analytics.addToCart(product.id, product.name, product.price, qty, product.category);
     navigate("/checkout");
   };
 

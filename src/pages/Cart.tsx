@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { ShoppingCart, Truck, CheckCircle2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import CartItemRow from "@/components/CartItem";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Analytics } from "@/lib/analytics";
 
 const FREE_SHIPPING_THRESHOLD = 800;
 
@@ -15,6 +17,22 @@ export default function Cart() {
   const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - totalPrice);
   const progress = Math.min(100, (totalPrice / FREE_SHIPPING_THRESHOLD) * 100);
   const qualifies = totalPrice >= FREE_SHIPPING_THRESHOLD;
+
+  // Fire view_cart on mount with current items
+  useEffect(() => {
+    if (items.length === 0) return;
+    Analytics.viewCart(
+      items.map((it) => ({
+        item_id: it.product.id,
+        item_name: it.product.name,
+        item_category: it.product.category,
+        price: it.product.price,
+        quantity: it.quantity,
+      })),
+    );
+    // Only fire once per Cart page mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="flex min-h-screen flex-col">

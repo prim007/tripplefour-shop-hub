@@ -7,7 +7,14 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-9WEDV6D546');
+      // SPA: disable automatic page_view — we send them manually on every route change
+      // so React Router navigations are tracked correctly.
+      gtag('config', 'G-9WEDV6D546', {
+        send_page_view: false,
+        anonymize_ip: true,
+        currency: 'ZAR',
+        country: 'ZA'
+      });
     </script>
     <link rel="icon" href="/favicon.png" type="image/png">
     <meta charset="UTF-8" />

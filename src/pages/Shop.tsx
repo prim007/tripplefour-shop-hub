@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search, Flame, SlidersHorizontal } from "lucide-react";
 import { Helmet } from "react-helmet-async";
@@ -8,6 +8,7 @@ import CategoryFilter from "@/components/CategoryFilter";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Input } from "@/components/ui/input";
+import { Analytics } from "@/lib/analytics";
 
 export default function Shop() {
   const [searchParams] = useSearchParams();
@@ -16,20 +17,41 @@ export default function Shop() {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<"default" | "price-low" | "price-high">("default");
 
-  let filtered = selected === "All" ? products : products.filter((p) => p.category === selected);
+  const filtered = useMemo(() => {
+    let list = selected === "All" ? products : products.filter((p) => p.category === selected);
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      list = list.filter(
+        (p) => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q),
+      );
+    }
+    if (sortBy === "price-low") list = [...list].sort((a, b) => a.price - b.price);
+    else if (sortBy === "price-high") list = [...list].sort((a, b) => b.price - a.price);
+    return list;
+  }, [selected, search, sortBy]);
 
-  if (search.trim()) {
-    const q = search.toLowerCase();
-    filtered = filtered.filter(
-      (p) => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)
+  // Fire view_item_list when the visible product list changes
+  useEffect(() => {
+    if (!filtered.length) return;
+    const listName = selected === "All" ? "Shop — All" : `Shop — ${selected}`;
+    Analytics.viewItemList(
+      listName,
+      filtered.slice(0, 20).map((p) => ({
+        item_id: p.id,
+        item_name: p.name,
+        item_category: p.category,
+        price: p.price,
+      })),
     );
-  }
+  }, [selected, sortBy, filtered]);
 
-  if (sortBy === "price-low") {
-    filtered = [...filtered].sort((a, b) => a.price - b.price);
-  } else if (sortBy === "price-high") {
-    filtered = [...filtered].sort((a, b) => b.price - a.price);
-  }
+  // Debounced search event
+  useEffect(() => {
+    const term = search.trim();
+    if (term.length < 2) return;
+    const t = window.setTimeout(() => Analytics.search(term), 600);
+    return () => window.clearTimeout(t);
+  }, [search]);
 
   return (
     <div className="flex min-h-screen flex-col">

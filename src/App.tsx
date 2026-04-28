@@ -11,6 +11,7 @@ import CartDrawer from "@/components/CartDrawer";
 import AgeVerification from "@/components/AgeVerification";
 import CuddlesChatbot from "@/components/CuddlesChatbot";
 import WelcomeDiscountPopup from "@/components/WelcomeDiscountPopup";
+import useGAPageviews from "@/hooks/useGAPageviews";
 
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
@@ -33,6 +34,11 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+const RouteAnalytics = () => {
+  useGAPageviews();
+  return null;
+};
+
 const App = () => (
   <HelmetProvider>
   <QueryClientProvider client={queryClient}>
@@ -45,6 +51,7 @@ const App = () => (
             <AgeVerification />
 
             <BrowserRouter>
+              <RouteAnalytics />
               <CartDrawer />
               <Routes>
                 <Route path="/" element={<Index />} />
