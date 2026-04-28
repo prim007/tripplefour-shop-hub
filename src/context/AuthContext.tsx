@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User, Session } from "@supabase/supabase-js";
+import { Analytics, setUserId, setUserProperties } from "@/lib/analytics";
 
 interface AuthContextType {
   user: User | null;
@@ -23,10 +24,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
+
+        // Sync GA user_id + auth events
+        if (session?.user) {
+          setUserId(session.user.id);
+          setUserProperties({ logged_in: true });
+          if (event === "SIGNED_IN") Analytics.login("email");
+        } else if (event === "SIGNED_OUT") {
+          setUserId(null);
+          setUserProperties({ logged_in: false });
+        }
       }
     );
 
@@ -34,6 +45,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+      if (session?.user) {
+        setUserId(session.user.id);
+        setUserProperties({ logged_in: true });
+      }
     });
 
     return () => subscription.unsubscribe();
