@@ -66,11 +66,12 @@ export default function Shop() {
       <Navbar />
       <main className="flex-1 px-4 py-6">
         <div className="mx-auto max-w-7xl">
-          {/* Header with urgency */}
-          <div className="rounded-2xl groovy-gradient p-6 text-white mb-6">
-            <h1 className="font-display text-2xl font-bold md:text-3xl">CBD Infused Products — Shop Online South Africa</h1>
-            <p className="mt-1 text-white/80 text-sm">
-              Edibles, vapes, dab & more from R50 · Free delivery over R500 · Dispatched within 24hrs across SA
+          {/* Header */}
+          <div className="border-b border-border/60 pb-8 mb-8">
+            <p className="text-[11px] uppercase tracking-[0.32em] text-primary font-semibold mb-3">/ The catalog</p>
+            <h1 className="font-display text-3xl md:text-5xl font-bold uppercase">Shop all</h1>
+            <p className="mt-3 text-sm text-muted-foreground max-w-xl">
+              Edibles, vapes, dab & accessories from R50. Free delivery over R800. 24h dispatch nationwide.
             </p>
           </div>
 

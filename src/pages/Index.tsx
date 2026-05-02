@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Leaf, Truck, Shield, Clock, Sparkles, Flame, Zap } from "lucide-react";
+import { ArrowRight, Truck, Shield, Clock } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { products, categories } from "@/data/products";
@@ -7,29 +7,27 @@ import ProductCard from "@/components/ProductCard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
-import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import Autoplay from "embla-carousel-autoplay";
 
-import banner1 from "@/assets/banners/banner-1.jpg";
-import banner2 from "@/assets/banners/banner-2.jpg";
-import banner3 from "@/assets/banners/banner-3.jpg";
-import banner4 from "@/assets/banners/banner-4.jpg";
+import heroImg from "@/assets/banners/hero-dark-1.jpg";
+import heroImg3 from "@/assets/banners/hero-dark-3.jpg";
+import edibleCatImg from "@/assets/products/edibles-dark.jpg";
+import vapesCatImg from "@/assets/products/vapes-dark.jpg";
+import dabCatImg from "@/assets/products/dab-dark.jpg";
+import accessoriesCatImg from "@/assets/products/accessories-dark.jpg";
+import cbdCatImg from "@/assets/products/cbd-dark.jpg";
 
-const banners = [
-  { src: banner1, alt: "Premium CBD buds with golden trichomes" },
-  { src: banner2, alt: "CBD pre-rolls, edibles and vape products" },
-  { src: banner3, alt: "Greenhouse hemp cultivation" },
-  { src: banner4, alt: "CBD wellness tinctures and oils" },
-];
+const categoryHero: Record<string, string> = {
+  "Edibles": edibleCatImg,
+  "Vapes": vapesCatImg,
+  "Dab": dabCatImg,
+  "Accessories": accessoriesCatImg,
+  "CBD Products": cbdCatImg,
+};
 
 const vapeIds = ["vp-disp", "vp-lz-toffee", "vp-lz-cherry", "vp-lz-peach", "vp-lz-blueberry", "vp-lz-greenapple", "vp-lz-oil"];
 const bestSellers = [
@@ -75,118 +73,70 @@ const Index = () => {
       </Helmet>
       <Navbar />
       <main className="flex-1">
-        {/* Urgency ticker */}
-        <div className="bg-primary text-primary-foreground py-2 overflow-hidden">
-          <div className="flex items-center justify-center gap-2 text-sm font-semibold animate-pulse text-center px-4">
-            <Flame className="h-4 w-4 shrink-0" />
-            <span>🔥 Use code <strong className="font-mono">WELCOME10</strong> for 10% off · Same-day dispatch before 2PM 🛒</span>
-            <Flame className="h-4 w-4 shrink-0" />
+        {/* Marquee strip */}
+        <div className="border-b border-border/60 bg-background overflow-hidden">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 py-2.5 flex items-center justify-center gap-3 text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-medium">
+            <span>Free Delivery Over R800</span>
+            <span className="text-border">·</span>
+            <span>Use <span className="text-primary font-semibold">WELCOME10</span> for 10% Off</span>
+            <span className="hidden sm:inline text-border">·</span>
+            <span className="hidden sm:inline">Same-Day Dispatch Before 2PM</span>
           </div>
         </div>
 
-        {/* Hero with Carousel */}
-        <section className="relative w-full overflow-hidden h-[480px] sm:h-[520px] md:h-[560px] lg:h-[600px]">
-          <div className="absolute inset-0 w-full h-full">
-            <Carousel
-              opts={{ loop: true, align: "start" }}
-              plugins={[Autoplay({ delay: 4000, stopOnInteraction: false })]}
-              className="h-full w-full"
-            >
-              <CarouselContent className="-ml-0 h-full w-full">
-                {banners.map((b, i) => (
-                  <CarouselItem key={i} className="pl-0 h-full basis-full shrink-0 grow-0">
-                    <img
-                      src={b.src}
-                      alt={b.alt}
-                      className="block h-full w-full object-cover object-center"
-                      loading={i === 0 ? "eager" : "lazy"}
-                    />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
-            <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-transparent" />
-            <div className="absolute inset-0 groovy-gradient opacity-30 mix-blend-overlay" />
+        {/* HERO — large, dark, dropstore-style */}
+        <section className="relative w-full overflow-hidden">
+          <div className="relative h-[80vh] min-h-[560px] max-h-[820px] w-full">
+            <img
+              src={heroImg}
+              alt="Tripplefour premium CBD infused products on dark slate"
+              className="absolute inset-0 h-full w-full object-cover"
+              fetchPriority="high"
+            />
+            {/* gradient masks for legibility */}
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
 
-            {/* Bouncing groovy emoji accents — lightweight GPU-only transforms */}
-            <span aria-hidden="true" className="pointer-events-none absolute top-[15%] left-[8%] text-4xl md:text-5xl drop-shadow-lg animate-bounce-around will-change-transform">🍪</span>
-            <span aria-hidden="true" className="pointer-events-none absolute top-[20%] right-[10%] text-4xl md:text-5xl drop-shadow-lg animate-float-slow will-change-transform" style={{ animationDelay: "0.5s" }}>✨</span>
-            <span aria-hidden="true" className="pointer-events-none absolute bottom-[18%] left-[12%] text-3xl md:text-4xl drop-shadow-lg animate-float-slow will-change-transform" style={{ animationDelay: "1s" }}>🌿</span>
-            <span aria-hidden="true" className="pointer-events-none absolute bottom-[22%] right-[8%] text-4xl md:text-5xl drop-shadow-lg animate-bounce-around will-change-transform" style={{ animationDelay: "1.5s" }}>💨</span>
-          </div>
-
-          <div className="relative mx-auto flex h-full max-w-7xl flex-col items-center justify-center px-4 py-8 text-center md:py-12">
-            {/* Delivery promise badge */}
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary/90 backdrop-blur px-4 py-1.5 text-xs md:text-sm font-bold text-primary-foreground shadow-lg mb-4">
-              <Truck className="h-3.5 w-3.5" /> 24–48hr Delivery · Joburg & Nationwide
+            <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-end px-4 sm:px-6 pb-16 md:pb-24">
+              <p className="text-[11px] uppercase tracking-[0.32em] text-primary font-semibold mb-4">
+                / Tripplefour — South Africa
+              </p>
+              <h1 className="font-display text-balance text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.95] uppercase max-w-4xl">
+                Premium <span className="warm-gradient-text">CBD Infused</span> products.
+              </h1>
+              <p className="mt-6 max-w-xl text-base md:text-lg text-muted-foreground">
+                Edibles, vapes, dab and accessories — built for the discerning. Discreet delivery across South Africa from R50.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <Button asChild size="lg" className="h-12 px-8 rounded-none uppercase tracking-widest text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary-glow">
+                  <Link to="/shop">Shop the drop <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                </Button>
+                <Button asChild size="lg" variant="ghost" className="h-12 px-6 rounded-none uppercase tracking-widest text-xs font-semibold border border-border hover:border-primary hover:text-primary">
+                  <a href="https://wa.me/27645436734" target="_blank" rel="noopener noreferrer">WhatsApp order</a>
+                </Button>
+              </div>
+              <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-2 text-[11px] uppercase tracking-widest text-muted-foreground">
+                <span className="flex items-center gap-2"><Truck className="h-3.5 w-3.5 text-primary" /> Nationwide</span>
+                <span className="flex items-center gap-2"><Shield className="h-3.5 w-3.5 text-primary" /> Quality Tested</span>
+                <span className="flex items-center gap-2"><Clock className="h-3.5 w-3.5 text-primary" /> 24h Dispatch</span>
+              </div>
             </div>
-
-<h1 className="font-display text-3xl font-extrabold tracking-tight drop-shadow-lg md:text-5xl text-white leading-tight">
-              CBD Infused Products.<br className="hidden md:block" />
-              <span className="groovy-gradient-text bg-clip-text">Not Just Flower.</span>
-            </h1>
-            <p className="mx-auto mt-3 max-w-xl text-base opacity-95 drop-shadow-md md:text-lg text-white/90">
-              Edibles · Vapes · Dab · Pre-rolls — from <strong className="text-white">R50</strong>. Pay by EFT, delivered to your door.
-            </p>
-
-            <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <Button
-                asChild
-                size="lg"
-                className="gap-2 text-lg px-8 py-6 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl shadow-primary/40 transition-transform hover:scale-105 font-bold"
-              >
-                <Link to="/shop">
-                  <Sparkles className="h-5 w-5" /> Shop Now <ArrowRight className="h-5 w-5" />
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="gap-2 rounded-full bg-white/10 backdrop-blur border-white/40 text-white text-base hover:bg-white/20 font-semibold"
-              >
-                <a href="https://wa.me/27645436734" target="_blank" rel="noopener noreferrer">
-                  💬 WhatsApp Order
-                </a>
-              </Button>
-            </div>
-
-            {/* Trust badges */}
-            <div className="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-2 text-white/90 text-xs md:text-sm font-medium">
-              <span className="flex items-center gap-1.5"><Shield className="h-4 w-4" /> Quality Tested</span>
-              <span className="flex items-center gap-1.5"><Clock className="h-4 w-4" /> Same-Day Dispatch</span>
-              <span className="flex items-center gap-1.5"><Leaf className="h-4 w-4" /> 100% Discreet</span>
-            </div>
-
-            {/* First-order code teaser */}
-            <p className="mt-4 text-xs md:text-sm text-white/80">
-              ✨ New here? Use code <strong className="font-mono text-white bg-white/15 px-2 py-0.5 rounded">WELCOME10</strong> for 10% off
-            </p>
           </div>
         </section>
 
-        {/* Wavy divider */}
-        <div className="relative -mt-1">
-          <svg viewBox="0 0 1440 60" className="w-full fill-background" preserveAspectRatio="none">
-            <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,30 1440,30 L1440,60 L0,60 Z" />
-          </svg>
-        </div>
-
-        {/* 🔥 BEST SELLERS — moved immediately after hero */}
-        <section className="px-4 py-10 relative">
+        {/* BEST SELLERS */}
+        <section className="px-4 sm:px-6 py-20 border-t border-border/60">
           <div className="mx-auto max-w-7xl">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-2">
-                <Flame className="h-6 w-6 text-destructive" />
-                <h2 className="font-display text-2xl font-bold md:text-3xl">
-                  Best Sellers
-                </h2>
+            <div className="flex items-end justify-between mb-10 gap-4">
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.32em] text-primary font-semibold mb-2">/ 01 — The drop</p>
+                <h2 className="font-display text-3xl md:text-5xl font-bold uppercase">Best sellers</h2>
               </div>
-              <Button asChild variant="outline" className="gap-1 rounded-full transition-transform hover:scale-105">
-                <Link to="/shop">View All <ArrowRight className="h-4 w-4" /></Link>
-              </Button>
+              <Link to="/shop" className="hidden sm:inline-flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">
+                View all <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
               {bestSellers.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
@@ -194,22 +144,66 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Budget Picks — low price entry point */}
+        {/* CATEGORIES — large dropstore-style image tiles */}
+        <section className="px-4 sm:px-6 py-20 border-t border-border/60">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-10">
+              <p className="text-[11px] uppercase tracking-[0.32em] text-primary font-semibold mb-2">/ 02 — Browse</p>
+              <h2 className="font-display text-3xl md:text-5xl font-bold uppercase">Categories</h2>
+            </div>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
+              {categories.map((cat) => (
+                <Link
+                  key={cat}
+                  to={`/shop?category=${encodeURIComponent(cat)}`}
+                  className="group relative aspect-[3/4] overflow-hidden hairline-border bg-secondary/40"
+                >
+                  <img
+                    src={categoryHero[cat]}
+                    alt={`${cat} — Tripplefour`}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-4">
+                    <p className="font-display text-base md:text-lg font-bold uppercase tracking-tight">{cat}</p>
+                    <p className="text-[10px] uppercase tracking-widest text-muted-foreground mt-1 group-hover:text-primary transition-colors">Shop →</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* SECONDARY HERO */}
+        <section className="relative h-[60vh] min-h-[400px] overflow-hidden border-t border-border/60">
+          <img src={heroImg3} alt="TRIPPLEFOUR matte black box with dropper" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
+          <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-center px-4 sm:px-6">
+            <p className="text-[11px] uppercase tracking-[0.32em] text-primary font-semibold mb-3">/ Manifesto</p>
+            <h2 className="font-display text-3xl md:text-5xl font-bold uppercase max-w-2xl text-balance">
+              Crafted in South Africa. Delivered discreetly.
+            </h2>
+            <p className="mt-4 max-w-xl text-muted-foreground">
+              Every Tripplefour product is hand-checked, batch-tested and packed in matte black. Pay by EFT, get it tomorrow.
+            </p>
+          </div>
+        </section>
+
+        {/* UNDER R100 */}
         {budgetPicks.length > 0 && (
-          <section className="px-4 py-10 bg-secondary/30">
+          <section className="px-4 sm:px-6 py-20 border-t border-border/60">
             <div className="mx-auto max-w-7xl">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2">
-                  <Zap className="h-6 w-6 text-primary" />
-                  <h2 className="font-display text-2xl font-bold md:text-3xl">
-                    Under R100
-                  </h2>
+              <div className="flex items-end justify-between mb-10 gap-4">
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.32em] text-primary font-semibold mb-2">/ 03 — Entry</p>
+                  <h2 className="font-display text-3xl md:text-5xl font-bold uppercase">Under R100</h2>
                 </div>
-                <Button asChild variant="outline" className="gap-1 rounded-full transition-transform hover:scale-105">
-                  <Link to="/shop">Shop All <ArrowRight className="h-4 w-4" /></Link>
-                </Button>
+                <Link to="/shop" className="hidden sm:inline-flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">
+                  Shop all <ArrowRight className="h-4 w-4" />
+                </Link>
               </div>
-              <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4">
                 {budgetPicks.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
@@ -218,64 +212,17 @@ const Index = () => {
           </section>
         )}
 
-        {/* Categories */}
-        <section className="px-4 py-12">
-          <div className="mx-auto max-w-7xl">
-            <h2 className="font-display text-2xl font-bold md:text-3xl text-center mb-6">
-              <span className="groovy-gradient-text">Browse Categories</span>
-            </h2>
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {categories.map((cat, i) => (
-                <Link
-                  key={cat}
-                  to={`/shop?category=${encodeURIComponent(cat)}`}
-                  className="group relative overflow-hidden rounded-2xl border-2 border-border bg-card p-5 text-center transition-all duration-300 hover:border-primary hover:shadow-lg hover:-translate-y-1"
-                >
-                  <div className="absolute inset-0 groovy-gradient opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
-                  <span className="text-3xl block mb-2 transition-transform duration-300 group-hover:scale-125">
-                    {["🍪", "✨", "🌸", "🎒", "🔥"][i % 5]}
-                  </span>
-                  <span className="text-sm font-semibold font-display">{cat}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Trust Features */}
-        <section className="px-4 py-10 bg-secondary/30">
-          <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-3">
-            {[
-              { icon: Truck, title: "Delivery Nationwide", desc: "Johannesburg, Cape Town, Durban & all of SA" },
-              { icon: Shield, title: "Quality Guaranteed", desc: "Every product tested before it reaches you" },
-              { icon: Leaf, title: "Natural & Organic", desc: "Premium CBD for health & wellness" },
-            ].map((f) => (
-              <div
-                key={f.title}
-                className="group flex items-start gap-4 rounded-2xl border-2 border-border bg-card p-5 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-primary/40"
-              >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 transition-colors group-hover:bg-primary/20">
-                  <f.icon className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-display text-sm font-semibold">{f.title}</h3>
-                  <p className="text-xs text-muted-foreground">{f.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* FAQ Section for SEO */}
-        <section className="px-4 py-12">
+        {/* FAQ */}
+        <section className="px-4 sm:px-6 py-20 border-t border-border/60">
           <div className="mx-auto max-w-3xl">
-            <h2 className="font-display text-2xl font-bold md:text-3xl text-center mb-6">
-              <span className="groovy-gradient-text">Frequently Asked Questions</span>
+            <p className="text-[11px] uppercase tracking-[0.32em] text-primary font-semibold mb-2 text-center">/ Help</p>
+            <h2 className="font-display text-3xl md:text-5xl font-bold uppercase text-center mb-10">
+              Frequently asked
             </h2>
             <Accordion type="single" collapsible className="w-full">
               {FAQ_ITEMS.map((faq, i) => (
-                <AccordionItem key={i} value={`faq-${i}`}>
-                  <AccordionTrigger className="text-left font-display font-semibold">
+                <AccordionItem key={i} value={`faq-${i}`} className="border-border/60">
+                  <AccordionTrigger className="text-left font-display font-semibold uppercase tracking-wide text-sm md:text-base">
                     {faq.q}
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground">
@@ -287,29 +234,18 @@ const Index = () => {
           </div>
         </section>
 
-        {/* CTA banner */}
-        <section className="groovy-gradient py-8 text-center text-white relative overflow-hidden">
-          <h2 className="font-display text-2xl md:text-3xl font-bold relative z-10 drop-shadow-lg">
-            Order Now — Prices from R50 🌿
+        {/* CTA */}
+        <section className="px-4 sm:px-6 py-24 border-t border-border/60 text-center">
+          <p className="text-[11px] uppercase tracking-[0.32em] text-primary font-semibold mb-4">/ Order today</p>
+          <h2 className="font-display text-3xl md:text-6xl font-bold uppercase max-w-3xl mx-auto text-balance">
+            From R50. Delivered to your door.
           </h2>
-          <p className="mt-2 text-base opacity-90 relative z-10">Buy CBD infused products online · Pay by EFT or cash · Delivered to your door across South Africa</p>
-          <div className="mt-4 flex flex-wrap justify-center gap-3 relative z-10">
-            <Button
-              asChild
-              size="lg"
-              variant="secondary"
-              className="rounded-full transition-transform hover:scale-105"
-            >
-              <Link to="/shop">Shop Now</Link>
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
+            <Button asChild size="lg" className="h-12 px-8 rounded-none uppercase tracking-widest text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary-glow">
+              <Link to="/shop">Shop now <ArrowRight className="ml-2 h-4 w-4" /></Link>
             </Button>
-            <Button
-              asChild
-              size="lg"
-              className="rounded-full bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm transition-transform hover:scale-105"
-            >
-              <a href="https://wa.me/27645436734" target="_blank" rel="noopener noreferrer">
-                WhatsApp Us
-              </a>
+            <Button asChild size="lg" variant="ghost" className="h-12 px-6 rounded-none uppercase tracking-widest text-xs font-semibold border border-border hover:border-primary hover:text-primary">
+              <a href="https://wa.me/27645436734" target="_blank" rel="noopener noreferrer">WhatsApp us</a>
             </Button>
           </div>
         </section>

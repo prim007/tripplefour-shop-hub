@@ -79,7 +79,7 @@ export default function WelcomeDiscountPopup() {
         </button>
 
         <div className="text-center space-y-3">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full groovy-gradient">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full warm-gradient">
             <Sparkles className="h-7 w-7 text-white" />
           </div>
           <h2 id="welcome-popup-title" className="font-display text-2xl font-bold leading-tight">

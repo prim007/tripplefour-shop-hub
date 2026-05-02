@@ -1,7 +1,9 @@
-import ediblesImg from "@/assets/products/edibles.jpg";
+import ediblesImg from "@/assets/products/edibles-dark.jpg";
 import edibleCubeImg from "@/assets/products/edible-cube.jpg";
-import vapesImg from "@/assets/products/vapes.jpg";
-import otherImg from "@/assets/products/other.jpg";
+import vapesImg from "@/assets/products/vapes-dark.jpg";
+import dabImg from "@/assets/products/dab-dark.jpg";
+import accessoriesImg from "@/assets/products/accessories-dark.jpg";
+import cbdImg from "@/assets/products/cbd-dark.jpg";
 import dispJuice10mlImg from "@/assets/products/disposable-juice-10ml.jpeg";
 import liquidZolToffeeImg from "@/assets/products/liquid-zol-toffee-popcorn.png";
 import liquidZolCherryImg from "@/assets/products/liquid-zol-cherry-heat.png";
@@ -40,9 +42,9 @@ export const categories: ProductCategory[] = [
 const categoryImages: Record<ProductCategory, string> = {
   "Edibles": ediblesImg,
   "Vapes": vapesImg,
-  "Dab": otherImg,
-  "Accessories": otherImg,
-  "CBD Products": otherImg,
+  "Dab": dabImg,
+  "Accessories": accessoriesImg,
+  "CBD Products": cbdImg,
 };
 
 export const products: Product[] = [

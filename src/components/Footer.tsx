@@ -1,4 +1,4 @@
-import { Leaf, MessageCircle, Instagram, Facebook, Youtube, Music2, Twitter } from "lucide-react";
+import { MessageCircle, Instagram, Facebook, Youtube, Music2, Twitter } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const socials = [
@@ -11,53 +11,47 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="border-t bg-card relative overflow-hidden">
-      {/* Decorative peace sign */}
-      <div className="pointer-events-none absolute -right-10 -bottom-10 text-[180px] opacity-[0.03] animate-spin-slow">☮</div>
-
-      <div className="mx-auto max-w-7xl px-4 py-12 relative z-10">
-        <div className="grid gap-8 md:grid-cols-4">
+    <footer className="border-t border-border/60 bg-background relative overflow-hidden">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-14 relative z-10">
+        <div className="grid gap-10 md:grid-cols-4">
           <div>
             <Link to="/" className="flex items-center gap-2 group">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-                <Leaf className="h-5 w-5 text-primary" />
-              </div>
-              <span className="font-display text-lg font-bold">Tripplefour</span>
-              <span className="text-sm">☮️</span>
+              <span className="font-display text-xl font-bold uppercase tracking-tight">
+                Tripple<span className="text-primary">four</span>
+              </span>
             </Link>
-            <p className="mt-3 text-sm text-muted-foreground">
-              Dispensery we deliver allover. Premium CBD health products. Stay groovy 🌿
+            <p className="mt-4 text-sm text-muted-foreground max-w-xs">
+              Premium CBD infused products. Discreet delivery across South Africa.
             </p>
           </div>
           <div>
-            <h4 className="font-display text-sm font-semibold">Quick Links</h4>
-            <nav className="mt-3 flex flex-col gap-2">
+            <h4 className="font-display text-xs uppercase tracking-widest text-muted-foreground">Shop</h4>
+            <nav className="mt-4 flex flex-col gap-2.5">
               <Link to="/shop" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Shop All</Link>
               <Link to="/cart" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Cart</Link>
               <Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</Link>
-              <Link to="/affiliate" className="text-sm text-primary hover:text-foreground transition-colors font-medium">Become an Affiliate 💸</Link>
+              <Link to="/affiliate" className="text-sm text-primary hover:text-primary-glow transition-colors font-medium">Become an Affiliate</Link>
             </nav>
           </div>
           <div>
-            <h4 className="font-display text-sm font-semibold">Legal</h4>
-            <nav className="mt-3 flex flex-col gap-2">
+            <h4 className="font-display text-xs uppercase tracking-widest text-muted-foreground">Legal</h4>
+            <nav className="mt-4 flex flex-col gap-2.5">
               <Link to="/privacy-policy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</Link>
               <Link to="/terms-of-service" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Terms of Service</Link>
             </nav>
           </div>
           <div>
-            <h4 className="font-display text-sm font-semibold">Contact</h4>
+            <h4 className="font-display text-xs uppercase tracking-widest text-muted-foreground">Contact</h4>
             <a
               href="https://wa.me/27645436734"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm text-primary transition-all hover:bg-primary/5 hover:scale-105"
+              className="mt-4 inline-flex items-center gap-2 border border-border px-4 py-2 text-sm text-foreground transition-colors hover:border-primary hover:text-primary"
             >
-              <MessageCircle className="h-4 w-4" />
-              WhatsApp Us ✌️
+              <MessageCircle className="h-4 w-4" /> WhatsApp Us
             </a>
-            <div className="mt-4">
-              <h4 className="font-display text-sm font-semibold mb-2">Follow @tripple444canny</h4>
+            <div className="mt-5">
+              <h4 className="font-display text-xs uppercase tracking-widest text-muted-foreground mb-3">Follow</h4>
               <div className="flex flex-wrap gap-2">
                 {socials.map(({ href, label, Icon }) => (
                   <a
@@ -67,7 +61,7 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     aria-label={label}
                     title={label}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border text-muted-foreground transition-all hover:text-primary hover:bg-primary/5 hover:scale-110"
+                    className="flex h-9 w-9 items-center justify-center border border-border text-muted-foreground transition-colors hover:text-primary hover:border-primary"
                   >
                     <Icon className="h-4 w-4" />
                   </a>
@@ -76,8 +70,8 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-8 border-t pt-6 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Tripplefour. All rights reserved. ☮️ Peace, Love & CBD 🌿
+        <div className="mt-12 border-t border-border/60 pt-6 text-center text-xs text-muted-foreground tracking-wider">
+          © {new Date().getFullYear()} TRIPPLEFOUR · ALL RIGHTS RESERVED
         </div>
       </div>
     </footer>

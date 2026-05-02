@@ -48,7 +48,7 @@ export default function Partners() {
           {/* Header */}
           <div className="mb-10 text-center">
             <h1 className="font-display text-4xl font-bold">
-              <span className="groovy-gradient-text">Our Partners</span>
+              <span className="text-primary">Our Partners</span>
             </h1>
             <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
               Trusted brands we proudly work with.
@@ -93,7 +93,7 @@ export default function Partners() {
           <div className="mb-16">
             <div className="mb-8 text-center">
               <h2 className="font-display text-3xl font-bold">
-                <span className="groovy-gradient-text">Advertise With Us</span>
+                <span className="text-primary">Advertise With Us</span>
               </h2>
               <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
                 Get your brand in front of thousands of CBD enthusiasts monthly.
@@ -156,7 +156,7 @@ export default function Partners() {
           {/* Partnership Terms & Conditions */}
           <div className="mb-16">
             <h2 className="font-display text-2xl font-bold mb-6 text-center">
-              <span className="groovy-gradient-text">Partnership Terms &amp; Conditions</span>
+              <span className="text-primary">Partnership Terms &amp; Conditions</span>
             </h2>
             <div className="space-y-4 text-sm text-muted-foreground leading-relaxed rounded-2xl border border-border bg-card p-6">
               <p><strong className="text-foreground">1. Agreement Duration:</strong> All sponsorship packages run on a month-to-month basis unless a longer term is agreed upon in writing. Either party may cancel with 14 days written notice before the next billing cycle.</p>

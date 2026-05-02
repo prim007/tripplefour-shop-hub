@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ShoppingCart, Menu, Leaf, ExternalLink, User, LogOut } from "lucide-react";
+import { ShoppingBag, Menu, ExternalLink, User, LogOut } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -23,16 +23,12 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
+    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-xl supports-[backdrop-filter]:bg-background/40">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 transition-colors group-hover:bg-primary/20">
-            <Leaf className="h-5 w-5 text-primary animate-wiggle" />
-          </div>
-          <span className="font-display text-xl font-bold tracking-tight text-foreground">
-            Tripplefour
+          <span className="font-display text-lg sm:text-xl font-bold tracking-tight uppercase text-foreground">
+            Tripple<span className="text-primary">four</span>
           </span>
-          <span className="text-xs">☮️</span>
         </Link>
 
         {/* Desktop nav */}
@@ -41,7 +37,7 @@ export default function Navbar() {
             <Link
               key={link.to}
               to={link.to}
-              className="rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-all hover:text-foreground hover:bg-primary/5"
+              className="px-3 py-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground"
             >
               {link.label}
             </Link>
@@ -50,7 +46,7 @@ export default function Navbar() {
             href="https://cuddles-ai.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium text-primary transition-all hover:bg-primary/5"
+            className="flex items-center gap-1 px-3 py-2 text-xs font-semibold uppercase tracking-widest text-primary transition-colors hover:text-primary-glow"
           >
             Cuddles AI <ExternalLink className="h-3 w-3" />
           </a>
@@ -58,7 +54,7 @@ export default function Navbar() {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="rounded-full ml-1">
+                <Button variant="ghost" size="icon" className="ml-1">
                   <User className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -73,18 +69,18 @@ export default function Navbar() {
             </DropdownMenu>
           ) : (
             <Link to="/auth">
-              <Button variant="outline" size="sm" className="rounded-full ml-1">
+              <Button variant="ghost" size="sm" className="ml-1 text-xs uppercase tracking-widest">
                 Sign In
               </Button>
             </Link>
           )}
 
           <Link to="/cart" className="relative ml-2">
-            <Button variant="outline" size="icon" className="rounded-full transition-transform hover:scale-110">
-              <ShoppingCart className="h-5 w-5" />
+            <Button variant="ghost" size="icon">
+              <ShoppingBag className="h-5 w-5" />
             </Button>
             {totalItems > 0 && (
-              <Badge className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full p-0 text-[10px] animate-groovy-pulse">
+              <Badge className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full p-0 px-1 text-[10px] bg-primary text-primary-foreground">
                 {totalItems}
               </Badge>
             )}
@@ -92,31 +88,31 @@ export default function Navbar() {
         </nav>
 
         {/* Mobile nav */}
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-1 md:hidden">
           <Link to="/cart" className="relative">
-            <Button variant="outline" size="icon" className="rounded-full">
-              <ShoppingCart className="h-5 w-5" />
+            <Button variant="ghost" size="icon">
+              <ShoppingBag className="h-5 w-5" />
             </Button>
             {totalItems > 0 && (
-              <Badge className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full p-0 text-[10px]">
+              <Badge className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full p-0 px-1 text-[10px] bg-primary text-primary-foreground">
                 {totalItems}
               </Badge>
             )}
           </Link>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full">
+              <Button variant="ghost" size="icon">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-64">
-              <nav className="mt-8 flex flex-col gap-2">
+            <SheetContent side="right" className="w-72 bg-background">
+              <nav className="mt-10 flex flex-col gap-1">
                 {navLinks.map((link) => (
                   <Link
                     key={link.to}
                     to={link.to}
                     onClick={() => setOpen(false)}
-                    className="rounded-xl px-4 py-3 text-lg font-display font-medium text-foreground transition-colors hover:bg-primary/5"
+                    className="border-b border-border/60 py-4 text-base font-display font-semibold uppercase tracking-widest text-foreground transition-colors hover:text-primary"
                   >
                     {link.label}
                   </Link>
@@ -126,16 +122,16 @@ export default function Navbar() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setOpen(false)}
-                  className="flex items-center gap-1 rounded-xl px-4 py-3 text-lg font-display font-medium text-primary"
+                  className="flex items-center gap-1 border-b border-border/60 py-4 text-base font-display font-semibold uppercase tracking-widest text-primary"
                 >
                   Cuddles AI <ExternalLink className="h-4 w-4" />
                 </a>
                 {user ? (
                   <>
-                    <div className="px-4 py-2 text-xs text-muted-foreground truncate">{user.email}</div>
+                    <div className="py-2 text-xs text-muted-foreground truncate">{user.email}</div>
                     <button
                       onClick={() => { signOut(); setOpen(false); }}
-                      className="flex items-center gap-1.5 rounded-xl px-4 py-3 text-lg font-display font-medium text-destructive hover:bg-destructive/5"
+                      className="flex items-center gap-1.5 py-4 text-base font-display font-semibold uppercase tracking-widest text-destructive"
                     >
                       <LogOut className="h-4 w-4" /> Sign out
                     </button>
@@ -144,7 +140,7 @@ export default function Navbar() {
                   <Link
                     to="/auth"
                     onClick={() => setOpen(false)}
-                    className="rounded-xl px-4 py-3 text-lg font-display font-medium text-primary hover:bg-primary/5"
+                    className="py-4 text-base font-display font-semibold uppercase tracking-widest text-primary"
                   >
                     Sign In
                   </Link>
