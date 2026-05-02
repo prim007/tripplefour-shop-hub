@@ -16,16 +16,14 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getStoredAffiliateCode } from "@/lib/affiliate";
 
-const PROMO_URL = "https://rcigcarkcpinnniddxcm.supabase.co/functions/v1/validate-promo-code";
-
-const validatePromo = async (code: string) => {
-  const res = await fetch(PROMO_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ code, action: "validate" }),
-  });
-  return res.json();
-};
+// Promo-code validation is temporarily disabled while we move it server-side
+// into this project. The previous implementation called an unauthenticated
+// external service that could be tampered with to grant arbitrary discounts.
+const validatePromo = async (_code: string) => ({
+  valid: false,
+  error: "Promo codes are temporarily unavailable.",
+  discount_percent: 0,
+});
 
 interface DeliveryZone {
   id: string;

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { trackEvent } from "@/lib/analytics";
 
 interface AdBannerProps {
@@ -20,27 +20,19 @@ interface AdBannerProps {
  * Supports raw ad-network HTML (Mantis, TrafficRoots, etc.) or a simple image fallback.
  */
 export default function AdBanner({ slot, adHtml, fallback, className = "" }: AdBannerProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    if (adHtml && containerRef.current) {
-      // Inject ad network script/HTML
-      containerRef.current.innerHTML = adHtml;
-
-      // Execute any <script> tags within the injected HTML
-      const scripts = containerRef.current.querySelectorAll("script");
-      scripts.forEach((oldScript) => {
-        const newScript = document.createElement("script");
-        Array.from(oldScript.attributes).forEach((attr) =>
-          newScript.setAttribute(attr.name, attr.value)
-        );
-        newScript.textContent = oldScript.textContent;
-        oldScript.parentNode?.replaceChild(newScript, oldScript);
-      });
-
+    if (adHtml) {
       trackEvent("ad_impression", { ad_slot: slot });
     }
   }, [adHtml, slot]);
+
+  // Wrap third-party ad markup in a minimal HTML doc rendered inside a sandboxed iframe.
+  // The sandbox attribute (without `allow-same-origin`) isolates the ad from the host page,
+  // preventing access to cookies, localStorage, the parent DOM, or top-level navigation.
+  const srcDoc = useMemo(() => {
+    if (!adHtml) return "";
+    return `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;overflow:hidden;font-family:system-ui,sans-serif}</style></head><body>${adHtml}</body></html>`;
+  }, [adHtml]);
 
   const handleFallbackClick = () => {
     trackEvent("ad_click", { ad_slot: slot, ad_type: "fallback_banner" });
@@ -73,10 +65,16 @@ export default function AdBanner({ slot, adHtml, fallback, className = "" }: AdB
 
   // Ad network HTML
   return (
-    <div
-      ref={containerRef}
-      className={`ad-banner flex justify-center ${className}`}
-      data-ad-slot={slot}
-    />
+    <div className={`ad-banner flex justify-center ${className}`} data-ad-slot={slot}>
+      <iframe
+        title={`ad-${slot}`}
+        srcDoc={srcDoc}
+        sandbox="allow-scripts allow-popups"
+        referrerPolicy="no-referrer"
+        loading="lazy"
+        className="w-full border-0"
+        style={{ minHeight: 90 }}
+      />
+    </div>
   );
 }
