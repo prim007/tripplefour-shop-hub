@@ -48,19 +48,19 @@ export default function OrderConfirmation() {
               <div className="mt-4 space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Bank</span>
-                  <span className="font-medium">FNB / RMB</span>
+                  <span className="font-medium">FNB</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Account Holder</span>
-                  <span className="font-medium">TRIPPLE444 (Pty) Ltd</span>
+                  <span className="font-medium">P. Maseko</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Account Type</span>
-                  <span className="font-medium">Gold Business Account</span>
+                  <span className="font-medium">Savings</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Account Number</span>
-                  <span className="font-mono font-bold">631 827 73870</span>
+                  <span className="font-mono font-bold">63203398862</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Branch Code</span>
