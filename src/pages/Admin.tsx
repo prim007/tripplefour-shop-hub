@@ -35,22 +35,21 @@ export default function Admin() {
   const [loading, setLoading] = useState(false);
   const [confirming, setConfirming] = useState<string | null>(null);
 
-  const login = () => {
+  const login = async () => {
     if (!adminKey.trim()) return;
-    setAuthenticated(true);
-    fetchOrders(adminKey);
+    setLoading(true);
+    const ok = await fetchOrders(adminKey);
+    if (ok) {
+      setAuthenticated(true);
+    } else {
+      toast({ title: "Invalid key", description: "Access denied.", variant: "destructive" });
+    }
+    setLoading(false);
   };
 
-  const fetchOrders = async (key?: string) => {
+  const fetchOrders = async (key?: string): Promise<boolean> => {
     setLoading(true);
     try {
-      const res = await supabase.functions.invoke("admin-orders", {
-        headers: { "x-admin-key": key || adminKey },
-        body: null,
-        method: "GET",
-      });
-
-      // Use query param approach instead
       const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-orders?action=list`;
       const response = await fetch(url, {
         headers: {
@@ -62,10 +61,12 @@ export default function Admin() {
       if (!response.ok) throw new Error("Failed to fetch");
       const data = await response.json();
       setOrders(data);
+      setLoading(false);
+      return true;
     } catch {
-      toast({ title: "Error", description: "Failed to load orders.", variant: "destructive" });
+      setLoading(false);
+      return false;
     }
-    setLoading(false);
   };
 
   const confirmPayment = async (orderId: string, orderRef: string) => {
