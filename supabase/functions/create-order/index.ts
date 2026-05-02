@@ -19,6 +19,7 @@ const PRODUCT_PRICES: Record<string, number> = {
   "vp-lz-blueberry": 390, "vp-lz-greenapple": 390, "vp-lz-oil": 320,
   "dab-1": 350,
   "ot-moon": 125,
+  "acc-hp-100bill": 55,
 };
 
 function toBase64Url(input: string): string {

@@ -9,6 +9,7 @@ import liquidZolPeachImg from "@/assets/products/liquid-zol-peach.png";
 import liquidZolBlueberryImg from "@/assets/products/liquid-zol-blueberry.png";
 import liquidZolGreenAppleImg from "@/assets/products/liquid-zol-green-apple.png";
 import liquidZolOilImg from "@/assets/products/liquid-zol-concentrated-oil.jpeg";
+import honeypuff100BillImg from "@/assets/products/honeypuff-100-bill-rolling-papers.png";
 
 
 export type ProductCategory =
@@ -16,7 +17,7 @@ export type ProductCategory =
   | "Vapes"
   | "Dab"
   | "Accessories"
-  | "Other";
+  | "CBD Products";
 
 export interface Product {
   id: string;
@@ -33,7 +34,7 @@ export const categories: ProductCategory[] = [
   "Vapes",
   "Dab",
   "Accessories",
-  "Other",
+  "CBD Products",
 ];
 
 const categoryImages: Record<ProductCategory, string> = {
@@ -41,14 +42,14 @@ const categoryImages: Record<ProductCategory, string> = {
   "Vapes": vapesImg,
   "Dab": otherImg,
   "Accessories": otherImg,
-  "Other": otherImg,
+  "CBD Products": otherImg,
 };
 
 export const products: Product[] = [
   // Edibles
-  { id: "ed-cube40", name: "Edible Cube 40mg", category: "Edibles", price: 60, description: "Cannabis-infused edible cube, 40mg per piece.", image: edibleCubeImg },
-  { id: "ed-soda", name: "Sodaze Cannabis Soda", category: "Edibles", price: 60, description: "Flavored cannabis-infused soda by Sodaze.", image: categoryImages["Edibles"] },
-  { id: "ed-icecream", name: "Cannabis Infused Ice Cream", category: "Edibles", price: 0, description: "Delicious cannabis-infused ice cream. Coming soon!", image: categoryImages["Edibles"], comingSoon: true },
+  { id: "ed-cube40", name: "Edible Cube 40mg", category: "Edibles", price: 60, description: "Hemp-infused edible cube, 40mg per piece.", image: edibleCubeImg },
+  { id: "ed-soda", name: "Sodaze Infused Soda", category: "Edibles", price: 60, description: "Flavored infused soda by Sodaze.", image: categoryImages["Edibles"] },
+  { id: "ed-icecream", name: "Infused Ice Cream", category: "Edibles", price: 0, description: "Delicious infused ice cream. Coming soon!", image: categoryImages["Edibles"], comingSoon: true },
 
   // Vapes
   { id: "vp-disp", name: "Disposable Juice 10ml", category: "Vapes", price: 390, description: "10ml disposable vape juice.", image: dispJuice10mlImg },
@@ -60,8 +61,10 @@ export const products: Product[] = [
   { id: "vp-lz-oil", name: "Liquid Zol Concentrated Oil", category: "Vapes", price: 320, description: "Concentrated THC oil for vaping. Premium quality extract.", image: liquidZolOilImg },
 
   // Dab
-  { id: "dab-1", name: "Dab Concentrate", category: "Dab", price: 350, description: "Premium cannabis dab concentrate.", image: categoryImages["Dab"] },
+  { id: "dab-1", name: "Dab Concentrate", category: "Dab", price: 350, description: "Premium hemp dab concentrate.", image: categoryImages["Dab"] },
 
+  // Accessories
+  { id: "acc-hp-100bill", name: "HoneyPuff $100 Bill Rolling Papers (Box of 24)", category: "Accessories", price: 55, description: "HoneyPuff $100 Bill rolling papers — novelty holographic dollar-bill design. One box contains 24 individual booklets. Slow-burning, premium quality papers perfect for everyday rolling.", image: honeypuff100BillImg },
 ];
 
 export function getProductById(id: string): Product | undefined {
