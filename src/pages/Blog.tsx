@@ -37,8 +37,8 @@ export default function Blog() {
   return (
     <div className="flex min-h-screen flex-col">
       <Helmet>
-        <title>Cannabis Blog South Africa — News, Guides & Tips | Tripplefour</title>
-        <meta name="description" content="Read the latest cannabis news, guides and tips for South Africa. Edibles, vapes, legal updates and more from Tripplefour." />
+        <title>CBD Blog South Africa — News, Guides & Tips | Tripplefour</title>
+        <meta name="description" content="Read the latest CBD news, guides and tips for South Africa. Edibles, vapes, legal updates and more from Tripplefour." />
         <link rel="canonical" href="https://tripplefourshophub.online/blog" />
       </Helmet>
       <Navbar />
@@ -47,7 +47,7 @@ export default function Blog() {
           <div className="mb-10 text-center">
             <h1 className="font-display text-4xl font-bold text-foreground">Blog</h1>
             <p className="mt-2 text-muted-foreground">
-              Updates, stories & insights from the cannabis world.
+              Updates, stories & insights from the CBD world.
             </p>
           </div>
 

@@ -6,8 +6,8 @@ export default function TermsOfService() {
   return (
     <div className="flex min-h-screen flex-col">
       <Helmet>
-        <title>Terms of Service | Tripplefour — Cannabis Infused Products South Africa</title>
-        <meta name="description" content="Review Tripplefour's terms of service for purchasing cannabis infused products online in South Africa. Age requirements, payment terms & delivery policies." />
+        <title>Terms of Service | Tripplefour — CBD Infused Products South Africa</title>
+        <meta name="description" content="Review Tripplefour's terms of service for purchasing CBD infused products online in South Africa. Age requirements, payment terms & delivery policies." />
         <link rel="canonical" href="https://tripplefourshophub.online/terms-of-service" />
         <meta name="robots" content="noindex, follow" />
       </Helmet>
@@ -58,7 +58,7 @@ export default function TermsOfService() {
           <section className="space-y-3">
             <h2 className="font-display text-xl font-semibold">6. Responsible Use</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Cannabis products may impair your ability to drive or operate machinery. Use responsibly. Keep all products out of reach of children. Products are not recommended for pregnant or breastfeeding women.
+              CBD products may impair your ability to drive or operate machinery. Use responsibly. Keep all products out of reach of children. Products are not recommended for pregnant or breastfeeding women.
             </p>
           </section>
 

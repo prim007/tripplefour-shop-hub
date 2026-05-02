@@ -29,7 +29,7 @@ export const affiliates: AffiliateLink[] = [
     id: "aff-liquidzol",
     name: "Liquid Zol",
     description:
-      "Premium cannabis-infused vape juices and concentrated oils — smooth flavours, potent hits, proudly South African.",
+      "Premium CBD-infused vape juices and concentrated oils — smooth flavours, potent hits, proudly South African.",
     category: "Vaporizers & Devices",
     url: "#",
     cta: "Shop Liquid Zol",

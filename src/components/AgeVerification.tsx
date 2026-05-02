@@ -69,7 +69,7 @@ export default function AgeVerification() {
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
             <div className="text-xs text-muted-foreground space-y-1">
               <p className="font-semibold text-destructive">⚠️ Health & Legal Caution</p>
-              <p>Cannabis products may impair your ability to drive or operate machinery. Use responsibly.</p>
+              <p>CBD products may impair your ability to drive or operate machinery. Use responsibly.</p>
               <p>Keep out of reach of children. Not recommended for pregnant or breastfeeding women.</p>
               <p>By entering, you confirm you are of legal age and agree to our terms of use.</p>
             </div>
