@@ -180,29 +180,14 @@ Deno.serve(async (req) => {
 
     const deliveryFee = Number(zone.fee);
 
-    let discountAmount = 0;
+    // Promo codes are temporarily disabled server-side. The previous implementation
+    // trusted an unauthenticated external Supabase project to authorize discounts,
+    // which allowed up to 90% off based on a third-party response. Until promo
+    // validation is reimplemented inside this project (with a local promo_codes
+    // table and server-controlled discount limits), no discount is applied.
+    const discountAmount = 0;
     if (promo_code && typeof promo_code === "string" && promo_code.trim()) {
-      try {
-        const promoRes = await fetch("https://rcigcarkcpinnniddxcm.supabase.co/functions/v1/validate-promo-code", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ code: promo_code.trim(), action: "validate" }),
-        });
-
-        const promoResult = await promoRes.json();
-        if (promoResult.valid && typeof promoResult.discount_percent === "number") {
-          const discountPercent = Math.min(Math.max(0, promoResult.discount_percent), 90);
-          discountAmount = Math.round(subtotal * (discountPercent / 100));
-
-          await fetch("https://rcigcarkcpinnniddxcm.supabase.co/functions/v1/validate-promo-code", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ code: promo_code.trim(), action: "redeem" }),
-          });
-        }
-      } catch (e) {
-        console.error("Promo validation failed:", e);
-      }
+      console.warn("Promo code submitted but validation is disabled:", promo_code.trim().slice(0, 32));
     }
 
     const total = Math.max(deliveryFee, subtotal - discountAmount + deliveryFee);
