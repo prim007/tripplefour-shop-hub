@@ -123,7 +123,7 @@ const Index = () => {
 
 <h1 className="font-display text-3xl font-extrabold tracking-tight drop-shadow-lg md:text-5xl text-white leading-tight">
               CBD Infused Products.<br className="hidden md:block" />
-              <span className="groovy-gradient-text bg-clip-text">Not Just Cannabis.</span>
+              <span className="groovy-gradient-text bg-clip-text">Not Just Flower.</span>
             </h1>
             <p className="mx-auto mt-3 max-w-xl text-base opacity-95 drop-shadow-md md:text-lg text-white/90">
               Edibles · Vapes · Dab · Pre-rolls — from <strong className="text-white">R50</strong>. Pay by EFT, delivered to your door.
