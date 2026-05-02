@@ -14,15 +14,19 @@ import {
 } from "@/components/ui/accordion";
 
 import heroImg from "@/assets/banners/hero-dark-1.jpg";
-import heroImg2 from "@/assets/banners/hero-dark-2.jpg";
 import heroImg3 from "@/assets/banners/hero-dark-3.jpg";
+import edibleCatImg from "@/assets/products/edibles-dark.jpg";
+import vapesCatImg from "@/assets/products/vapes-dark.jpg";
+import dabCatImg from "@/assets/products/dab-dark.jpg";
+import accessoriesCatImg from "@/assets/products/accessories-dark.jpg";
+import cbdCatImg from "@/assets/products/cbd-dark.jpg";
 
 const categoryHero: Record<string, string> = {
-  "Edibles": "/src/assets/products/edibles-dark.jpg",
-  "Vapes": heroImg2,
-  "Dab": "/src/assets/products/dab-dark.jpg",
-  "Accessories": "/src/assets/products/accessories-dark.jpg",
-  "CBD Products": "/src/assets/products/cbd-dark.jpg",
+  "Edibles": edibleCatImg,
+  "Vapes": vapesCatImg,
+  "Dab": dabCatImg,
+  "Accessories": accessoriesCatImg,
+  "CBD Products": cbdCatImg,
 };
 
 const vapeIds = ["vp-disp", "vp-lz-toffee", "vp-lz-cherry", "vp-lz-peach", "vp-lz-blueberry", "vp-lz-greenapple", "vp-lz-oil"];
