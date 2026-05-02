@@ -1,10 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
-import { ShoppingCart, Zap } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Plus } from "lucide-react";
 import type { Product } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { useCartDrawer } from "@/context/CartDrawerContext";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { trackFunnel } from "@/lib/funnel";
@@ -17,74 +15,53 @@ interface Props {
 export default function ProductCard({ product }: Props) {
   const { addItem } = useCart();
   const { open } = useCartDrawer();
-  const navigate = useNavigate();
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     if (product.comingSoon) return;
     addItem(product);
     trackFunnel("add_to_cart", product.id, { name: product.name, value: product.price, source: "card" });
     Analytics.selectItem("Shop card", { item_id: product.id, item_name: product.name, item_category: product.category, price: product.price });
     Analytics.addToCart(product.id, product.name, product.price, 1, product.category);
-    toast({ title: "Added to cart ✌️", description: `${product.name} added.` });
+    toast({ title: "Added to cart", description: `${product.name} added.` });
     open();
   };
 
-  const handleBuyNow = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (product.comingSoon) return;
-    addItem(product);
-    Analytics.addToCart(product.id, product.name, product.price, 1, product.category);
-    navigate("/checkout");
-  };
-
   return (
-    <Link to={`/product/${product.id}`}>
-      <Card className="group overflow-hidden rounded-2xl border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-primary/30">
-        <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-            loading="lazy"
-          />
-          <div className="absolute inset-0 groovy-gradient opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
-          {product.comingSoon && (
-            <div className="absolute inset-0 flex items-center justify-center bg-background/70 backdrop-blur-sm">
-              <Badge variant="secondary" className="text-sm rounded-full px-4">Coming Soon ✨</Badge>
-            </div>
-          )}
-        </div>
-        <CardContent className="p-3 sm:p-4">
-          <p className="text-xs font-medium text-muted-foreground">{product.category}</p>
-          <h3 className="mt-1 font-display text-sm sm:text-base font-semibold leading-tight line-clamp-2">{product.name}</h3>
-          {!product.comingSoon && (
-            <p className="mt-1 text-[10px] text-primary/80 font-medium animate-pulse">🔥 Selling fast — order now</p>
-          )}
-          <div className="mt-2 flex items-center justify-between">
-            <span className="text-lg font-bold text-primary">
-              {product.comingSoon ? "TBA" : `R${product.price.toLocaleString()}`}
-            </span>
-            {!product.comingSoon && (
-              <Button size="sm" onClick={handleAdd} className="gap-1 rounded-full transition-transform hover:scale-105">
-                <ShoppingCart className="h-4 w-4" />
-                Add
-              </Button>
-            )}
+    <Link to={`/product/${product.id}`} className="group block">
+      <div className="relative aspect-square overflow-hidden bg-secondary/40 hairline-border">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
+        {product.comingSoon ? (
+          <div className="absolute inset-0 flex items-center justify-center bg-background/70 backdrop-blur-sm">
+            <Badge variant="secondary" className="text-[10px] uppercase tracking-widest">Coming Soon</Badge>
           </div>
-          {!product.comingSoon && (
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={handleBuyNow}
-              className="mt-2 w-full gap-1 rounded-full text-xs font-semibold bg-primary/10 hover:bg-primary/20 text-primary"
-            >
-              <Zap className="h-3.5 w-3.5" />
-              Buy Now — R{product.price.toLocaleString()}
-            </Button>
-          )}
-        </CardContent>
-      </Card>
+        ) : (
+          <button
+            onClick={handleAdd}
+            aria-label={`Add ${product.name} to cart`}
+            className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center bg-background/90 text-foreground opacity-0 backdrop-blur transition-all duration-300 group-hover:opacity-100 hover:bg-primary hover:text-primary-foreground"
+          >
+            <Plus className="h-4 w-4" />
+          </button>
+        )}
+      </div>
+      <div className="mt-3 flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{product.category}</p>
+          <h3 className="mt-0.5 font-display text-sm font-semibold leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+            {product.name}
+          </h3>
+        </div>
+        <span className="shrink-0 font-display text-sm font-bold text-foreground">
+          {product.comingSoon ? "TBA" : `R${product.price.toLocaleString()}`}
+        </span>
+      </div>
     </Link>
   );
 }
