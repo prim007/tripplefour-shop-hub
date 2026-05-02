@@ -77,7 +77,7 @@ export default function BlogPost() {
 
   const pageUrl = `https://tripplefourshophub.online/blog/${post.slug}`;
   const excerpt = post.content.slice(0, 155).replace(/\n/g, " ").trim() + "…";
-  const pageTitle = `${post.title} | Tripplefour Cannabis Blog`;
+  const pageTitle = `${post.title} | Tripplefour CBD Blog`;
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -177,7 +177,7 @@ export default function BlogPost() {
               Got questions about this topic?
             </h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              Ask Cuddles AI — your groovy cannabis assistant is just a click away!
+              Ask Cuddles AI — your groovy CBD assistant is just a click away!
             </p>
             <button
               onClick={() => {

@@ -25,10 +25,10 @@ import banner3 from "@/assets/banners/banner-3.jpg";
 import banner4 from "@/assets/banners/banner-4.jpg";
 
 const banners = [
-  { src: banner1, alt: "Premium cannabis buds with golden trichomes" },
-  { src: banner2, alt: "Cannabis pre-rolls, edibles and vape products" },
-  { src: banner3, alt: "Greenhouse cannabis cultivation" },
-  { src: banner4, alt: "Cannabis wellness tinctures and oils" },
+  { src: banner1, alt: "Premium CBD buds with golden trichomes" },
+  { src: banner2, alt: "CBD pre-rolls, edibles and vape products" },
+  { src: banner3, alt: "Greenhouse hemp cultivation" },
+  { src: banner4, alt: "CBD wellness tinctures and oils" },
 ];
 
 const vapeIds = ["vp-disp", "vp-lz-toffee", "vp-lz-cherry", "vp-lz-peach", "vp-lz-blueberry", "vp-lz-greenapple", "vp-lz-oil"];
@@ -52,12 +52,12 @@ const FAQ_ITEMS = [
     a: "We accept EFT (bank transfer) and cash on delivery in select areas. Payment must be confirmed before your order is dispatched — no payment, no order.",
   },
   {
-    q: "What cannabis products do you sell?",
-    a: "We stock a full range of cannabis infused products: edibles (gummies & brownies), Liquid Zol vape cartridges, dab concentrates, and accessories. All products are tested for quality and delivered across South Africa.",
+    q: "What CBD products do you sell?",
+    a: "We stock a full range of CBD infused products: edibles (gummies & brownies), Liquid Zol vape cartridges, dab concentrates, and accessories. All products are tested for quality and delivered across South Africa.",
   },
   {
-    q: "Is it legal to order cannabis in South Africa?",
-    a: "South Africa's Constitutional Court ruled in 2018 that private use, possession, and cultivation of cannabis by adults is legal. We operate within the bounds of personal-use provisions.",
+    q: "Is it legal to order CBD products in South Africa?",
+    a: "South Africa's Constitutional Court ruled in 2018 that private use, possession, and cultivation of CBD products by adults is legal. We operate within the bounds of personal-use provisions.",
   },
   {
     q: "How do I track my order?",
@@ -69,8 +69,8 @@ const Index = () => {
   return (
     <div className="flex min-h-screen flex-col overflow-hidden">
       <Helmet>
-        <title>Cannabis Infused Products Online South Africa | Delivery Joburg & Nationwide | Tripplefour</title>
-        <meta name="description" content="Buy cannabis infused products online in South Africa — edibles, vapes, dab concentrates & more from R50. Fast delivery to Johannesburg, Cape Town, Durban & nationwide. Order now, pay on delivery." />
+        <title>CBD Infused Products Online South Africa | Delivery Joburg & Nationwide | Tripplefour</title>
+        <meta name="description" content="Buy CBD infused products online in South Africa — edibles, vapes, dab concentrates & more from R50. Fast delivery to Johannesburg, Cape Town, Durban & nationwide. Order now, pay on delivery." />
         <link rel="canonical" href="https://tripplefourshophub.online/" />
       </Helmet>
       <Navbar />
@@ -122,7 +122,7 @@ const Index = () => {
             </div>
 
 <h1 className="font-display text-3xl font-extrabold tracking-tight drop-shadow-lg md:text-5xl text-white leading-tight">
-              Cannabis Infused Products.<br className="hidden md:block" />
+              CBD Infused Products.<br className="hidden md:block" />
               <span className="groovy-gradient-text bg-clip-text">Not Just Cannabis.</span>
             </h1>
             <p className="mx-auto mt-3 max-w-xl text-base opacity-95 drop-shadow-md md:text-lg text-white/90">
@@ -248,7 +248,7 @@ const Index = () => {
             {[
               { icon: Truck, title: "Delivery Nationwide", desc: "Johannesburg, Cape Town, Durban & all of SA" },
               { icon: Shield, title: "Quality Guaranteed", desc: "Every product tested before it reaches you" },
-              { icon: Leaf, title: "Natural & Organic", desc: "Premium cannabis for health & wellness" },
+              { icon: Leaf, title: "Natural & Organic", desc: "Premium CBD for health & wellness" },
             ].map((f) => (
               <div
                 key={f.title}
@@ -292,7 +292,7 @@ const Index = () => {
           <h2 className="font-display text-2xl md:text-3xl font-bold relative z-10 drop-shadow-lg">
             Order Now — Prices from R50 🌿
           </h2>
-          <p className="mt-2 text-base opacity-90 relative z-10">Buy cannabis infused products online · Pay by EFT or cash · Delivered to your door across South Africa</p>
+          <p className="mt-2 text-base opacity-90 relative z-10">Buy CBD infused products online · Pay by EFT or cash · Delivered to your door across South Africa</p>
           <div className="mt-4 flex flex-wrap justify-center gap-3 relative z-10">
             <Button
               asChild

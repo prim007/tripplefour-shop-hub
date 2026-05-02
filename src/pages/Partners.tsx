@@ -35,11 +35,11 @@ export default function Partners() {
   return (
     <div className="flex min-h-screen flex-col">
       <Helmet>
-        <title>Partners & Sponsors | Tripplefour — Cannabis Infused Products South Africa</title>
-        <meta name="description" content="Partner with Tripplefour — South Africa's growing cannabis infused products brand. Explore sponsorship tiers and affiliate opportunities." />
+        <title>Partners & Sponsors | Tripplefour — CBD Infused Products South Africa</title>
+        <meta name="description" content="Partner with Tripplefour — South Africa's growing CBD infused products brand. Explore sponsorship tiers and affiliate opportunities." />
         <link rel="canonical" href="https://tripplefourshophub.online/partners" />
         <meta property="og:title" content="Partners & Sponsors | Tripplefour" />
-        <meta property="og:description" content="Partner with Tripplefour — South Africa's growing cannabis brand. Sponsorship tiers & affiliate opportunities." />
+        <meta property="og:description" content="Partner with Tripplefour — South Africa's growing CBD brand. Sponsorship tiers & affiliate opportunities." />
         <meta property="og:url" content="https://tripplefourshophub.online/partners" />
       </Helmet>
       <Navbar />
@@ -96,7 +96,7 @@ export default function Partners() {
                 <span className="groovy-gradient-text">Advertise With Us</span>
               </h2>
               <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-                Get your brand in front of thousands of cannabis enthusiasts monthly.
+                Get your brand in front of thousands of CBD enthusiasts monthly.
                 Affordable plans for every budget.
               </p>
 

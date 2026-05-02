@@ -26,7 +26,7 @@ export default function Footer() {
               <span className="text-sm">☮️</span>
             </Link>
             <p className="mt-3 text-sm text-muted-foreground">
-              Dispensery we deliver allover. Premium cannabis health products. Stay groovy 🌿
+              Dispensery we deliver allover. Premium CBD health products. Stay groovy 🌿
             </p>
           </div>
           <div>
@@ -77,7 +77,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-8 border-t pt-6 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Tripplefour. All rights reserved. ☮️ Peace, Love & Cannabis 🌿
+          © {new Date().getFullYear()} Tripplefour. All rights reserved. ☮️ Peace, Love & CBD 🌿
         </div>
       </div>
     </footer>

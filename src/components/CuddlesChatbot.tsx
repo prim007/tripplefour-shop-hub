@@ -13,7 +13,7 @@ type Msg = { role: "user" | "assistant"; content: string };
 const PROMPT_STARTERS = [
   "🌙 Find a strain for deep sleep and relaxation",
   "🎉 Suggest an uplifting sativa for a social night out",
-  "🌱 First time trying cannabis? Walk me through the basics",
+  "🌱 First time trying CBD? Walk me through the basics",
   "💪 Show me high-CBD options for muscle recovery without the heavy high",
   "🔥 What are the trending exotic terpene profiles right now?",
 ];
