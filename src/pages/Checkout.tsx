@@ -362,10 +362,10 @@ export default function Checkout() {
                 🏦 FNB Banking Details
               </h3>
               <div className="space-y-1.5 text-sm">
-                <div className="flex justify-between"><span className="text-muted-foreground">Bank</span><span className="font-medium">FNB / RMB</span></div>
-                <div className="flex justify-between"><span className="text-muted-foreground">Account Holder</span><span className="font-medium">TRIPPLE444 (Pty) Ltd</span></div>
-                <div className="flex justify-between"><span className="text-muted-foreground">Account Type</span><span className="font-medium">Gold Business Account</span></div>
-                <div className="flex justify-between"><span className="text-muted-foreground">Account Number</span><span className="font-mono font-bold">631 827 73870</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Bank</span><span className="font-medium">FNB</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Account Holder</span><span className="font-medium">P. Maseko</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Account Type</span><span className="font-medium">Savings</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Account Number</span><span className="font-mono font-bold">63203398862</span></div>
                 <div className="flex justify-between"><span className="text-muted-foreground">Branch Code</span><span className="font-medium">250 655</span></div>
                 <div className="flex justify-between"><span className="text-muted-foreground">Reference</span><span className="font-bold text-primary">{orderRef}</span></div>
               </div>
