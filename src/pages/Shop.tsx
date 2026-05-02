@@ -67,7 +67,7 @@ export default function Shop() {
       <main className="flex-1 px-4 py-6">
         <div className="mx-auto max-w-7xl">
           {/* Header with urgency */}
-          <div className="rounded-2xl groovy-gradient p-6 text-white mb-6">
+          <div className="rounded-2xl warm-gradient p-6 text-white mb-6">
             <h1 className="font-display text-2xl font-bold md:text-3xl">CBD Infused Products — Shop Online South Africa</h1>
             <p className="mt-1 text-white/80 text-sm">
               Edibles, vapes, dab & more from R50 · Free delivery over R500 · Dispatched within 24hrs across SA
