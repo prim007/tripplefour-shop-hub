@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { ShoppingCart, Truck, CheckCircle2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,15 @@ export default function Cart() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <Helmet>
+        <title>Your Cart | Tripplefour</title>
+        <meta name="description" content="Review your cannabis products before checkout — free delivery over R800." />
+        <link rel="canonical" href="https://tripplefourshophub.online/cart" />
+        <meta name="robots" content="noindex, follow" />
+        <meta property="og:title" content="Your Cart | Tripplefour" />
+        <meta property="og:description" content="Review your cannabis products before checkout." />
+        <meta property="og:url" content="https://tripplefourshophub.online/cart" />
+      </Helmet>
       <Navbar />
       <main className="flex-1 px-4 py-8">
         <div className="mx-auto max-w-3xl">

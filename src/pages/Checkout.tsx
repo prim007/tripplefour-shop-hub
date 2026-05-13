@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -416,6 +417,15 @@ export default function Checkout() {
   // Step: Fill in details
   return (
     <div className="flex min-h-screen flex-col">
+      <Helmet>
+        <title>Checkout | Tripplefour</title>
+        <meta name="description" content="Complete your Tripplefour order — fast nationwide delivery." />
+        <link rel="canonical" href="https://tripplefourshophub.online/checkout" />
+        <meta name="robots" content="noindex, follow" />
+        <meta property="og:title" content="Checkout | Tripplefour" />
+        <meta property="og:description" content="Complete your Tripplefour order." />
+        <meta property="og:url" content="https://tripplefourshophub.online/checkout" />
+      </Helmet>
       <Navbar />
       <main className="flex-1 px-4 py-8">
         <div className="mx-auto max-w-5xl">

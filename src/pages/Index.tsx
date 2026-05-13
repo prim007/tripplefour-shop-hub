@@ -67,9 +67,34 @@ const Index = () => {
   return (
     <div className="flex min-h-screen flex-col overflow-hidden">
       <Helmet>
-        <title>CBD Infused Products Online South Africa | Delivery Joburg & Nationwide | Tripplefour</title>
-        <meta name="description" content="Buy CBD infused products online in South Africa — edibles, vapes, dab concentrates & more from R50. Fast delivery to Johannesburg, Cape Town, Durban & nationwide. Order now, pay on delivery." />
+        <title>Cannabis Products Online SA — From R50 | Tripplefour</title>
+        <meta name="description" content="Buy CBD infused edibles, vapes & dab online in South Africa from R50. Fast delivery to Joburg, Cape Town, Durban & nationwide." />
         <link rel="canonical" href="https://tripplefourshophub.online/" />
+        <meta property="og:title" content="Cannabis Products Online SA — From R50 | Tripplefour" />
+        <meta property="og:description" content="Buy CBD infused edibles, vapes & dab online in South Africa from R50. Fast delivery nationwide." />
+        <meta property="og:url" content="https://tripplefourshophub.online/" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Store",
+          "name": "Tripplefour",
+          "description": "Buy cannabis infused products online in South Africa — edibles, vapes, dab concentrates & accessories from R50",
+          "url": "https://tripplefourshophub.online",
+          "telephone": "+27645436734",
+          "areaServed": { "@type": "Country", "name": "South Africa" },
+          "address": { "@type": "PostalAddress", "addressCountry": "ZA" },
+          "priceRange": "R50 - R1085",
+          "paymentAccepted": "Cash, EFT",
+          "currenciesAccepted": "ZAR"
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": FAQ_ITEMS.map((it) => ({
+            "@type": "Question",
+            "name": it.q,
+            "acceptedAnswer": { "@type": "Answer", "text": it.a }
+          }))
+        })}</script>
       </Helmet>
       <Navbar />
       <main className="flex-1">
@@ -91,6 +116,8 @@ const Index = () => {
               src={heroImg}
               alt="Tripplefour premium CBD infused products on dark slate"
               className="absolute inset-0 h-full w-full object-cover"
+              width={1920}
+              height={1080}
               fetchPriority="high"
             />
             {/* gradient masks for legibility */}
