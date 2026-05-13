@@ -86,11 +86,15 @@ export default function Affiliate() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Helmet>
-        <title>Become an Affiliate — Earn R58.50 per Vape Sold | Tripple444</title>
+        <title>Affiliate Program — Earn R58.50 per Vape | Tripplefour</title>
         <meta
           name="description"
           content="Earn R58.50 commission on every vape sold through your link. Zero inventory, zero risk. Join the Tripple444 affiliate program."
         />
+        <link rel="canonical" href="https://tripplefourshophub.online/affiliate" />
+        <meta property="og:title" content="Affiliate Program — Earn R58.50 per Vape | Tripplefour" />
+        <meta property="og:description" content="Earn R58.50 commission per vape sold. Join the Tripplefour affiliate program." />
+        <meta property="og:url" content="https://tripplefourshophub.online/affiliate" />
       </Helmet>
 
       <Navbar />
