@@ -116,6 +116,8 @@ const Index = () => {
               src={heroImg}
               alt="Tripplefour premium CBD infused products on dark slate"
               className="absolute inset-0 h-full w-full object-cover"
+              width={1920}
+              height={1080}
               fetchPriority="high"
             />
             {/* gradient masks for legibility */}
