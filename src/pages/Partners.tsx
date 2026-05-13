@@ -35,9 +35,12 @@ export default function Partners() {
   return (
     <div className="flex min-h-screen flex-col">
       <Helmet>
-        <title>Partners & Sponsors | Tripplefour — CBD Infused Products South Africa</title>
+        <title>Partners & Sponsors | Tripplefour</title>
         <meta name="description" content="Partner with Tripplefour — South Africa's growing CBD infused products brand. Explore sponsorship tiers and affiliate opportunities." />
         <link rel="canonical" href="https://tripplefourshophub.online/partners" />
+        <meta property="og:title" content="Partners & Sponsors | Tripplefour" />
+        <meta property="og:description" content="Partner with Tripplefour — sponsorship tiers and affiliate opportunities for SA brands." />
+        <meta property="og:url" content="https://tripplefourshophub.online/partners" />
         <meta property="og:title" content="Partners & Sponsors | Tripplefour" />
         <meta property="og:description" content="Partner with Tripplefour — South Africa's growing CBD brand. Sponsorship tiers & affiliate opportunities." />
         <meta property="og:url" content="https://tripplefourshophub.online/partners" />

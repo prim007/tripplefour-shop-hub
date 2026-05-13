@@ -6,10 +6,13 @@ export default function PrivacyPolicy() {
   return (
     <div className="flex min-h-screen flex-col">
       <Helmet>
-        <title>Privacy Policy | Tripplefour — CBD Infused Products South Africa</title>
+        <title>Privacy Policy | Tripplefour</title>
         <meta name="description" content="Read Tripplefour's privacy policy. Learn how we handle your personal information when you order CBD infused products online in South Africa." />
         <link rel="canonical" href="https://tripplefourshophub.online/privacy-policy" />
         <meta name="robots" content="noindex, follow" />
+        <meta property="og:title" content="Privacy Policy | Tripplefour" />
+        <meta property="og:description" content="How Tripplefour handles your personal information." />
+        <meta property="og:url" content="https://tripplefourshophub.online/privacy-policy" />
       </Helmet>
       <Navbar />
       <main className="flex-1 px-4 py-12">

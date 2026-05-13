@@ -56,12 +56,29 @@ export default function Shop() {
   return (
     <div className="flex min-h-screen flex-col">
       <Helmet>
-        <title>Shop CBD Infused Products Online South Africa | Edibles, Vapes & Dab | Tripplefour</title>
-        <meta name="description" content="Browse and buy CBD infused edibles, vapes, dab concentrates & accessories online. Prices from R50. Fast delivery to Johannesburg, Cape Town, Durban & nationwide." />
+        <title>Shop Cannabis Products Online SA | Tripplefour</title>
+        <meta name="description" content="Browse CBD infused edibles, vapes, dab & accessories online from R50. Fast delivery to Joburg, Cape Town, Durban & nationwide." />
         <link rel="canonical" href="https://tripplefourshophub.online/shop" />
-        <meta property="og:title" content="Shop CBD Infused Products Online SA | Tripplefour" />
+        <meta property="og:title" content="Shop Cannabis Products Online SA | Tripplefour" />
         <meta property="og:description" content="Browse edibles, vapes, dab & more from R50. Fast delivery across South Africa." />
         <meta property="og:url" content="https://tripplefourshophub.online/shop" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "Shop — Tripplefour",
+          "description": "Cannabis infused edibles, vapes, dab & accessories.",
+          "url": "https://tripplefourshophub.online/shop",
+          "mainEntity": {
+            "@type": "ItemList",
+            "numberOfItems": filtered.length,
+            "itemListElement": filtered.slice(0, 20).map((p, i) => ({
+              "@type": "ListItem",
+              "position": i + 1,
+              "url": `https://tripplefourshophub.online/product/${p.id}`,
+              "name": p.name
+            }))
+          }
+        })}</script>
       </Helmet>
       <Navbar />
       <main className="flex-1 px-4 py-6">
