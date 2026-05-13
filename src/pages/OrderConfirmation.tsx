@@ -1,4 +1,5 @@
 import { useSearchParams, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { CheckCircle, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
@@ -17,6 +18,15 @@ export default function OrderConfirmation() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <Helmet>
+        <title>Order Confirmed | Tripplefour</title>
+        <meta name="description" content="Your Tripplefour order has been received." />
+        <link rel="canonical" href="https://tripplefourshophub.online/order-confirmation" />
+        <meta name="robots" content="noindex, follow" />
+        <meta property="og:title" content="Order Confirmed | Tripplefour" />
+        <meta property="og:description" content="Your Tripplefour order has been received." />
+        <meta property="og:url" content="https://tripplefourshophub.online/order-confirmation" />
+      </Helmet>
       <Navbar />
       <main className="flex flex-1 items-center justify-center px-4 py-16">
         <div className="mx-auto max-w-lg text-center">
