@@ -12,10 +12,10 @@ import liquidZolBlueberryImg from "@/assets/products/liquid-zol-blueberry.png";
 import liquidZolGreenAppleImg from "@/assets/products/liquid-zol-green-apple.png";
 import liquidZolOilImg from "@/assets/products/liquid-zol-concentrated-oil.jpeg";
 import honeypuff100BillImg from "@/assets/products/honeypuff-100-bill-rolling-papers.png";
-import dirtyVapesEdiblesImg from "@/assets/products/dirty-vapes-edibles-high-life.jpeg";
-import dirtyVapesCart1mlImg from "@/assets/products/dirty-vapes-cart-1ml.png";
-import dirtyVapesSwitch2mlImg from "@/assets/products/dirty-vapes-switch-2ml.png";
-import dirtyVapesDisposable1mlImg from "@/assets/products/dirty-vapes-disposable-1ml.png";
+import dirtyVapesEdiblesImg from "@/assets/products/dirty-vapes-edibles-high-life.jpg";
+import dirtyVapesCart1mlImg from "@/assets/products/dirty-vapes-cart-1ml.jpg";
+import dirtyVapesSwitch2mlImg from "@/assets/products/dirty-vapes-switch-2ml.jpg";
+import dirtyVapesDisposable1mlImg from "@/assets/products/dirty-vapes-disposable-1ml.jpg";
 
 
 export type ProductCategory =
