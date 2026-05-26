@@ -12,6 +12,10 @@ import liquidZolBlueberryImg from "@/assets/products/liquid-zol-blueberry.png";
 import liquidZolGreenAppleImg from "@/assets/products/liquid-zol-green-apple.png";
 import liquidZolOilImg from "@/assets/products/liquid-zol-concentrated-oil.jpeg";
 import honeypuff100BillImg from "@/assets/products/honeypuff-100-bill-rolling-papers.png";
+import dirtyVapesEdiblesImg from "@/assets/products/dirty-vapes-edibles-high-life.jpeg";
+import dirtyVapesCart1mlImg from "@/assets/products/dirty-vapes-cart-1ml.png";
+import dirtyVapesSwitch2mlImg from "@/assets/products/dirty-vapes-switch-2ml.png";
+import dirtyVapesDisposable1mlImg from "@/assets/products/dirty-vapes-disposable-1ml.png";
 
 
 export type ProductCategory =
@@ -67,6 +71,12 @@ export const products: Product[] = [
 
   // Accessories
   { id: "acc-hp-100bill", name: "HoneyPuff $100 Bill Rolling Papers (Box of 24)", category: "Accessories", price: 55, description: "HoneyPuff $100 Bill rolling papers — novelty holographic dollar-bill design. One box contains 24 individual booklets. Slow-burning, premium quality papers perfect for everyday rolling.", image: honeypuff100BillImg },
+
+  // Dirty Vapes (partner)
+  { id: "dv-edibles-100mg", name: "Dirty Vapes Edibles Tub 100mg", category: "Edibles", price: 150, description: "Dirty Vapes 'High Life' infused edibles tub — 100mg per tub. Soft, sugar-coated gummy cubes with smooth onset. Partner product by Dirty Vapes.", image: dirtyVapesEdiblesImg },
+  { id: "dv-cart-1ml", name: "Dirty Vapes 1ML Cart", category: "Vapes", price: 350, description: "Dirty Vapes 1ML THC cartridge — premium oil, smooth pulls. 510-thread compatible. Partner product by Dirty Vapes.", image: dirtyVapesCart1mlImg },
+  { id: "dv-switch-2ml", name: "Dirty Vapes 2ML SWITCH", category: "Vapes", price: 900, description: "Dirty Vapes 2ML SWITCH device — dual-mode Sativa/Indica switch with 2ML of premium THC oil. Reusable pod device. Partner product by Dirty Vapes.", image: dirtyVapesSwitch2mlImg },
+  { id: "dv-disposable-1ml", name: "Dirty Vapes 1ML Disposable", category: "Vapes", price: 450, description: "Dirty Vapes 1ML disposable — pre-charged, pre-filled, ready to rip. Bold flavours, premium oil. Partner product by Dirty Vapes.", image: dirtyVapesDisposable1mlImg },
 ];
 
 export function getProductById(id: string): Product | undefined {
