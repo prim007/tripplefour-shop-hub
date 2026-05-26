@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { products } from "@/data/products";
 
 // Update this number once confirmed by the partner.
-const ORDER_PHONE = "";
+const ORDER_PHONE: string = "";
 const ORDER_PHONE_DISPLAY = ORDER_PHONE || "Coming soon";
 
 export default function PartnerDirtyVapes() {
