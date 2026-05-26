@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import SponsorInquiryForm from "@/components/SponsorInquiryForm";
 import { ExternalLink, Star, Check } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -60,15 +61,12 @@ export default function Partners() {
 
           {/* Partner cards */}
           <div className="mb-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {affiliates.map((item) => (
-              <a
-                key={item.id}
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer nofollow"
-                onClick={() => handleClick(item.id, item.name, item.url)}
-                className="group relative flex flex-col justify-between rounded-2xl border-2 border-border bg-card p-6 transition-all duration-300 hover:border-primary hover:shadow-lg hover:-translate-y-1"
-              >
+            {affiliates.map((item) => {
+              const isInternal = item.url.startsWith("/");
+              const cardClass =
+                "group relative flex flex-col justify-between rounded-2xl border-2 border-border bg-card p-6 transition-all duration-300 hover:border-primary hover:shadow-lg hover:-translate-y-1";
+              const inner = (
+                <>
                 {item.featured && (
                   <Badge className="absolute -top-2.5 right-4 gap-1 bg-accent text-accent-foreground">
                     <Star className="h-3 w-3" /> Featured
@@ -88,8 +86,30 @@ export default function Partners() {
                 <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
                   {item.cta} <ExternalLink className="h-3.5 w-3.5" />
                 </div>
-              </a>
-            ))}
+                </>
+              );
+              return isInternal ? (
+                <Link
+                  key={item.id}
+                  to={item.url}
+                  onClick={() => handleClick(item.id, item.name, item.url)}
+                  className={cardClass}
+                >
+                  {inner}
+                </Link>
+              ) : (
+                <a
+                  key={item.id}
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  onClick={() => handleClick(item.id, item.name, item.url)}
+                  className={cardClass}
+                >
+                  {inner}
+                </a>
+              );
+            })}
           </div>
 
           {/* Sponsorship Pricing */}
