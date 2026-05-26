@@ -175,7 +175,7 @@ export default function ProductDetail() {
                   <Button size="lg" className="mt-3 w-full gap-2 font-semibold rounded-none uppercase tracking-widest text-xs bg-primary text-primary-foreground hover:bg-primary-glow border-0" onClick={handleBuyNow}>
                     <Zap className="h-5 w-5" /> Purchase Now — R{(product.price * qty).toLocaleString()}
                   </Button>
-                  <p className="mt-2 text-xs text-muted-foreground text-center">🚚 Free delivery on orders over R500 · Pay by EFT or Cash</p>
+                  <p className="mt-2 text-xs text-muted-foreground text-center">🚚 Free delivery on orders over R1200 · Pay by EFT · Delivery is free within 3-5km of your location</p>
                 </>
               )}
 
