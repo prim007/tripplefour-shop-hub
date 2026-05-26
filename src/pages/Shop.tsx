@@ -88,7 +88,7 @@ export default function Shop() {
             <p className="text-[11px] uppercase tracking-[0.32em] text-primary font-semibold mb-3">/ The catalog</p>
             <h1 className="font-display text-3xl md:text-5xl font-bold uppercase">Shop all</h1>
             <p className="mt-3 text-sm text-muted-foreground max-w-xl">
-              Edibles, vapes, dab & accessories from R50. Free delivery over R800. 24h dispatch nationwide.
+              Edibles, vapes, dab & accessories from R50. Free delivery on orders over R1200. Delivery is free within 3-5km of your location.
             </p>
           </div>
 
