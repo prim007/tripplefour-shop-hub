@@ -24,6 +24,7 @@ import Admin from "./pages/Admin";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Partners from "./pages/Partners";
+import PartnerDirtyVapes from "./pages/PartnerDirtyVapes";
 import Affiliate from "./pages/Affiliate";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
@@ -64,6 +65,7 @@ const App = () => (
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:slug" element={<BlogPost />} />
                 <Route path="/partners" element={<Partners />} />
+                <Route path="/partners/dirty-vapes" element={<PartnerDirtyVapes />} />
                 <Route path="/affiliate" element={<Affiliate />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/terms-of-service" element={<TermsOfService />} />
