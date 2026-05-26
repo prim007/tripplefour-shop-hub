@@ -35,6 +35,16 @@ export const affiliates: AffiliateLink[] = [
     cta: "Shop Liquid Zol",
     featured: true,
   },
+  {
+    id: "aff-dirtyvapes",
+    name: "Dirty Vapes",
+    description:
+      "Bold, hard-hitting THC carts, disposables and infused edibles. Brain Cake, End Game, High Life — Dirty Vapes brings the heat.",
+    category: "Vaporizers & Devices",
+    url: "/partners/dirty-vapes",
+    cta: "Shop Dirty Vapes",
+    featured: true,
+  },
 ];
 
 export interface SponsorTier {
