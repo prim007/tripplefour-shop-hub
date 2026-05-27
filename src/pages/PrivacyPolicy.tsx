@@ -54,7 +54,7 @@ export default function PrivacyPolicy() {
           <section className="space-y-3">
             <h2 className="font-display text-xl font-semibold">5. Cookies & Analytics</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              We use Google Analytics to understand how visitors interact with our website. This service may use cookies to collect anonymous usage data. No personally identifiable information is shared with analytics providers.
+              We use cookies to enable essential site features (such as your cart and age verification) and to understand how visitors interact with our website via Google Analytics. When you first visit Tripplefour, you will be asked to accept or decline non-essential cookies. You can change your decision at any time by clearing your browser storage for this site. No personally identifiable information is shared with analytics providers.
             </p>
           </section>
 
@@ -73,7 +73,14 @@ export default function PrivacyPolicy() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="font-display text-xl font-semibold">8. Changes to This Policy</h2>
+            <h2 className="font-display text-xl font-semibold">8. Partner &amp; Advertiser Vetting (SAHPRA)</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Every business that signs up to advertise, sponsor, or list products through Tripplefour is screened against the South African Health Products Regulatory Authority (SAHPRA) register before being approved. We verify that partner businesses are not flagged by SAHPRA for prohibited or unsafe health-product practices, and we reserve the right to decline or remove any partner who fails this check. This vetting protects our customers, but it does not constitute a SAHPRA endorsement of any specific product. Customers should always read product labels and consult a qualified healthcare professional before use.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="font-display text-xl font-semibold">9. Changes to This Policy</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
               We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date.
             </p>
