@@ -169,6 +169,33 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ count: data?.length ?? 0 }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
+    // ===== Abandoned carts =====
+    if (action === "list-abandoned-carts") {
+      const cutoff = new Date(Date.now() - 30 * 60 * 1000).toISOString(); // 30 min idle = abandoned
+      const { data, error } = await supabase
+        .from("abandoned_carts")
+        .select("*")
+        .eq("status", "active")
+        .lt("last_activity_at", cutoff)
+        .order("last_activity_at", { ascending: false })
+        .limit(200);
+      if (error) throw error;
+      return new Response(JSON.stringify(data ?? []), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    if (action === "dismiss-abandoned-cart") {
+      const { id } = await req.json();
+      if (!id) return new Response(JSON.stringify({ error: "id required" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      const { error } = await supabase
+        .from("abandoned_carts")
+        .update({ status: "dismissed" })
+        .eq("id", id);
+      if (error) throw error;
+      return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
     return new Response(JSON.stringify({ error: "Unknown action" }), {
       status: 400,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
