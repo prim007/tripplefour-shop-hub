@@ -34,6 +34,7 @@ export default function PrivacyPolicy() {
               <li>To communicate with you about your order status</li>
               <li>To arrange delivery to your specified address</li>
               <li>To improve our services and customer experience</li>
+              <li>To train and improve Cuddles AI so it can give accurate, helpful answers</li>
             </ul>
           </section>
 
