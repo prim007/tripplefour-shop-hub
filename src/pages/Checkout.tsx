@@ -16,6 +16,7 @@ import { trackFunnel } from "@/lib/funnel";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getStoredAffiliateCode } from "@/lib/affiliate";
+import { saveAbandonedCart, markCartOrdered } from "@/lib/abandonedCart";
 
 // Promo-code validation is temporarily disabled while we move it server-side
 // into this project. The previous implementation called an unauthenticated
@@ -64,6 +65,29 @@ export default function Checkout() {
     const stored = getStoredAffiliateCode();
     if (stored) setAffiliateCode(stored);
   }, []);
+
+  // Abandoned-cart capture: debounced upsert while user is filling details
+  useEffect(() => {
+    if (!user || step !== "details") return;
+    if (items.length === 0) return;
+    if (!form.email.trim()) return;
+    const t = window.setTimeout(() => {
+      saveAbandonedCart({
+        userId: user.id,
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        items: items.map((i) => ({
+          id: i.product.id,
+          name: i.product.name,
+          quantity: i.quantity,
+          price: i.product.price,
+        })),
+        subtotal: totalPrice,
+      });
+    }, 1500);
+    return () => window.clearTimeout(t);
+  }, [user, step, form.name, form.email, form.phone, items, totalPrice]);
 
   const discountAmount = Math.round(totalPrice * (promoDiscount / 100));
   const deliveryFee = selectedZone?.fee ?? 0;
@@ -286,6 +310,8 @@ export default function Checkout() {
 
       setStep("awaiting-payment");
       setSubmitting(false);
+      // Mark this user's abandoned-cart row as ordered so it drops off the recovery list
+      if (user) markCartOrdered(user.id).catch(() => {});
     } catch (err) {
       console.error("Order submission error:", err);
       toast({ title: "Error", description: "Failed to place order. Please try again.", variant: "destructive" });
