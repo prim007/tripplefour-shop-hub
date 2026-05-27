@@ -11,6 +11,7 @@ import CartDrawer from "@/components/CartDrawer";
 import AgeVerification from "@/components/AgeVerification";
 import CuddlesChatbot from "@/components/CuddlesChatbot";
 import WelcomeDiscountPopup from "@/components/WelcomeDiscountPopup";
+import CookieConsent from "@/components/CookieConsent";
 import useGAPageviews from "@/hooks/useGAPageviews";
 
 import Index from "./pages/Index";
@@ -77,6 +78,7 @@ const App = () => (
               </Routes>
               <CuddlesChatbot />
               <WelcomeDiscountPopup />
+              <CookieConsent />
             </BrowserRouter>
           </CartDrawerProvider>
         </CartProvider>
