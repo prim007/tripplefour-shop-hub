@@ -1,14 +1,14 @@
 # Tripplefour
 
-> South Africa's online store for cannabis infused products — edibles, vapes, dab concentrates and accessories. Fast nationwide delivery from R50.
+> South Africa's online store for CBD infused products — edibles, vapes, dab concentrates and accessories. Fast nationwide delivery from R50.
 
-Tripplefour ships cannabis infused products across South Africa with same-day dispatch and delivery to Johannesburg, Cape Town, Durban, Pretoria and nationwide. Orders are 21+ only. Payment by EFT or PayFast.
+Tripplefour ships CBD infused products across South Africa with same-day dispatch and delivery to Johannesburg, Cape Town, Durban, Pretoria and nationwide. Orders are 21+ only. Payment by EFT or PayFast.
 
 ## Pages
 
 - [Home](/): Brand overview, featured drops, FAQ.
 - [Shop](/shop): Full product catalog — edibles, vapes, dab, accessories.
-- [Blog](/blog): Cannabis news, guides and tips for South Africa.
+- [Blog](/blog): CBD news, guides and tips for South Africa.
 - [Partners](/partners): Sponsorship tiers and brand partnerships.
 - [Affiliate](/affiliate): Earn R58.50 commission per vape sold.
 

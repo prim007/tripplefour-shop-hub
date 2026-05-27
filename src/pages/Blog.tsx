@@ -37,18 +37,18 @@ export default function Blog() {
   return (
     <div className="flex min-h-screen flex-col">
       <Helmet>
-        <title>Cannabis Blog SA — News & Guides | Tripplefour</title>
+        <title>CBD Blog SA — News & Guides | Tripplefour</title>
         <meta name="description" content="Read the latest CBD news, guides and tips for South Africa. Edibles, vapes, legal updates and more from Tripplefour." />
         <link rel="canonical" href="https://tripplefourshophub.online/blog" />
-        <meta property="og:title" content="Cannabis Blog SA — News & Guides | Tripplefour" />
-        <meta property="og:description" content="Latest cannabis news, guides & tips for South Africa." />
+        <meta property="og:title" content="CBD Blog SA — News & Guides | Tripplefour" />
+        <meta property="og:description" content="Latest CBD news, guides & tips for South Africa." />
         <meta property="og:url" content="https://tripplefourshophub.online/blog" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Blog",
           "name": "Tripplefour Blog",
           "url": "https://tripplefourshophub.online/blog",
-          "description": "Cannabis news, guides and tips for South Africa.",
+          "description": "CBD news, guides and tips for South Africa.",
           "blogPost": posts.slice(0, 10).map((p) => ({
             "@type": "BlogPosting",
             "headline": p.title,

@@ -67,17 +67,17 @@ const Index = () => {
   return (
     <div className="flex min-h-screen flex-col overflow-hidden">
       <Helmet>
-        <title>Cannabis Products Online SA — From R50 | Tripplefour</title>
+        <title>CBD Products Online SA — From R50 | Tripplefour</title>
         <meta name="description" content="Buy CBD infused edibles, vapes & dab online in South Africa from R50. Fast delivery to Joburg, Cape Town, Durban & nationwide." />
         <link rel="canonical" href="https://tripplefourshophub.online/" />
-        <meta property="og:title" content="Cannabis Products Online SA — From R50 | Tripplefour" />
+        <meta property="og:title" content="CBD Products Online SA — From R50 | Tripplefour" />
         <meta property="og:description" content="Buy CBD infused edibles, vapes & dab online in South Africa from R50. Fast delivery nationwide." />
         <meta property="og:url" content="https://tripplefourshophub.online/" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Store",
           "name": "Tripplefour",
-          "description": "Buy cannabis infused products online in South Africa — edibles, vapes, dab concentrates & accessories from R50",
+          "description": "Buy CBD infused products online in South Africa — edibles, vapes, dab concentrates & accessories from R50",
           "url": "https://tripplefourshophub.online",
           "telephone": "+27645436734",
           "areaServed": { "@type": "Country", "name": "South Africa" },
