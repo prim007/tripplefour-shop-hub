@@ -56,17 +56,17 @@ export default function Shop() {
   return (
     <div className="flex min-h-screen flex-col">
       <Helmet>
-        <title>Shop Cannabis Products Online SA | Tripplefour</title>
+        <title>Shop CBD Products Online SA | Tripplefour</title>
         <meta name="description" content="Browse CBD infused edibles, vapes, dab & accessories online from R50. Fast delivery to Joburg, Cape Town, Durban & nationwide." />
         <link rel="canonical" href="https://tripplefourshophub.online/shop" />
-        <meta property="og:title" content="Shop Cannabis Products Online SA | Tripplefour" />
+        <meta property="og:title" content="Shop CBD Products Online SA | Tripplefour" />
         <meta property="og:description" content="Browse edibles, vapes, dab & more from R50. Fast delivery across South Africa." />
         <meta property="og:url" content="https://tripplefourshophub.online/shop" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "CollectionPage",
           "name": "Shop — Tripplefour",
-          "description": "Cannabis infused edibles, vapes, dab & accessories.",
+          "description": "CBD infused edibles, vapes, dab & accessories.",
           "url": "https://tripplefourshophub.online/shop",
           "mainEntity": {
             "@type": "ItemList",

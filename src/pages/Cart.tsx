@@ -39,11 +39,11 @@ export default function Cart() {
     <div className="flex min-h-screen flex-col">
       <Helmet>
         <title>Your Cart | Tripplefour</title>
-        <meta name="description" content="Review your cannabis products before checkout — free delivery on orders over R1200. Delivery is also free within 3-5km of your location." />
+        <meta name="description" content="Review your CBD products before checkout — free delivery on orders over R1200. Delivery is also free within 3-5km of your location." />
         <link rel="canonical" href="https://tripplefourshophub.online/cart" />
         <meta name="robots" content="noindex, follow" />
         <meta property="og:title" content="Your Cart | Tripplefour" />
-        <meta property="og:description" content="Review your cannabis products before checkout." />
+        <meta property="og:description" content="Review your CBD products before checkout." />
         <meta property="og:url" content="https://tripplefourshophub.online/cart" />
       </Helmet>
       <Navbar />
