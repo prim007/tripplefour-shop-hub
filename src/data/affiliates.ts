@@ -45,6 +45,16 @@ export const affiliates: AffiliateLink[] = [
     cta: "Shop Dirty Vapes",
     featured: true,
   },
+  {
+    id: "aff-leflabs",
+    name: "Lëf Labs",
+    description:
+      "COA-certified B2B wholesale supply — premium indoor & tunnel flower, pre-rolls, distillates, and Liquid Gold + Pure Leaf vape lines.",
+    category: "Vaporizers & Devices",
+    url: "/partners/lef-labs",
+    cta: "View Lëf Labs Catalogue",
+    featured: true,
+  },
 ];
 
 export interface SponsorTier {
