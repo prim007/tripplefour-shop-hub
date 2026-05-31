@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { Phone, MessageCircle, ArrowLeft, ShieldCheck, Leaf, FlaskConical, Cigarette, Sparkles } from "lucide-react";
+import { Phone, MessageCircle, ArrowLeft, ShieldCheck, FlaskConical, Cigarette, Sparkles } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -19,39 +19,6 @@ import {
 // Update once confirmed by the partner.
 const ORDER_PHONE: string = "";
 const ORDER_PHONE_DISPLAY = ORDER_PHONE || "Contact via inquiry";
-
-type ProductPlaceholder = {
-  name: string;
-  caption: string;
-};
-
-const productPlaceholders: ProductPlaceholder[] = [
-  { name: "Animal Runtz", caption: "Indoor • Hybrid • Sweet / Fruity" },
-  { name: "Lemon Silver Haze", caption: "Indoor • Sativa • Citrus / Earthy" },
-  { name: "Guava Bomba", caption: "Indoor • Hybrid • Tropical / Floral" },
-  { name: "Purple Ghost Candy", caption: "Indoor • Indica • Berry / Candy" },
-  { name: "Jack Herer", caption: "Tunnel AAA • Sativa • Spicy / Pine" },
-  { name: "Planet of the Grapes", caption: "Tunnel AAA • Indica • Grape / Earthy" },
-  { name: "Gorilla Skittles", caption: "Tunnel AAA • Hybrid • Sweet / Diesel" },
-  { name: "Moon Stick Pre-Roll", caption: "1g indoor + kief coat • Premium" },
-  { name: "Liquid Gold Disposable", caption: "0.5ml / 1ml • THC distillate" },
-  { name: "Pure Leaf Cartridge", caption: "1ml 510 • Full spectrum" },
-];
-
-const ProductPlaceholder = ({ p }: { p: ProductPlaceholder }) => (
-  <div className="group overflow-hidden rounded-xl border-2 border-border bg-card transition-all hover:border-primary hover:-translate-y-1">
-    <div className="relative flex aspect-square items-center justify-center bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/30">
-      <Leaf className="h-12 w-12 text-primary/40" strokeWidth={1.2} />
-      <span className="absolute bottom-2 right-2 rounded-full bg-background/80 px-2 py-0.5 text-[10px] uppercase tracking-widest text-muted-foreground backdrop-blur">
-        Placeholder
-      </span>
-    </div>
-    <div className="p-3">
-      <p className="font-display text-sm font-bold leading-tight">{p.name}</p>
-      <p className="mt-1 text-xs text-muted-foreground">{p.caption}</p>
-    </div>
-  </div>
-);
 
 const SectionHeader = ({
   index,
