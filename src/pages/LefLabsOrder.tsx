@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Minus, Plus, ShoppingCart, Trash2, ShieldCheck, Loader2, Building2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -12,12 +12,25 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { LEFLABS_PRODUCTS, LEFLABS_PRODUCT_MAP, type LefLabsProduct } from "@/data/leflabsProducts";
+import { useAuth } from "@/context/AuthContext";
 
 type CartItem = { id: string; quantity: number };
 
 const CATEGORIES = Array.from(new Set(LEFLABS_PRODUCTS.map((p) => p.category)));
 
 export default function LefLabsOrder() {
+  const { user, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!authLoading && !user) {
+      toast({
+        title: "Sign in required",
+        description: "Wholesale ordering is for verified partners. Please sign in to continue.",
+      });
+      navigate(`/auth?redirect=${encodeURIComponent("/partners/lef-labs/order")}`);
+    }
+  }, [authLoading, user, navigate]);
+
   const [cart, setCart] = useState<CartItem[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
@@ -53,6 +66,10 @@ export default function LefLabsOrder() {
   const removeItem = (id: string) => setCart((prev) => prev.filter((ci) => ci.id !== id));
 
   const handleCheckout = async () => {
+    if (!user) {
+      navigate(`/auth?redirect=${encodeURIComponent("/partners/lef-labs/order")}`);
+      return;
+    }
     if (cart.length === 0) {
       toast({ title: "Cart is empty", description: "Add at least one product to continue.", variant: "destructive" });
       return;
