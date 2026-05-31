@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { Phone, MessageCircle, ArrowLeft, ShieldCheck, Leaf, FlaskConical, Cigarette, Sparkles } from "lucide-react";
+import { Phone, MessageCircle, ArrowLeft, ShieldCheck, Leaf, FlaskConical, Cigarette, Sparkles, ShoppingCart } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -126,6 +126,11 @@ export default function PartnerLefLabs() {
                   {ORDER_PHONE_DISPLAY}
                 </p>
                 <div className="flex gap-2">
+                  <Button asChild size="sm" className="gap-2">
+                    <Link to="/partners/lef-labs/order">
+                      <ShoppingCart className="h-4 w-4" /> Order Online
+                    </Link>
+                  </Button>
                   <Button asChild size="sm" disabled={!telHref} className="gap-2">
                     <a href={telHref || "#"} aria-disabled={!telHref}>
                       <Phone className="h-4 w-4" /> Call
@@ -142,6 +147,9 @@ export default function PartnerLefLabs() {
                     </a>
                   </Button>
                 </div>
+                <p className="mt-1 text-[11px] text-muted-foreground">
+                  Pay securely via PayFast
+                </p>
               </div>
             </div>
           </div>
