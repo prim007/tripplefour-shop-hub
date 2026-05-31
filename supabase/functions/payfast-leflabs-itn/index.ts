@@ -8,8 +8,10 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "content-type",
 };
 
-// Flip to "https://www.payfast.co.za/eng/query/validate" when going live.
-const PAYFAST_VALIDATE_URL = "https://sandbox.payfast.co.za/eng/query/validate";
+// Defaults to sandbox; override with PAYFAST_VALIDATE_URL secret in production
+// (https://www.payfast.co.za/eng/query/validate).
+const PAYFAST_VALIDATE_URL =
+  Deno.env.get("PAYFAST_VALIDATE_URL") ?? "https://sandbox.payfast.co.za/eng/query/validate";
 
 function urlEncodePayfast(value: string): string {
   return encodeURIComponent(value).replace(/%20/g, "+");

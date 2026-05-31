@@ -29,8 +29,15 @@ const PRODUCT_PRICES: Record<string, { name: string; price: number }> = {
 // Flat wholesale delivery fee (ZAR). Set to 0 if customer arranges courier.
 const DELIVERY_FEE = 0;
 
-// Switch to "https://www.payfast.co.za/eng/process" when going live.
-const PAYFAST_PROCESS_URL = "https://sandbox.payfast.co.za/eng/process";
+// Defaults to sandbox; override with PAYFAST_PROCESS_URL secret in production
+// (e.g. https://www.payfast.co.za/eng/process).
+const PAYFAST_PROCESS_URL =
+  Deno.env.get("PAYFAST_PROCESS_URL") ?? "https://sandbox.payfast.co.za/eng/process";
+
+// Trusted base URL for PayFast return/cancel redirects. Never accept these
+// from the client — that would allow open-redirect / phishing abuse.
+const RETURN_BASE_URL =
+  Deno.env.get("LEFLABS_RETURN_BASE_URL") ?? "https://tripplefourshophub.online";
 
 function urlEncodePayfast(value: string): string {
   // PayFast expects + for spaces and uppercase percent-encoding.
@@ -231,8 +238,6 @@ Deno.serve(async (req) => {
       delivery_address,
       items,
       notes,
-      return_url,
-      cancel_url,
     } = body;
 
     if (!business_name || !contact_name || !email || !phone || !delivery_address || !Array.isArray(items) || items.length === 0) {
@@ -329,15 +334,14 @@ Deno.serve(async (req) => {
       });
     }
 
-    const origin = req.headers.get("origin") || "https://tripplefourshophub.online";
     const itnUrl = `${supabaseUrl}/functions/v1/payfast-leflabs-itn`;
 
     // Field order matters for PayFast signature.
     const fields: Record<string, string> = {
       merchant_id: merchantId,
       merchant_key: merchantKey,
-      return_url: return_url || `${origin}/partners/lef-labs/order-complete?ref=${orderRef}&status=success`,
-      cancel_url: cancel_url || `${origin}/partners/lef-labs/order-complete?ref=${orderRef}&status=cancel`,
+      return_url: `${RETURN_BASE_URL}/partners/lef-labs/order-complete?ref=${orderRef}&status=success`,
+      cancel_url: `${RETURN_BASE_URL}/partners/lef-labs/order-complete?ref=${orderRef}&status=cancel`,
       notify_url: itnUrl,
       name_first: contact_name.trim().split(" ")[0].slice(0, 50),
       name_last: contact_name.trim().split(" ").slice(1).join(" ").slice(0, 50) || "-",

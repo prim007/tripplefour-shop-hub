@@ -68,8 +68,6 @@ export default function LefLabsOrder() {
         body: {
           ...form,
           items: cart,
-          return_url: `${window.location.origin}/partners/lef-labs/order-complete`,
-          cancel_url: `${window.location.origin}/partners/lef-labs/order-complete`,
         },
       });
       if (error) throw error;
