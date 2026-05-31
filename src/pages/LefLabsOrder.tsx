@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Minus, Plus, ShoppingCart, Trash2, ShieldCheck, Loader2 } from "lucide-react";
+import { ArrowLeft, Minus, Plus, ShoppingCart, Trash2, ShieldCheck, Loader2, Building2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -250,6 +250,34 @@ export default function LefLabsOrder() {
                 </Button>
                 <p className="text-[11px] text-muted-foreground text-center">
                   You will be redirected to PayFast's secure hosted checkout.
+                </p>
+              </div>
+
+              {/* EFT alternative — Lëf Labs banking details */}
+              <div className="rounded-xl border-2 border-dashed border-border bg-card p-5">
+                <div className="mb-3 flex items-center gap-2">
+                  <Building2 className="h-5 w-5 text-primary" />
+                  <h3 className="font-display text-lg font-bold">EFT Alternative</h3>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Prefer direct EFT? Pay into the Lëf Labs account below and email proof of payment to confirm your order.
+                </p>
+                <dl className="mt-3 grid grid-cols-[120px_1fr] gap-y-1.5 text-sm">
+                  <dt className="text-muted-foreground">Account name</dt>
+                  <dd className="font-semibold">Lëf Labs</dd>
+                  <dt className="text-muted-foreground">Bank</dt>
+                  <dd className="font-semibold">Absa</dd>
+                  <dt className="text-muted-foreground">Branch code</dt>
+                  <dd className="font-mono font-semibold">632005</dd>
+                  <dt className="text-muted-foreground">Account no.</dt>
+                  <dd className="font-mono font-semibold">4078121856</dd>
+                  <dt className="text-muted-foreground">Type</dt>
+                  <dd className="font-semibold">Cheque</dd>
+                  <dt className="text-muted-foreground">Reference</dt>
+                  <dd className="font-semibold">Lighting &amp; Equipment</dd>
+                </dl>
+                <p className="mt-3 text-[11px] text-muted-foreground">
+                  Use the reference exactly as shown. Orders ship once payment reflects.
                 </p>
               </div>
             </aside>
