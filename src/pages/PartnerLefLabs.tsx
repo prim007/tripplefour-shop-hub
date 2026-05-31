@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import LefLabsStorefront from "@/components/leflabs/LefLabsStorefront";
+import LefLabsCartDrawer from "@/components/leflabs/LefLabsCartDrawer";
 import {
   Table,
   TableBody,
@@ -204,16 +206,15 @@ export default function PartnerLefLabs() {
         {/* Product placeholders */}
         <section className="border-t border-border bg-secondary/20 px-4 py-12">
           <div className="mx-auto max-w-6xl">
-            <SectionHeader
-              index="02 — Product range"
-              title="Catalogue Highlights"
-              subtitle="Visual placeholders — final product photography pending. All products available with batch COA on request."
-            />
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-              {productPlaceholders.map((p) => (
-                <ProductPlaceholder key={p.name} p={p} />
-              ))}
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <SectionHeader
+                index="02 — Live Shopify catalogue"
+                title="Order Online — Powered by Shopify"
+                subtitle="Live wholesale catalogue. Add items to cart and checkout securely via Shopify. COA available on request for every batch."
+              />
+              <LefLabsCartDrawer />
             </div>
+            <LefLabsStorefront />
           </div>
         </section>
 
