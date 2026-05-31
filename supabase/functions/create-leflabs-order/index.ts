@@ -334,7 +334,6 @@ Deno.serve(async (req) => {
       });
     }
 
-    const origin = req.headers.get("origin") || "https://tripplefourshophub.online";
     const itnUrl = `${supabaseUrl}/functions/v1/payfast-leflabs-itn`;
 
     // Field order matters for PayFast signature.
