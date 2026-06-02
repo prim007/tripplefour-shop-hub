@@ -215,7 +215,17 @@ export default function Admin() {
               <div key={order.id} className="rounded-xl border bg-card p-5 space-y-3">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <p className="font-mono text-sm font-bold">{order.order_ref}</p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="font-mono text-sm font-bold">{order.order_ref}</p>
+                      {order.order_ref?.startsWith("LEF-") && (
+                        <span className="rounded-full bg-accent/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent">
+                          Lëf Labs
+                        </span>
+                      )}
+                      <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+                        {order.payment_method === "eft" ? "EFT" : order.payment_method}
+                      </span>
+                    </div>
                     <p className="text-xs text-muted-foreground">{new Date(order.created_at).toLocaleString()}</p>
                   </div>
                   <div className="flex items-center gap-2">
