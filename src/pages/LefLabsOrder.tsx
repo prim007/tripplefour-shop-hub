@@ -33,6 +33,7 @@ export default function LefLabsOrder() {
 
   const [cart, setCart] = useState<CartItem[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<"payfast" | "eft">("payfast");
   const [form, setForm] = useState({
     business_name: "",
     contact_name: "",
@@ -85,9 +86,17 @@ export default function LefLabsOrder() {
         body: {
           ...form,
           items: cart,
+          payment_method: paymentMethod,
         },
       });
       if (error) throw error;
+
+      // EFT path — no redirect, take user to confirmation with bank details.
+      if (data?.payment_method === "eft" && data?.order_ref) {
+        navigate(`/partners/lef-labs/order-complete?ref=${encodeURIComponent(data.order_ref)}&method=eft`);
+        return;
+      }
+
       if (!data?.payfast_action || !data?.payfast_fields) throw new Error("Invalid response from server");
 
       // Build and submit a PayFast form to redirect the browser.
@@ -259,12 +268,48 @@ export default function LefLabsOrder() {
                     onChange={(e) => setForm({ ...form, notes: e.target.value })} />
                 </div>
 
+                <div className="space-y-2">
+                  <Label className="text-xs uppercase tracking-widest text-muted-foreground">Payment method</Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod("payfast")}
+                      className={`rounded-lg border-2 p-3 text-left transition ${
+                        paymentMethod === "payfast"
+                          ? "border-primary bg-primary/5"
+                          : "border-border bg-card hover:border-primary/40"
+                      }`}
+                    >
+                      <p className="font-display text-sm font-bold">PayFast</p>
+                      <p className="mt-0.5 text-[11px] text-muted-foreground">Card · Instant EFT · SnapScan</p>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod("eft")}
+                      className={`rounded-lg border-2 p-3 text-left transition ${
+                        paymentMethod === "eft"
+                          ? "border-primary bg-primary/5"
+                          : "border-border bg-card hover:border-primary/40"
+                      }`}
+                    >
+                      <p className="font-display text-sm font-bold">Direct EFT</p>
+                      <p className="mt-0.5 text-[11px] text-muted-foreground">Pay into our ABSA account</p>
+                    </button>
+                  </div>
+                </div>
+
                 <Button onClick={handleCheckout} disabled={submitting || cart.length === 0} className="w-full gap-2" size="lg">
                   {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4" />}
-                  {submitting ? "Redirecting…" : `Pay R${subtotal.toFixed(2)} via PayFast`}
+                  {submitting
+                    ? (paymentMethod === "eft" ? "Creating order…" : "Redirecting…")
+                    : (paymentMethod === "eft"
+                        ? `Place R${subtotal.toFixed(2)} order (EFT)`
+                        : `Pay R${subtotal.toFixed(2)} via PayFast`)}
                 </Button>
                 <p className="text-[11px] text-muted-foreground text-center">
-                  You will be redirected to PayFast's secure hosted checkout.
+                  {paymentMethod === "eft"
+                    ? "We'll generate a unique reference for your ABSA deposit."
+                    : "You will be redirected to PayFast's secure hosted checkout."}
                 </p>
               </div>
 
@@ -275,7 +320,7 @@ export default function LefLabsOrder() {
                   <h3 className="font-display text-lg font-bold">EFT Alternative</h3>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Prefer direct EFT? Pay into the Lëf Labs account below and email proof of payment to confirm your order.
+                  Choose <strong>Direct EFT</strong> above to place the order and receive a unique reference. Use that reference (not the product name) when paying into the account below — it tells us which order to dispatch.
                 </p>
                 <dl className="mt-3 grid grid-cols-[120px_1fr] gap-y-1.5 text-sm">
                   <dt className="text-muted-foreground">Account name</dt>
@@ -289,10 +334,10 @@ export default function LefLabsOrder() {
                   <dt className="text-muted-foreground">Type</dt>
                   <dd className="font-semibold">Cheque</dd>
                   <dt className="text-muted-foreground">Reference</dt>
-                  <dd className="font-semibold">Lighting &amp; Equipment</dd>
+                  <dd className="font-semibold">Your <span className="font-mono text-primary">LEF-XXXXXXXXXX</span> order code</dd>
                 </dl>
                 <p className="mt-3 text-[11px] text-muted-foreground">
-                  Use the reference exactly as shown. Orders ship once payment reflects.
+                  Orders ship once payment reflects (typically 1 business day for EFT).
                 </p>
               </div>
             </aside>

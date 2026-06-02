@@ -259,7 +259,10 @@ Deno.serve(async (req) => {
       delivery_address,
       items,
       notes,
+      payment_method: requestedMethod,
     } = body;
+
+    const paymentMethod = requestedMethod === "eft" ? "eft" : "payfast";
 
     if (!business_name || !contact_name || !email || !phone || !delivery_address || !Array.isArray(items) || items.length === 0) {
       return new Response(JSON.stringify({ error: "Missing required fields" }), {
@@ -328,7 +331,7 @@ Deno.serve(async (req) => {
         subtotal,
         total,
         items: validatedItems,
-        payment_method: "payfast",
+        payment_method: paymentMethod,
         payment_status: "pending",
         status: "pending",
       })
@@ -340,6 +343,24 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ error: "Failed to create order" }), {
         status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
+    }
+
+    // EFT flow — no PayFast redirect; customer pays into the ABSA account
+    // using `orderRef` as their unique deposit reference.
+    if (paymentMethod === "eft") {
+      return new Response(JSON.stringify({
+        order_ref: orderRef,
+        total,
+        payment_method: "eft",
+        bank_details: {
+          account_name: "Lëf Labs",
+          bank: "Absa",
+          branch_code: "632005",
+          account_number: "4078121856",
+          account_type: "Cheque",
+          reference: orderRef,
+        },
+      }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     const merchantId = Deno.env.get("PAYFAST_MERCHANT_ID");
