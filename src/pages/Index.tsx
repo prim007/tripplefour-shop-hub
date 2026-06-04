@@ -120,7 +120,6 @@ const Index = () => {
               height={1080}
               fetchPriority="high"
               decoding="async"
-              fetchPriority="high"
             />
             {/* gradient masks for legibility */}
             <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
