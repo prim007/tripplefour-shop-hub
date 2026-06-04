@@ -81,7 +81,35 @@ export default function PrivacyPolicy() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="font-display text-xl font-semibold">9. Changes to This Policy</h2>
+            <h2 className="font-display text-xl font-semibold">9. Public Catalog vs. Private Business Data</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              We distinguish between <strong>public catalogue data</strong> (such as product names, descriptions, images, categories, and listed prices) which may be displayed across the Tripplefour ecosystem, search results, and marketing surfaces, and <strong>private operational data</strong> (such as a Partner&rsquo;s sales volumes, unit margins, buyer lists, and individual transaction records). Private operational data is never sold, shared with, or exposed to a Partner&rsquo;s direct competitors.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="font-display text-xl font-semibold">10. Data Utilisation for System Optimisation &amp; AI</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Tripplefour reserves the right to aggregate and anonymise transaction, browsing, and catalogue data to train internal algorithms, improve supply-chain and inventory predictions, power Cuddles AI and smart recommendation features, and generate industry trend reports. Aggregated outputs do not identify any individual user or Partner and may be shared in summarised form. We do not sell personally identifiable information.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="font-display text-xl font-semibold">11. Shared Privacy Liability (Retailer &mdash; Supplier &mdash; Platform)</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Where a Partner receives personal information (such as a buyer&rsquo;s name, delivery address, or contact details) in order to fulfil an order placed through Tripplefour, that Partner acts as an <strong>Independent Data Controller</strong> for that personal information. Each Partner must safeguard such data in accordance with POPIA (and GDPR where applicable), use it strictly to fulfil the order, and may not use it for independent marketing, profiling, or resale unless the end user has separately and explicitly opted in with that Partner. Partners are responsible for notifying Tripplefour and affected users of any data breach on their side without undue delay.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="font-display text-xl font-semibold">12. Third-Party Processors</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              We rely on vetted third-party service providers (including payment gateways such as PayFast, email delivery providers, logistics couriers, and analytics tools) to operate the platform. These processors only receive the minimum personal information required to perform their function and are contractually bound to protect it.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="font-display text-xl font-semibold">13. Changes to This Policy</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
               We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date.
             </p>
