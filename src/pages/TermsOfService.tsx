@@ -77,7 +77,39 @@ export default function TermsOfService() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="font-display text-xl font-semibold">9. Contact</h2>
+            <h2 className="font-display text-xl font-semibold">9. Marketplace Partner &amp; Supplier Terms</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              The following clauses apply to all businesses, suppliers, advertisers, and fulfilment partners (collectively, “Partners”) that list products, place advertising, or supply inventory through the Tripplefour platform and supply chain ecosystem.
+            </p>
+
+            <h3 className="font-display text-base font-semibold mt-4">9.1 Compliance &amp; Licensing Warranties</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Partners warrant that they hold and will maintain all valid local, provincial, and national licences, permits, and regulatory approvals (including SAHPRA, health, trade, and tax registrations) required to manufacture, distribute, advertise, or sell their products in South Africa. If any such licence lapses, is suspended, or is revoked, the Partner must immediately notify Tripplefour and self-suspend their catalogue. Partners fully indemnify and hold Tripplefour harmless against any fines, penalties, claims, or regulatory action arising from non-compliance with their licensing obligations.
+            </p>
+
+            <h3 className="font-display text-base font-semibold mt-4">9.2 Supply Chain &amp; Fulfilment SLAs</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Partners must accept or reject orders within 24 hours, package goods to industry standard, and hand shipments to the nominated courier within 48 hours of acceptance. In any dispute involving short, damaged, incorrect, or undelivered shipments, Tripplefour acts as a neutral arbitrator. Final financial liability for fulfilment errors, defective product, or non-delivery rests with the supplying Partner, including refunds, replacements, and reasonable courier costs.
+            </p>
+
+            <h3 className="font-display text-base font-semibold mt-4">9.3 Fees, Escrow &amp; Payout Cycles</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Partner payouts are processed on a Net-7 cycle from the date an order is marked delivered, less the agreed platform commission and transaction fees. Funds may be held in escrow during the dispute window. Tripplefour reserves the right to withhold, delay, or reverse payouts where an account is flagged for fraud, chargebacks, unfulfilled orders, regulatory concerns, or breach of these Terms. Split payments between multiple suppliers on a single order are reconciled per line item.
+            </p>
+
+            <h3 className="font-display text-base font-semibold mt-4">9.4 Third-Party Gateways &amp; Logistics</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              By partnering with Tripplefour, Partners also agree to be bound by the terms of service of any third-party payment gateway (e.g. PayFast) and logistics or courier provider engaged to process payments or fulfil orders through the platform.
+            </p>
+
+            <h3 className="font-display text-base font-semibold mt-4">9.5 Off-Boarding, Termination &amp; Record Retention</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Either party may terminate the partnership for convenience on 30 days’ written notice. Tripplefour may terminate immediately for breach, regulatory risk, or reputational harm. Upon termination, the Partner’s active listings will be hidden from the storefront, but historical transaction records, invoices, and tax documents will be retained by Tripplefour for a minimum of 5 years (or longer where required by SARS or applicable law) for tax, audit, and regulatory purposes.
+            </p>
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="font-display text-xl font-semibold">10. Contact</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
               For any questions regarding these terms, please contact us via WhatsApp at +27 64 543 6734.
             </p>
