@@ -38,7 +38,7 @@ export const SignupEmail = ({
           <Link href={siteUrl} style={link}>
             <strong>Tripplefour</strong>
           </Link>
-          ! You're one step away from premium cannabis delivered to your door.
+          ! You're one step away from premium CBD products delivered to your door.
         </Text>
         <Text style={text}>
           Confirm your email (
