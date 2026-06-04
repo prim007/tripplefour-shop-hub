@@ -277,6 +277,33 @@ Deno.serve(async (req) => {
       }),
     }).catch((err) => console.error("Order confirmation email enqueue failed:", err));
 
+    fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${serviceRoleKey}`,
+        apikey: serviceRoleKey,
+      },
+      body: JSON.stringify({
+        templateName: "admin-order-alert",
+        idempotencyKey: `admin-alert-${order.id}`,
+        templateData: {
+          orderRef,
+          source: "Tripplefour Shop",
+          paymentMethod: "eft",
+          customerName: customer_name.trim(),
+          customerEmail: customer_email.trim(),
+          customerPhone: customer_phone.trim(),
+          deliveryAddress: delivery_address.trim(),
+          deliveryZone: zone.zone_name,
+          items: validatedItems,
+          subtotal,
+          deliveryFee,
+          total,
+        },
+      }),
+    }).catch((err) => console.error("Admin order alert enqueue failed:", err));
+
     return new Response(JSON.stringify({
       id: order.id,
       order_ref: order.order_ref,
