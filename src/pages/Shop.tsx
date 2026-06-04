@@ -98,6 +98,7 @@ export default function Shop() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search products..."
+                aria-label="Search products"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="pl-9 rounded-full"
@@ -105,6 +106,7 @@ export default function Shop() {
             </div>
             <select
               value={sortBy}
+              aria-label="Sort products"
               onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
               className="rounded-full border bg-background px-4 py-2 text-sm outline-none focus:border-primary"
             >

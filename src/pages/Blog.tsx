@@ -102,7 +102,7 @@ export default function Blog() {
                       {post.excerpt}
                     </p>
                     <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                      Read more <ArrowRight className="h-3.5 w-3.5" />
+                      Read article<span className="sr-only"> about {post.title}</span> <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
                     </span>
                   </Link>
 

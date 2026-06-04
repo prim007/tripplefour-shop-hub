@@ -5,9 +5,25 @@
   <url><loc>https://tripplefourshophub.online/shop</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://tripplefourshophub.online/blog</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://tripplefourshophub.online/partners</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://tripplefourshophub.online/partners/dirty-vapes</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://tripplefourshophub.online/affiliate</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://tripplefourshophub.online/privacy-policy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://tripplefourshophub.online/terms-of-service</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+
+  <!-- Functional routes -->
+  <url><loc>https://tripplefourshophub.online/cart</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://tripplefourshophub.online/checkout</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+
+  <!-- Blog posts -->
+  <url><loc>https://tripplefourshophub.online/blog/cannabis-transport-protocol-south-africa</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://tripplefourshophub.online/blog/best-cannabis-vapes-south-africa-2026</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://tripplefourshophub.online/blog/cannabis-edibles-dosage-guide-sa</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://tripplefourshophub.online/blog/cannabis-delivery-johannesburg-how-it-works</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://tripplefourshophub.online/blog/thca-vs-thc-whats-the-difference</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://tripplefourshophub.online/blog/south-africa-cannabis-regulation-2026</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://tripplefourshophub.online/blog/health-benefits-cbd-research</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://tripplefourshophub.online/blog/understanding-terpenes-aromatic-powerhouses</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://tripplefourshophub.online/blog/responsible-use-guide-new-consumers</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 
   <!-- Product pages -->
   <url><loc>https://tripplefourshophub.online/product/ed-cube40</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>

@@ -56,7 +56,7 @@ export default function Navbar() {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="ml-1">
+                <Button variant="ghost" size="icon" className="ml-1" aria-label="Account menu">
                   <User className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -77,8 +77,8 @@ export default function Navbar() {
             </Link>
           )}
 
-          <Link to="/cart" className="relative ml-2">
-            <Button variant="ghost" size="icon">
+          <Link to="/cart" className="relative ml-2" aria-label={`Cart${totalItems > 0 ? ` (${totalItems} items)` : ""}`}>
+            <Button variant="ghost" size="icon" aria-label="Open cart">
               <ShoppingBag className="h-5 w-5" />
             </Button>
             {totalItems > 0 && (
@@ -91,8 +91,8 @@ export default function Navbar() {
 
         {/* Mobile nav */}
         <div className="flex items-center gap-1 md:hidden">
-          <Link to="/cart" className="relative">
-            <Button variant="ghost" size="icon">
+          <Link to="/cart" className="relative" aria-label={`Cart${totalItems > 0 ? ` (${totalItems} items)` : ""}`}>
+            <Button variant="ghost" size="icon" aria-label="Open cart">
               <ShoppingBag className="h-5 w-5" />
             </Button>
             {totalItems > 0 && (
@@ -103,7 +103,7 @@ export default function Navbar() {
           </Link>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" aria-label="Open navigation menu">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
