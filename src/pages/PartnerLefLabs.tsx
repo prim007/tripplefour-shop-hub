@@ -14,9 +14,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-// Update once confirmed by the partner.
-const ORDER_PHONE: string = "";
-const ORDER_PHONE_DISPLAY = ORDER_PHONE || "Contact via inquiry";
+// Official Lëf Labs B2B contact.
+const ORDER_PHONE = "0718065754";
+const ORDER_PHONE_DISPLAY = "071 806 5754";
+const WHATSAPP_NUMBER = "27718065754";
+const WHATSAPP_LEAD_MESSAGE =
+  "Hi Lëf Labs 👋 I'm a B2B lead from the Tripplefour Shop (tripplefourshophub.online) — I'd like wholesale info / to place an order.";
 
 type ProductPlaceholder = {
   name: string;
@@ -70,10 +73,10 @@ const SectionHeader = ({
 );
 
 export default function PartnerLefLabs() {
-  const telHref = ORDER_PHONE ? `tel:${ORDER_PHONE.replace(/\s+/g, "")}` : undefined;
-  const waHref = ORDER_PHONE
-    ? `https://wa.me/${ORDER_PHONE.replace(/[^\d]/g, "")}`
-    : undefined;
+  const telHref = `tel:${ORDER_PHONE}`;
+  const waHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    WHATSAPP_LEAD_MESSAGE,
+  )}`;
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -131,17 +134,16 @@ export default function PartnerLefLabs() {
                       <ShoppingCart className="h-4 w-4" /> Order Online
                     </Link>
                   </Button>
-                  <Button asChild size="sm" disabled={!telHref} className="gap-2">
-                    <a href={telHref || "#"} aria-disabled={!telHref}>
+                  <Button asChild size="sm" className="gap-2">
+                    <a href={telHref}>
                       <Phone className="h-4 w-4" /> Call
                     </a>
                   </Button>
-                  <Button asChild size="sm" variant="outline" disabled={!waHref} className="gap-2">
+                  <Button asChild size="sm" variant="outline" className="gap-2">
                     <a
-                      href={waHref || "#"}
+                      href={waHref}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-disabled={!waHref}
                     >
                       <MessageCircle className="h-4 w-4" /> WhatsApp
                     </a>
