@@ -345,6 +345,33 @@ Deno.serve(async (req) => {
       });
     }
 
+    // Fire-and-forget admin alert email to tripple4442@gmail.com.
+    fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${serviceRoleKey}`,
+        apikey: serviceRoleKey,
+      },
+      body: JSON.stringify({
+        templateName: "admin-order-alert",
+        idempotencyKey: `admin-alert-${order.id}`,
+        templateData: {
+          orderRef,
+          source: "Lëf Labs Wholesale",
+          paymentMethod,
+          customerName: contact_name.trim(),
+          customerEmail: email.trim(),
+          customerPhone: phone.trim(),
+          deliveryAddress: composedAddress,
+          items: validatedItems,
+          subtotal,
+          deliveryFee: DELIVERY_FEE,
+          total,
+        },
+      }),
+    }).catch((err) => console.error("Admin order alert enqueue failed:", err));
+
     // EFT flow — no PayFast redirect; customer pays into the ABSA account
     // using `orderRef` as their unique deposit reference.
     if (paymentMethod === "eft") {
