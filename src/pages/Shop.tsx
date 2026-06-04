@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
-import { Search, Flame, SlidersHorizontal } from "lucide-react";
+import { useSearchParams, Link } from "react-router-dom";
+import { Search, Flame, SlidersHorizontal, Store } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { products, type ProductCategory } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
@@ -90,6 +90,12 @@ export default function Shop() {
             <p className="mt-3 text-sm text-muted-foreground max-w-xl">
               Edibles, vapes, dab & accessories from R50. Free delivery on orders over R1200. Delivery is free within 3-5km of your location.
             </p>
+            <Link
+              to="/partners"
+              className="mt-5 inline-flex items-center gap-2 rounded-full border-2 border-primary bg-primary px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-primary-foreground transition-all hover:bg-primary/90 hover:-translate-y-0.5"
+            >
+              <Store className="h-4 w-4" /> Shop from Partners
+            </Link>
           </div>
 
           {/* Search & Sort */}
