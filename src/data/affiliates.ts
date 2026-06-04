@@ -26,16 +26,6 @@ export const affiliateCategories: AffiliateCategory[] = [
 
 export const affiliates: AffiliateLink[] = [
   {
-    id: "aff-liquidzol",
-    name: "Liquid Zol",
-    description:
-      "Premium CBD-infused vape juices and concentrated oils — smooth flavours, potent hits, proudly South African.",
-    category: "Vaporizers & Devices",
-    url: "#",
-    cta: "Shop Liquid Zol",
-    featured: true,
-  },
-  {
     id: "aff-dirtyvapes",
     name: "Dirty Vapes",
     description:
@@ -54,6 +44,15 @@ export const affiliates: AffiliateLink[] = [
     url: "/partners/lef-labs",
     cta: "View Lëf Labs Catalogue",
     featured: true,
+  },
+  {
+    id: "aff-liquidzol",
+    name: "Liquid Zol",
+    description:
+      "Premium CBD-infused vape juices and concentrated oils — smooth flavours, potent hits, proudly South African.",
+    category: "Vaporizers & Devices",
+    url: "#",
+    cta: "Shop Liquid Zol",
   },
 ];
 
