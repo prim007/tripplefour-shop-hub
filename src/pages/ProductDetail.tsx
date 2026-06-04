@@ -66,8 +66,10 @@ export default function ProductDetail() {
     navigate("/checkout");
   };
 
-  const pageTitle = `Buy ${product.name} Online South Africa — R${product.price} | Tripplefour`;
-  const pageDesc = `${product.description} From R${product.price}. Fast delivery across South Africa — Johannesburg, Cape Town, Durban & nationwide.`;
+  const rawTitle = `${product.name} — R${product.price} | Tripplefour`;
+  const pageTitle = rawTitle.length > 60 ? `${rawTitle.slice(0, 57)}...` : rawTitle;
+  const rawDesc = `${product.description} From R${product.price}. Fast SA delivery.`;
+  const pageDesc = rawDesc.length > 160 ? `${rawDesc.slice(0, 157)}...` : rawDesc;
   const pageUrl = `https://tripplefourshophub.online/product/${product.id}`;
 
   const productJsonLd = {

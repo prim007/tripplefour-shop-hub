@@ -33,7 +33,7 @@ export default function ProductCard({ product }: Props) {
       <div className="relative aspect-square overflow-hidden bg-secondary/40 hairline-border">
         <img
           src={product.image}
-          alt={product.name}
+          alt={`${product.name} — ${product.category} | Tripplefour`}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           loading="lazy"
         />
