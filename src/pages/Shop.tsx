@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Search, Flame, SlidersHorizontal, Store } from "lucide-react";
+import { Search, Flame, SlidersHorizontal, Store, Star, ExternalLink } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import { products, type ProductCategory } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
@@ -131,6 +131,45 @@ export default function Shop() {
           <p className="text-sm text-muted-foreground mb-4">
             {filtered.length} product{filtered.length !== 1 ? "s" : ""} found
           </p>
+
+          {/* Priority Partners */}
+          <div className="mb-6 grid gap-4 sm:grid-cols-2">
+            {[
+              {
+                id: "dirty-vapes",
+                name: "Dirty Vapes",
+                tagline: "Brain Cake · End Game · High Life — hard-hitting carts, disposables & infused edibles.",
+                url: "/partners/dirty-vapes",
+                cta: "Shop Dirty Vapes",
+              },
+              {
+                id: "lef-labs",
+                name: "Lëf Labs",
+                tagline: "COA-certified wholesale — premium flower, pre-rolls, distillates, Liquid Gold & Pure Leaf vapes.",
+                url: "/partners/lef-labs",
+                cta: "View Lëf Labs Catalogue",
+              },
+            ].map((p) => (
+              <Link
+                key={p.id}
+                to={p.url}
+                className="group relative flex items-center justify-between gap-4 rounded-2xl border-2 border-primary/40 bg-gradient-to-br from-primary/10 to-card p-5 transition-all hover:border-primary hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                <span className="absolute -top-2.5 left-4 inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-accent-foreground">
+                  <Star className="h-3 w-3" /> Featured Partner
+                </span>
+                <div className="min-w-0">
+                  <h3 className="font-display text-lg font-bold uppercase text-foreground group-hover:text-primary">
+                    {p.name}
+                  </h3>
+                  <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{p.tagline}</p>
+                </div>
+                <span className="shrink-0 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-widest text-primary">
+                  {p.cta} <ExternalLink className="h-3 w-3" />
+                </span>
+              </Link>
+            ))}
+          </div>
 
           {/* Grid */}
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
