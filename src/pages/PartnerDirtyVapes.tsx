@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { Phone, MessageCircle, ArrowLeft } from "lucide-react";
+import { Phone, MessageCircle, ArrowLeft, Mail } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
@@ -8,16 +8,24 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { products } from "@/data/products";
 
-// Update this number once confirmed by the partner.
-const ORDER_PHONE: string = "";
-const ORDER_PHONE_DISPLAY = ORDER_PHONE || "Coming soon";
+// Official Dirty Vapes business contacts.
+const ORDER_PHONE = "0742624491";
+const ORDER_PHONE_DISPLAY = "074 262 4491";
+const ORDER_EMAIL = "dirtyvapessa@gmail.com";
+// SA country code 27, drop leading 0.
+const WHATSAPP_NUMBER = "27742624491";
+const WHATSAPP_LEAD_MESSAGE =
+  "Hi Dirty Vapes 👋 I'm a lead from the Tripplefour Shop (tripplefourshophub.online) — I'd like to place an order / get more info on your range.";
 
 export default function PartnerDirtyVapes() {
   const dirtyVapesProducts = products.filter((p) => p.id.startsWith("dv-"));
-  const telHref = ORDER_PHONE ? `tel:${ORDER_PHONE.replace(/\s+/g, "")}` : undefined;
-  const waHref = ORDER_PHONE
-    ? `https://wa.me/${ORDER_PHONE.replace(/[^\d]/g, "")}`
-    : undefined;
+  const telHref = `tel:${ORDER_PHONE}`;
+  const mailHref = `mailto:${ORDER_EMAIL}?subject=${encodeURIComponent(
+    "Order enquiry — lead from Tripplefour Shop",
+  )}&body=${encodeURIComponent(WHATSAPP_LEAD_MESSAGE)}`;
+  const waHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    WHATSAPP_LEAD_MESSAGE,
+  )}`;
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -63,20 +71,30 @@ export default function PartnerDirtyVapes() {
                 <p className="font-display text-2xl font-bold text-primary">
                   {ORDER_PHONE_DISPLAY}
                 </p>
+                <a
+                  href={mailHref}
+                  className="text-xs text-muted-foreground hover:text-primary"
+                >
+                  {ORDER_EMAIL}
+                </a>
                 <div className="flex gap-2">
-                  <Button asChild size="sm" disabled={!telHref} className="gap-2">
-                    <a href={telHref || "#"} aria-disabled={!telHref}>
+                  <Button asChild size="sm" className="gap-2">
+                    <a href={telHref}>
                       <Phone className="h-4 w-4" /> Call
                     </a>
                   </Button>
-                  <Button asChild size="sm" variant="outline" disabled={!waHref} className="gap-2">
+                  <Button asChild size="sm" variant="outline" className="gap-2">
                     <a
-                      href={waHref || "#"}
+                      href={waHref}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-disabled={!waHref}
                     >
                       <MessageCircle className="h-4 w-4" /> WhatsApp
+                    </a>
+                  </Button>
+                  <Button asChild size="sm" variant="outline" className="gap-2">
+                    <a href={mailHref}>
+                      <Mail className="h-4 w-4" /> Email
                     </a>
                   </Button>
                 </div>
