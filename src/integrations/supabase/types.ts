@@ -513,6 +513,36 @@ export type Database = {
         }
         Relationships: []
       }
+      wholesale_partners: {
+        Row: {
+          approved_at: string
+          approved_by: string | null
+          created_at: string
+          id: string
+          notes: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          approved_at?: string
+          approved_by?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          approved_at?: string
+          approved_by?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

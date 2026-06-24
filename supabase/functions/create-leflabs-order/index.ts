@@ -250,6 +250,29 @@ Deno.serve(async (req) => {
       });
     }
 
+    // Authorization: only approved wholesale partners can place B2B orders.
+    // Membership is managed server-side in `public.wholesale_partners`
+    // (insert via service_role / admin only — never self-serve).
+    const adminClient = createClient(supabaseUrl, serviceRoleKey);
+    const { data: partnerRow, error: partnerErr } = await adminClient
+      .from("wholesale_partners")
+      .select("user_id")
+      .eq("user_id", userData.user.id)
+      .maybeSingle();
+    if (partnerErr) {
+      console.error("wholesale_partners lookup failed:", partnerErr);
+      return new Response(JSON.stringify({ error: "Authorization check failed" }), {
+        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    if (!partnerRow) {
+      return new Response(JSON.stringify({
+        error: "Wholesale ordering is restricted to approved Lëf Labs partners. Please contact us to apply for partner access.",
+      }), {
+        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const body = await req.json();
     const {
       business_name,
@@ -305,7 +328,7 @@ Deno.serve(async (req) => {
     const total = subtotal + DELIVERY_FEE;
     const orderRef = `LEF-${crypto.randomUUID().replace(/-/g, "").slice(0, 10).toUpperCase()}`;
 
-    const supabase = createClient(supabaseUrl, serviceRoleKey);
+    const supabase = adminClient;
 
     // Persist order. We reuse the existing `orders` table — the LEF- prefix
     // on order_ref is what distinguishes Lëf Labs wholesale orders.
