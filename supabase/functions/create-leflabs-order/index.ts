@@ -328,7 +328,7 @@ Deno.serve(async (req) => {
     const total = subtotal + DELIVERY_FEE;
     const orderRef = `LEF-${crypto.randomUUID().replace(/-/g, "").slice(0, 10).toUpperCase()}`;
 
-    const supabase = createClient(supabaseUrl, serviceRoleKey);
+    const supabase = adminClient;
 
     // Persist order. We reuse the existing `orders` table — the LEF- prefix
     // on order_ref is what distinguishes Lëf Labs wholesale orders.
