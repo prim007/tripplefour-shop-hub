@@ -20,6 +20,7 @@ const PRODUCT_PRICES: Record<string, number> = {
   "dab-1": 350,
   "ot-moon": 125,
   "acc-hp-100bill": 55,
+  "acc-airbuzz-shisha": 100,
 };
 
 function toBase64Url(input: string): string {

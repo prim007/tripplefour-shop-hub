@@ -16,6 +16,7 @@ import dirtyVapesEdiblesImg from "@/assets/products/dirty-vapes-edibles-high-lif
 import dirtyVapesCart1mlImg from "@/assets/products/dirty-vapes-cart-1ml.jpg";
 import dirtyVapesSwitch2mlImg from "@/assets/products/dirty-vapes-switch-2ml.jpg";
 import dirtyVapesDisposable1mlImg from "@/assets/products/dirty-vapes-disposable-1ml.jpg";
+import airbuzzShishaAsset from "@/assets/products/airbuzz-dubai-fusion-shisha.png.asset.json";
 
 
 export type ProductCategory =
@@ -71,6 +72,7 @@ export const products: Product[] = [
 
   // Accessories
   { id: "acc-hp-100bill", name: "HoneyPuff $100 Bill Rolling Papers (Box of 24)", category: "Accessories", price: 55, description: "HoneyPuff $100 Bill rolling papers — novelty holographic dollar-bill design. One box contains 24 individual booklets. Slow-burning, premium quality papers perfect for everyday rolling.", image: honeypuff100BillImg },
+  { id: "acc-airbuzz-shisha", name: "AirBuzz Dubai Fusion Premium Shisha", category: "Accessories", price: 100, description: "AirBuzz CBD-infused premium flavoured herbal shisha — Dubai Fusion. Smooth herbal blend with natural flavours, less than 0.25% THC. Manufactured by AirBuzz.", image: airbuzzShishaAsset.url },
 
   // Dirty Vapes (partner)
   { id: "dv-edibles-100mg", name: "Dirty Vapes Edibles Tub 100mg", category: "Edibles", price: 150, description: "Dirty Vapes 'High Life' infused edibles tub — 100mg per tub. Soft, sugar-coated gummy cubes with smooth onset. Partner product by Dirty Vapes.", image: dirtyVapesEdiblesImg },

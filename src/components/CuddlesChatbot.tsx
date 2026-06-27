@@ -192,14 +192,14 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
     <>
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl animate-pulse"
+        className="fixed bottom-6 right-6 z-[80] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl animate-pulse"
         aria-label="Open Cuddles AI chat"
       >
         {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
       </button>
 
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 flex h-[520px] w-[380px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border-2 border-primary/20 bg-card shadow-2xl animate-scale-in">
+        <div className="fixed bottom-24 right-6 z-[80] flex h-[520px] w-[380px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border-2 border-primary/20 bg-card shadow-2xl animate-scale-in">
           <div className="warm-gradient px-4 py-3 text-white">
             <div className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 " />
