@@ -23,6 +23,7 @@ const PRODUCT_CATALOG: Record<string, { name: string; price: number }> = {
   "ind-1": { name: "Indoor Flower 1g", price: 255 },
   "ed-cube40": { name: "Edible Cube 40mg", price: 60 },
   "ed-soda": { name: "Sodaze Infused Soda", price: 60 },
+  "ed-chocchip-cookies": { name: "Tripple444 ChocChip Cookies (10 Pack)", price: 165 },
   "vp-disp": { name: "Disposable Juice 10ml", price: 390 },
   "vp-lz-toffee": { name: "Liquid Zol Toffee Popcorn", price: 390 },
   "vp-lz-cherry": { name: "Liquid Zol Cherry Heat", price: 390 },
