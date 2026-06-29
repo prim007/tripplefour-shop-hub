@@ -48,7 +48,6 @@ INDOOR DUST:
 
 EDIBLES:
 - [PRODUCT:ed-cube40] Edible Cube 40mg — R60 — Cannabis-infused edible cube
-- [PRODUCT:ed-soda] Sodaze Cannabis Soda — R60 — Flavored cannabis-infused soda
 
 VAPES:
 - [PRODUCT:vp-disp] Disposable Juice 10ml — R290 — 10ml disposable vape juice

@@ -56,7 +56,6 @@ const categoryImages: Record<ProductCategory, string> = {
 export const products: Product[] = [
   // Edibles
   { id: "ed-cube40", name: "Edible Cube 40mg", category: "Edibles", price: 60, description: "Hemp-infused edible cube, 40mg per piece.", image: edibleCubeImg },
-  { id: "ed-soda", name: "Sodaze Infused Soda", category: "Edibles", price: 60, description: "Flavored infused soda by Sodaze.", image: categoryImages["Edibles"] },
   { id: "ed-chocchip-cookies", name: "Tripple444 ChocChip Cookies (10 Pack)", category: "Edibles", price: 165, description: "Tripple444 infused chocolate chip cookies — 10 cookies per pack. Freshly baked, soft-centre choc chip cookies in a resealable pouch.", image: chocChipCookiesAsset.url },
   { id: "ed-icecream", name: "Infused Ice Cream", category: "Edibles", price: 0, description: "Delicious infused ice cream. Coming soon!", image: categoryImages["Edibles"], comingSoon: true },
 
