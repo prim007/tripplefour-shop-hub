@@ -8,19 +8,32 @@ const corsHeaders = {
 const ORDER_STATUS_TOKEN_TTL_MS = 2 * 24 * 60 * 60 * 1000; // 2 days
 const encoder = new TextEncoder();
 
-const PRODUCT_PRICES: Record<string, number> = {
-  "pr-4gh": 165, "pr-1in": 90, "pr-1gh": 75, "pr-out": 50,
-  "sb-out5": 80, "sb-swazi": 60,
-  "ghs-50": 1085, "ghs-20": 735, "ghs-2": 260,
-  "ind-10": 500, "ind-2": 315, "ind-1": 255,
-  "ed-cube40": 60, "ed-soda": 60,
-  "vp-disp": 390,
-  "vp-lz-toffee": 390, "vp-lz-cherry": 390, "vp-lz-peach": 390,
-  "vp-lz-blueberry": 390, "vp-lz-greenapple": 390, "vp-lz-oil": 320,
-  "dab-1": 350,
-  "ot-moon": 125,
-  "acc-hp-100bill": 55,
-  "acc-airbuzz-shisha": 100,
+const PRODUCT_CATALOG: Record<string, { name: string; price: number }> = {
+  "pr-4gh": { name: "4-Pack Greenhouse Pre-Roll", price: 165 },
+  "pr-1in": { name: "Indoor Pre-Roll", price: 90 },
+  "pr-1gh": { name: "Greenhouse Pre-Roll", price: 75 },
+  "pr-out": { name: "Outdoor Pre-Roll", price: 50 },
+  "sb-out5": { name: "Outdoor 5g Stash Bag", price: 80 },
+  "sb-swazi": { name: "Swazi Stash Bag", price: 60 },
+  "ghs-50": { name: "Greenhouse Flower 50g", price: 1085 },
+  "ghs-20": { name: "Greenhouse Flower 20g", price: 735 },
+  "ghs-2": { name: "Greenhouse Flower 2g", price: 260 },
+  "ind-10": { name: "Indoor Flower 10g", price: 500 },
+  "ind-2": { name: "Indoor Flower 2g", price: 315 },
+  "ind-1": { name: "Indoor Flower 1g", price: 255 },
+  "ed-cube40": { name: "Edible Cube 40mg", price: 60 },
+  "ed-soda": { name: "Sodaze Infused Soda", price: 60 },
+  "vp-disp": { name: "Disposable Juice 10ml", price: 390 },
+  "vp-lz-toffee": { name: "Liquid Zol Toffee Popcorn", price: 390 },
+  "vp-lz-cherry": { name: "Liquid Zol Cherry Heat", price: 390 },
+  "vp-lz-peach": { name: "Liquid Zol Peach", price: 390 },
+  "vp-lz-blueberry": { name: "Liquid Zol Blueberry", price: 390 },
+  "vp-lz-greenapple": { name: "Liquid Zol Green Apple", price: 390 },
+  "vp-lz-oil": { name: "Liquid Zol Concentrated Oil", price: 320 },
+  "dab-1": { name: "Dab Concentrate", price: 350 },
+  "ot-moon": { name: "Moon Rock", price: 125 },
+  "acc-hp-100bill": { name: "HoneyPuff $100 Bill Rolling Papers (Box of 24)", price: 55 },
+  "acc-airbuzz-shisha": { name: "AirBuzz Dubai Fusion Premium Shisha", price: 100 },
 };
 
 function toBase64Url(input: string): string {
@@ -153,8 +166,8 @@ Deno.serve(async (req) => {
     const validatedItems: { id: string; name: string; price: number; quantity: number }[] = [];
 
     for (const item of items) {
-      const price = PRODUCT_PRICES[item.id];
-      if (price === undefined) {
+      const product = PRODUCT_CATALOG[item.id];
+      if (!product) {
         return new Response(JSON.stringify({ error: `Unknown product: ${item.id}` }), {
           status: 400,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -162,8 +175,8 @@ Deno.serve(async (req) => {
       }
 
       const quantity = Math.max(1, Math.min(100, Math.floor(Number(item.quantity) || 1)));
-      subtotal += price * quantity;
-      validatedItems.push({ id: item.id, name: item.name || item.id, price, quantity });
+      subtotal += product.price * quantity;
+      validatedItems.push({ id: item.id, name: product.name, price: product.price, quantity });
     }
 
     const { data: zone, error: zoneError } = await supabase
