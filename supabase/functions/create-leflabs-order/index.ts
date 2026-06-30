@@ -368,7 +368,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Fire-and-forget admin alert email to tripple4442@gmail.com.
+    // Fire-and-forget admin alert email to admin@cuddles-ai.com.
     fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
       method: "POST",
       headers: {

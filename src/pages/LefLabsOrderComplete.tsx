@@ -113,7 +113,7 @@ export default function LefLabsOrderComplete() {
                     </dd>
                   </dl>
                   <p className="mt-4 text-[11px] text-muted-foreground">
-                    Email proof of payment to <a href="mailto:orders@tripplefourshophub.online" className="underline">orders@tripplefourshophub.online</a> to speed up reconciliation. Orders typically ship within 1 business day of payment reflecting.
+                    Email proof of payment to <a href="mailto:admin@cuddles-ai.com" className="underline">admin@cuddles-ai.com</a> to speed up reconciliation. Orders typically ship within 1 business day of payment reflecting.
                   </p>
                 </div>
               )}
