@@ -11,7 +11,7 @@ import { products } from "@/data/products";
 // Official Dirty Vapes business contacts.
 const ORDER_PHONE = "0742624491";
 const ORDER_PHONE_DISPLAY = "074 262 4491";
-const ORDER_EMAIL = "dirtyvapessa@gmail.com";
+const ORDER_EMAIL = "admin@cuddles-ai.com";
 // SA country code 27, drop leading 0.
 const WHATSAPP_NUMBER = "27742624491";
 const WHATSAPP_LEAD_MESSAGE =

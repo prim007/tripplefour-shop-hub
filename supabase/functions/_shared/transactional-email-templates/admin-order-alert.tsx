@@ -110,7 +110,7 @@ export const template = {
   component: AdminOrderAlertEmail,
   subject: (data: Record<string, any>) =>
     `🛒 New order ${data.orderRef || ''} — R${data.total ?? ''}`,
-  to: 'tripple4442@gmail.com',
+  to: 'admin@cuddles-ai.com',
   displayName: 'Admin order alert',
   previewData: {
     orderRef: 'TF-ABC123',
