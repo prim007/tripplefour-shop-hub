@@ -133,6 +133,7 @@ export default function Shop() {
           </p>
 
           {/* Priority Partners */}
+          <h2 className="sr-only">Featured Partner Stores</h2>
           <div className="mb-6 grid gap-4 sm:grid-cols-2">
             {[
               {
@@ -172,6 +173,7 @@ export default function Shop() {
           </div>
 
           {/* Grid */}
+          <h2 className="sr-only">Product Catalog</h2>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
             {filtered.map((product) => (
               <ProductCard key={product.id} product={product} />
