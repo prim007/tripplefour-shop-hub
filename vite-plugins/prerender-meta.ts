@@ -80,5 +80,14 @@ function rewriteHead(html: string, route: RouteMeta): string {
   out = replaceMeta(out, "name", "twitter:title", route.title);
   out = replaceMeta(out, "name", "twitter:description", route.description);
 
+  if (route.jsonLd) {
+    const script = `<script type="application/ld+json">${JSON.stringify(route.jsonLd).replace(/</g, "\\u003c")}</script>`;
+    out = out.replace(/<\/head>/i, `  ${script}\n</head>`);
+  }
+
+  if (route.bodySnippet) {
+    out = out.replace(/<\/body>/i, `${route.bodySnippet}\n</body>`);
+  }
+
   return out;
 }
