@@ -131,6 +131,7 @@ export default function Affiliate() {
         {/* BENEFITS */}
         <section className="py-16 sm:py-20">
           <div className="container mx-auto px-4">
+            <h2 className="sr-only">Program Benefits</h2>
             <div className="grid gap-6 sm:grid-cols-3">
               {[
                 { icon: ShieldCheck, title: "Zero risk", body: "No inventory, no shipping, no customer service. We handle everything." },

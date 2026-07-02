@@ -52,7 +52,7 @@ export default function Partners() {
           {/* Header */}
           <div className="mb-10 text-center">
             <h1 className="font-display text-4xl font-bold">
-              <span className="text-primary">Our Partners</span>
+              <span className="text-primary">Tripplefour CBD Partners and Sponsorships</span>
             </h1>
             <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
               Trusted brands we proudly work with.
@@ -60,6 +60,7 @@ export default function Partners() {
           </div>
 
           {/* Partner cards */}
+          <h2 className="sr-only">Trusted Partner Brands</h2>
           <div className="mb-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {affiliates.map((item) => {
               const isInternal = item.url.startsWith("/");
