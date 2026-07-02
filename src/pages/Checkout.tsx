@@ -18,14 +18,23 @@ import Footer from "@/components/Footer";
 import { getStoredAffiliateCode } from "@/lib/affiliate";
 import { saveAbandonedCart, markCartOrdered } from "@/lib/abandonedCart";
 
-// Promo-code validation is temporarily disabled while we move it server-side
-// into this project. The previous implementation called an unauthenticated
-// external service that could be tampered with to grant arbitrary discounts.
-const validatePromo = async (_code: string) => ({
-  valid: false,
-  error: "Promo codes are temporarily unavailable.",
-  discount_percent: 0,
-});
+// Client-side promo lookup for optimistic UI. The server (create-order)
+// re-validates the code and re-computes the discount — this table is display
+// only and cannot grant a discount the server won't honor.
+const PROMO_CODES: Record<string, number> = {
+  WELCOME10: 10,
+};
+const validatePromo = async (code: string) => {
+  const key = code.trim().toUpperCase();
+  const pct = PROMO_CODES[key];
+  if (!pct) {
+    return { valid: false, error: "Invalid promo code.", discount_percent: 0 };
+  }
+  return { valid: true, error: "", discount_percent: pct };
+};
+
+// Keep in sync with create-order edge function.
+const FREE_SHIPPING_THRESHOLD = 1200;
 
 interface DeliveryZone {
   id: string;
@@ -90,8 +99,10 @@ export default function Checkout() {
   }, [user, step, form.name, form.email, form.phone, items, totalPrice]);
 
   const discountAmount = Math.round(totalPrice * (promoDiscount / 100));
-  const deliveryFee = selectedZone?.fee ?? 0;
-  const grandTotal = totalPrice - discountAmount + deliveryFee;
+  const subtotalAfterDiscount = totalPrice - discountAmount;
+  const rawDeliveryFee = selectedZone?.fee ?? 0;
+  const deliveryFee = subtotalAfterDiscount >= FREE_SHIPPING_THRESHOLD ? 0 : rawDeliveryFee;
+  const grandTotal = subtotalAfterDiscount + deliveryFee;
 
   // GA4 items[] payload built from the cart
   const gaItems = items.map((it) => ({
