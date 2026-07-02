@@ -8,6 +8,14 @@ const corsHeaders = {
 const ORDER_STATUS_TOKEN_TTL_MS = 2 * 24 * 60 * 60 * 1000; // 2 days
 const encoder = new TextEncoder();
 
+// Free delivery threshold — must match src/pages/Cart.tsx and Checkout.tsx.
+const FREE_SHIPPING_THRESHOLD = 1200;
+
+// Server-authoritative promo code table. Max discount is capped at 90% below.
+const PROMO_CODES: Record<string, number> = {
+  WELCOME10: 10,
+};
+
 const PRODUCT_CATALOG: Record<string, { name: string; price: number }> = {
   "pr-4gh": { name: "4-Pack Greenhouse Pre-Roll", price: 165 },
   "pr-1in": { name: "Indoor Pre-Roll", price: 90 },
@@ -192,19 +200,24 @@ Deno.serve(async (req) => {
       });
     }
 
-    const deliveryFee = Number(zone.fee);
-
-    // Promo codes are temporarily disabled server-side. The previous implementation
-    // trusted an unauthenticated external Supabase project to authorize discounts,
-    // which allowed up to 90% off based on a third-party response. Until promo
-    // validation is reimplemented inside this project (with a local promo_codes
-    // table and server-controlled discount limits), no discount is applied.
-    const discountAmount = 0;
+    // Server-authoritative promo validation. Discount capped at 90%.
+    let discountAmount = 0;
+    let appliedPromoCode: string | null = null;
     if (promo_code && typeof promo_code === "string" && promo_code.trim()) {
-      console.warn("Promo code submitted but validation is disabled:", promo_code.trim().slice(0, 32));
+      const code = promo_code.trim().toUpperCase().slice(0, 32);
+      const pct = PROMO_CODES[code];
+      if (pct && pct > 0 && pct <= 90) {
+        discountAmount = Math.round((subtotal * pct) / 100);
+        appliedPromoCode = code;
+      } else {
+        console.warn("Rejected unknown promo code:", code);
+      }
     }
 
-    const total = Math.max(deliveryFee, subtotal - discountAmount + deliveryFee);
+    const subtotalAfterDiscount = Math.max(0, subtotal - discountAmount);
+    const rawDeliveryFee = Number(zone.fee);
+    const deliveryFee = subtotalAfterDiscount >= FREE_SHIPPING_THRESHOLD ? 0 : rawDeliveryFee;
+    const total = Math.max(0, subtotalAfterDiscount + deliveryFee);
     const orderRef = `TF-${crypto.randomUUID().replace(/-/g, "").slice(0, 10).toUpperCase()}`;
 
     // Validate affiliate code (optional)
