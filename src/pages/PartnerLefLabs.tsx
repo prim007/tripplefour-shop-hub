@@ -458,9 +458,9 @@ export default function PartnerLefLabs() {
             />
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               {[
-                { tier: "Standard", min: "R5,000", disc: "List price", del: "3–5 business days", terms: "EFT on order" },
-                { tier: "Partner", min: "R15,000", disc: "8% off list", del: "Bi-weekly guaranteed", terms: "EFT on order", popular: true },
-                { tier: "Chain", min: "R50,000", disc: "15% off list", del: "Priority schedule", terms: "30-day net (approved)" },
+                { tier: "Standard", min: "R5,250", disc: "List price", del: "3–5 business days", terms: "EFT on order" },
+                { tier: "Partner", min: "R15,750", disc: "8% off list", del: "Bi-weekly guaranteed", terms: "EFT on order", popular: true },
+                { tier: "Chain", min: "R52,000", disc: "15% off list", del: "Priority schedule", terms: "30-day net (approved)" },
                 { tier: "Anchor", min: "POA", disc: "Fully negotiated", del: "Custom schedule", terms: "Custom terms" },
               ].map((t) => (
                 <div
