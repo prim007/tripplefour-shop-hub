@@ -28,15 +28,17 @@ export default function CartItem({ item }: Props) {
           size="icon"
           className="h-8 w-8"
           onClick={() => updateQuantity(product.id, quantity - 1)}
+          aria-label={`Decrease quantity of ${product.name}`}
         >
           <Minus className="h-3 w-3" />
         </Button>
-        <span className="w-8 text-center text-sm font-medium">{quantity}</span>
+        <span className="w-8 text-center text-sm font-medium" aria-live="polite">{quantity}</span>
         <Button
           variant="outline"
           size="icon"
           className="h-8 w-8"
           onClick={() => updateQuantity(product.id, quantity + 1)}
+          aria-label={`Increase quantity of ${product.name}`}
         >
           <Plus className="h-3 w-3" />
         </Button>
@@ -48,6 +50,7 @@ export default function CartItem({ item }: Props) {
           Analytics.removeFromCart(product.id, product.name, product.price, quantity);
           removeItem(product.id);
         }}
+        aria-label={`Remove ${product.name} from cart`}
       >
         <Trash2 className="h-4 w-4 text-destructive" />
       </Button>

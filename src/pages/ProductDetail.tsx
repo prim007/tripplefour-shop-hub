@@ -162,11 +162,11 @@ export default function ProductDetail() {
                 <>
                   <div className="mt-6 flex items-center gap-4">
                     <div className="flex items-center gap-2 rounded-lg border p-1">
-                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setQty(Math.max(1, qty - 1))}>
+                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setQty(Math.max(1, qty - 1))} aria-label="Decrease quantity">
                         <Minus className="h-4 w-4" />
                       </Button>
                       <span className="w-8 text-center font-medium">{qty}</span>
-                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setQty(qty + 1)}>
+                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setQty(qty + 1)} aria-label="Increase quantity">
                         <Plus className="h-4 w-4" />
                       </Button>
                     </div>
