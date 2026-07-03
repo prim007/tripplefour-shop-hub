@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { Button } from "@/components/ui/button";
@@ -111,6 +112,15 @@ export default function Auth() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <Helmet>
+        <title>Sign In | Tripplefour</title>
+        <meta name="description" content="Sign in or create your Tripplefour account to shop premium CBD products, track orders, and unlock member perks in South Africa." />
+        <link rel="canonical" href="https://tripplefourshophub.online/auth" />
+        <meta name="robots" content="noindex, follow" />
+        <meta property="og:title" content="Sign In | Tripplefour" />
+        <meta property="og:description" content="Sign in or create your Tripplefour account to shop premium CBD products in South Africa." />
+        <meta property="og:url" content="https://tripplefourshophub.online/auth" />
+      </Helmet>
       <Navbar />
       <main className="flex flex-1 items-center justify-center px-4 py-12">
         <div className="w-full max-w-md space-y-8">

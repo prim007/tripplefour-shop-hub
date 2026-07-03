@@ -15,6 +15,10 @@
   <!-- Functional routes -->
   <url><loc>https://tripplefourshophub.online/cart</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
   <url><loc>https://tripplefourshophub.online/checkout</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://tripplefourshophub.online/auth</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://tripplefourshophub.online/order-confirmation</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://tripplefourshophub.online/partners/lef-labs/order-complete</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://tripplefourshophub.online/unsubscribe</loc><changefreq>yearly</changefreq><priority>0.1</priority></url>
 
   <!-- Blog posts -->
   <url><loc>https://tripplefourshophub.online/blog/cannabis-transport-protocol-south-africa</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
