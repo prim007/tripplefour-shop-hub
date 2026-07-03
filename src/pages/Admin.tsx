@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -151,6 +152,15 @@ export default function Admin() {
   if (!authenticated) {
     return (
       <div className="flex min-h-screen flex-col">
+        <Helmet>
+          <title>Admin Dashboard | Tripplefour</title>
+          <meta name="description" content="Restricted Tripplefour admin console for managing orders, abandoned carts, and affiliate partners." />
+          <link rel="canonical" href="https://tripplefourshophub.online/admin" />
+          <meta name="robots" content="noindex, nofollow" />
+          <meta property="og:title" content="Admin Dashboard | Tripplefour" />
+          <meta property="og:description" content="Internal Tripplefour admin console." />
+          <meta property="og:url" content="https://tripplefourshophub.online/admin" />
+        </Helmet>
         <Navbar />
         <main className="flex flex-1 items-center justify-center px-4 py-16">
           <div className="mx-auto w-full max-w-sm space-y-6">
@@ -180,6 +190,15 @@ export default function Admin() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <Helmet>
+        <title>Admin Dashboard | Tripplefour</title>
+        <meta name="description" content="Restricted Tripplefour admin console for managing orders, abandoned carts, and affiliate partners." />
+        <link rel="canonical" href="https://tripplefourshophub.online/admin" />
+        <meta name="robots" content="noindex, nofollow" />
+        <meta property="og:title" content="Admin Dashboard | Tripplefour" />
+        <meta property="og:description" content="Internal Tripplefour admin console." />
+        <meta property="og:url" content="https://tripplefourshophub.online/admin" />
+      </Helmet>
       <Navbar />
       <main className="flex-1 px-4 py-8">
         <div className="mx-auto max-w-5xl">
