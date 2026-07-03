@@ -135,3 +135,17 @@ export const template = {
     deliveryZone: 'Joburg CBD',
   },
 } satisfies TemplateEntry
+
+const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif', margin: 0, padding: 0 }
+const container = { maxWidth: '560px', margin: '0 auto', padding: '24px' }
+const h1 = { fontSize: '24px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 16px' }
+const text = { fontSize: '15px', lineHeight: '22px', color: '#333333', margin: '0 0 12px' }
+const sectionTitle = { fontSize: '14px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 8px', textTransform: 'uppercase' as const, letterSpacing: '0.5px' }
+const itemsSection = { padding: '12px 0' }
+const itemRow = { fontSize: '14px', color: '#333333', margin: '4px 0' }
+const summarySection = { padding: '8px 0' }
+const summaryRow = { fontSize: '14px', color: '#333333', margin: '4px 0' }
+const totalRow = { fontSize: '16px', fontWeight: 700, color: '#1a1a1a', margin: '8px 0 0' }
+const hr = { borderColor: '#e6e6e6', margin: '20px 0' }
+const button = { backgroundColor: '#25D366', color: '#ffffff', padding: '12px 20px', borderRadius: '8px', textDecoration: 'none', fontWeight: 600, display: 'inline-block', margin: '12px 0' }
+const footer = { fontSize: '13px', color: '#666666', margin: '8px 0' }

@@ -13,6 +13,9 @@ import CuddlesChatbot from "@/components/CuddlesChatbot";
 import WelcomeDiscountPopup from "@/components/WelcomeDiscountPopup";
 import CookieConsent from "@/components/CookieConsent";
 import useGAPageviews from "@/hooks/useGAPageviews";
+import { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
@@ -44,6 +47,22 @@ const RouteAnalytics = () => {
   return null;
 };
 
+const PostAuthRedirect = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  useEffect(() => {
+    if (!user) return;
+    const target = sessionStorage.getItem("post_auth_redirect");
+    if (!target) return;
+    sessionStorage.removeItem("post_auth_redirect");
+    if (target.startsWith("/") && target !== location.pathname) {
+      navigate(target, { replace: true });
+    }
+  }, [user, navigate, location.pathname]);
+  return null;
+};
+
 const App = () => (
   <HelmetProvider>
   <QueryClientProvider client={queryClient}>
@@ -57,6 +76,7 @@ const App = () => (
 
             <BrowserRouter>
               <RouteAnalytics />
+              <PostAuthRedirect />
               <CartDrawer />
               <Routes>
                 <Route path="/" element={<Index />} />
