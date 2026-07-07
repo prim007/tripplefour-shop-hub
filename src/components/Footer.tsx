@@ -71,7 +71,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-12 border-t border-border/60 pt-6 text-center text-xs text-muted-foreground tracking-wider">
-          © 2025, 2026 TRIPPLEFOUR · ALL RIGHTS RESERVED
+          © 2025 TRIPPLEFOUR · ALL RIGHTS RESERVED
         </div>
       </div>
     </footer>
