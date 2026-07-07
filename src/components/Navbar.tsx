@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
-import { ShoppingBag, Menu, ExternalLink, User, LogOut } from "lucide-react";
-import { useCart } from "@/context/CartContext";
+import { Menu, ExternalLink, User, LogOut } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
