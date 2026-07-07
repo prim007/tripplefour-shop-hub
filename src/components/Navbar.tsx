@@ -13,11 +13,9 @@ const navLinks = [
   { to: "/blog", label: "Blog" },
   { to: "/partners", label: "Partners" },
   { to: "/affiliate", label: "Earn 💸" },
-  { to: "/cart", label: "Cart" },
 ];
 
 export default function Navbar() {
-  const { totalItems } = useCart();
   const { user, signOut } = useAuth();
   const [open, setOpen] = useState(false);
 
