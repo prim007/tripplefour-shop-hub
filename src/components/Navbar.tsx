@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
-import { ShoppingBag, Menu, ExternalLink, User, LogOut } from "lucide-react";
-import { useCart } from "@/context/CartContext";
+import { Menu, ExternalLink, User, LogOut } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
@@ -15,11 +13,9 @@ const navLinks = [
   { to: "/blog", label: "Blog" },
   { to: "/partners", label: "Partners" },
   { to: "/affiliate", label: "Earn 💸" },
-  { to: "/cart", label: "Cart" },
 ];
 
 export default function Navbar() {
-  const { totalItems } = useCart();
   const { user, signOut } = useAuth();
   const [open, setOpen] = useState(false);
 
@@ -77,30 +73,10 @@ export default function Navbar() {
             </Link>
           )}
 
-          <Link to="/cart" className="relative ml-2" aria-label={`Cart${totalItems > 0 ? ` (${totalItems} items)` : ""}`}>
-            <Button variant="ghost" size="icon" aria-label="Open cart">
-              <ShoppingBag className="h-5 w-5" />
-            </Button>
-            {totalItems > 0 && (
-              <Badge className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full p-0 px-1 text-[10px] bg-primary text-primary-foreground">
-                {totalItems}
-              </Badge>
-            )}
-          </Link>
         </nav>
 
         {/* Mobile nav */}
         <div className="flex items-center gap-1 md:hidden">
-          <Link to="/cart" className="relative" aria-label={`Cart${totalItems > 0 ? ` (${totalItems} items)` : ""}`}>
-            <Button variant="ghost" size="icon" aria-label="Open cart">
-              <ShoppingBag className="h-5 w-5" />
-            </Button>
-            {totalItems > 0 && (
-              <Badge className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full p-0 px-1 text-[10px] bg-primary text-primary-foreground">
-                {totalItems}
-              </Badge>
-            )}
-          </Link>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" aria-label="Open navigation menu">
