@@ -1,34 +1,14 @@
-import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import SponsorInquiryForm from "@/components/SponsorInquiryForm";
-import { ExternalLink, Star, Check } from "lucide-react";
+import { ExternalLink, Star, Check, Mail } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Badge } from "@/components/ui/badge";
-import { affiliates, sponsorTiers } from "@/data/affiliates";
+import { affiliates } from "@/data/affiliates";
 import { Analytics } from "@/lib/analytics";
 
-type Currency = "ZAR" | "USD" | "EUR" | "GBP";
-const currencySymbols: Record<Currency, string> = {
-  ZAR: "R",
-  USD: "$",
-  EUR: "€",
-  GBP: "£",
-};
-
 export default function Partners() {
-  const [currency, setCurrency] = useState<Currency>("ZAR");
-
-  const getPrice = (tier: (typeof sponsorTiers)[0]) => {
-    switch (currency) {
-      case "USD": return tier.priceUSD;
-      case "EUR": return tier.priceEUR;
-      case "GBP": return tier.priceGBP;
-      default: return tier.priceZAR;
-    }
-  };
-
   const handleClick = (id: string, name: string, url: string) => {
     Analytics.affiliateClick(id, name, url);
   };
@@ -113,97 +93,81 @@ export default function Partners() {
             })}
           </div>
 
-          {/* Sponsorship Pricing */}
+          {/* What You Get */}
           <div className="mb-16">
             <div className="mb-8 text-center">
               <h2 className="font-display text-3xl font-bold">
-                <span className="text-primary">Advertise With Us</span>
+                <span className="text-primary">What You Get As A Partner</span>
               </h2>
               <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-                Get your brand in front of thousands of CBD enthusiasts monthly.
-                Affordable plans for every budget.
+                We're selective about who we work with. Approved partners get real estate on our site, direct customer reach, and a seamless ordering flow.
               </p>
-
-              {/* Currency selector */}
-              <div className="mt-4 inline-flex items-center gap-1 rounded-full border border-border p-1">
-                {(["ZAR", "USD", "EUR", "GBP"] as Currency[]).map((c) => (
-                  <button
-                    key={c}
-                    onClick={() => setCurrency(c)}
-                    className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
-                      currency === c
-                        ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {c}
-                  </button>
-                ))}
-              </div>
             </div>
 
             <div className="grid gap-6 md:grid-cols-3">
-              {sponsorTiers.map((tier) => (
+              {[
+                {
+                  title: "Your Products On Our Site",
+                  desc: "Full listings with images, descriptions, pricing and category placement — visible to our entire customer base.",
+                },
+                {
+                  title: "Your Own Dedicated Page",
+                  desc: "A branded partner page showcasing your story, product range and unique selling points — like our Dirty Vapes and Lëf Labs pages.",
+                },
+                {
+                  title: "Direct WhatsApp Integration",
+                  desc: "Customers can message you directly through a WhatsApp button on your page — no middleman, no delay, real conversations.",
+                },
+              ].map((item) => (
                 <div
-                  key={tier.name}
-                  className={`relative flex flex-col rounded-2xl border-2 p-6 transition-all ${
-                    tier.popular
-                      ? "border-primary bg-primary/5 shadow-lg scale-[1.02]"
-                      : "border-border bg-card"
-                  }`}
+                  key={item.title}
+                  className="flex flex-col rounded-2xl border-2 border-border bg-card p-6"
                 >
-                  {tier.popular && (
-                    <Badge className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground">
-                      Most Popular
-                    </Badge>
-                  )}
-                  <h3 className="font-display text-lg font-bold">{tier.name}</h3>
-                  <div className="mt-3 flex items-baseline gap-1">
-                    <span className="font-display text-4xl font-bold text-primary">
-                      {currencySymbols[currency]}{getPrice(tier)}
-                    </span>
-                    <span className="text-sm text-muted-foreground">{tier.period}</span>
-                  </div>
-                  <ul className="mt-5 flex-1 space-y-2.5">
-                    {tier.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
-                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
+                  <Check className="h-6 w-6 text-primary" />
+                  <h3 className="mt-3 font-display text-lg font-bold">{item.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Partnership Terms & Conditions */}
+          {/* Partnership Rules & Requirements */}
           <div className="mb-16">
             <h2 className="font-display text-2xl font-bold mb-6 text-center">
-              <span className="text-primary">Partnership Terms &amp; Conditions</span>
+              <span className="text-primary">Partnership Rules &amp; Requirements</span>
             </h2>
             <div className="space-y-4 text-sm text-muted-foreground leading-relaxed rounded-2xl border border-border bg-card p-6">
-              <p><strong className="text-foreground">1. Agreement Duration:</strong> All sponsorship packages run on a month-to-month basis unless a longer term is agreed upon in writing. Either party may cancel with 14 days written notice before the next billing cycle.</p>
-              <p><strong className="text-foreground">2. Payment Terms:</strong> Payment is due upfront before your campaign goes live. We accept EFT, PayFast, PayPal, and cryptocurrency. Invoices are issued on request.</p>
-              <p><strong className="text-foreground">3. Content Guidelines:</strong> All partner content must comply with South African advertising standards. Tripplefour reserves the right to reject or remove any content that is misleading, offensive, or not aligned with our brand values.</p>
-              <p><strong className="text-foreground">4. Brand Representation:</strong> Partners may not imply endorsement by Tripplefour beyond the agreed sponsorship placement. Use of our logo or brand name requires prior written approval.</p>
-              <p><strong className="text-foreground">5. Performance &amp; Reporting:</strong> Starter and Growth partners receive basic analytics. Premium partners receive detailed monthly reports including impressions, clicks, and engagement metrics.</p>
-              <p><strong className="text-foreground">6. Liability:</strong> Tripplefour is not liable for the performance, quality, or legality of any partner products or services. Partners are solely responsible for their own offerings and compliance with applicable laws.</p>
-              <p><strong className="text-foreground">7. Refunds:</strong> Sponsorship fees are non-refundable once the campaign is live. If Tripplefour is unable to deliver the agreed placement, a pro-rata refund or credit will be issued.</p>
-              <p><strong className="text-foreground">8. Modifications:</strong> Tripplefour reserves the right to update these partnership terms at any time. Partners will be notified of any material changes via email.</p>
-              <p className="text-xs pt-2 border-t border-border">By submitting a sponsor inquiry below, you acknowledge that you have read and agree to these partnership terms.</p>
+              <p><strong className="text-foreground">1. Samples First — Non-Negotiable:</strong> Before any product is listed on Tripplefour, suppliers must send us physical samples of every item they want featured. We test, review and verify quality in-house. No samples, no listing.</p>
+              <p><strong className="text-foreground">2. Product Rules &amp; Documentation:</strong> Partners must provide full product information — ingredients, THC/CBD content, dosage guidelines, lab reports (COAs where applicable), usage instructions, storage requirements, and any warnings or contraindications. Incomplete submissions will be returned.</p>
+              <p><strong className="text-foreground">3. Compliance:</strong> All products must comply with South African law and advertising standards. Products aimed at anyone under 21, unregulated pharmaceuticals, or anything misrepresented will be rejected outright.</p>
+              <p><strong className="text-foreground">4. Quality &amp; Consistency:</strong> The samples you send must match the product customers receive. Any deviation in quality, potency or presentation will result in immediate removal from the platform.</p>
+              <p><strong className="text-foreground">5. Fulfilment &amp; WhatsApp Response:</strong> Partners are responsible for fulfilling orders and responding to WhatsApp enquiries in a reasonable time frame (within 24 hours during business days). Slow or absent responses will affect your placement.</p>
+              <p><strong className="text-foreground">6. Brand Representation:</strong> Partners may not imply endorsement by Tripplefour beyond the agreed placement. Use of our logo or brand name requires prior written approval.</p>
+              <p><strong className="text-foreground">7. Liability:</strong> Tripplefour is not liable for the performance, quality, or legality of any partner products or services. Partners are solely responsible for their own offerings and compliance with applicable laws.</p>
+              <p><strong className="text-foreground">8. Removal Rights:</strong> Tripplefour reserves the right to remove any partner, product or page at any time for breach of these rules, customer complaints, or brand-fit reasons.</p>
+              <p><strong className="text-foreground">9. Modifications:</strong> These partnership rules may be updated at any time. Active partners will be notified of any material changes via email.</p>
+              <p className="text-xs pt-2 border-t border-border">By submitting an inquiry below, you acknowledge that you have read and agree to these partnership rules and requirements.</p>
             </div>
           </div>
 
           {/* Sponsor Inquiry Form */}
           <div className="rounded-2xl border-2 border-dashed border-primary/30 bg-primary/5 p-8 text-center">
             <h3 className="font-display text-xl font-bold">
-              Ready to get started?
+              Want to work with us?
             </h3>
             <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
-              Fill in the form below and we'll get back to you within 48 hours
-              with everything you need to launch your campaign.
+              Fill in the form below or email us directly at{" "}
+              <a href="mailto:admin@cuddles-ai.com" className="font-semibold text-primary hover:underline">
+                admin@cuddles-ai.com
+              </a>
+              . We'll reply within 48 hours with next steps for sending your samples.
             </p>
+            <a
+              href="mailto:admin@cuddles-ai.com?subject=Tripplefour%20Partnership%20Inquiry"
+              className="mt-4 inline-flex items-center gap-2 rounded-full border border-primary/40 bg-background px-4 py-2 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+            >
+              <Mail className="h-4 w-4" /> admin@cuddles-ai.com
+            </a>
             <div className="mt-6">
               <SponsorInquiryForm />
             </div>
