@@ -73,30 +73,10 @@ export default function Navbar() {
             </Link>
           )}
 
-          <Link to="/cart" className="relative ml-2" aria-label={`Cart${totalItems > 0 ? ` (${totalItems} items)` : ""}`}>
-            <Button variant="ghost" size="icon" aria-label="Open cart">
-              <ShoppingBag className="h-5 w-5" />
-            </Button>
-            {totalItems > 0 && (
-              <Badge className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full p-0 px-1 text-[10px] bg-primary text-primary-foreground">
-                {totalItems}
-              </Badge>
-            )}
-          </Link>
         </nav>
 
         {/* Mobile nav */}
         <div className="flex items-center gap-1 md:hidden">
-          <Link to="/cart" className="relative" aria-label={`Cart${totalItems > 0 ? ` (${totalItems} items)` : ""}`}>
-            <Button variant="ghost" size="icon" aria-label="Open cart">
-              <ShoppingBag className="h-5 w-5" />
-            </Button>
-            {totalItems > 0 && (
-              <Badge className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full p-0 px-1 text-[10px] bg-primary text-primary-foreground">
-                {totalItems}
-              </Badge>
-            )}
-          </Link>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" aria-label="Open navigation menu">
