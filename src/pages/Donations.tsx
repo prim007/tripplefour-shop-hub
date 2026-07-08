@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Heart, Home, Vote, Package, Ban } from "lucide-react";
+import { Mail, Home, Vote, Package, Ban } from "lucide-react";
 
 export default function Donations() {
   return (
