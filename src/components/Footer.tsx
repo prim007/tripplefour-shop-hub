@@ -25,7 +25,7 @@ export default function Footer() {
             </p>
           </div>
           <div>
-            <h4 className="font-display text-xs uppercase tracking-widest text-muted-foreground">Shop</h4>
+            <h3 className="font-display text-xs uppercase tracking-widest text-muted-foreground">Shop</h3>
             <nav className="mt-4 flex flex-col gap-2.5">
               <Link to="/shop" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Shop All</Link>
               <Link to="/cart" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Cart</Link>
@@ -34,14 +34,14 @@ export default function Footer() {
             </nav>
           </div>
           <div>
-            <h4 className="font-display text-xs uppercase tracking-widest text-muted-foreground">Legal</h4>
+            <h3 className="font-display text-xs uppercase tracking-widest text-muted-foreground">Legal</h3>
             <nav className="mt-4 flex flex-col gap-2.5">
               <Link to="/privacy-policy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</Link>
               <Link to="/terms-of-service" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Terms of Service</Link>
             </nav>
           </div>
           <div>
-            <h4 className="font-display text-xs uppercase tracking-widest text-muted-foreground">Contact</h4>
+            <h3 className="font-display text-xs uppercase tracking-widest text-muted-foreground">Contact</h3>
             <a
               href="https://wa.me/27645436734"
               target="_blank"
@@ -51,7 +51,7 @@ export default function Footer() {
               <MessageCircle className="h-4 w-4" /> WhatsApp Us
             </a>
             <div className="mt-5">
-              <h4 className="font-display text-xs uppercase tracking-widest text-muted-foreground mb-3">Follow</h4>
+              <h3 className="font-display text-xs uppercase tracking-widest text-muted-foreground mb-3">Follow</h3>
               <div className="flex flex-wrap gap-2">
                 {socials.map(({ href, label, Icon }) => (
                   <a
