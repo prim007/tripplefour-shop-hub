@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Heart, Home, Vote, Package, Ban } from "lucide-react";
+import { Heart, Mail, Home, Vote, Package, Ban } from "lucide-react";
 
 export default function Donations() {
   return (
@@ -102,12 +102,10 @@ export default function Donations() {
             Reach out and we'll arrange the details.
           </p>
           <a
-            href="https://wa.me/27645436734"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="mailto:admin@cuddles-ai.com?subject=Donation%20or%20Home%20Nomination"
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 text-sm font-semibold uppercase tracking-widest hover:bg-primary/90 transition-colors"
           >
-            <Heart className="h-4 w-4" /> Get In Touch
+            <Mail className="h-4 w-4" /> Get In Touch
           </a>
         </section>
       </main>
