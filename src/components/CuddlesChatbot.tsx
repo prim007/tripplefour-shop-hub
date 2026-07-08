@@ -280,7 +280,7 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
                 className="flex-1 rounded-full border bg-background px-4 py-2 text-sm outline-none focus:border-primary"
                 disabled={isLoading}
               />
-              <Button type="submit" size="icon" disabled={isLoading || !input.trim()} className="rounded-full shrink-0">
+              <Button type="submit" size="icon" aria-label="Send message" disabled={isLoading || !input.trim()} className="rounded-full shrink-0">
                 <Send className="h-4 w-4" />
               </Button>
             </form>
