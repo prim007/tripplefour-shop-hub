@@ -13,6 +13,7 @@ const navLinks = [
   { to: "/blog", label: "Blog" },
   { to: "/partners", label: "Partners" },
   { to: "/affiliate", label: "Earn 💸" },
+  { to: "/donations", label: "Donate" },
 ];
 
 export default function Navbar() {
