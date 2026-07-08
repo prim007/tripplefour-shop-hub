@@ -49,6 +49,7 @@ export default function CartDrawer() {
                         size="icon"
                         className="h-6 w-6"
                         onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                        aria-label={`Decrease ${item.product.name} quantity`}
                       >
                         <Minus className="h-3 w-3" />
                       </Button>
@@ -58,6 +59,7 @@ export default function CartDrawer() {
                         size="icon"
                         className="h-6 w-6"
                         onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                        aria-label={`Increase ${item.product.name} quantity`}
                       >
                         <Plus className="h-3 w-3" />
                       </Button>
@@ -68,6 +70,7 @@ export default function CartDrawer() {
                     size="icon"
                     className="h-7 w-7 shrink-0 text-muted-foreground hover:text-destructive"
                     onClick={() => removeItem(item.product.id)}
+                    aria-label={`Remove ${item.product.name} from cart`}
                   >
                     <X className="h-4 w-4" />
                   </Button>
