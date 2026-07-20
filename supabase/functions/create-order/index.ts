@@ -42,6 +42,15 @@ const PRODUCT_CATALOG: Record<string, { name: string; price: number }> = {
   "ot-moon": { name: "Moon Rock", price: 125 },
   "acc-hp-100bill": { name: "HoneyPuff $100 Bill Rolling Papers (Box of 24)", price: 55 },
   "acc-airbuzz-shisha": { name: "AirBuzz Dubai Fusion Premium Shisha", price: 100 },
+  "acc-t444-cones": { name: "TRIPPLE444 108mm Rolling Papers (100 per barrel)", price: 150 },
+  "acc-hornet-tips": { name: "HORNET Natural Hemp & Cotton Rolling Tips (50 leaves)", price: 165 },
+  "acc-hp-cherry-pig": { name: "HoneyPuff Hemp Wraps — Honey Cherry Pig", price: 145 },
+  "acc-fruitors-ashtray": { name: "Fruitors Skull-Shaped Ashtray Set", price: 480 },
+  "acc-rickmorty-ashtray": { name: "Rick and Morty Round Ashtray Set", price: 650 },
+  "acc-dot-lighter-50": { name: "DOT Lighter Box (50pcs)", price: 100 },
+  "acc-psych-small-pkg": { name: "Psychedelic Graphic Small Packages", price: 95 },
+  "acc-hp-rolling-tray": { name: "HoneyPuff Rolling Tray", price: 100 },
+  "vp-thalia-ice-cola": { name: "Thalia 8000 Puffs 2% Vape — Ice Cola", price: 100 },
 };
 
 function toBase64Url(input: string): string {
