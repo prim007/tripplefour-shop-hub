@@ -37,7 +37,11 @@ export default function Navbar() {
             <Link
               key={link.to}
               to={link.to}
-              className="px-3 py-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground"
+              className={
+                link.to === "/dispensaries"
+                  ? "ml-1 rounded-full bg-primary px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
+                  : "px-3 py-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground"
+              }
             >
               {link.label}
             </Link>
@@ -92,7 +96,11 @@ export default function Navbar() {
                     key={link.to}
                     to={link.to}
                     onClick={() => setOpen(false)}
-                    className="border-b border-border/60 py-4 text-base font-display font-semibold uppercase tracking-widest text-foreground transition-colors hover:text-primary"
+                    className={
+                      link.to === "/dispensaries"
+                        ? "my-1 rounded-lg bg-primary px-4 py-3 text-base font-display font-bold uppercase tracking-widest text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
+                        : "border-b border-border/60 py-4 text-base font-display font-semibold uppercase tracking-widest text-foreground transition-colors hover:text-primary"
+                    }
                   >
                     {link.label}
                   </Link>
