@@ -84,13 +84,6 @@ const lefLabsJsonLd = {
 const products: { id: string; name: string; price: number; desc: string }[] = [
   { id: "ed-cube40", name: "Edible Cube 40mg", price: 60, desc: "Hemp-infused edible cube, 40mg per piece." },
   { id: "ed-chocchip-cookies", name: "Tripple444 ChocChip Cookies (10 Pack)", price: 165, desc: "Infused choc chip cookies — 10 per pack, resealable pouch." },
-  { id: "vp-disp", name: "Disposable Juice 10ml", price: 390, desc: "10ml disposable vape juice." },
-  { id: "vp-lz-toffee", name: "Liquid Zol Toffee Popcorn", price: 390, desc: "Disposable THC vape — Toffee Popcorn." },
-  { id: "vp-lz-cherry", name: "Liquid Zol Cherry Heat", price: 390, desc: "Disposable THC vape — Cherry Heat Ignition." },
-  { id: "vp-lz-peach", name: "Liquid Zol Peach", price: 390, desc: "Disposable THC vape — Peach Revolution." },
-  { id: "vp-lz-blueberry", name: "Liquid Zol Blueberry", price: 390, desc: "Disposable THC vape — Neon Blueberry Smash." },
-  { id: "vp-lz-greenapple", name: "Liquid Zol Green Apple", price: 390, desc: "Disposable THC vape — Green Apple Fury." },
-  { id: "vp-lz-oil", name: "Liquid Zol Concentrated Oil", price: 320, desc: "Concentrated THC oil for vaping." },
   { id: "dab-1", name: "Dab Concentrate", price: 350, desc: "Premium hemp dab concentrate." },
   { id: "acc-hp-100bill", name: "HoneyPuff $100 Bill Rolling Papers", price: 55, desc: "Novelty rolling papers, 24 booklets per box." },
   { id: "acc-airbuzz-shisha", name: "AirBuzz Dubai Fusion Shisha", price: 100, desc: "CBD-infused herbal shisha, <0.25% THC." },

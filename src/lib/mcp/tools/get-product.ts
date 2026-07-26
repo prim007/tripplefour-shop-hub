@@ -7,7 +7,7 @@ export default defineTool({
   title: "Get product",
   description: "Get full details for a single Tripplefour product by its ID.",
   inputSchema: {
-    id: z.string().min(1).describe("Product ID, e.g. 'vp-lz-cherry'."),
+    id: z.string().min(1).describe("Product ID, e.g. 'acc-t444-cones'."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: ({ id }) => {

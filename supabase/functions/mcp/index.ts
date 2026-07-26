@@ -14,13 +14,6 @@ var catalog = [
   { id: "ed-cube40", name: "Edible Cube 40mg", category: "Edibles", price: 60, description: "Hemp-infused edible cube, 40mg per piece." },
   { id: "ed-chocchip-cookies", name: "Tripple444 ChocChip Cookies (10 Pack)", category: "Edibles", price: 165, description: "Tripple444 infused chocolate chip cookies \u2014 10 cookies per pack." },
   { id: "ed-icecream", name: "Infused Ice Cream", category: "Edibles", price: 0, description: "Delicious infused ice cream. Coming soon!", comingSoon: true },
-  { id: "vp-disp", name: "Disposable Juice 10ml", category: "Vapes", price: 390, description: "10ml disposable vape juice." },
-  { id: "vp-lz-toffee", name: "Liquid Zol Toffee Popcorn", category: "Vapes", price: 390, description: "Disposable THC vape \u2014 Toffee Popcorn flavour." },
-  { id: "vp-lz-cherry", name: "Liquid Zol Cherry Heat", category: "Vapes", price: 390, description: "Disposable THC vape \u2014 Cherry Heat Ignition." },
-  { id: "vp-lz-peach", name: "Liquid Zol Peach", category: "Vapes", price: 390, description: "Disposable THC vape \u2014 Peach Revolution." },
-  { id: "vp-lz-blueberry", name: "Liquid Zol Blueberry", category: "Vapes", price: 390, description: "Disposable THC vape \u2014 Neon Blueberry Smash." },
-  { id: "vp-lz-greenapple", name: "Liquid Zol Green Apple", category: "Vapes", price: 390, description: "Disposable THC vape \u2014 Green Apple Fury." },
-  { id: "vp-lz-oil", name: "Liquid Zol Concentrated Oil", category: "Vapes", price: 320, description: "Concentrated THC oil for vaping." },
   { id: "dab-1", name: "Dab Concentrate", category: "Dab", price: 350, description: "Premium hemp dab concentrate." },
   { id: "acc-hp-100bill", name: "HoneyPuff $100 Bill Rolling Papers (Box of 24)", category: "Accessories", price: 55, description: "HoneyPuff $100 Bill rolling papers \u2014 24 booklets per box." },
   { id: "acc-airbuzz-shisha", name: "AirBuzz Dubai Fusion Premium Shisha", category: "Accessories", price: 100, description: "AirBuzz CBD-infused herbal shisha \u2014 Dubai Fusion." },
@@ -108,7 +101,7 @@ var get_product_default = defineTool3({
   title: "Get product",
   description: "Get full details for a single Tripplefour product by its ID.",
   inputSchema: {
-    id: z3.string().min(1).describe("Product ID, e.g. 'vp-lz-cherry'.")
+    id: z3.string().min(1).describe("Product ID, e.g. 'acc-t444-cones'.")
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: ({ id }) => {
