@@ -12,6 +12,7 @@ const navLinks = [
   { to: "/shop", label: "Shop" },
   { to: "/blog", label: "Blog" },
   { to: "/partners", label: "Partners" },
+  { to: "/dispensaries", label: "Wholesale" },
   { to: "/affiliate", label: "Earn 💸" },
   { to: "/donations", label: "Donate" },
 ];
