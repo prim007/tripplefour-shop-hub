@@ -37,7 +37,11 @@ export default function Navbar() {
             <Link
               key={link.to}
               to={link.to}
-              className="px-3 py-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground"
+              className={
+                link.to === "/dispensaries"
+                  ? "ml-1 rounded-full bg-primary px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
+                  : "px-3 py-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground"
+              }
             >
               {link.label}
             </Link>
