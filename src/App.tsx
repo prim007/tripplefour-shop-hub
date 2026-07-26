@@ -33,6 +33,7 @@ import PartnerLefLabs from "./pages/PartnerLefLabs";
 import LefLabsOrder from "./pages/LefLabsOrder";
 import LefLabsOrderComplete from "./pages/LefLabsOrderComplete";
 import Affiliate from "./pages/Affiliate";
+import Dispensaries from "./pages/Dispensaries";
 import Donations from "./pages/Donations";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
@@ -95,6 +96,7 @@ const App = () => (
                 <Route path="/partners/lef-labs/order" element={<LefLabsOrder />} />
                 <Route path="/partners/lef-labs/order-complete" element={<LefLabsOrderComplete />} />
                 <Route path="/affiliate" element={<Affiliate />} />
+                <Route path="/dispensaries" element={<Dispensaries />} />
                 <Route path="/donations" element={<Donations />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/terms-of-service" element={<TermsOfService />} />
