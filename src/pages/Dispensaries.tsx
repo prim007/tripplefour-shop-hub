@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Building2, Download, Loader2, Minus, Plus, ShieldCheck, ShoppingCart, Trash2 } from "lucide-react";
+import { Building2, Download, Loader2, Minus, Plus, ShieldCheck, ShoppingCart, Trash2, Truck } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import Navbar from "@/components/Navbar";
@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { products, categories, type Product } from "@/data/products";
@@ -24,19 +25,43 @@ const BANK = {
 
 const orderable: Product[] = products.filter((p) => !p.comingSoon && p.price > 0);
 
+interface DeliveryZone {
+  id: string;
+  zone_name: string;
+  min_km: number;
+  max_km: number;
+  fee: number;
+}
+
 export default function Dispensaries() {
   const [qty, setQty] = useState<Record<string, number>>({});
   const [customRequests, setCustomRequests] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [orderRef, setOrderRef] = useState<string | null>(null);
+  const [zones, setZones] = useState<DeliveryZone[]>([]);
+  const [zoneId, setZoneId] = useState<string>("");
   const [form, setForm] = useState({
     business_name: "",
     contact_name: "",
     email: "",
     phone: "",
     delivery_address: "",
+    delivery_city: "",
+    delivery_suburb: "",
+    delivery_postal_code: "",
     notes: "",
   });
+
+  useEffect(() => {
+    supabase
+      .from("delivery_zones")
+      .select("id, zone_name, min_km, max_km, fee")
+      .order("min_km", { ascending: true })
+      .then(({ data }) => setZones((data as DeliveryZone[]) ?? []));
+  }, []);
+
+  const selectedZone = useMemo(() => zones.find((z) => z.id === zoneId) ?? null, [zones, zoneId]);
+  const deliveryFee = selectedZone ? Number(selectedZone.fee) : 0;
 
   const lines = useMemo(
     () =>
@@ -49,6 +74,13 @@ export default function Dispensaries() {
     () => lines.reduce((sum, l) => sum + l.product.price * l.quantity, 0),
     [lines],
   );
+  const total = subtotal + deliveryFee;
+
+  const fullAddress = () =>
+    [form.delivery_address, form.delivery_suburb, form.delivery_city, form.delivery_postal_code]
+      .map((v) => v.trim())
+      .filter(Boolean)
+      .join(", ");
 
   const setQuantity = (id: string, value: number) =>
     setQty((prev) => ({ ...prev, [id]: Math.max(0, Math.min(1000, Math.floor(value) || 0)) }));
@@ -67,7 +99,8 @@ export default function Dispensaries() {
         `Contact: ${form.contact_name || "-"}`,
         `Email: ${form.email || "-"}`,
         `Phone: ${form.phone || "-"}`,
-        `Delivery: ${form.delivery_address || "-"}`,
+        `Delivery address: ${fullAddress() || "-"}`,
+        `Delivery zone: ${selectedZone ? `${selectedZone.zone_name} (${selectedZone.min_km}-${selectedZone.max_km}km) — R${Number(selectedZone.fee).toFixed(2)}` : "Not selected"}`,
       ],
       14,
       42,
@@ -90,7 +123,13 @@ export default function Dispensaries() {
     // @ts-expect-error lastAutoTable is added by jspdf-autotable
     let y = (doc.lastAutoTable?.finalY ?? 80) + 10;
     doc.setFontSize(12);
-    doc.text(`Order total: R${subtotal.toFixed(2)}`, 14, y);
+    doc.setFontSize(10);
+    doc.text(`Subtotal: R${subtotal.toFixed(2)}`, 14, y);
+    y += 6;
+    doc.text(`Delivery fee: R${deliveryFee.toFixed(2)}`, 14, y);
+    y += 8;
+    doc.setFontSize(12);
+    doc.text(`Order total: R${total.toFixed(2)}`, 14, y);
     y += 10;
 
     if (customRequests.trim()) {
@@ -121,8 +160,12 @@ export default function Dispensaries() {
   };
 
   const handleSubmit = async () => {
-    if (!form.business_name || !form.contact_name || !form.email || !form.phone || !form.delivery_address) {
+    if (!form.business_name || !form.contact_name || !form.email || !form.phone || !form.delivery_address || !form.delivery_city) {
       toast({ title: "Missing details", description: "Please complete all required fields.", variant: "destructive" });
+      return;
+    }
+    if (!zoneId) {
+      toast({ title: "Select a delivery area", description: "Choose the delivery zone closest to you so we can calculate the fee.", variant: "destructive" });
       return;
     }
     if (lines.length === 0 && !customRequests.trim()) {
@@ -134,6 +177,8 @@ export default function Dispensaries() {
       const { data, error } = await supabase.functions.invoke("create-dispensary-order", {
         body: {
           ...form,
+          delivery_address: fullAddress(),
+          delivery_zone_id: zoneId,
           items: lines.map((l) => ({ id: l.product.id, quantity: l.quantity })),
           custom_requests: customRequests,
         },
@@ -207,6 +252,36 @@ export default function Dispensaries() {
                     <Label htmlFor="delivery_address">Delivery address *</Label>
                     <Textarea id="delivery_address" rows={2} maxLength={500} value={form.delivery_address}
                       onChange={(e) => setForm({ ...form, delivery_address: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label htmlFor="delivery_suburb">Suburb</Label>
+                    <Input id="delivery_suburb" maxLength={80} value={form.delivery_suburb}
+                      onChange={(e) => setForm({ ...form, delivery_suburb: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label htmlFor="delivery_city">City / town *</Label>
+                    <Input id="delivery_city" maxLength={80} value={form.delivery_city}
+                      onChange={(e) => setForm({ ...form, delivery_city: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label htmlFor="delivery_postal_code">Postal code</Label>
+                    <Input id="delivery_postal_code" inputMode="numeric" maxLength={10} value={form.delivery_postal_code}
+                      onChange={(e) => setForm({ ...form, delivery_postal_code: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label htmlFor="delivery_zone">Delivery area *</Label>
+                    <Select value={zoneId} onValueChange={setZoneId}>
+                      <SelectTrigger id="delivery_zone" aria-label="Delivery area">
+                        <SelectValue placeholder="Select your delivery area" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-popover">
+                        {zones.map((z) => (
+                          <SelectItem key={z.id} value={z.id}>
+                            {z.zone_name} ({z.min_km}–{z.max_km}km) — R{Number(z.fee).toFixed(2)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div className="sm:col-span-2">
                     <Label htmlFor="notes">Order notes (optional)</Label>
@@ -317,9 +392,22 @@ export default function Dispensaries() {
                   </ul>
                 )}
 
-                <div className="mt-4 flex items-baseline justify-between border-t border-border pt-3">
-                  <span className="text-sm text-muted-foreground">Order total</span>
-                  <span className="font-mono text-lg font-bold">R{subtotal.toFixed(2)}</span>
+                <div className="mt-4 space-y-1.5 border-t border-border pt-3">
+                  <div className="flex items-baseline justify-between text-sm">
+                    <span className="text-muted-foreground">Subtotal</span>
+                    <span className="font-mono">R{subtotal.toFixed(2)}</span>
+                  </div>
+                  <div className="flex items-baseline justify-between text-sm">
+                    <span className="flex items-center gap-1.5 text-muted-foreground">
+                      <Truck className="h-3.5 w-3.5" />
+                      {selectedZone ? selectedZone.zone_name : "Delivery (select area)"}
+                    </span>
+                    <span className="font-mono">R{deliveryFee.toFixed(2)}</span>
+                  </div>
+                  <div className="flex items-baseline justify-between border-t border-border pt-2">
+                    <span className="text-sm font-semibold">Order total</span>
+                    <span className="font-mono text-lg font-bold">R{total.toFixed(2)}</span>
+                  </div>
                 </div>
 
                 <div className="mt-4 space-y-2">
