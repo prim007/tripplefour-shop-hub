@@ -134,6 +134,36 @@ Deno.serve(async (req) => {
       return json({ error: "Failed to create order" }, 500);
     }
 
+    // Notify admin of the new wholesale order
+    fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${serviceRoleKey}`,
+        apikey: serviceRoleKey,
+      },
+      body: JSON.stringify({
+        templateName: "admin-order-alert",
+        idempotencyKey: `admin-alert-${order.id}`,
+        templateData: {
+          orderRef,
+          source: "Dispensary Wholesale Portal",
+          paymentMethod: "eft",
+          customerName: `${String(business_name).trim()} — ${String(contact_name).trim()}`,
+          customerEmail: String(email).trim(),
+          customerPhone: String(phone).trim(),
+          deliveryAddress: noteText
+            ? `${String(delivery_address).trim()}\n\nNotes: ${noteText}`
+            : String(delivery_address).trim(),
+          deliveryZone: "Wholesale",
+          items: validatedItems,
+          subtotal,
+          deliveryFee: 0,
+          total: subtotal,
+        },
+      }),
+    }).catch((err) => console.error("Wholesale admin alert enqueue failed:", err));
+
     return json({
       order_ref: order.order_ref,
       subtotal: Number(order.subtotal),

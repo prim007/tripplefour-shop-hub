@@ -227,19 +227,26 @@ export default function Dispensaries() {
                         <h3 className="mb-3 font-display text-lg font-bold uppercase text-primary">{cat}</h3>
                         <div className="grid gap-3 sm:grid-cols-2">
                           {items.map((p) => (
-                            <div key={p.id} className="flex items-center justify-between gap-3 rounded-xl border-2 border-border bg-card p-4">
-                              <div className="min-w-0">
+                            <div key={p.id} className="flex items-center gap-3 rounded-xl border-2 border-border bg-card p-4">
+                              <img
+                                src={p.image}
+                                alt={p.name}
+                                loading="lazy"
+                                decoding="async"
+                                className="h-16 w-16 shrink-0 rounded-lg border border-border bg-secondary/40 object-cover"
+                              />
+                              <div className="min-w-0 flex-1">
                                 <p className="font-display text-sm font-bold leading-tight">{p.name}</p>
                                 <p className="mt-1 font-mono text-sm font-bold text-primary">R{p.price.toFixed(2)}</p>
                               </div>
-                              <div className="flex shrink-0 items-center gap-1">
+                              <div className="flex shrink-0 flex-col items-center gap-1 sm:flex-row">
                                 <Button size="icon" variant="outline" className="h-8 w-8" aria-label={`Decrease ${p.name}`}
                                   onClick={() => setQuantity(p.id, (qty[p.id] ?? 0) - 1)}>
                                   <Minus className="h-3 w-3" />
                                 </Button>
                                 <Input
                                   aria-label={`Quantity for ${p.name}`}
-                                  className="h-8 w-16 text-center font-mono"
+                                  className="h-8 w-14 text-center font-mono"
                                   inputMode="numeric"
                                   value={qty[p.id] ?? 0}
                                   onChange={(e) => setQuantity(p.id, Number(e.target.value))}
@@ -289,6 +296,12 @@ export default function Dispensaries() {
                   <ul className="space-y-2">
                     {lines.map((l) => (
                       <li key={l.product.id} className="flex items-center gap-2 rounded-lg bg-secondary/40 p-2">
+                        <img
+                          src={l.product.image}
+                          alt={l.product.name}
+                          loading="lazy"
+                          className="h-9 w-9 shrink-0 rounded-md object-cover"
+                        />
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-sm font-semibold">{l.product.name}</p>
                           <p className="font-mono text-xs text-muted-foreground">
