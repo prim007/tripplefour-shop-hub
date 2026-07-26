@@ -50,6 +50,7 @@ Deno.serve(async (req) => {
       items,
       custom_requests,
       notes,
+      delivery_zone_id,
     } = body ?? {};
 
     if (!business_name || !contact_name || !email || !phone || !delivery_address) {
@@ -105,6 +106,25 @@ Deno.serve(async (req) => {
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, serviceRoleKey);
 
+    // Server-authoritative delivery fee based on the selected delivery zone
+    let deliveryFee = 0;
+    let zoneName = "Not selected";
+    let zoneId: string | null = null;
+    if (delivery_zone_id) {
+      const { data: zone, error: zoneError } = await supabase
+        .from("delivery_zones")
+        .select("id, zone_name, fee")
+        .eq("id", delivery_zone_id)
+        .maybeSingle();
+      if (zoneError || !zone) {
+        return json({ error: "Invalid delivery zone" }, 400);
+      }
+      deliveryFee = Number(zone.fee);
+      zoneName = zone.zone_name;
+      zoneId = zone.id;
+    }
+    const total = subtotal + deliveryFee;
+
     const orderRef = `DISP-${crypto.randomUUID().replace(/-/g, "").slice(0, 8).toUpperCase()}`;
     const noteText = typeof notes === "string" ? notes.trim().slice(0, 300) : "";
 
@@ -118,15 +138,16 @@ Deno.serve(async (req) => {
         delivery_address: noteText
           ? `${String(delivery_address).trim()}\n\nNotes: ${noteText}`.slice(0, 300)
           : String(delivery_address).trim().slice(0, 300),
-        delivery_fee: 0,
+        delivery_zone_id: zoneId,
+        delivery_fee: deliveryFee,
         subtotal,
-        total: subtotal,
+        total,
         items: validatedItems,
         payment_method: "eft",
         payment_status: "pending",
         status: "pending",
       })
-      .select("id, order_ref, subtotal, total")
+      .select("id, order_ref, subtotal, total, delivery_fee")
       .single();
 
     if (insertError) {
@@ -155,11 +176,11 @@ Deno.serve(async (req) => {
           deliveryAddress: noteText
             ? `${String(delivery_address).trim()}\n\nNotes: ${noteText}`
             : String(delivery_address).trim(),
-          deliveryZone: "Wholesale",
+          deliveryZone: `Wholesale — ${zoneName}`,
           items: validatedItems,
           subtotal,
-          deliveryFee: 0,
-          total: subtotal,
+          deliveryFee,
+          total,
         },
       }),
     }).catch((err) => console.error("Wholesale admin alert enqueue failed:", err));
@@ -168,6 +189,8 @@ Deno.serve(async (req) => {
       order_ref: order.order_ref,
       subtotal: Number(order.subtotal),
       total: Number(order.total),
+      delivery_fee: Number(order.delivery_fee),
+      delivery_zone_name: zoneName,
       items: validatedItems,
     });
   } catch (err) {
