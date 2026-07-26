@@ -96,7 +96,11 @@ export default function Navbar() {
                     key={link.to}
                     to={link.to}
                     onClick={() => setOpen(false)}
-                    className="border-b border-border/60 py-4 text-base font-display font-semibold uppercase tracking-widest text-foreground transition-colors hover:text-primary"
+                    className={
+                      link.to === "/dispensaries"
+                        ? "my-1 rounded-lg bg-primary px-4 py-3 text-base font-display font-bold uppercase tracking-widest text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
+                        : "border-b border-border/60 py-4 text-base font-display font-semibold uppercase tracking-widest text-foreground transition-colors hover:text-primary"
+                    }
                   >
                     {link.label}
                   </Link>
