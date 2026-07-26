@@ -1,0 +1,366 @@
+import { useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { Building2, Download, Loader2, Minus, Plus, ShieldCheck, ShoppingCart, Trash2 } from "lucide-react";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { products, categories, type Product } from "@/data/products";
+
+const BANK = {
+  accountName: "Tripplefour",
+  bank: "FNB",
+  branchCode: "250655",
+  accountNumber: "63203398862",
+  accountType: "Cheque",
+};
+
+const orderable: Product[] = products.filter((p) => !p.comingSoon && p.price > 0);
+
+export default function Dispensaries() {
+  const [qty, setQty] = useState<Record<string, number>>({});
+  const [customRequests, setCustomRequests] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [orderRef, setOrderRef] = useState<string | null>(null);
+  const [form, setForm] = useState({
+    business_name: "",
+    contact_name: "",
+    email: "",
+    phone: "",
+    delivery_address: "",
+    notes: "",
+  });
+
+  const lines = useMemo(
+    () =>
+      orderable
+        .filter((p) => (qty[p.id] ?? 0) > 0)
+        .map((p) => ({ product: p, quantity: qty[p.id] })),
+    [qty],
+  );
+  const subtotal = useMemo(
+    () => lines.reduce((sum, l) => sum + l.product.price * l.quantity, 0),
+    [lines],
+  );
+
+  const setQuantity = (id: string, value: number) =>
+    setQty((prev) => ({ ...prev, [id]: Math.max(0, Math.min(1000, Math.floor(value) || 0)) }));
+
+  const buildPdf = (ref: string | null) => {
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text("TRIPPLEFOUR — Wholesale Order", 14, 18);
+    doc.setFontSize(10);
+    doc.text(`Date: ${new Date().toLocaleDateString("en-ZA")}`, 14, 26);
+    doc.text(`Reference: ${ref ?? "QUOTE (not yet submitted)"}`, 14, 32);
+
+    doc.text(
+      [
+        `Business: ${form.business_name || "-"}`,
+        `Contact: ${form.contact_name || "-"}`,
+        `Email: ${form.email || "-"}`,
+        `Phone: ${form.phone || "-"}`,
+        `Delivery: ${form.delivery_address || "-"}`,
+      ],
+      14,
+      42,
+    );
+
+    autoTable(doc, {
+      startY: 74,
+      head: [["Product", "Category", "Unit (R)", "Qty", "Line total (R)"]],
+      body: lines.map((l) => [
+        l.product.name,
+        l.product.category,
+        l.product.price.toFixed(2),
+        String(l.quantity),
+        (l.product.price * l.quantity).toFixed(2),
+      ]),
+      styles: { fontSize: 9 },
+      headStyles: { fillColor: [20, 20, 20] },
+    });
+
+    // @ts-expect-error lastAutoTable is added by jspdf-autotable
+    let y = (doc.lastAutoTable?.finalY ?? 80) + 10;
+    doc.setFontSize(12);
+    doc.text(`Order total: R${subtotal.toFixed(2)}`, 14, y);
+    y += 10;
+
+    if (customRequests.trim()) {
+      doc.setFontSize(10);
+      doc.text("Special / custom requests (quoted separately):", 14, y);
+      y += 6;
+      doc.text(doc.splitTextToSize(customRequests.trim(), 180), 14, y);
+      y += 6 + doc.splitTextToSize(customRequests.trim(), 180).length * 5;
+    }
+
+    doc.setFontSize(11);
+    doc.text("Banking details (EFT)", 14, y);
+    doc.setFontSize(10);
+    doc.text(
+      [
+        `Account name: ${BANK.accountName}`,
+        `Bank: ${BANK.bank}`,
+        `Branch code: ${BANK.branchCode}`,
+        `Account number: ${BANK.accountNumber}`,
+        `Account type: ${BANK.accountType}`,
+        `Payment reference: ${ref ?? "your DISP- order code"}`,
+      ],
+      14,
+      y + 6,
+    );
+
+    doc.save(`tripplefour-wholesale-${ref ?? "quote"}.pdf`);
+  };
+
+  const handleSubmit = async () => {
+    if (!form.business_name || !form.contact_name || !form.email || !form.phone || !form.delivery_address) {
+      toast({ title: "Missing details", description: "Please complete all required fields.", variant: "destructive" });
+      return;
+    }
+    if (lines.length === 0 && !customRequests.trim()) {
+      toast({ title: "Nothing selected", description: "Pick products or add a custom request.", variant: "destructive" });
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-dispensary-order", {
+        body: {
+          ...form,
+          items: lines.map((l) => ({ id: l.product.id, quantity: l.quantity })),
+          custom_requests: customRequests,
+        },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setOrderRef(data.order_ref);
+      toast({ title: "Order submitted", description: `Reference ${data.order_ref}. Use it as your EFT reference.` });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Please try again.";
+      toast({ title: "Could not submit order", description: message, variant: "destructive" });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="flex min-h-screen flex-col">
+      <Helmet>
+        <title>Dispensary Wholesale Orders | Tripplefour</title>
+        <meta
+          name="description"
+          content="Wholesale ordering portal for South African dispensaries. Browse the Tripplefour catalogue, build an order, download a PDF and pay by EFT."
+        />
+        <link rel="canonical" href="https://tripplefourshophub.online/dispensaries" />
+      </Helmet>
+
+      <Navbar />
+
+      <main className="flex-1 bg-secondary/20">
+        <section className="border-b border-border bg-background">
+          <div className="mx-auto max-w-6xl px-4 py-8">
+            <Badge className="mb-2 bg-accent text-accent-foreground">Trade Portal</Badge>
+            <h1 className="font-display text-3xl font-bold uppercase md:text-4xl">
+              Dispensary <span className="text-primary">Wholesale Orders</span>
+            </h1>
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+              Enter your dispensary details, pick what you need from the catalogue, request anything we don't
+              stock yet, download your order as a PDF and pay by EFT into our FNB account.
+            </p>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-6xl px-4 py-8">
+          <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
+            <div className="space-y-8">
+              <div className="rounded-xl border-2 border-border bg-card p-5">
+                <h2 className="mb-4 font-display text-xl font-bold">Dispensary details</h2>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div>
+                    <Label htmlFor="business_name">Dispensary / business name *</Label>
+                    <Input id="business_name" maxLength={120} value={form.business_name}
+                      onChange={(e) => setForm({ ...form, business_name: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label htmlFor="contact_name">Contact person *</Label>
+                    <Input id="contact_name" maxLength={100} value={form.contact_name}
+                      onChange={(e) => setForm({ ...form, contact_name: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label htmlFor="email">Email *</Label>
+                    <Input id="email" type="email" maxLength={255} value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label htmlFor="phone">Phone *</Label>
+                    <Input id="phone" type="tel" maxLength={25} value={form.phone}
+                      onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <Label htmlFor="delivery_address">Delivery address *</Label>
+                    <Textarea id="delivery_address" rows={2} maxLength={500} value={form.delivery_address}
+                      onChange={(e) => setForm({ ...form, delivery_address: e.target.value })} />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <Label htmlFor="notes">Order notes (optional)</Label>
+                    <Textarea id="notes" rows={2} maxLength={300} value={form.notes}
+                      onChange={(e) => setForm({ ...form, notes: e.target.value })} />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h2 className="mb-4 font-display text-xl font-bold">Catalogue</h2>
+                <div className="space-y-8">
+                  {categories.map((cat) => {
+                    const items = orderable.filter((p) => p.category === cat);
+                    if (items.length === 0) return null;
+                    return (
+                      <div key={cat}>
+                        <h3 className="mb-3 font-display text-lg font-bold uppercase text-primary">{cat}</h3>
+                        <div className="grid gap-3 sm:grid-cols-2">
+                          {items.map((p) => (
+                            <div key={p.id} className="flex items-center justify-between gap-3 rounded-xl border-2 border-border bg-card p-4">
+                              <div className="min-w-0">
+                                <p className="font-display text-sm font-bold leading-tight">{p.name}</p>
+                                <p className="mt-1 font-mono text-sm font-bold text-primary">R{p.price.toFixed(2)}</p>
+                              </div>
+                              <div className="flex shrink-0 items-center gap-1">
+                                <Button size="icon" variant="outline" className="h-8 w-8" aria-label={`Decrease ${p.name}`}
+                                  onClick={() => setQuantity(p.id, (qty[p.id] ?? 0) - 1)}>
+                                  <Minus className="h-3 w-3" />
+                                </Button>
+                                <Input
+                                  aria-label={`Quantity for ${p.name}`}
+                                  className="h-8 w-16 text-center font-mono"
+                                  inputMode="numeric"
+                                  value={qty[p.id] ?? 0}
+                                  onChange={(e) => setQuantity(p.id, Number(e.target.value))}
+                                />
+                                <Button size="icon" variant="outline" className="h-8 w-8" aria-label={`Increase ${p.name}`}
+                                  onClick={() => setQuantity(p.id, (qty[p.id] ?? 0) + 1)}>
+                                  <Plus className="h-3 w-3" />
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="rounded-xl border-2 border-dashed border-border bg-card p-5">
+                <h2 className="font-display text-xl font-bold">Need something we don't stock?</h2>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  List the products, brands, quantities and packs you'd like us to source. We'll quote you separately.
+                </p>
+                <Textarea
+                  className="mt-3"
+                  rows={4}
+                  maxLength={1000}
+                  aria-label="Custom product requests"
+                  placeholder="e.g. 20 x 1g live resin carts, bulk grinders, branded stash jars…"
+                  value={customRequests}
+                  onChange={(e) => setCustomRequests(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+              <div className="rounded-xl border-2 border-border bg-card p-5">
+                <div className="mb-3 flex items-center gap-2">
+                  <ShoppingCart className="h-5 w-5 text-primary" />
+                  <h2 className="font-display text-lg font-bold">Your order</h2>
+                  <span className="ml-auto text-xs text-muted-foreground">{lines.length} line item(s)</span>
+                </div>
+
+                {lines.length === 0 ? (
+                  <p className="py-6 text-center text-sm text-muted-foreground">No products selected yet.</p>
+                ) : (
+                  <ul className="space-y-2">
+                    {lines.map((l) => (
+                      <li key={l.product.id} className="flex items-center gap-2 rounded-lg bg-secondary/40 p-2">
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-semibold">{l.product.name}</p>
+                          <p className="font-mono text-xs text-muted-foreground">
+                            R{l.product.price.toFixed(2)} × {l.quantity} = R{(l.product.price * l.quantity).toFixed(2)}
+                          </p>
+                        </div>
+                        <Button size="icon" variant="ghost" className="h-7 w-7 text-destructive"
+                          aria-label={`Remove ${l.product.name}`} onClick={() => setQuantity(l.product.id, 0)}>
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                <div className="mt-4 flex items-baseline justify-between border-t border-border pt-3">
+                  <span className="text-sm text-muted-foreground">Order total</span>
+                  <span className="font-mono text-lg font-bold">R{subtotal.toFixed(2)}</span>
+                </div>
+
+                <div className="mt-4 space-y-2">
+                  <Button onClick={handleSubmit} disabled={submitting} className="w-full gap-2" size="lg">
+                    {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4" />}
+                    {submitting ? "Submitting…" : "Submit wholesale order"}
+                  </Button>
+                  <Button variant="outline" className="w-full gap-2" onClick={() => buildPdf(orderRef)}>
+                    <Download className="h-4 w-4" /> Download order PDF
+                  </Button>
+                </div>
+
+                {orderRef && (
+                  <div className="mt-4 rounded-lg border border-primary/40 bg-primary/5 p-3 text-sm">
+                    <p className="font-semibold">Order received</p>
+                    <p className="mt-1 text-muted-foreground">
+                      Reference: <span className="font-mono font-bold text-primary">{orderRef}</span> — use this as
+                      your EFT payment reference.
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              <div className="rounded-xl border-2 border-dashed border-border bg-card p-5">
+                <div className="mb-3 flex items-center gap-2">
+                  <Building2 className="h-5 w-5 text-primary" />
+                  <h2 className="font-display text-lg font-bold">EFT banking details</h2>
+                </div>
+                <dl className="grid grid-cols-[120px_1fr] gap-y-1.5 text-sm">
+                  <dt className="text-muted-foreground">Account name</dt>
+                  <dd className="font-semibold">{BANK.accountName}</dd>
+                  <dt className="text-muted-foreground">Bank</dt>
+                  <dd className="font-semibold">{BANK.bank}</dd>
+                  <dt className="text-muted-foreground">Branch code</dt>
+                  <dd className="font-mono font-semibold">{BANK.branchCode}</dd>
+                  <dt className="text-muted-foreground">Account no.</dt>
+                  <dd className="font-mono font-semibold">{BANK.accountNumber}</dd>
+                  <dt className="text-muted-foreground">Type</dt>
+                  <dd className="font-semibold">{BANK.accountType}</dd>
+                  <dt className="text-muted-foreground">Reference</dt>
+                  <dd className="font-semibold">
+                    Your <span className="font-mono text-primary">DISP-XXXXXXXX</span> order code
+                  </dd>
+                </dl>
+                <p className="mt-3 text-[11px] text-muted-foreground">
+                  Stock is reserved once proof of payment reflects. Custom requests are quoted before payment.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
