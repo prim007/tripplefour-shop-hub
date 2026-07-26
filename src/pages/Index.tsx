@@ -29,7 +29,7 @@ const categoryHero: Record<string, string> = {
   "CBD Products": cbdCatImg,
 };
 
-const vapeIds = ["vp-disp", "vp-lz-toffee", "vp-lz-cherry", "vp-lz-peach", "vp-lz-blueberry", "vp-lz-greenapple", "vp-lz-oil"];
+const vapeIds = ["vp-thalia-ice-cola", "dv-cart-1ml", "dv-disposable-1ml", "dv-switch-2ml"];
 const bestSellers = [
   ...products.filter((p) => vapeIds.includes(p.id)),
   ...products.filter((p) => !p.comingSoon && !vapeIds.includes(p.id)).slice(0, 1),
@@ -51,7 +51,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "What CBD products do you sell?",
-    a: "We stock a full range of CBD infused products: edibles (gummies & brownies), Liquid Zol vape cartridges, dab concentrates, and accessories. All products are tested for quality and delivered across South Africa.",
+    a: "We stock a full range of CBD infused products: edibles (gummies & brownies), vape cartridges & disposables, dab concentrates, and accessories. All products are tested for quality and delivered across South Africa.",
   },
   {
     q: "Is it legal to order CBD products in South Africa?",

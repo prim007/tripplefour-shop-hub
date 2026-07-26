@@ -97,7 +97,7 @@
             "id": {
               "type": "string",
               "minLength": 1,
-              "description": "Product ID, e.g. 'vp-lz-cherry'."
+              "description": "Product ID, e.g. 'acc-t444-cones'."
             }
           },
           "required": [

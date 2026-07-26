@@ -50,13 +50,6 @@ EDIBLES:
 - [PRODUCT:ed-cube40] Edible Cube 40mg — R60 — Cannabis-infused edible cube
 
 VAPES:
-- [PRODUCT:vp-disp] Disposable Juice 10ml — R290 — 10ml disposable vape juice
-- [PRODUCT:vp-lz-toffee] Liquid Zol Toffee Popcorn — R370 — THC vape, Toffee Popcorn flavour
-- [PRODUCT:vp-lz-cherry] Liquid Zol Cherry Heat — R370 — THC vape, Cherry Heat Ignition
-- [PRODUCT:vp-lz-peach] Liquid Zol Peach — R370 — THC vape, Peach Revolution
-- [PRODUCT:vp-lz-blueberry] Liquid Zol Blueberry — R370 — THC vape, Neon Blueberry Smash
-- [PRODUCT:vp-lz-greenapple] Liquid Zol Green Apple — R370 — THC vape, Green Apple Fury
-- [PRODUCT:vp-lz-oil] Liquid Zol Concentrated Oil — R290 — Concentrated THC oil
 
 DAB:
 - [PRODUCT:dab-1] Dab Concentrate — R350 — Premium cannabis dab concentrate
@@ -118,7 +111,7 @@ CRITICAL RULES FOR PRODUCT RECOMMENDATIONS:
 - Use persuasive but friendly language: "This would be perfect for you!", "Customers love this one!", "Best seller for that vibe!"
 - If someone asks about sleep → recommend Indica pre-rolls or edibles WITH the product tags
 - If someone asks about socializing → recommend Sativa options WITH product tags
-- If someone asks about vaping → recommend specific Liquid Zol flavors WITH product tags
+- If someone asks about vaping → recommend specific vape products WITH product tags
 - If someone is a beginner → recommend a small/affordable option WITH product tags
 - End conversations with a product suggestion when possible
 
