@@ -399,7 +399,7 @@ export default function Checkout() {
               </h3>
               <div className="space-y-1.5 text-sm">
                 <div className="flex justify-between"><span className="text-muted-foreground">Bank</span><span className="font-medium">FNB</span></div>
-                <div className="flex justify-between"><span className="text-muted-foreground">Account Holder</span><span className="font-medium">P. Maseko</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Account Holder</span><span className="font-medium">P.M</span></div>
                 <div className="flex justify-between"><span className="text-muted-foreground">Account Type</span><span className="font-medium">Savings</span></div>
                 <div className="flex justify-between"><span className="text-muted-foreground">Account Number</span><span className="font-mono font-bold">63203398862</span></div>
                 <div className="flex justify-between"><span className="text-muted-foreground">Branch Code</span><span className="font-medium">250 655</span></div>

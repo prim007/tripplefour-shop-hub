@@ -16,7 +16,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { products, categories, type Product } from "@/data/products";
 
 const BANK = {
-  accountName: "Tripplefour",
+  accountName: "P.M",
   bank: "FNB",
   branchCode: "250655",
   accountNumber: "63203398862",

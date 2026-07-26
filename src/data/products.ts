@@ -4,7 +4,6 @@ import vapesImg from "@/assets/products/vapes-dark.jpg";
 import dabImg from "@/assets/products/dab-dark.jpg";
 import accessoriesImg from "@/assets/products/accessories-dark.jpg";
 import cbdImg from "@/assets/products/cbd-dark.jpg";
-import honeypuff100BillImg from "@/assets/products/honeypuff-100-bill-rolling-papers.png";
 import dirtyVapesEdiblesImg from "@/assets/products/dirty-vapes-edibles-high-life.jpg";
 import dirtyVapesCart1mlImg from "@/assets/products/dirty-vapes-cart-1ml.jpg";
 import dirtyVapesSwitch2mlImg from "@/assets/products/dirty-vapes-switch-2ml.jpg";
@@ -58,7 +57,7 @@ const categoryImages: Record<ProductCategory, string> = {
 export const products: Product[] = [
   // === Featured new arrivals (top of catalog) ===
   { id: "acc-t444-cones", name: "TRIPPLE444 108mm Rolling Papers (100 per barrel)", category: "Accessories", price: 150, description: "TRIPPLE444 pre-rolled 108mm cones — 100 unbleached natural cones per barrel. Slow, even burn with a smooth draw.", image: t444ConesAsset.url },
-  { id: "acc-hornet-tips", name: "HORNET Natural Hemp & Cotton Rolling Tips (50 leaves)", category: "Accessories", price: 165, description: "HORNET perforated natural hemp & cotton rolling tips — 50 leaves of finest quality filter paper. Perfect roach for a cleaner smoke.", image: hornetTipsAsset.url },
+  { id: "acc-hornet-tips", name: "HORNET Natural Hemp & Cotton Rolling Tips and Rolling Paper (50 leaves)", category: "Accessories", price: 165, description: "HORNET perforated natural hemp & cotton rolling tips — 50 leaves of finest quality filter paper. Perfect roach for a cleaner smoke.", image: hornetTipsAsset.url },
   { id: "acc-hp-cherry-pig", name: "HoneyPuff Hemp Wraps — Honey Cherry Pig", category: "Accessories", price: 145, description: "HoneyPuff organic hemp wraps in Honey Cherry Pig flavour. Tobacco-free, nicotine-free, GMO-free with 2 filter tips per pack.", image: hpCherryPigAsset.url },
   { id: "acc-fruitors-ashtray", name: "Fruitors Skull-Shaped Ashtray Set", category: "Accessories", price: 480, description: "Fruitors 6-piece skull-shaped glass ashtray set in a vibrant collectible box. Heavy-duty glass with bold fruit character graphics.", image: fruitorsAshtrayAsset.url },
   { id: "acc-rickmorty-ashtray", name: "Rick and Morty Round Ashtray Set", category: "Accessories", price: 650, description: "Rick and Morty themed round glass ashtray set — 6 psychedelic printed ashtrays in a collector's box. Solid glass, premium finish.", image: rickMortyAshtrayAsset.url },
@@ -78,7 +77,6 @@ export const products: Product[] = [
   { id: "dab-1", name: "Dab Concentrate", category: "Dab", price: 350, description: "Premium hemp dab concentrate.", image: categoryImages["Dab"] },
 
   // Accessories
-  { id: "acc-hp-100bill", name: "HoneyPuff $100 Bill Rolling Papers (Box of 24)", category: "Accessories", price: 55, description: "HoneyPuff $100 Bill rolling papers — novelty holographic dollar-bill design. One box contains 24 individual booklets. Slow-burning, premium quality papers perfect for everyday rolling.", image: honeypuff100BillImg },
   { id: "acc-airbuzz-shisha", name: "AirBuzz Dubai Fusion Premium Shisha", category: "Accessories", price: 100, description: "AirBuzz CBD-infused premium flavoured herbal shisha — Dubai Fusion. Smooth herbal blend with natural flavours, less than 0.25% THC. Manufactured by AirBuzz.", image: airbuzzShishaAsset.url },
 
   // Dirty Vapes (partner)
