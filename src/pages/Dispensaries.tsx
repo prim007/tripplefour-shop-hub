@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Building2, Download, Loader2, Minus, Plus, ShieldCheck, ShoppingCart, Trash2 } from "lucide-react";
+import { Building2, Download, Loader2, Minus, Plus, ShieldCheck, ShoppingCart, Trash2, Truck } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import Navbar from "@/components/Navbar";
@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { products, categories, type Product } from "@/data/products";
@@ -24,19 +25,43 @@ const BANK = {
 
 const orderable: Product[] = products.filter((p) => !p.comingSoon && p.price > 0);
 
+interface DeliveryZone {
+  id: string;
+  zone_name: string;
+  min_km: number;
+  max_km: number;
+  fee: number;
+}
+
 export default function Dispensaries() {
   const [qty, setQty] = useState<Record<string, number>>({});
   const [customRequests, setCustomRequests] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [orderRef, setOrderRef] = useState<string | null>(null);
+  const [zones, setZones] = useState<DeliveryZone[]>([]);
+  const [zoneId, setZoneId] = useState<string>("");
   const [form, setForm] = useState({
     business_name: "",
     contact_name: "",
     email: "",
     phone: "",
     delivery_address: "",
+    delivery_city: "",
+    delivery_suburb: "",
+    delivery_postal_code: "",
     notes: "",
   });
+
+  useEffect(() => {
+    supabase
+      .from("delivery_zones")
+      .select("id, zone_name, min_km, max_km, fee")
+      .order("min_km", { ascending: true })
+      .then(({ data }) => setZones((data as DeliveryZone[]) ?? []));
+  }, []);
+
+  const selectedZone = useMemo(() => zones.find((z) => z.id === zoneId) ?? null, [zones, zoneId]);
+  const deliveryFee = selectedZone ? Number(selectedZone.fee) : 0;
 
   const lines = useMemo(
     () =>
@@ -49,6 +74,13 @@ export default function Dispensaries() {
     () => lines.reduce((sum, l) => sum + l.product.price * l.quantity, 0),
     [lines],
   );
+  const total = subtotal + deliveryFee;
+
+  const fullAddress = () =>
+    [form.delivery_address, form.delivery_suburb, form.delivery_city, form.delivery_postal_code]
+      .map((v) => v.trim())
+      .filter(Boolean)
+      .join(", ");
 
   const setQuantity = (id: string, value: number) =>
     setQty((prev) => ({ ...prev, [id]: Math.max(0, Math.min(1000, Math.floor(value) || 0)) }));
@@ -67,7 +99,8 @@ export default function Dispensaries() {
         `Contact: ${form.contact_name || "-"}`,
         `Email: ${form.email || "-"}`,
         `Phone: ${form.phone || "-"}`,
-        `Delivery: ${form.delivery_address || "-"}`,
+        `Delivery address: ${fullAddress() || "-"}`,
+        `Delivery zone: ${selectedZone ? `${selectedZone.zone_name} (${selectedZone.min_km}-${selectedZone.max_km}km) — R${Number(selectedZone.fee).toFixed(2)}` : "Not selected"}`,
       ],
       14,
       42,
@@ -90,7 +123,13 @@ export default function Dispensaries() {
     // @ts-expect-error lastAutoTable is added by jspdf-autotable
     let y = (doc.lastAutoTable?.finalY ?? 80) + 10;
     doc.setFontSize(12);
-    doc.text(`Order total: R${subtotal.toFixed(2)}`, 14, y);
+    doc.setFontSize(10);
+    doc.text(`Subtotal: R${subtotal.toFixed(2)}`, 14, y);
+    y += 6;
+    doc.text(`Delivery fee: R${deliveryFee.toFixed(2)}`, 14, y);
+    y += 8;
+    doc.setFontSize(12);
+    doc.text(`Order total: R${total.toFixed(2)}`, 14, y);
     y += 10;
 
     if (customRequests.trim()) {
@@ -121,8 +160,12 @@ export default function Dispensaries() {
   };
 
   const handleSubmit = async () => {
-    if (!form.business_name || !form.contact_name || !form.email || !form.phone || !form.delivery_address) {
+    if (!form.business_name || !form.contact_name || !form.email || !form.phone || !form.delivery_address || !form.delivery_city) {
       toast({ title: "Missing details", description: "Please complete all required fields.", variant: "destructive" });
+      return;
+    }
+    if (!zoneId) {
+      toast({ title: "Select a delivery area", description: "Choose the delivery zone closest to you so we can calculate the fee.", variant: "destructive" });
       return;
     }
     if (lines.length === 0 && !customRequests.trim()) {
@@ -134,6 +177,8 @@ export default function Dispensaries() {
       const { data, error } = await supabase.functions.invoke("create-dispensary-order", {
         body: {
           ...form,
+          delivery_address: fullAddress(),
+          delivery_zone_id: zoneId,
           items: lines.map((l) => ({ id: l.product.id, quantity: l.quantity })),
           custom_requests: customRequests,
         },
