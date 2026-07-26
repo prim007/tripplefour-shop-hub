@@ -62,7 +62,7 @@ export default function OrderConfirmation() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Account Holder</span>
-                  <span className="font-medium">P. Maseko</span>
+                  <span className="font-medium">P.M</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Account Type</span>
