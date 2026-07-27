@@ -105,6 +105,8 @@ export const routes: RouteMeta[] = [
     bodySnippet: lefLabsPriceTableHtml,
   },
   { path: "/affiliate", title: "Affiliate Program — Earn With Tripplefour", description: "Join the Tripplefour affiliate program and earn commission on every CBD sale." },
+  { path: "/dispensaries", title: "Wholesale Portal for Dispensaries SA | Tripplefour", description: "Order CBD stock wholesale in South Africa. Browse the catalogue, request custom items and download a PDF quote instantly." },
+  { path: "/donations", title: "Donations & Community Giving | Tripplefour", description: "We accept non-cash donations and give everything to a community home voted for each month." },
   { path: "/privacy-policy", title: "Privacy Policy | Tripplefour", description: "How Tripplefour collects, uses and protects your personal information. POPIA compliant." },
   { path: "/terms-of-service", title: "Terms of Service | Tripplefour", description: "Terms, 21+ age rules and conditions of use for the Tripplefour store." },
   ...products.map<RouteMeta>((p) => ({
