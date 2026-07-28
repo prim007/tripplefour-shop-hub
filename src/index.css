@@ -11,49 +11,61 @@
 */
 @layer base {
   :root {
-    --background: 24 10% 6%;
-    --foreground: 36 25% 94%;
+    --background: 40 8% 5%;
+    --foreground: 44 30% 95%;
 
-    --card: 24 10% 9%;
-    --card-foreground: 36 25% 94%;
+    --card: 40 8% 8%;
+    --card-foreground: 44 30% 95%;
 
-    --popover: 24 10% 9%;
-    --popover-foreground: 36 25% 94%;
+    --popover: 40 8% 8%;
+    --popover-foreground: 44 30% 95%;
 
-    --primary: 28 90% 55%;
-    --primary-foreground: 24 15% 6%;
+    --primary: 43 84% 56%;
+    --primary-foreground: 40 20% 6%;
 
-    --primary-glow: 35 100% 65%;
+    --primary-glow: 48 96% 72%;
+    --gold-deep: 36 70% 40%;
 
-    --secondary: 24 8% 14%;
-    --secondary-foreground: 36 20% 90%;
+    --secondary: 40 7% 13%;
+    --secondary-foreground: 44 22% 91%;
 
-    --muted: 24 8% 12%;
-    --muted-foreground: 30 14% 82%;
+    --muted: 40 7% 11%;
+    --muted-foreground: 42 16% 82%;
 
-    --accent: 28 90% 55%;
-    --accent-foreground: 24 15% 6%;
+    --accent: 43 84% 56%;
+    --accent-foreground: 40 20% 6%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 36 25% 94%;
 
-    --border: 24 8% 16%;
-    --input: 24 8% 16%;
-    --ring: 28 90% 55%;
+    --border: 42 12% 16%;
+    --input: 42 12% 16%;
+    --ring: 43 84% 56%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --gradient-warm: linear-gradient(135deg, hsl(28 90% 55% / 0.18), hsl(35 100% 65% / 0.06) 60%, transparent);
-    --shadow-warm: 0 20px 60px -20px hsl(28 90% 50% / 0.35);
+    --gradient-warm: linear-gradient(135deg, hsl(43 84% 56% / 0.20), hsl(48 96% 72% / 0.07) 60%, transparent);
+    --gradient-gold: linear-gradient(135deg, hsl(36 70% 42%) 0%, hsl(43 90% 60%) 35%, hsl(48 100% 82%) 50%, hsl(43 90% 58%) 65%, hsl(36 70% 42%) 100%);
+    --shadow-warm: 0 20px 60px -20px hsl(43 84% 50% / 0.40);
+    --shadow-3d:
+      0 1px 0 hsl(48 100% 85% / 0.35) inset,
+      0 -1px 0 hsl(36 70% 25% / 0.55) inset,
+      0 2px 4px hsl(40 20% 2% / 0.6),
+      0 14px 34px -12px hsl(43 84% 45% / 0.45);
+    --shadow-3d-hover:
+      0 1px 0 hsl(48 100% 90% / 0.45) inset,
+      0 -1px 0 hsl(36 70% 25% / 0.6) inset,
+      0 4px 8px hsl(40 20% 2% / 0.65),
+      0 26px 54px -14px hsl(43 84% 50% / 0.55);
 
-    --sidebar-background: 24 10% 5%;
-    --sidebar-foreground: 36 20% 90%;
-    --sidebar-primary: 28 90% 55%;
-    --sidebar-primary-foreground: 24 15% 6%;
-    --sidebar-accent: 24 8% 12%;
-    --sidebar-accent-foreground: 36 20% 90%;
-    --sidebar-border: 24 8% 16%;
-    --sidebar-ring: 28 90% 55%;
+    --sidebar-background: 40 8% 4%;
+    --sidebar-foreground: 44 22% 91%;
+    --sidebar-primary: 43 84% 56%;
+    --sidebar-primary-foreground: 40 20% 6%;
+    --sidebar-accent: 40 7% 11%;
+    --sidebar-accent-foreground: 44 22% 91%;
+    --sidebar-border: 42 12% 16%;
+    --sidebar-ring: 43 84% 56%;
   }
 
   /* Force dark default — light mode mirrors dark for consistency */
@@ -68,8 +80,9 @@
   body {
     @apply bg-background text-foreground font-body antialiased;
     background-image:
-      radial-gradient(1200px 600px at 80% -10%, hsl(28 90% 50% / 0.10), transparent 60%),
-      radial-gradient(900px 500px at -10% 110%, hsl(28 90% 40% / 0.06), transparent 60%);
+      radial-gradient(1100px 620px at 82% -12%, hsl(43 90% 52% / 0.13), transparent 62%),
+      radial-gradient(820px 520px at -12% 108%, hsl(36 80% 42% / 0.09), transparent 62%),
+      conic-gradient(from 210deg at 50% 40%, hsl(48 96% 62% / 0.05), transparent 28%, hsl(36 70% 40% / 0.05) 58%, transparent 82%);
     background-attachment: fixed;
   }
 
@@ -97,7 +110,54 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+  .gold-gradient { background: var(--gradient-gold); }
+  .gold-gradient-text {
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
   .text-balance { text-wrap: balance; }
   .shadow-warm { box-shadow: var(--shadow-warm); }
   .hairline-border { box-shadow: inset 0 0 0 1px hsl(var(--border)); }
+
+  /* Dimensional gold surface — subtle bevel + lift */
+  .surface-3d {
+    box-shadow: var(--shadow-3d);
+    transition: box-shadow 320ms ease, transform 320ms ease;
+  }
+  .surface-3d:hover {
+    box-shadow: var(--shadow-3d-hover);
+    transform: translateY(-3px);
+  }
+
+  /* Abstract gold mesh backdrop for sections */
+  .abstract-mesh {
+    position: relative;
+    isolation: isolate;
+  }
+  .abstract-mesh::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(38% 44% at 22% 28%, hsl(43 90% 58% / 0.16), transparent 70%),
+      radial-gradient(32% 40% at 78% 68%, hsl(36 80% 44% / 0.14), transparent 72%),
+      conic-gradient(from 140deg at 60% 45%, hsl(48 96% 70% / 0.07), transparent 30%, hsl(43 84% 50% / 0.07) 65%, transparent 90%);
+    filter: blur(38px);
+    animation: mesh-drift 22s ease-in-out infinite alternate;
+  }
+
+  @keyframes mesh-drift {
+    0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+    100% { transform: translate3d(2%, -3%, 0) scale(1.08) rotate(6deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .abstract-mesh::before { animation: none; }
+    .surface-3d { transition: none; }
+    .surface-3d:hover { transform: none; }
+  }
 }
