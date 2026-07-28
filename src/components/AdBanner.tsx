@@ -27,11 +27,23 @@ export default function AdBanner({ slot, adHtml, fallback, className = "" }: AdB
   }, [adHtml, slot]);
 
   // Wrap third-party ad markup in a minimal HTML doc rendered inside a sandboxed iframe.
-  // The sandbox attribute (without `allow-same-origin`) isolates the ad from the host page,
-  // preventing access to cookies, localStorage, the parent DOM, or top-level navigation.
+  // The sandbox attribute (without `allow-same-origin` and without `allow-popups`) isolates
+  // the ad from the host page: no access to cookies, localStorage, the parent DOM, no
+  // top-level navigation and no popup windows. A restrictive CSP additionally limits what
+  // the ad markup can load or connect to.
   const srcDoc = useMemo(() => {
     if (!adHtml) return "";
-    return `<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;overflow:hidden;font-family:system-ui,sans-serif}</style></head><body>${adHtml}</body></html>`;
+    const csp = [
+      "default-src 'none'",
+      "img-src https: data:",
+      "style-src 'unsafe-inline'",
+      "script-src https: 'unsafe-inline'",
+      "connect-src https:",
+      "frame-src https:",
+      "form-action 'none'",
+      "base-uri 'none'",
+    ].join("; ");
+    return `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${csp}"><style>html,body{margin:0;padding:0;overflow:hidden;font-family:system-ui,sans-serif}</style></head><body>${adHtml}</body></html>`;
   }, [adHtml]);
 
   const handleFallbackClick = () => {
@@ -69,7 +81,7 @@ export default function AdBanner({ slot, adHtml, fallback, className = "" }: AdB
       <iframe
         title={`ad-${slot}`}
         srcDoc={srcDoc}
-        sandbox="allow-scripts allow-popups"
+        sandbox="allow-scripts"
         referrerPolicy="no-referrer"
         loading="lazy"
         className="w-full border-0"
