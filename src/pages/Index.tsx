@@ -103,7 +103,7 @@ const Index = () => {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 py-2.5 flex items-center justify-center gap-3 text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-medium">
             <span>Free Delivery Over R1200</span>
             <span className="text-border">·</span>
-            <span>Use <span className="text-primary font-semibold">WELCOME10</span> for 10% Off</span>
+            <span>Use <span className="text-primary font-semibold">WELCOME5</span> for 5% Off</span>
             <span className="hidden sm:inline text-border">·</span>
             <span className="hidden sm:inline">Same-Day Dispatch Before 2PM</span>
           </div>

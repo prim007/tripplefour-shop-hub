@@ -6,8 +6,8 @@ import { toast } from "@/hooks/use-toast";
 import { trackEvent } from "@/lib/analytics";
 
 const STORAGE_KEY = "welcome-popup-dismissed";
-const PROMO_CODE = "WELCOME10";
-const DISCOUNT = 10;
+const PROMO_CODE = "WELCOME5";
+const DISCOUNT = 5;
 const TIMER_MS = 20_000;
 
 export default function WelcomeDiscountPopup() {
