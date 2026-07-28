@@ -157,16 +157,16 @@ export default function Partners() {
             </h3>
             <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
               Fill in the form below or email us directly at{" "}
-              <a href="mailto:admin@cuddles-ai.com" className="font-semibold text-primary hover:underline">
-                admin@cuddles-ai.com
+              <a href="mailto:support@tripplefourshophub.online" className="font-semibold text-primary hover:underline">
+                support@tripplefourshophub.online
               </a>
               . We'll reply within 48 hours with next steps for sending your samples.
             </p>
             <a
-              href="mailto:admin@cuddles-ai.com?subject=Tripplefour%20Partnership%20Inquiry"
+              href="mailto:support@tripplefourshophub.online?subject=Tripplefour%20Partnership%20Inquiry"
               className="mt-4 inline-flex items-center gap-2 rounded-full border border-primary/40 bg-background px-4 py-2 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
             >
-              <Mail className="h-4 w-4" /> admin@cuddles-ai.com
+              <Mail className="h-4 w-4" /> support@tripplefourshophub.online
             </a>
             <div className="mt-6">
               <SponsorInquiryForm />
