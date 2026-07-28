@@ -39,7 +39,7 @@ const budgetPicks = products.filter((p) => !p.comingSoon && p.price <= 100).slic
 const FAQ_ITEMS = [
   {
     q: "Where do you deliver in South Africa?",
-    a: "We deliver nationwide across South Africa — Johannesburg, Cape Town, Durban, Pretoria, Port Elizabeth, Bloemfontein, Soweto, and everywhere in between. Delivery fees range from R50 to R100 depending on your location.",
+    a: "We deliver nationwide across South Africa — Johannesburg, Cape Town, Durban, Pretoria, Port Elizabeth, Bloemfontein, Soweto, and everywhere in between. Delivery fees range from R70 to R100 depending on your location.",
   },
   {
     q: "How long does delivery take?",
@@ -67,22 +67,22 @@ const Index = () => {
   return (
     <div className="flex min-h-screen flex-col overflow-hidden">
       <Helmet>
-        <title>CBD Products Online SA — From R50 | Tripplefour</title>
-        <meta name="description" content="Buy CBD infused edibles, vapes & dab online in South Africa from R50. Fast delivery to Joburg, Cape Town, Durban & nationwide." />
+        <title>CBD Products Online SA — from R70 | Tripplefour</title>
+        <meta name="description" content="Buy CBD infused edibles, vapes & dab online in South Africa from R70. Fast delivery to Joburg, Cape Town, Durban & nationwide." />
         <link rel="canonical" href="https://tripplefourshophub.online/" />
-        <meta property="og:title" content="CBD Products Online SA — From R50 | Tripplefour" />
-        <meta property="og:description" content="Buy CBD infused edibles, vapes & dab online in South Africa from R50. Fast delivery nationwide." />
+        <meta property="og:title" content="CBD Products Online SA — from R70 | Tripplefour" />
+        <meta property="og:description" content="Buy CBD infused edibles, vapes & dab online in South Africa from R70. Fast delivery nationwide." />
         <meta property="og:url" content="https://tripplefourshophub.online/" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Store",
           "name": "Tripplefour",
-          "description": "Buy CBD infused products online in South Africa — edibles, vapes, dab concentrates & accessories from R50",
+          "description": "Buy CBD infused products online in South Africa — edibles, vapes, dab concentrates & accessories from R70",
           "url": "https://tripplefourshophub.online",
           "telephone": "+27645436734",
           "areaServed": { "@type": "Country", "name": "South Africa" },
           "address": { "@type": "PostalAddress", "addressCountry": "ZA" },
-          "priceRange": "R50 - R1085",
+          "priceRange": "R70 - R1085",
           "paymentAccepted": "Cash, EFT",
           "currenciesAccepted": "ZAR"
         })}</script>
@@ -141,7 +141,7 @@ const Index = () => {
                 Premium <span className="warm-gradient-text">CBD Infused</span> products.
               </h1>
               <p className="mt-6 max-w-xl text-base md:text-lg text-muted-foreground">
-                Edibles, vapes, dab and accessories — built for the discerning. Discreet delivery across South Africa from R50.
+                Edibles, vapes, dab and accessories — built for the discerning. Discreet delivery across South Africa from R70.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <Button asChild size="lg" className="h-12 px-8 rounded-none uppercase tracking-widest text-xs font-semibold gold-gradient text-primary-foreground surface-3d hover:brightness-110">
@@ -274,7 +274,7 @@ const Index = () => {
         <section className="px-4 sm:px-6 py-24 border-t border-border/60 text-center">
           <p className="text-[11px] uppercase tracking-[0.32em] text-primary font-semibold mb-4">/ Order today</p>
           <h2 className="font-display text-3xl md:text-6xl font-bold uppercase max-w-3xl mx-auto text-balance">
-            From R50. Delivered to your door.
+            from R70. Delivered to your door.
           </h2>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
             <Button asChild size="lg" className="h-12 px-8 rounded-none uppercase tracking-widest text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary-glow">
