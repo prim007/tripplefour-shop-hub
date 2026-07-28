@@ -16,7 +16,7 @@ const PRODUCT_CATALOG: Record<string, { name: string; price: number }> = {
   "acc-dot-lighter-50": { name: "DOT Lighter Box (50pcs)", price: 100 },
   "acc-owlfit-kit": { name: "OwlFit Rolling Kit (Hard Case)", price: 650 },
   "acc-siho-grinder": { name: "SIHO Wood-Finish Crusher (4-Piece Grinder)", price: 105 },
-  "acc-q6-lighter-25": { name: "Q6 MR.RAM Lighter Box (25pcs)", price: 105 },
+  "acc-q6-lighter-25": { name: "Q6 MR.RAM Lighter Box (25pcs)", price: 250 },
   "acc-psych-small-pkg": { name: "Psychedelic Graphic Small Packages", price: 95 },
   "acc-hp-rolling-tray": { name: "HoneyPuff Rolling Tray", price: 100 },
   "acc-airbuzz-shisha": { name: "AirBuzz Dubai Fusion Premium Shisha", price: 100 },

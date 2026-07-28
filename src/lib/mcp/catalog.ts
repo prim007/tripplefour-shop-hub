@@ -26,7 +26,7 @@ export const catalog: CatalogProduct[] = [
   { id: "acc-dot-lighter-50", name: "DOT Lighter Box (50pcs)", category: "Accessories", price: 100, description: "DOT-1102 disposable lighters — box of 50." },
   { id: "acc-owlfit-kit", name: "OwlFit Rolling Kit (Hard Case)", category: "Accessories", price: 650, description: "OwlFit premium rolling kit in a hard carry case with tray, cones and tools." },
   { id: "acc-siho-grinder", name: "SIHO Wood-Finish Crusher (4-Piece Grinder)", category: "Accessories", price: 105, description: "SIHO 4-piece wood-finish grinder with kief catcher." },
-  { id: "acc-q6-lighter-25", name: "Q6 MR.RAM Lighter Box (25pcs)", category: "Accessories", price: 105, description: "Q6 MR.RAM disposable lighters — box of 25." },
+  { id: "acc-q6-lighter-25", name: "Q6 MR.RAM Lighter Box (25pcs)", category: "Accessories", price: 250, description: "Q6 MR.RAM disposable lighters — box of 25." },
   { id: "acc-psych-small-pkg", name: "Psychedelic Graphic Small Packages", category: "Accessories", price: 95, description: "Psychedelic graphic-printed compact storage packages." },
   { id: "acc-hp-rolling-tray", name: "HoneyPuff Rolling Tray", category: "Accessories", price: 100, description: "HoneyPuff branded metal rolling tray." },
   { id: "vp-thalia-ice-cola", name: "Thalia 8000 Puffs 2% Vape — Ice Cola", category: "Vapes", price: 100, description: "Thalia disposable vape — 8000 puffs, 2% nicotine, Ice Cola flavour." },
