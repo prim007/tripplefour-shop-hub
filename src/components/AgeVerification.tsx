@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { AlertTriangle, Leaf } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -61,7 +61,7 @@ export default function AgeVerification() {
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
       <div className="w-full max-w-md rounded-2xl border bg-card p-8 text-center shadow-2xl">
         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-          <Leaf className="h-7 w-7 text-primary" />
+          <span className="font-display text-xl font-bold text-primary">444</span>
         </div>
 
         <h2 className="font-display text-2xl font-bold">Age Verification</h2>

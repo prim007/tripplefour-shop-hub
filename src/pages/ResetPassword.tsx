@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
-import { Lock, Loader2, Leaf } from "lucide-react";
+import { Lock, Loader2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -63,7 +63,7 @@ export default function ResetPassword() {
         <div className="w-full max-w-md space-y-8">
           <div className="text-center space-y-2">
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-              <Leaf className="h-7 w-7 text-primary" />
+              <span className="font-display text-xl font-bold text-primary">444</span>
             </div>
             <h1 className="font-display text-3xl font-bold">Set New Password</h1>
           </div>
