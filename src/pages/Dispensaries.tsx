@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { products, categories, type Product } from "@/data/products";
+import logoUrl from "@/assets/tripple444-logo.png";
 
 const BANK = {
   accountName: "P.M",
@@ -85,13 +86,48 @@ export default function Dispensaries() {
   const setQuantity = (id: string, value: number) =>
     setQty((prev) => ({ ...prev, [id]: Math.max(0, Math.min(1000, Math.floor(value) || 0)) }));
 
-  const buildPdf = (ref: string | null) => {
+  const loadLogo = async (): Promise<string | null> => {
+    try {
+      const res = await fetch(logoUrl);
+      const blob = await res.blob();
+      return await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(typeof reader.result === "string" ? reader.result : null);
+        reader.onerror = () => resolve(null);
+        reader.readAsDataURL(blob);
+      });
+    } catch {
+      return null;
+    }
+  };
+
+  const buildPdf = async (ref: string | null) => {
+    try {
     const doc = new jsPDF();
-    doc.setFontSize(18);
-    doc.text("TRIPPLEFOUR — Wholesale Order", 14, 18);
+    const pageW = doc.internal.pageSize.getWidth();
+
+    // Header band with logo
+    doc.setFillColor(13, 13, 13);
+    doc.rect(0, 0, pageW, 34, "F");
+    const logo = await loadLogo();
+    if (logo) {
+      try {
+        doc.addImage(logo, "PNG", 14, 7, 44, 22);
+      } catch {
+        /* ignore logo failure */
+      }
+    }
+    doc.setTextColor(212, 175, 55);
+    doc.setFontSize(16);
+    doc.text("WHOLESALE ORDER", pageW - 14, 17, { align: "right" });
+    doc.setTextColor(235, 235, 235);
+    doc.setFontSize(9);
+    doc.text("TRIPPLEFOUR · tripplefourshophub.online", pageW - 14, 25, { align: "right" });
+
+    doc.setTextColor(20, 20, 20);
     doc.setFontSize(10);
-    doc.text(`Date: ${new Date().toLocaleDateString("en-ZA")}`, 14, 26);
-    doc.text(`Reference: ${ref ?? "QUOTE (not yet submitted)"}`, 14, 32);
+    doc.text(`Date: ${new Date().toLocaleDateString("en-ZA")}`, 14, 44);
+    doc.text(`Reference: ${ref ?? "QUOTE (not yet submitted)"}`, 14, 50);
 
     doc.text(
       [
@@ -103,21 +139,23 @@ export default function Dispensaries() {
         `Delivery zone: ${selectedZone ? `${selectedZone.zone_name} (${selectedZone.min_km}-${selectedZone.max_km}km) — R${Number(selectedZone.fee).toFixed(2)}` : "Not selected"}`,
       ],
       14,
-      42,
+      60,
     );
 
     autoTable(doc, {
-      startY: 74,
+      startY: 92,
       head: [["Product", "Category", "Unit (R)", "Qty", "Line total (R)"]],
-      body: lines.map((l) => [
+      body: lines.length
+        ? lines.map((l) => [
         l.product.name,
         l.product.category,
         l.product.price.toFixed(2),
         String(l.quantity),
         (l.product.price * l.quantity).toFixed(2),
-      ]),
+          ])
+        : [["No items selected yet", "-", "-", "-", "-"]],
       styles: { fontSize: 9 },
-      headStyles: { fillColor: [20, 20, 20] },
+      headStyles: { fillColor: [13, 13, 13], textColor: [212, 175, 55] },
     });
 
     // @ts-expect-error lastAutoTable is added by jspdf-autotable
@@ -140,23 +178,59 @@ export default function Dispensaries() {
       y += 6 + doc.splitTextToSize(customRequests.trim(), 180).length * 5;
     }
 
+    if (y > 215) {
+      doc.addPage();
+      y = 24;
+    }
+
+    // Banking details block
+    doc.setDrawColor(212, 175, 55);
+    doc.setFillColor(250, 247, 236);
+    doc.roundedRect(14, y, pageW - 28, 56, 2, 2, "FD");
     doc.setFontSize(11);
-    doc.text("Banking details (EFT)", 14, y);
+    doc.setTextColor(13, 13, 13);
+    doc.text("EFT BANKING DETAILS", 20, y + 9);
     doc.setFontSize(10);
+    const rows: [string, string][] = [
+      ["Account name", BANK.accountName],
+      ["Bank", BANK.bank],
+      ["Branch code", BANK.branchCode],
+      ["Account no.", BANK.accountNumber],
+      ["Type", BANK.accountType],
+      ["Reference", ref ?? "Your DISP-XXXXXXXX order code"],
+    ];
+    rows.forEach(([label, value], i) => {
+      const ry = y + 17 + i * 6.5;
+      doc.setTextColor(90, 90, 90);
+      doc.text(label, 20, ry);
+      doc.setTextColor(13, 13, 13);
+      doc.text(String(value), 70, ry);
+    });
+
+    doc.setFontSize(8);
+    doc.setTextColor(120, 120, 120);
     doc.text(
-      [
-        `Account name: ${BANK.accountName}`,
-        `Bank: ${BANK.bank}`,
-        `Branch code: ${BANK.branchCode}`,
-        `Account number: ${BANK.accountNumber}`,
-        `Account type: ${BANK.accountType}`,
-        `Payment reference: ${ref ?? "your DISP- order code"}`,
-      ],
+      "Orders are dispatched once payment reflects. Use your order reference as the EFT payment reference.",
       14,
-      y + 6,
+      y + 64,
     );
 
-    doc.save(`tripplefour-wholesale-${ref ?? "quote"}.pdf`);
+    const filename = `tripplefour-wholesale-${ref ?? "quote"}.pdf`;
+    try {
+      doc.save(filename);
+    } catch {
+      const url = URL.createObjectURL(doc.output("blob"));
+      window.open(url, "_blank");
+    }
+    toast({ title: "PDF ready", description: `Downloaded ${filename}` });
+    } catch (err) {
+      console.error("PDF generation failed", err);
+      toast({
+        title: "Could not generate PDF",
+        description: "Please try again, or open the site in a new tab and retry.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleSubmit = async () => {
