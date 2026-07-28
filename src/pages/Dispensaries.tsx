@@ -489,7 +489,7 @@ export default function Dispensaries() {
                     {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4" />}
                     {submitting ? "Submitting…" : "Submit wholesale order"}
                   </Button>
-                  <Button variant="outline" className="w-full gap-2" onClick={() => buildPdf(orderRef)}>
+                  <Button variant="outline" className="w-full gap-2" onClick={() => { void buildPdf(orderRef); }}>
                     <Download className="h-4 w-4" /> Download order PDF
                   </Button>
                 </div>
