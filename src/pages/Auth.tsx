@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
-import { Leaf, Loader2, Mail, Lock, User, ArrowLeft } from "lucide-react";
+import { Loader2, Mail, Lock, User, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
@@ -126,7 +126,7 @@ export default function Auth() {
         <div className="w-full max-w-md space-y-8">
           <div className="text-center space-y-2">
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-              <Leaf className="h-7 w-7 text-primary" />
+              <span className="font-display text-xl font-bold text-primary">444</span>
             </div>
             <h1 className="font-display text-3xl font-bold">
               {mode === "login" && "Welcome Back"}
