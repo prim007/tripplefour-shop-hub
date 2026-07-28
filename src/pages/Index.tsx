@@ -110,7 +110,7 @@ const Index = () => {
         </div>
 
         {/* HERO — large, dark, dropstore-style */}
-        <section className="relative w-full overflow-hidden">
+        <section className="relative w-full overflow-hidden abstract-mesh">
           <div className="relative h-[80vh] min-h-[560px] max-h-[820px] w-full">
             <img
               src={heroImg}
@@ -124,6 +124,14 @@ const Index = () => {
             {/* gradient masks for legibility */}
             <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+            {/* abstract gold light shards */}
+            <div
+              className="pointer-events-none absolute inset-0 opacity-70 mix-blend-screen"
+              style={{
+                background:
+                  "radial-gradient(45% 55% at 78% 18%, hsl(var(--primary-glow) / 0.18), transparent 70%), conic-gradient(from 200deg at 68% 40%, hsl(var(--primary) / 0.12), transparent 26%, hsl(var(--gold-deep) / 0.10) 62%, transparent 88%)",
+              }}
+            />
 
             <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-end px-4 sm:px-6 pb-16 md:pb-24">
               <p className="text-[11px] uppercase tracking-[0.32em] text-primary font-semibold mb-4">
@@ -136,10 +144,10 @@ const Index = () => {
                 Edibles, vapes, dab and accessories — built for the discerning. Discreet delivery across South Africa from R50.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-3">
-                <Button asChild size="lg" className="h-12 px-8 rounded-none uppercase tracking-widest text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary-glow">
+                <Button asChild size="lg" className="h-12 px-8 rounded-none uppercase tracking-widest text-xs font-semibold gold-gradient text-primary-foreground surface-3d hover:brightness-110">
                   <Link to="/shop">Shop the drop <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
-                <Button asChild size="lg" variant="ghost" className="h-12 px-6 rounded-none uppercase tracking-widest text-xs font-semibold border border-border hover:border-primary hover:text-primary">
+                <Button asChild size="lg" variant="ghost" className="h-12 px-6 rounded-none uppercase tracking-widest text-xs font-semibold border border-primary/40 backdrop-blur-sm hover:border-primary hover:text-primary">
                   <a href="https://wa.me/27645436734" target="_blank" rel="noopener noreferrer">WhatsApp order</a>
                 </Button>
               </div>
