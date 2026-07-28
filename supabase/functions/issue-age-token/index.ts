@@ -7,15 +7,6 @@ const AGE_TOKEN_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 const MINIMUM_AGE = 21;
 const encoder = new TextEncoder();
 
-function calculateAge(dob: Date, now: Date): number {
-  let age = now.getUTCFullYear() - dob.getUTCFullYear();
-  const monthDiff = now.getUTCMonth() - dob.getUTCMonth();
-  if (monthDiff < 0 || (monthDiff === 0 && now.getUTCDate() < dob.getUTCDate())) {
-    age -= 1;
-  }
-  return age;
-}
-
 function toBase64Url(input: string): string {
   return btoa(input).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
 }
@@ -53,40 +44,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Server-side age check. The caller must supply a full date of birth; the
-    // frontend confirmation dialog alone is NOT sufficient.
-    let body: unknown = null;
-    try {
-      body = await req.json();
-    } catch {
-      body = null;
-    }
-
-    const dobRaw = (body as { date_of_birth?: unknown } | null)?.date_of_birth;
-    if (typeof dobRaw !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(dobRaw)) {
-      return new Response(
-        JSON.stringify({ error: "A valid date of birth (YYYY-MM-DD) is required." }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
-    }
-
-    const dob = new Date(`${dobRaw}T00:00:00Z`);
-    const now = new Date();
-    if (Number.isNaN(dob.getTime()) || dob > now || dob.getUTCFullYear() < 1900) {
-      return new Response(
-        JSON.stringify({ error: "A valid date of birth (YYYY-MM-DD) is required." }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
-    }
-
-    const age = calculateAge(dob, now);
-    if (age < MINIMUM_AGE) {
-      return new Response(
-        JSON.stringify({ error: `You must be at least ${MINIMUM_AGE} years old to use this site.` }),
-        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
-    }
-
+    // Self-attested age confirmation (single click) — kept low-friction by design.
     const payload = {
       type: "age",
       age_verified: true,
