@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { generateOrderRef } from "../_shared/order-ref.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -326,7 +327,7 @@ Deno.serve(async (req) => {
     }
 
     const total = subtotal + DELIVERY_FEE;
-    const orderRef = `LEF-${crypto.randomUUID().replace(/-/g, "").slice(0, 10).toUpperCase()}`;
+    const orderRef = await generateOrderRef(supabase, "LEF");
 
     const supabase = adminClient;
 

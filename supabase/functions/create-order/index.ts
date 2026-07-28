@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { generateOrderRef } from "../_shared/order-ref.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -223,7 +224,7 @@ Deno.serve(async (req) => {
     const rawDeliveryFee = Number(zone.fee);
     const deliveryFee = subtotalAfterDiscount >= FREE_SHIPPING_THRESHOLD ? 0 : rawDeliveryFee;
     const total = Math.max(0, subtotalAfterDiscount + deliveryFee);
-    const orderRef = `TF-${crypto.randomUUID().replace(/-/g, "").slice(0, 10).toUpperCase()}`;
+    const orderRef = await generateOrderRef(supabase, "TF");
 
     // Validate affiliate code (optional)
     let affiliate: { id: string; code: string; commission_percent: number } | null = null;
