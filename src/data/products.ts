@@ -19,6 +19,9 @@ import dotLighterAsset from "@/assets/products/dot-lighter-box-50.png.asset.json
 import psychSmallPkgAsset from "@/assets/products/psychedelic-small-packages.png.asset.json";
 import hpRollingTrayAsset from "@/assets/products/honeypuff-rolling-tray.png.asset.json";
 import thaliaIceColaAsset from "@/assets/products/thalia-8000-ice-cola.png.asset.json";
+import owlFitKitAsset from "@/assets/products/owlfit-rolling-kit.jpg.asset.json";
+import sihoGrinderAsset from "@/assets/products/siho-wood-grinder.jpg.asset.json";
+import q6LighterAsset from "@/assets/products/q6-lighter-box-25.jpg.asset.json";
 
 
 export type ProductCategory =
@@ -57,6 +60,9 @@ const categoryImages: Record<ProductCategory, string> = {
 export const products: Product[] = [
   // === Featured new arrivals (top of catalog) ===
   { id: "acc-t444-cones", name: "TRIPPLE444 108mm Rolling Papers (100 per barrel)", category: "Accessories", price: 150, description: "TRIPPLE444 pre-rolled 108mm cones — 100 unbleached natural cones per barrel. Slow, even burn with a smooth draw.", image: t444ConesAsset.url },
+  { id: "acc-owlfit-kit", name: "OwlFit Rolling Kit (Hard Case)", category: "Accessories", price: 650, description: "OwlFit premium rolling kit in a lockable hard carry case — rolling tray, cone filler, storage tubes, pre-rolled cones, tamper and tools. Complete kit, everything in one place.", image: owlFitKitAsset.url },
+  { id: "acc-siho-grinder", name: "SIHO Wood-Finish Crusher (4-Piece Grinder)", category: "Accessories", price: 105, description: "SIHO 4-piece grinder with a wood-finish body — sharp diamond teeth, magnetic lid, pollen screen and kief catcher.", image: sihoGrinderAsset.url },
+  { id: "acc-q6-lighter-25", name: "Q6 MR.RAM Lighter Box (25pcs)", category: "Accessories", price: 105, description: "Q6 MR.RAM high quality disposable lighters — full box of 25 pieces with collectible printed designs.", image: q6LighterAsset.url },
   { id: "acc-hornet-tips", name: "HORNET Natural Hemp & Cotton Rolling Tips and Rolling Paper (50 leaves)", category: "Accessories", price: 165, description: "HORNET perforated natural hemp & cotton rolling tips — 50 leaves of finest quality filter paper. Perfect roach for a cleaner smoke.", image: hornetTipsAsset.url },
   { id: "acc-hp-cherry-pig", name: "HoneyPuff Hemp Wraps — Honey Cherry Pig", category: "Accessories", price: 175, description: "HoneyPuff organic hemp wraps in Honey Cherry Pig flavour. Tobacco-free, nicotine-free, GMO-free with 2 filter tips per pack.", image: hpCherryPigAsset.url },
   { id: "acc-fruitors-ashtray", name: "Fruitors Skull-Shaped Ashtray Set", category: "Accessories", price: 650, description: "Fruitors 6-piece skull-shaped glass ashtray set in a vibrant collectible box. Heavy-duty glass with bold fruit character graphics.", image: fruitorsAshtrayAsset.url },
