@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { AlertTriangle, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { AGE_TOKEN_KEY, AGE_VERIFIED_KEY, hasUnexpiredAgeToken } from "@/lib/age-verification";
@@ -11,8 +9,6 @@ import { Analytics } from "@/lib/analytics";
 export default function AgeVerification() {
   const [show, setShow] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [dob, setDob] = useState("");
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const verified = localStorage.getItem(AGE_VERIFIED_KEY) === "true";
@@ -24,19 +20,18 @@ export default function AgeVerification() {
   }, []);
 
   const handleConfirm = async () => {
-    setError(null);
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(dob)) {
-      setError("Please enter your date of birth.");
-      return;
-    }
     setSubmitting(true);
     try {
       const { data, error } = await supabase.functions.invoke("issue-age-token", {
-        body: { date_of_birth: dob },
+        body: { confirmed_over_21: true },
       });
 
       if (error || !data?.token) {
-        setError("We couldn't verify that you're 21 or older.");
+        toast({
+          title: "Verification failed",
+          description: "Please try again to continue.",
+          variant: "destructive",
+        });
         return;
       }
 
@@ -74,21 +69,6 @@ export default function AgeVerification() {
           You must be <strong>21 years or older</strong> to enter this site.
         </p>
 
-        <div className="mt-5 text-left">
-          <Label htmlFor="age-dob" className="text-xs font-semibold uppercase tracking-wide">
-            Date of birth
-          </Label>
-          <Input
-            id="age-dob"
-            type="date"
-            value={dob}
-            max={new Date().toISOString().slice(0, 10)}
-            onChange={(e) => setDob(e.target.value)}
-            className="mt-1.5"
-          />
-          {error && <p className="mt-2 text-xs text-destructive">{error}</p>}
-        </div>
-
         <div className="mt-5 rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-left">
           <div className="flex items-start gap-2">
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" />
@@ -106,7 +86,7 @@ export default function AgeVerification() {
             I'm Under 21
           </Button>
           <Button className="flex-1" onClick={handleConfirm} disabled={submitting}>
-            {submitting ? "Verifying..." : "Verify & Enter"}
+            {submitting ? "Verifying..." : "I'm 21 or Older"}
           </Button>
         </div>
 
