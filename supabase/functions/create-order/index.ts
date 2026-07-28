@@ -13,7 +13,8 @@ const FREE_SHIPPING_THRESHOLD = 1200;
 
 // Server-authoritative promo code table. Max discount is capped at 90% below.
 const PROMO_CODES: Record<string, number> = {
-  WELCOME10: 10,
+  WELCOME5: 5,
+  WELCOME10: 5,
 };
 
 const PRODUCT_CATALOG: Record<string, { name: string; price: number }> = {

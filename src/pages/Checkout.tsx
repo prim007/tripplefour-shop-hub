@@ -22,7 +22,8 @@ import { saveAbandonedCart, markCartOrdered } from "@/lib/abandonedCart";
 // re-validates the code and re-computes the discount — this table is display
 // only and cannot grant a discount the server won't honor.
 const PROMO_CODES: Record<string, number> = {
-  WELCOME10: 10,
+  WELCOME5: 5,
+  WELCOME10: 5,
 };
 const validatePromo = async (code: string) => {
   const key = code.trim().toUpperCase();
