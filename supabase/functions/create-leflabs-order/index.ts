@@ -327,9 +327,9 @@ Deno.serve(async (req) => {
     }
 
     const total = subtotal + DELIVERY_FEE;
-    const orderRef = await generateOrderRef(supabase, "LEF");
 
     const supabase = adminClient;
+    const orderRef = await generateOrderRef(supabase, "LEF");
 
     // Persist order. We reuse the existing `orders` table — the LEF- prefix
     // on order_ref is what distinguishes Lëf Labs wholesale orders.
