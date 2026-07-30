@@ -33,7 +33,8 @@ export default function LefLabsOrder() {
 
   const [cart, setCart] = useState<CartItem[]>([]);
   const [submitting, setSubmitting] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<"payfast" | "eft">("payfast");
+  // Lëf Labs is EFT-only (ABSA account on their page). PayFast is not enabled.
+  const paymentMethod = "eft" as const;
   const [form, setForm] = useState({
     business_name: "",
     contact_name: "",
@@ -91,31 +92,12 @@ export default function LefLabsOrder() {
       });
       if (error) throw error;
 
-      // EFT path — no redirect, take user to confirmation with bank details.
-      if (data?.payment_method === "eft" && data?.order_ref) {
-        navigate(`/partners/lef-labs/order-complete?ref=${encodeURIComponent(data.order_ref)}&method=eft`);
-        return;
-      }
-
-      if (!data?.payfast_action || !data?.payfast_fields) throw new Error("Invalid response from server");
-
-      // Build and submit a PayFast form to redirect the browser.
-      const formEl = document.createElement("form");
-      formEl.method = "POST";
-      formEl.action = data.payfast_action;
-      for (const [k, v] of Object.entries(data.payfast_fields as Record<string, string>)) {
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = k;
-        input.value = v;
-        formEl.appendChild(input);
-      }
-      document.body.appendChild(formEl);
-      formEl.submit();
+      if (!data?.order_ref) throw new Error("Invalid response from server");
+      navigate(`/partners/lef-labs/order-complete?ref=${encodeURIComponent(data.order_ref)}&method=eft`);
     } catch (err: any) {
       console.error(err);
       toast({
-        title: "Could not start payment",
+        title: "Could not place order",
         description: err?.message || "Please try again or contact support.",
         variant: "destructive",
       });
@@ -270,46 +252,20 @@ export default function LefLabsOrder() {
 
                 <div className="space-y-2">
                   <Label className="text-xs uppercase tracking-widest text-muted-foreground">Payment method</Label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setPaymentMethod("payfast")}
-                      className={`rounded-lg border-2 p-3 text-left transition ${
-                        paymentMethod === "payfast"
-                          ? "border-primary bg-primary/5"
-                          : "border-border bg-card hover:border-primary/40"
-                      }`}
-                    >
-                      <p className="font-display text-sm font-bold">PayFast</p>
-                      <p className="mt-0.5 text-[11px] text-muted-foreground">Card · Instant EFT · SnapScan</p>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setPaymentMethod("eft")}
-                      className={`rounded-lg border-2 p-3 text-left transition ${
-                        paymentMethod === "eft"
-                          ? "border-primary bg-primary/5"
-                          : "border-border bg-card hover:border-primary/40"
-                      }`}
-                    >
-                      <p className="font-display text-sm font-bold">Direct EFT</p>
-                      <p className="mt-0.5 text-[11px] text-muted-foreground">Pay into our ABSA account</p>
-                    </button>
+                  <div className="rounded-lg border-2 border-primary bg-primary/5 p-3">
+                    <p className="font-display text-sm font-bold">Direct EFT — Absa</p>
+                    <p className="mt-0.5 text-[11px] text-muted-foreground">
+                      Pay into the Lëf Labs Absa account using the reference we generate for your order.
+                    </p>
                   </div>
                 </div>
 
                 <Button onClick={handleCheckout} disabled={submitting || cart.length === 0} className="w-full gap-2" size="lg">
                   {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4" />}
-                  {submitting
-                    ? (paymentMethod === "eft" ? "Creating order…" : "Redirecting…")
-                    : (paymentMethod === "eft"
-                        ? `Place R${subtotal.toFixed(2)} order (EFT)`
-                        : `Pay R${subtotal.toFixed(2)} via PayFast`)}
+                  {submitting ? "Creating order…" : `Place R${subtotal.toFixed(2)} order (EFT)`}
                 </Button>
                 <p className="text-[11px] text-muted-foreground text-center">
-                  {paymentMethod === "eft"
-                    ? "We'll generate a unique reference for your ABSA deposit."
-                    : "You will be redirected to PayFast's secure hosted checkout."}
+                  We'll generate a unique reference for your Absa deposit.
                 </p>
               </div>
 
@@ -317,10 +273,10 @@ export default function LefLabsOrder() {
               <div className="rounded-xl border-2 border-dashed border-border bg-card p-5">
                 <div className="mb-3 flex items-center gap-2">
                   <Building2 className="h-5 w-5 text-primary" />
-                  <h3 className="font-display text-lg font-bold">EFT Alternative</h3>
+                  <h3 className="font-display text-lg font-bold">Lëf Labs Banking Details</h3>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Choose <strong>Direct EFT</strong> above to place the order and receive a unique reference. Use that reference (not the product name) when paying into the account below — it tells us which order to dispatch.
+                  Place the order above to receive a unique reference. Use that reference (not the product name) when paying into the account below — it tells us which order to dispatch.
                 </p>
                 <dl className="mt-3 grid grid-cols-[120px_1fr] gap-y-1.5 text-sm">
                   <dt className="text-muted-foreground">Account name</dt>
