@@ -283,10 +283,10 @@ Deno.serve(async (req) => {
       delivery_address,
       items,
       notes,
-      payment_method: requestedMethod,
     } = body;
 
-    const paymentMethod = requestedMethod === "eft" ? "eft" : "payfast";
+    // Lëf Labs is EFT-only (Absa account). PayFast is not enabled for this partner.
+    const paymentMethod = "eft";
 
     if (!business_name || !contact_name || !email || !phone || !delivery_address || !Array.isArray(items) || items.length === 0) {
       return new Response(JSON.stringify({ error: "Missing required fields" }), {
