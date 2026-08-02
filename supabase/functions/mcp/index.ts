@@ -3,7 +3,7 @@
 // supabase function: mcp
 // Bundled from src/lib/mcp/index.ts by @lovable.dev/mcp-js.
 // src/lib/mcp/index.ts
-import { defineMcp } from "npm:@lovable.dev/mcp-js@0.26.1";
+import { auth, defineMcp } from "npm:@lovable.dev/mcp-js@0.26.1";
 
 // src/lib/mcp/tools/list-products.ts
 import { defineTool } from "npm:@lovable.dev/mcp-js@0.26.1";
@@ -150,11 +150,16 @@ var list_categories_default = defineTool4({
 });
 
 // src/lib/mcp/index.ts
+var projectRef = "yytjfmadcreajcrkjsrk";
 var mcp_default = defineMcp({
   name: "tripplefour-mcp",
   title: "Tripplefour Shop MCP",
   version: "0.1.0",
   instructions: "Tools for browsing the Tripplefour cannabis shop (South Africa). Use list_categories and list_products to explore the catalog, search_products for keyword search, and get_product for full details. All prices are in South African Rands (ZAR).",
+  auth: auth.oauth.issuer({
+    issuer: `https://${projectRef}.supabase.co/auth/v1`,
+    acceptedAudiences: "authenticated"
+  }),
   tools: [list_categories_default, list_products_default, search_products_default, get_product_default]
 });
 
