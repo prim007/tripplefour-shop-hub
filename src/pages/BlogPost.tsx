@@ -151,7 +151,7 @@ export default function BlogPost() {
 
           {post.sources.length > 0 && (
             <div className="mt-10 rounded-xl border bg-card p-5">
-              <h3 className="font-display text-lg font-bold text-foreground mb-3">Sources</h3>
+              <h2 className="font-display text-lg font-bold text-foreground mb-3">Sources</h2>
               <ul className="space-y-2">
                 {post.sources.map((source, idx) => (
                   <li key={idx}>
@@ -173,9 +173,9 @@ export default function BlogPost() {
           {/* AI Chat CTA */}
           <div className="mt-10 rounded-2xl border-2 border-primary/20 bg-primary/5 p-6 text-center">
             <p className="text-3xl mb-2">🌿</p>
-            <h3 className="font-display text-lg font-bold text-foreground">
+            <h2 className="font-display text-lg font-bold text-foreground">
               Got questions about this topic?
-            </h3>
+            </h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Ask Cuddles AI — your groovy CBD assistant is just a click away!
             </p>
