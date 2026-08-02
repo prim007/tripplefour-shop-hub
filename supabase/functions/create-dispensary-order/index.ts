@@ -1,5 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { generateOrderRef } from "../_shared/order-ref.ts";
+import { verifyAgeToken } from "../_shared/age-token.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -54,10 +55,22 @@ Deno.serve(async (req) => {
       custom_requests,
       notes,
       delivery_zone_id,
+      age_token,
     } = body ?? {};
 
     if (!business_name || !contact_name || !email || !phone || !delivery_address) {
       return json({ error: "Missing required business details" }, 400);
+    }
+
+    // Age gate: the wholesale portal sells the same age-restricted products as
+    // the retail checkout, so it requires the same signed 21+ token.
+    const signingSecret =
+      Deno.env.get("ADMIN_SECRET_KEY") || Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    if (!(await verifyAgeToken(age_token, signingSecret))) {
+      return json(
+        { error: "Age verification required. Please confirm you are 21 or older and try again." },
+        401,
+      );
     }
 
     const hasItems = Array.isArray(items) && items.length > 0;
