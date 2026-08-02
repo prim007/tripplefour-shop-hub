@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { AGE_TOKEN_KEY, AGE_VERIFIED_KEY, hasUnexpiredAgeToken } from "@/lib/age-verification";
 import { products, categories, type Product } from "@/data/products";
 import logoUrl from "@/assets/tripple444-logo.png";
 
@@ -248,6 +249,18 @@ export default function Dispensaries() {
     }
     setSubmitting(true);
     try {
+      const ageToken = localStorage.getItem(AGE_TOKEN_KEY);
+      if (!hasUnexpiredAgeToken(ageToken)) {
+        toast({
+          title: "Age verification required",
+          description: "Please confirm you are 21 or older, then submit again.",
+          variant: "destructive",
+        });
+        localStorage.removeItem(AGE_TOKEN_KEY);
+        localStorage.removeItem(AGE_VERIFIED_KEY);
+        window.location.reload();
+        return;
+      }
       const { data, error } = await supabase.functions.invoke("create-dispensary-order", {
         body: {
           ...form,
@@ -255,6 +268,7 @@ export default function Dispensaries() {
           delivery_zone_id: zoneId,
           items: lines.map((l) => ({ id: l.product.id, quantity: l.quantity })),
           custom_requests: customRequests,
+          age_token: ageToken,
         },
       });
       if (error) throw error;

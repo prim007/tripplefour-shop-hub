@@ -132,7 +132,13 @@ Deno.serve(async (req) => {
     for (const [k, v] of params.entries()) data[k] = v;
 
     // 1. Verify signature
-    const passphrase = Deno.env.get("PAYFAST_PASSPHRASE") || null;
+    // A passphrase is mandatory: without it any caller could compute a valid
+    // signature themselves and forge a "paid" notification.
+    const passphrase = Deno.env.get("PAYFAST_PASSPHRASE");
+    if (!passphrase || !passphrase.trim()) {
+      console.error("PAYFAST_PASSPHRASE is not configured — rejecting ITN");
+      return new Response("Not configured", { status: 503 });
+    }
     const received = data.signature || "";
     const fieldsForSig: Record<string, string> = { ...data };
     delete fieldsForSig.signature;
@@ -142,9 +148,7 @@ Deno.serve(async (req) => {
       parts.push(`${key}=${urlEncodePayfast(String(value).trim())}`);
     }
     let signatureString = parts.join("&");
-    if (passphrase && passphrase.trim()) {
-      signatureString += `&passphrase=${urlEncodePayfast(passphrase.trim())}`;
-    }
+    signatureString += `&passphrase=${urlEncodePayfast(passphrase.trim())}`;
     const expected = await md5(signatureString);
     if (expected !== received.toLowerCase()) {
       console.warn("PayFast ITN signature mismatch", { orderRef: data.m_payment_id });
@@ -152,12 +156,19 @@ Deno.serve(async (req) => {
     }
 
     // 2. Postback to PayFast to confirm the message originated from them.
+    //    Fail closed: anything other than an explicit VALID response is rejected,
+    //    so an unreachable/erroring validation server can never mark an order paid.
     try {
       const validateRes = await fetch(PAYFAST_VALIDATE_URL, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: rawBody,
+        signal: AbortSignal.timeout(10000),
       });
+      if (!validateRes.ok) {
+        console.warn("PayFast validate HTTP error:", validateRes.status);
+        return new Response("Not validated", { status: 400 });
+      }
       const validateText = (await validateRes.text()).trim();
       if (!validateText.startsWith("VALID")) {
         console.warn("PayFast validate returned non-VALID:", validateText);
@@ -165,7 +176,7 @@ Deno.serve(async (req) => {
       }
     } catch (e) {
       console.error("PayFast validate postback failed:", e);
-      // Continue — signature check passed. Some sandbox responses are slow.
+      return new Response("Validation unavailable", { status: 400 });
     }
 
     // 3. Look up the order and verify amount.
