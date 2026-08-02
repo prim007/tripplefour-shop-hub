@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { AGE_TOKEN_KEY, hasUnexpiredAgeToken } from "@/lib/age-verification";
+import { AGE_TOKEN_KEY, AGE_VERIFIED_KEY, hasUnexpiredAgeToken } from "@/lib/age-verification";
 import { products, categories, type Product } from "@/data/products";
 import logoUrl from "@/assets/tripple444-logo.png";
 
@@ -257,6 +257,7 @@ export default function Dispensaries() {
           variant: "destructive",
         });
         localStorage.removeItem(AGE_TOKEN_KEY);
+        localStorage.removeItem(AGE_VERIFIED_KEY);
         window.location.reload();
         return;
       }
