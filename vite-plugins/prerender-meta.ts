@@ -45,7 +45,7 @@ export default function prerenderMeta(): Plugin {
 }
 
 /**
- * Build-time fetch of published blog posts so每 /blog/<slug> ships a static
+ * Build-time fetch of published blog posts so each /blog/<slug> ships a static
  * HTML snapshot with real title, description, Article JSON-LD and readable
  * body text. Without this, every blog URL served the generic homepage head
  * and empty body, so crawlers had nothing to index.
@@ -104,7 +104,7 @@ async function fetchBlogRoutes(): Promise<RouteMeta[]> {
           mainEntityOfPage: pageUrl,
           ...(p.cover_image ? { image: p.cover_image } : {}),
         },
-        bodySnippet: `<article id="prerender-article"><h1>${esc(p.title)}</h1>${paragraphs
+        bodySnippet: `<article id="prerender-article" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;"><h1>${esc(p.title)}</h1>${paragraphs
           .map((t) => `<p>${esc(t)}</p>`)
           .join("")}</article>`,
       };
