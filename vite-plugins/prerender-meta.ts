@@ -27,16 +27,101 @@ export default function prerenderMeta(): Plugin {
         return;
       }
 
-      for (const route of routes) {
+      const blogRoutes = await fetchBlogRoutes();
+      const allRoutes = [...routes, ...blogRoutes];
+
+      for (const route of allRoutes) {
         const html = rewriteHead(baseHtml, route);
         const routeDir = path.join(outDir, route.path.replace(/^\//, ""));
         await fs.mkdir(routeDir, { recursive: true });
         await fs.writeFile(path.join(routeDir, "index.html"), html, "utf8");
       }
       // eslint-disable-next-line no-console
-      console.log(`[prerender-meta] wrote ${routes.length} route snapshots`);
+      console.log(
+        `[prerender-meta] wrote ${allRoutes.length} route snapshots (${blogRoutes.length} blog posts)`
+      );
     },
   };
+}
+
+/**
+ * Build-time fetch of published blog posts so each /blog/<slug> ships a static
+ * HTML snapshot with real title, description, Article JSON-LD and readable
+ * body text. Without this, every blog URL served the generic homepage head
+ * and empty body, so crawlers had nothing to index.
+ */
+async function fetchBlogRoutes(): Promise<RouteMeta[]> {
+  const url = process.env.VITE_SUPABASE_URL;
+  const key = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+  if (!url || !key) {
+    // eslint-disable-next-line no-console
+    console.warn("[prerender-meta] no backend env vars — skipping blog prerender");
+    return [];
+  }
+  try {
+    const res = await fetch(
+      `${url}/rest/v1/blog_posts?select=title,slug,excerpt,content,cover_image,published_at&published=eq.true&order=published_at.desc`,
+      { headers: { apikey: key, Authorization: `Bearer ${key}` } }
+    );
+    if (!res.ok) {
+      // eslint-disable-next-line no-console
+      console.warn(`[prerender-meta] blog fetch failed [${res.status}]: ${await res.text()}`);
+      return [];
+    }
+    const posts = (await res.json()) as {
+      title: string;
+      slug: string;
+      excerpt: string | null;
+      content: string;
+      cover_image: string | null;
+      published_at: string;
+    }[];
+
+    return posts.map<RouteMeta>((p) => {
+      const pageUrl = `${BASE_URL}/blog/${p.slug}`;
+      const desc = clipText(
+        (p.excerpt || p.content).replace(/\s+/g, " ").trim(),
+        155
+      );
+      const paragraphs = p.content
+        .split(/\n{2,}/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+      return {
+        path: `/blog/${p.slug}`,
+        title: clipText(`${p.title} | Tripplefour CBD Blog`, 65),
+        description: desc,
+        ogType: "article",
+        ...(p.cover_image ? { ogImage: p.cover_image } : {}),
+        jsonLd: {
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: p.title,
+          datePublished: p.published_at,
+          author: { "@type": "Organization", name: "Tripplefour" },
+          publisher: { "@type": "Organization", name: "Tripplefour", url: BASE_URL },
+          url: pageUrl,
+          mainEntityOfPage: pageUrl,
+          ...(p.cover_image ? { image: p.cover_image } : {}),
+        },
+        bodySnippet: `<article id="prerender-article" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;"><h1>${esc(p.title)}</h1>${paragraphs
+          .map((t) => `<p>${esc(t)}</p>`)
+          .join("")}</article>`,
+      };
+    });
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn("[prerender-meta] blog prerender skipped:", err);
+    return [];
+  }
+}
+
+function clipText(s: string, n: number): string {
+  return s.length > n ? s.slice(0, n - 1) + "…" : s;
+}
+
+function esc(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 function escapeHtml(s: string): string {
