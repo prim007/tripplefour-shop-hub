@@ -321,6 +321,10 @@ export default function Checkout() {
       setServerDeliveryFee(result.delivery_fee ?? null);
       setDeliveryZoneName(result.delivery_zone_name || selectedZone.zone_name);
       setStatusToken(result.status_token || "");
+      setInvoiceItems(
+        items.map((i) => ({ name: i.product.name, quantity: i.quantity, price: i.product.price })),
+      );
+      setInvoiceSubtotal(totalPrice);
       Analytics.beginCheckout(gaItems, result.total, promoApplied ? promoCode : undefined);
       Analytics.addPaymentInfo(gaItems, "eft_or_payfast", result.total);
       trackFunnel("begin_checkout", undefined, { total: result.total, method: "eft", items: items.length });
