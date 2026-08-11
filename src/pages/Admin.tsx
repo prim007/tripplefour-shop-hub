@@ -269,6 +269,20 @@ export default function Admin() {
                     <p className="text-xs text-muted-foreground">{new Date(order.created_at).toLocaleString()}</p>
                   </div>
                   <div className="flex items-center gap-2">
+                    {(() => {
+                      const inv = order.invoice_status ?? (order.payment_status === "confirmed" ? "paid" : "unpaid");
+                      const styles: Record<string, string> = {
+                        paid: "bg-primary/10 text-primary",
+                        unpaid: "bg-accent/10 text-accent",
+                        overdue: "bg-destructive/10 text-destructive",
+                      };
+                      return (
+                        <span className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${styles[inv]}`}>
+                          {inv === "paid" ? <CheckCircle className="h-3 w-3" /> : <Clock className="h-3 w-3" />}
+                          {inv}
+                        </span>
+                      );
+                    })()}
                     {order.payment_status === "confirmed" ? (
                       <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
                         <CheckCircle className="h-3 w-3" /> Paid
@@ -290,6 +304,13 @@ export default function Admin() {
                   <div><span className="text-muted-foreground">Address:</span> {order.delivery_address}</div>
                 </div>
 
+                {order.invoice_due_date && (
+                  <div className="text-sm">
+                    <span className="text-muted-foreground">Invoice due:</span>{" "}
+                    {new Date(order.invoice_due_date).toLocaleDateString()}
+                  </div>
+                )}
+
                 <div className="text-sm">
                   <span className="text-muted-foreground">Items: </span>
                   {(order.items as any[]).map((i: any) => `${i.quantity}x ${i.name}`).join(", ")}
@@ -302,16 +323,34 @@ export default function Admin() {
                     <span className="text-primary font-bold">Total: R{Number(order.total).toLocaleString()}</span>
                   </div>
 
-                  {order.payment_status !== "confirmed" && (
-                    <Button
-                      size="sm"
-                      onClick={() => confirmPayment(order.id, order.order_ref)}
-                      disabled={confirming === order.id}
+                  <div className="flex items-center gap-2">
+                    <Label htmlFor={`inv-${order.id}`} className="text-xs text-muted-foreground">
+                      Invoice
+                    </Label>
+                    <select
+                      id={`inv-${order.id}`}
+                      aria-label={`Invoice status for order ${order.order_ref}`}
+                      className="h-9 rounded-md border border-input bg-background px-2 text-sm"
+                      value={order.invoice_status ?? (order.payment_status === "confirmed" ? "paid" : "unpaid")}
+                      disabled={invoiceUpdating === order.id}
+                      onChange={(e) => setInvoiceStatus(order.id, order.order_ref, e.target.value)}
                     >
-                      <CheckCircle className="h-4 w-4 mr-1.5" />
-                      {confirming === order.id ? "Marking..." : "Mark as Paid"}
-                    </Button>
-                  )}
+                      <option value="unpaid">Unpaid</option>
+                      <option value="paid">Paid</option>
+                      <option value="overdue">Overdue</option>
+                    </select>
+
+                    {order.payment_status !== "confirmed" && (
+                      <Button
+                        size="sm"
+                        onClick={() => confirmPayment(order.id, order.order_ref)}
+                        disabled={confirming === order.id}
+                      >
+                        <CheckCircle className="h-4 w-4 mr-1.5" />
+                        {confirming === order.id ? "Marking..." : "Mark as Paid"}
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
