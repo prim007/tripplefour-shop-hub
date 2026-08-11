@@ -355,7 +355,7 @@ export default function Admin() {
                     <span className="text-primary font-bold">Total: R{Number(order.total).toLocaleString()}</span>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <Label htmlFor={`inv-${order.id}`} className="text-xs text-muted-foreground">
                       Invoice
                     </Label>
@@ -371,6 +371,17 @@ export default function Admin() {
                       <option value="paid">Paid</option>
                       <option value="overdue">Overdue</option>
                     </select>
+
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="gap-1.5"
+                      onClick={() => downloadInvoice(order)}
+                      disabled={invoiceDownloading === order.id}
+                    >
+                      <Download className="h-4 w-4" />
+                      {invoiceDownloading === order.id ? "Preparing…" : "Invoice PDF"}
+                    </Button>
 
                     {order.payment_status !== "confirmed" && (
                       <Button
