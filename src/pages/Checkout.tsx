@@ -404,9 +404,21 @@ export default function Checkout() {
                 </div>
               </div>
             </div>
-            <Button onClick={() => navigate("/shop")} size="lg" className="w-full">
-              Continue Shopping
-            </Button>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button
+                onClick={() => handleDownloadInvoice("paid")}
+                size="lg"
+                variant="outline"
+                disabled={downloadingInvoice}
+                className="w-full gap-2"
+              >
+                <Download className="h-4 w-4" />
+                {downloadingInvoice ? "Preparing…" : "Download invoice (PDF)"}
+              </Button>
+              <Button onClick={() => navigate("/shop")} size="lg" className="w-full">
+                Continue Shopping
+              </Button>
+            </div>
           </div>
         </main>
         <Footer />
@@ -479,6 +491,16 @@ export default function Checkout() {
                 <li>This page will update automatically once payment is confirmed</li>
               </ul>
             </div>
+
+            <Button
+              onClick={() => handleDownloadInvoice("unpaid")}
+              disabled={downloadingInvoice}
+              className="w-full gap-2"
+              size="lg"
+            >
+              <Download className="h-4 w-4" />
+              {downloadingInvoice ? "Preparing invoice…" : "Download invoice (PDF)"}
+            </Button>
 
             <Button asChild variant="outline" className="w-full">
               <a href={`https://wa.me/27645436734?text=${encodeURIComponent(`Hi, I just placed order ${orderRef} and made payment of R${displayTotal}`)}`} target="_blank" rel="noopener noreferrer">
