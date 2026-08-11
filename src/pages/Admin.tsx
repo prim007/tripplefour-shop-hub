@@ -27,6 +27,8 @@ interface Order {
   payment_status: string;
   status: string;
   created_at: string;
+  invoice_status?: string | null;
+  invoice_due_date?: string | null;
 }
 
 interface AbandonedCart {
@@ -45,6 +47,7 @@ export default function Admin() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(false);
   const [confirming, setConfirming] = useState<string | null>(null);
+  const [invoiceUpdating, setInvoiceUpdating] = useState<string | null>(null);
   const [carts, setCarts] = useState<AbandonedCart[]>([]);
   const [cartsLoading, setCartsLoading] = useState(false);
 
@@ -106,6 +109,24 @@ export default function Admin() {
       toast({ title: "Error", description: "Failed to mark order as paid.", variant: "destructive" });
     }
     setConfirming(null);
+  };
+
+  const setInvoiceStatus = async (orderId: string, orderRef: string, invoiceStatus: string) => {
+    setInvoiceUpdating(orderId);
+    try {
+      const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-orders?action=set-invoice-status`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "x-admin-key": adminKey, "Content-Type": "application/json" },
+        body: JSON.stringify({ order_id: orderId, invoice_status: invoiceStatus }),
+      });
+      if (!response.ok) throw new Error("Failed");
+      toast({ title: "Invoice updated", description: `${orderRef} marked as ${invoiceStatus.toUpperCase()}.` });
+      await fetchOrders();
+    } catch {
+      toast({ title: "Error", description: "Failed to update invoice status.", variant: "destructive" });
+    }
+    setInvoiceUpdating(null);
   };
 
   const fetchAbandonedCarts = async (key?: string) => {
