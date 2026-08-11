@@ -77,7 +77,12 @@ Deno.serve(async (req) => {
 
       const { data, error } = await supabase
         .from("orders")
-        .update({ payment_status: "confirmed", status: "processing" })
+        .update({
+          payment_status: "confirmed",
+          status: "processing",
+          invoice_status: "paid",
+          invoice_paid_at: new Date().toISOString(),
+        })
         .eq("id", order_id)
         .select()
         .single();
@@ -90,6 +95,48 @@ Deno.serve(async (req) => {
         .update({ status: "confirmed" })
         .eq("order_id", order_id)
         .eq("status", "pending");
+
+      return new Response(JSON.stringify(data), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    if (action === "set-invoice-status") {
+      const body = await req.json();
+      const order_id = String(body.order_id || "");
+      const invoice_status = String(body.invoice_status || "");
+      const ALLOWED = ["unpaid", "paid", "overdue"];
+      if (!order_id || !ALLOWED.includes(invoice_status)) {
+        return new Response(JSON.stringify({ error: "order_id and a valid invoice_status are required" }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      const patch: Record<string, unknown> = {
+        invoice_status,
+        invoice_paid_at: invoice_status === "paid" ? new Date().toISOString() : null,
+      };
+      if (invoice_status === "paid") {
+        patch.payment_status = "confirmed";
+        patch.status = "processing";
+      }
+
+      const { data, error } = await supabase
+        .from("orders")
+        .update(patch)
+        .eq("id", order_id)
+        .select()
+        .single();
+      if (error) throw error;
+
+      if (invoice_status === "paid") {
+        await supabase
+          .from("affiliate_referrals")
+          .update({ status: "confirmed" })
+          .eq("order_id", order_id)
+          .eq("status", "pending");
+      }
 
       return new Response(JSON.stringify(data), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },

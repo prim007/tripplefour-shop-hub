@@ -393,6 +393,9 @@ export type Database = {
           delivery_fee: number
           delivery_zone_id: string | null
           id: string
+          invoice_due_date: string | null
+          invoice_paid_at: string | null
+          invoice_status: string
           items: Json
           order_ref: string
           payment_method: string
@@ -412,6 +415,9 @@ export type Database = {
           delivery_fee?: number
           delivery_zone_id?: string | null
           id?: string
+          invoice_due_date?: string | null
+          invoice_paid_at?: string | null
+          invoice_status?: string
           items?: Json
           order_ref: string
           payment_method?: string
@@ -431,6 +437,9 @@ export type Database = {
           delivery_fee?: number
           delivery_zone_id?: string | null
           id?: string
+          invoice_due_date?: string | null
+          invoice_paid_at?: string | null
+          invoice_status?: string
           items?: Json
           order_ref?: string
           payment_method?: string
