@@ -344,6 +344,37 @@ export default function Checkout() {
   const displayDiscount = serverTotal ? serverDiscount : discountAmount;
   const displayDeliveryFee = serverDeliveryFee ?? deliveryFee;
 
+  const handleDownloadInvoice = async (status: "unpaid" | "paid") => {
+    setDownloadingInvoice(true);
+    try {
+      const filename = await downloadInvoicePdf({
+        orderRef,
+        date: new Date(),
+        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        status,
+        customerName: form.name.trim(),
+        customerEmail: form.email.trim(),
+        customerPhone: form.phone.trim(),
+        deliveryAddress: form.address.trim(),
+        deliveryZoneName: deliveryZoneName || selectedZone?.zone_name || null,
+        items: invoiceItems,
+        subtotal: invoiceSubtotal,
+        discount: displayDiscount,
+        deliveryFee: displayDeliveryFee,
+        total: displayTotal,
+      });
+      toast({ title: "Invoice ready", description: filename });
+    } catch (err) {
+      console.error("Invoice generation failed", err);
+      toast({
+        title: "Could not generate invoice",
+        description: "Please try again in a moment.",
+        variant: "destructive",
+      });
+    }
+    setDownloadingInvoice(false);
+  };
+
   // Step: Payment confirmed
   if (step === "confirmed") {
     return (
