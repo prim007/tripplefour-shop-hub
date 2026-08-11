@@ -9,7 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { CheckCircle, Clock, Truck, AlertTriangle, Tag, Loader2, Shield, Heart } from "lucide-react";
+import { CheckCircle, Clock, Truck, AlertTriangle, Tag, Loader2, Shield, Heart, Download } from "lucide-react";
+import { downloadInvoicePdf, type InvoiceItem } from "@/lib/invoicePdf";
 import { Analytics } from "@/lib/analytics";
 import { AGE_TOKEN_KEY } from "@/lib/age-verification";
 import { trackFunnel } from "@/lib/funnel";
@@ -69,6 +70,10 @@ export default function Checkout() {
   const [deliveryZoneName, setDeliveryZoneName] = useState("");
   const [statusToken, setStatusToken] = useState("");
   const [affiliateCode, setAffiliateCode] = useState("");
+  // Snapshot of the ordered items so the invoice still works after the cart clears
+  const [invoiceItems, setInvoiceItems] = useState<InvoiceItem[]>([]);
+  const [invoiceSubtotal, setInvoiceSubtotal] = useState(0);
+  const [downloadingInvoice, setDownloadingInvoice] = useState(false);
 
   // Pre-fill affiliate code from stored ?ref= URL param
   useEffect(() => {
@@ -316,6 +321,10 @@ export default function Checkout() {
       setServerDeliveryFee(result.delivery_fee ?? null);
       setDeliveryZoneName(result.delivery_zone_name || selectedZone.zone_name);
       setStatusToken(result.status_token || "");
+      setInvoiceItems(
+        items.map((i) => ({ name: i.product.name, quantity: i.quantity, price: i.product.price })),
+      );
+      setInvoiceSubtotal(totalPrice);
       Analytics.beginCheckout(gaItems, result.total, promoApplied ? promoCode : undefined);
       Analytics.addPaymentInfo(gaItems, "eft_or_payfast", result.total);
       trackFunnel("begin_checkout", undefined, { total: result.total, method: "eft", items: items.length });
@@ -334,6 +343,37 @@ export default function Checkout() {
   const displayTotal = serverTotal ?? grandTotal;
   const displayDiscount = serverTotal ? serverDiscount : discountAmount;
   const displayDeliveryFee = serverDeliveryFee ?? deliveryFee;
+
+  const handleDownloadInvoice = async (status: "unpaid" | "paid") => {
+    setDownloadingInvoice(true);
+    try {
+      const filename = await downloadInvoicePdf({
+        orderRef,
+        date: new Date(),
+        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        status,
+        customerName: form.name.trim(),
+        customerEmail: form.email.trim(),
+        customerPhone: form.phone.trim(),
+        deliveryAddress: form.address.trim(),
+        deliveryZoneName: deliveryZoneName || selectedZone?.zone_name || null,
+        items: invoiceItems,
+        subtotal: invoiceSubtotal,
+        discount: displayDiscount,
+        deliveryFee: displayDeliveryFee,
+        total: displayTotal,
+      });
+      toast({ title: "Invoice ready", description: filename });
+    } catch (err) {
+      console.error("Invoice generation failed", err);
+      toast({
+        title: "Could not generate invoice",
+        description: "Please try again in a moment.",
+        variant: "destructive",
+      });
+    }
+    setDownloadingInvoice(false);
+  };
 
   // Step: Payment confirmed
   if (step === "confirmed") {
@@ -364,9 +404,21 @@ export default function Checkout() {
                 </div>
               </div>
             </div>
-            <Button onClick={() => navigate("/shop")} size="lg" className="w-full">
-              Continue Shopping
-            </Button>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button
+                onClick={() => handleDownloadInvoice("paid")}
+                size="lg"
+                variant="outline"
+                disabled={downloadingInvoice}
+                className="w-full gap-2"
+              >
+                <Download className="h-4 w-4" />
+                {downloadingInvoice ? "Preparing…" : "Download invoice (PDF)"}
+              </Button>
+              <Button onClick={() => navigate("/shop")} size="lg" className="w-full">
+                Continue Shopping
+              </Button>
+            </div>
           </div>
         </main>
         <Footer />
@@ -439,6 +491,16 @@ export default function Checkout() {
                 <li>This page will update automatically once payment is confirmed</li>
               </ul>
             </div>
+
+            <Button
+              onClick={() => handleDownloadInvoice("unpaid")}
+              disabled={downloadingInvoice}
+              className="w-full gap-2"
+              size="lg"
+            >
+              <Download className="h-4 w-4" />
+              {downloadingInvoice ? "Preparing invoice…" : "Download invoice (PDF)"}
+            </Button>
 
             <Button asChild variant="outline" className="w-full">
               <a href={`https://wa.me/27645436734?text=${encodeURIComponent(`Hi, I just placed order ${orderRef} and made payment of R${displayTotal}`)}`} target="_blank" rel="noopener noreferrer">
