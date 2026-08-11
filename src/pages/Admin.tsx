@@ -6,7 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { CheckCircle, Clock, Lock, Package, RefreshCw, MessageCircle, X } from "lucide-react";
+import { CheckCircle, Clock, Lock, Package, RefreshCw, MessageCircle, X, Download } from "lucide-react";
+import { downloadInvoicePdf, type InvoiceStatus } from "@/lib/invoicePdf";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AdminAffiliates from "@/components/AdminAffiliates";
@@ -48,6 +49,7 @@ export default function Admin() {
   const [loading, setLoading] = useState(false);
   const [confirming, setConfirming] = useState<string | null>(null);
   const [invoiceUpdating, setInvoiceUpdating] = useState<string | null>(null);
+  const [invoiceDownloading, setInvoiceDownloading] = useState<string | null>(null);
   const [carts, setCarts] = useState<AbandonedCart[]>([]);
   const [cartsLoading, setCartsLoading] = useState(false);
 
@@ -127,6 +129,36 @@ export default function Admin() {
       toast({ title: "Error", description: "Failed to update invoice status.", variant: "destructive" });
     }
     setInvoiceUpdating(null);
+  };
+
+  const downloadInvoice = async (order: Order) => {
+    setInvoiceDownloading(order.id);
+    try {
+      const status = (order.invoice_status ??
+        (order.payment_status === "confirmed" ? "paid" : "unpaid")) as InvoiceStatus;
+      await downloadInvoicePdf({
+        orderRef: order.order_ref,
+        date: order.created_at,
+        dueDate: order.invoice_due_date ?? null,
+        status,
+        customerName: order.customer_name,
+        customerEmail: order.customer_email,
+        customerPhone: order.customer_phone,
+        deliveryAddress: order.delivery_address,
+        items: (order.items as any[]).map((i) => ({
+          name: i.name,
+          quantity: Number(i.quantity) || 1,
+          price: Number(i.price) || 0,
+        })),
+        subtotal: Number(order.subtotal),
+        deliveryFee: Number(order.delivery_fee),
+        total: Number(order.total),
+      });
+    } catch (err) {
+      console.error("Invoice generation failed", err);
+      toast({ title: "Error", description: "Could not generate the invoice PDF.", variant: "destructive" });
+    }
+    setInvoiceDownloading(null);
   };
 
   const fetchAbandonedCarts = async (key?: string) => {
