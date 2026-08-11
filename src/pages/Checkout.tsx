@@ -9,7 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { CheckCircle, Clock, Truck, AlertTriangle, Tag, Loader2, Shield, Heart } from "lucide-react";
+import { CheckCircle, Clock, Truck, AlertTriangle, Tag, Loader2, Shield, Heart, Download } from "lucide-react";
+import { downloadInvoicePdf, type InvoiceItem } from "@/lib/invoicePdf";
 import { Analytics } from "@/lib/analytics";
 import { AGE_TOKEN_KEY } from "@/lib/age-verification";
 import { trackFunnel } from "@/lib/funnel";
@@ -69,6 +70,10 @@ export default function Checkout() {
   const [deliveryZoneName, setDeliveryZoneName] = useState("");
   const [statusToken, setStatusToken] = useState("");
   const [affiliateCode, setAffiliateCode] = useState("");
+  // Snapshot of the ordered items so the invoice still works after the cart clears
+  const [invoiceItems, setInvoiceItems] = useState<InvoiceItem[]>([]);
+  const [invoiceSubtotal, setInvoiceSubtotal] = useState(0);
+  const [downloadingInvoice, setDownloadingInvoice] = useState(false);
 
   // Pre-fill affiliate code from stored ?ref= URL param
   useEffect(() => {
