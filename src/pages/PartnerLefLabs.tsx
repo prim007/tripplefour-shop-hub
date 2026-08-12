@@ -84,7 +84,7 @@ export default function PartnerLefLabs() {
         <title>Lëf Labs — Wholesale Partner | Tripplefour</title>
         <meta
           name="description"
-          content="Lëf Labs (Pty) Ltd wholesale catalogue — COA-certified indoor & tunnel flower, pre-rolls, distillates, and premium vape lines. Authorised B2B partner of Tripplefour."
+          content="Lëf Labs wholesale catalogue — COA-certified indoor & tunnel flower, pre-rolls, distillates and vapes. Authorised B2B partner of Tripplefour."
         />
         <link rel="canonical" href="https://tripplefourshophub.online/partners/lef-labs" />
         <meta name="robots" content="noindex, follow" />

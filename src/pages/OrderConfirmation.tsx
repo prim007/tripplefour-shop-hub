@@ -37,7 +37,7 @@ export default function OrderConfirmation() {
           </p>
           <div className="mt-4 inline-flex items-center gap-2 rounded-lg bg-muted px-4 py-2">
             <span className="font-mono text-lg font-bold">{ref}</span>
-            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={copyRef}>
+            <Button variant="ghost" size="icon" className="h-8 w-8" aria-label="Copy order reference" onClick={copyRef}>
               <Copy className="h-4 w-4" />
             </Button>
           </div>
