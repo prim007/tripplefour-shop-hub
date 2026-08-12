@@ -152,6 +152,10 @@ export default function Admin() {
         })),
         subtotal: Number(order.subtotal),
         deliveryFee: Number(order.delivery_fee),
+        discount: Math.max(
+          0,
+          Math.round((Number(order.subtotal) + Number(order.delivery_fee) - Number(order.total)) * 100) / 100,
+        ),
         total: Number(order.total),
       });
     } catch (err) {
