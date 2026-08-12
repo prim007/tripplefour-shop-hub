@@ -100,7 +100,7 @@ export const routes: RouteMeta[] = [
   {
     path: "/partners/lef-labs",
     title: "Lëf Labs Wholesale Price List — Flower, Vapes, Distillates | Tripplefour",
-    description: "Lëf Labs B2B wholesale: indoor & tunnel flower from R70/g, pre-rolls R35–R85, vapes R320–R390, distillates R180–R320/g. COA per batch.",
+    description: "Lëf Labs B2B wholesale: flower from R70/g, pre-rolls R35–R85, vapes R320–R390, distillates R180–R320/g. COA per batch.",
     jsonLd: lefLabsJsonLd,
     bodySnippet: lefLabsPriceTableHtml,
   },
