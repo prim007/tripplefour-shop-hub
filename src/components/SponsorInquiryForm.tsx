@@ -24,7 +24,6 @@ const schema = z.object({
   website_url: z.string().trim().url("Enter a valid URL").max(500).or(z.literal("")),
   product_description: z.string().trim().min(10, "Tell us a bit more about your products (min 10 chars)").max(2000),
   placement_interest: z.string().min(1, "Select a placement type"),
-  budget_range: z.string().max(100).optional(),
   message: z.string().trim().max(2000).optional(),
 });
 
@@ -44,7 +43,6 @@ export default function SponsorInquiryForm() {
     defaultValues: {
       placement_interest: "",
       website_url: "",
-      budget_range: "",
       message: "",
     },
   });
@@ -59,7 +57,6 @@ export default function SponsorInquiryForm() {
         website_url: data.website_url || null,
         product_description: data.product_description,
         placement_interest: data.placement_interest,
-        budget_range: data.budget_range || null,
         message: data.message || null,
       });
 
@@ -132,36 +129,20 @@ export default function SponsorInquiryForm() {
         {errors.product_description && <p className="text-xs text-destructive">{errors.product_description.message}</p>}
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="space-y-1.5">
-          <Label>Placement Type *</Label>
-          <Select onValueChange={(v) => setValue("placement_interest", v)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select placement" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="banner">Banner Ad</SelectItem>
-              <SelectItem value="sponsored_listing">Sponsored Partner Listing</SelectItem>
-              <SelectItem value="sponsored_article">Sponsored Blog Article</SelectItem>
-              <SelectItem value="bundle">Full Bundle (All of the above)</SelectItem>
-            </SelectContent>
-          </Select>
-          {errors.placement_interest && <p className="text-xs text-destructive">{errors.placement_interest.message}</p>}
-        </div>
-        <div className="space-y-1.5">
-          <Label>Monthly Budget</Label>
-          <Select onValueChange={(v) => setValue("budget_range", v)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select range" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="under_100">Under $100</SelectItem>
-              <SelectItem value="100_250">$100 – $250</SelectItem>
-              <SelectItem value="250_500">$250 – $500</SelectItem>
-              <SelectItem value="500_plus">$500+</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+      <div className="space-y-1.5">
+        <Label>Placement Type *</Label>
+        <Select onValueChange={(v) => setValue("placement_interest", v)}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select placement" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="banner">Banner Ad</SelectItem>
+            <SelectItem value="sponsored_listing">Sponsored Partner Listing</SelectItem>
+            <SelectItem value="sponsored_article">Sponsored Blog Article</SelectItem>
+            <SelectItem value="bundle">Full Bundle (All of the above)</SelectItem>
+          </SelectContent>
+        </Select>
+        {errors.placement_interest && <p className="text-xs text-destructive">{errors.placement_interest.message}</p>}
       </div>
 
       <div className="space-y-1.5">

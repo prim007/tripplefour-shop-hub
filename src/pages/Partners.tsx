@@ -150,6 +150,16 @@ export default function Partners() {
             </div>
           </div>
 
+          {/* Partnership Disclosure */}
+          <div className="mb-16 rounded-2xl border border-border bg-card p-6">
+            <h2 className="font-display text-xl font-bold mb-3 text-center">
+              <span className="text-primary">A Note on Marketing &amp; Advertising</span>
+            </h2>
+            <p className="text-sm text-muted-foreground leading-relaxed text-center max-w-3xl mx-auto">
+              Building visibility for new products takes time and collaboration. We will work hand in hand with you to understand your brand and find the best way to present it to our audience. If additional paid advertising is required to push products further, this can be arranged separately — at the cost of your company — to help reach more people faster.
+            </p>
+          </div>
+
           {/* Sponsor Inquiry Form */}
           <div className="rounded-2xl border-2 border-dashed border-primary/30 bg-primary/5 p-8 text-center">
             <h3 className="font-display text-xl font-bold">
