@@ -13,6 +13,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import flowerImg from "@/assets/products/leflabs-indoor-flower.jpg";
+import prerollImg from "@/assets/products/leflabs-prerolls.jpg";
+import disposableImg from "@/assets/products/leflabs-disposable.jpg";
+import cartridgeImg from "@/assets/products/leflabs-cartridge.jpg";
 
 // Official Lëf Labs B2B contact.
 const ORDER_PHONE = "0718065754";
