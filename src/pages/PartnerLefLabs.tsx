@@ -223,11 +223,11 @@ export default function PartnerLefLabs() {
             <SectionHeader
               index="02 — Product range"
               title="Catalogue Highlights"
-              subtitle="Visual placeholders — final product photography pending. All products available with batch COA on request."
+              subtitle="Representative product photography of the Lëf Labs wholesale range. All products available with batch COA on request."
             />
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-              {productPlaceholders.map((p) => (
-                <ProductPlaceholder key={p.name} p={p} />
+              {lefProducts.map((p) => (
+                <LefProductCard key={p.name} p={p} />
               ))}
             </div>
           </div>
