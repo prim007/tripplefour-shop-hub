@@ -21,31 +21,36 @@ const WHATSAPP_NUMBER = "27718065754";
 const WHATSAPP_LEAD_MESSAGE =
   "Hi Lëf Labs 👋 I'm a B2B lead from the Tripplefour Shop (tripplefourshophub.online) — I'd like wholesale info / to place an order.";
 
-type ProductPlaceholder = {
+type LefProduct = {
   name: string;
   caption: string;
+  image: string;
 };
 
-const productPlaceholders: ProductPlaceholder[] = [
-  { name: "Animal Runtz", caption: "Indoor • Hybrid • Sweet / Fruity" },
-  { name: "Lemon Silver Haze", caption: "Indoor • Sativa • Citrus / Earthy" },
-  { name: "Guava Bomba", caption: "Indoor • Hybrid • Tropical / Floral" },
-  { name: "Purple Ghost Candy", caption: "Indoor • Indica • Berry / Candy" },
-  { name: "Jack Herer", caption: "Tunnel AAA • Sativa • Spicy / Pine" },
-  { name: "Planet of the Grapes", caption: "Tunnel AAA • Indica • Grape / Earthy" },
-  { name: "Gorilla Skittles", caption: "Tunnel AAA • Hybrid • Sweet / Diesel" },
-  { name: "Moon Stick Pre-Roll", caption: "1g indoor + kief coat • Premium" },
-  { name: "Liquid Gold Disposable", caption: "0.5ml / 1ml • THC distillate" },
-  { name: "Pure Leaf Cartridge", caption: "1ml 510 • Full spectrum" },
+const lefProducts: LefProduct[] = [
+  { name: "Animal Runtz", caption: "Indoor • Hybrid • Sweet / Fruity", image: flowerImg },
+  { name: "Lemon Silver Haze", caption: "Indoor • Sativa • Citrus / Earthy", image: flowerImg },
+  { name: "Guava Bomba", caption: "Indoor • Hybrid • Tropical / Floral", image: flowerImg },
+  { name: "Purple Ghost Candy", caption: "Indoor • Indica • Berry / Candy", image: flowerImg },
+  { name: "Jack Herer", caption: "Tunnel AAA • Sativa • Spicy / Pine", image: flowerImg },
+  { name: "Planet of the Grapes", caption: "Tunnel AAA • Indica • Grape / Earthy", image: flowerImg },
+  { name: "Gorilla Skittles", caption: "Tunnel AAA • Hybrid • Sweet / Diesel", image: flowerImg },
+  { name: "Moon Stick Pre-Roll", caption: "1g indoor + kief coat • Premium", image: prerollImg },
+  { name: "Liquid Gold Disposable", caption: "0.5ml / 1ml • THC distillate", image: disposableImg },
+  { name: "Pure Leaf Cartridge", caption: "1ml 510 • Full spectrum", image: cartridgeImg },
 ];
 
-const ProductPlaceholder = ({ p }: { p: ProductPlaceholder }) => (
+const LefProductCard = ({ p }: { p: LefProduct }) => (
   <div className="group overflow-hidden rounded-xl border-2 border-border bg-card transition-all hover:border-primary hover:-translate-y-1">
-    <div className="relative flex aspect-square items-center justify-center bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/30">
-      <Leaf className="h-12 w-12 text-primary/40" strokeWidth={1.2} />
-      <span className="absolute bottom-2 right-2 rounded-full bg-background/80 px-2 py-0.5 text-[10px] uppercase tracking-widest text-muted-foreground backdrop-blur">
-        Placeholder
-      </span>
+    <div className="relative aspect-square overflow-hidden bg-secondary/30">
+      <img
+        src={p.image}
+        alt={`${p.name} — ${p.caption} wholesale product from Lëf Labs`}
+        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        loading="lazy"
+        width={1024}
+        height={1024}
+      />
     </div>
     <div className="p-3">
       <p className="font-display text-sm font-bold leading-tight">{p.name}</p>
@@ -53,6 +58,7 @@ const ProductPlaceholder = ({ p }: { p: ProductPlaceholder }) => (
     </div>
   </div>
 );
+
 
 const SectionHeader = ({
   index,
