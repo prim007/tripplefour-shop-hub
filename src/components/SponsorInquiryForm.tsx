@@ -29,6 +29,16 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
+const SUPPORT_EMAIL = "support@tripplefourshophub.online";
+
+// Values must match the allowed placement_interest values on sponsor_inquiries.
+const PLACEMENT_LABELS: Record<string, string> = {
+  banner: "Banner Ad",
+  product_listing: "Sponsored Partner Listing",
+  sponsored_post: "Sponsored Blog Article",
+  other: "Full Bundle (All of the above)",
+};
+
 export default function SponsorInquiryForm() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -62,10 +72,50 @@ export default function SponsorInquiryForm() {
 
       if (error) throw error;
 
+      const submittedAt = new Date().toLocaleString("en-ZA", {
+        dateStyle: "long",
+        timeStyle: "short",
+      });
+      const key = crypto.randomUUID();
+      const payload = {
+        companyName: data.company_name,
+        contactName: data.contact_name,
+        contactEmail: data.contact_email,
+        websiteUrl: data.website_url || "",
+        placementInterest: PLACEMENT_LABELS[data.placement_interest] ?? data.placement_interest,
+        productDescription: data.product_description,
+        message: data.message || "",
+        submittedAt,
+      };
+
+      // Notify the Tripplefour team and confirm receipt to the partner.
+      await Promise.allSettled([
+        supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "partner-inquiry-alert",
+            recipientEmail: SUPPORT_EMAIL,
+            idempotencyKey: `partner-inquiry-alert-${key}`,
+            templateData: payload,
+          },
+        }),
+        supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "partner-inquiry-confirmation",
+            recipientEmail: data.contact_email,
+            idempotencyKey: `partner-inquiry-confirmation-${key}`,
+            templateData: {
+              contactName: data.contact_name,
+              companyName: data.company_name,
+              placementInterest: payload.placementInterest,
+            },
+          },
+        }),
+      ]);
+
       setSubmitted(true);
       toast({
         title: "Inquiry sent!",
-        description: "We'll get back to you within 48 hours.",
+        description: "Check your inbox for a confirmation email — we'll reply within 48 hours.",
       });
     } catch {
       toast({
@@ -137,9 +187,9 @@ export default function SponsorInquiryForm() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="banner">Banner Ad</SelectItem>
-            <SelectItem value="sponsored_listing">Sponsored Partner Listing</SelectItem>
-            <SelectItem value="sponsored_article">Sponsored Blog Article</SelectItem>
-            <SelectItem value="bundle">Full Bundle (All of the above)</SelectItem>
+            <SelectItem value="product_listing">Sponsored Partner Listing</SelectItem>
+            <SelectItem value="sponsored_post">Sponsored Blog Article</SelectItem>
+            <SelectItem value="other">Full Bundle (All of the above)</SelectItem>
           </SelectContent>
         </Select>
         {errors.placement_interest && <p className="text-xs text-destructive">{errors.placement_interest.message}</p>}
