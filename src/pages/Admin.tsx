@@ -192,6 +192,38 @@ export default function Admin() {
     }
   };
 
+  const sendTestInquiry = async () => {
+    const email = testEmail.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      toast({ title: "Enter a valid email", description: "We need a partner inbox to test against.", variant: "destructive" });
+      return;
+    }
+    setTestRunning(true);
+    setTestResult(null);
+    try {
+      const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-orders?action=test-partner-inquiry`;
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "x-admin-key": adminKey, "Content-Type": "application/json" },
+        body: JSON.stringify({ partner_email: email }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Test failed");
+      setTestResult(data);
+      toast({
+        title: data.delivered ? "✅ Both emails delivered" : "Test complete — check results",
+        description: data.delivered
+          ? "Support alert and partner confirmation were both sent."
+          : "One or both emails did not reach 'sent'. See the delivery results below.",
+        variant: data.delivered ? undefined : "destructive",
+      });
+    } catch (err: any) {
+      toast({ title: "Test failed", description: err?.message || "Could not run the test inquiry.", variant: "destructive" });
+    }
+    setTestRunning(false);
+  };
+
+
   const whatsappLink = (cart: AbandonedCart) => {
     const phone = (cart.customer_phone || "").replace(/[^\d]/g, "");
     // Default to ZA international format if user typed local
