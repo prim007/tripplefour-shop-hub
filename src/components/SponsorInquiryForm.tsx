@@ -29,15 +29,8 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const SUPPORT_EMAIL = "support@tripplefourshophub.online";
 
-// Values must match the allowed placement_interest values on sponsor_inquiries.
-const PLACEMENT_LABELS: Record<string, string> = {
-  banner: "Banner Ad",
-  product_listing: "Sponsored Partner Listing",
-  sponsored_post: "Sponsored Blog Article",
-  other: "Full Bundle (All of the above)",
-};
+
 
 export default function SponsorInquiryForm() {
   const [submitted, setSubmitted] = useState(false);
