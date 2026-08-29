@@ -1,0 +1,132 @@
+import { createClient } from "npm:@supabase/supabase-js@2";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
+};
+
+const SUPPORT_EMAIL = "support@tripplefourshophub.online";
+
+const PLACEMENTS: Record<string, string> = {
+  banner: "Banner Ad",
+  product_listing: "Sponsored Partner Listing",
+  sponsored_post: "Sponsored Blog Article",
+  other: "Full Bundle (All of the above)",
+};
+
+function json(body: unknown, status = 200) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+}
+
+const str = (v: unknown, max: number) =>
+  typeof v === "string" ? v.trim().slice(0, max) : "";
+
+Deno.serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
+  }
+  if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
+
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!supabaseUrl || !serviceRoleKey) {
+    return json({ error: "Server configuration error" }, 500);
+  }
+
+  let body: Record<string, unknown>;
+  try {
+    body = await req.json();
+  } catch {
+    return json({ error: "Invalid JSON" }, 400);
+  }
+
+  const companyName = str(body.company_name, 100);
+  const contactName = str(body.contact_name, 100);
+  const contactEmail = str(body.contact_email, 255).toLowerCase();
+  const websiteUrl = str(body.website_url, 500);
+  const productDescription = str(body.product_description, 2000);
+  const placementInterest = str(body.placement_interest, 50);
+  const message = str(body.message, 2000);
+
+  if (
+    !companyName ||
+    !contactName ||
+    !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(contactEmail) ||
+    productDescription.length < 10 ||
+    !PLACEMENTS[placementInterest]
+  ) {
+    return json({ error: "Invalid inquiry details" }, 400);
+  }
+
+  const supabase = createClient(supabaseUrl, serviceRoleKey);
+
+  const { data: inquiry, error: insertError } = await supabase
+    .from("sponsor_inquiries")
+    .insert({
+      company_name: companyName,
+      contact_name: contactName,
+      contact_email: contactEmail,
+      website_url: websiteUrl || null,
+      product_description: productDescription,
+      placement_interest: placementInterest,
+      message: message || null,
+    })
+    .select("id")
+    .single();
+
+  if (insertError) {
+    console.error("Sponsor inquiry insert error:", insertError);
+    return json({ error: "Failed to save inquiry" }, 500);
+  }
+
+  const placementLabel = PLACEMENTS[placementInterest];
+  const submittedAt = new Date().toISOString();
+
+  const send = (
+    templateName: string,
+    recipientEmail: string,
+    templateData: Record<string, unknown>,
+  ) =>
+    fetch(`${supabaseUrl}/functions/v1/send-transactional-email`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${serviceRoleKey}`,
+        apikey: serviceRoleKey,
+      },
+      body: JSON.stringify({
+        templateName,
+        recipientEmail,
+        idempotencyKey: `${templateName}-${inquiry.id}`,
+        templateData,
+      }),
+    }).then(async (res) => {
+      if (!res.ok) {
+        console.error(`${templateName} send failed`, res.status, await res.text());
+      }
+    }).catch((e) => console.error(`${templateName} send error`, e));
+
+  await Promise.allSettled([
+    send("partner-inquiry-alert", SUPPORT_EMAIL, {
+      companyName,
+      contactName,
+      contactEmail,
+      websiteUrl,
+      placementInterest: placementLabel,
+      productDescription,
+      message,
+      submittedAt,
+    }),
+    send("partner-inquiry-confirmation", contactEmail, {
+      contactName,
+      companyName,
+      placementInterest: placementLabel,
+    }),
+  ]);
+
+  return json({ success: true });
+});
