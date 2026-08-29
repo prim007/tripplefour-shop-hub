@@ -52,6 +52,15 @@ export default function Admin() {
   const [invoiceDownloading, setInvoiceDownloading] = useState<string | null>(null);
   const [carts, setCarts] = useState<AbandonedCart[]>([]);
   const [cartsLoading, setCartsLoading] = useState(false);
+  const [testEmail, setTestEmail] = useState("");
+  const [testRunning, setTestRunning] = useState(false);
+  const [testResult, setTestResult] = useState<{
+    startedAt: string;
+    delivered: boolean;
+    support: { recipient: string; status: string; error: string | null; at: string | null };
+    partner: { recipient: string; status: string; error: string | null; at: string | null };
+  } | null>(null);
+
 
   const login = async () => {
     if (!adminKey.trim()) return;
