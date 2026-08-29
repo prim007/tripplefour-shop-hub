@@ -60,57 +60,19 @@ export default function SponsorInquiryForm() {
   const onSubmit = async (data: FormData) => {
     setSubmitting(true);
     try {
-      const { error } = await supabase.from("sponsor_inquiries").insert({
-        company_name: data.company_name,
-        contact_name: data.contact_name,
-        contact_email: data.contact_email,
-        website_url: data.website_url || null,
-        product_description: data.product_description,
-        placement_interest: data.placement_interest,
-        message: data.message || null,
+      const { data: result, error } = await supabase.functions.invoke("submit-partner-inquiry", {
+        body: {
+          company_name: data.company_name,
+          contact_name: data.contact_name,
+          contact_email: data.contact_email,
+          website_url: data.website_url || null,
+          product_description: data.product_description,
+          placement_interest: data.placement_interest,
+          message: data.message || null,
+        },
       });
 
-      if (error) throw error;
-
-      const submittedAt = new Date().toLocaleString("en-ZA", {
-        dateStyle: "long",
-        timeStyle: "short",
-      });
-      const key = crypto.randomUUID();
-      const payload = {
-        companyName: data.company_name,
-        contactName: data.contact_name,
-        contactEmail: data.contact_email,
-        websiteUrl: data.website_url || "",
-        placementInterest: PLACEMENT_LABELS[data.placement_interest] ?? data.placement_interest,
-        productDescription: data.product_description,
-        message: data.message || "",
-        submittedAt,
-      };
-
-      // Notify the Tripplefour team and confirm receipt to the partner.
-      await Promise.allSettled([
-        supabase.functions.invoke("send-transactional-email", {
-          body: {
-            templateName: "partner-inquiry-alert",
-            recipientEmail: SUPPORT_EMAIL,
-            idempotencyKey: `partner-inquiry-alert-${key}`,
-            templateData: payload,
-          },
-        }),
-        supabase.functions.invoke("send-transactional-email", {
-          body: {
-            templateName: "partner-inquiry-confirmation",
-            recipientEmail: data.contact_email,
-            idempotencyKey: `partner-inquiry-confirmation-${key}`,
-            templateData: {
-              contactName: data.contact_name,
-              companyName: data.company_name,
-              placementInterest: payload.placementInterest,
-            },
-          },
-        }),
-      ]);
+      if (error || !result?.success) throw error ?? new Error("Submission failed");
 
       setSubmitted(true);
       toast({
@@ -127,6 +89,7 @@ export default function SponsorInquiryForm() {
       setSubmitting(false);
     }
   };
+
 
   if (submitted) {
     return (
