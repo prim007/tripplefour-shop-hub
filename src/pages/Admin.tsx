@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { CheckCircle, Clock, Lock, Package, RefreshCw, MessageCircle, X, Download } from "lucide-react";
+import { CheckCircle, Clock, Lock, Package, RefreshCw, MessageCircle, X, Download, Send } from "lucide-react";
 import { downloadInvoicePdf, type InvoiceStatus } from "@/lib/invoicePdf";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
