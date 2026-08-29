@@ -513,8 +513,73 @@ export default function Admin() {
                 ))}
               </div>
             </TabsContent>
+            </TabsContent>
+
+            <TabsContent value="emails" className="mt-4">
+              <div className="rounded-xl border bg-card p-5 space-y-4">
+                <div>
+                  <h2 className="font-display text-xl font-bold">Partner inquiry email test</h2>
+                  <p className="text-sm text-muted-foreground">
+                    Submits one real partner inquiry and reports whether the support alert
+                    (support@tripplefourshophub.online) and the partner confirmation actually sent.
+                    This can take up to 30 seconds.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+                  <div className="flex-1 space-y-1.5">
+                    <Label htmlFor="test-partner-email">Partner test inbox</Label>
+                    <Input
+                      id="test-partner-email"
+                      type="email"
+                      placeholder="you@example.com"
+                      value={testEmail}
+                      onChange={(e) => setTestEmail(e.target.value)}
+                    />
+                  </div>
+                  <Button onClick={sendTestInquiry} disabled={testRunning} aria-label="Send test partner inquiry">
+                    <Send className={`h-4 w-4 mr-1.5 ${testRunning ? "animate-pulse" : ""}`} />
+                    {testRunning ? "Testing..." : "Send test inquiry"}
+                  </Button>
+                </div>
+
+                {testResult && (
+                  <div className="space-y-3">
+                    <Separator />
+                    {[
+                      { label: "Support alert", r: testResult.support },
+                      { label: "Partner confirmation", r: testResult.partner },
+                    ].map(({ label, r }) => {
+                      const ok = r.status === "sent";
+                      return (
+                        <div key={label} className="rounded-lg border p-3 space-y-1">
+                          <div className="flex flex-wrap items-center justify-between gap-2">
+                            <p className="font-semibold text-sm">{label}</p>
+                            <span
+                              className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold uppercase ${
+                                ok ? "bg-primary/10 text-primary" : "bg-destructive/10 text-destructive"
+                              }`}
+                            >
+                              {ok ? <CheckCircle className="h-3 w-3" /> : <Clock className="h-3 w-3" />}
+                              {r.status}
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground">To: {r.recipient}</p>
+                          {r.at && (
+                            <p className="text-xs text-muted-foreground">
+                              Logged: {new Date(r.at).toLocaleString()}
+                            </p>
+                          )}
+                          {r.error && <p className="text-xs text-destructive break-words">{r.error}</p>}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </TabsContent>
           </Tabs>
         </div>
+
       </main>
       <Footer />
     </div>
