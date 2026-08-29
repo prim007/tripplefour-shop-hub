@@ -513,7 +513,7 @@ export default function Admin() {
                 ))}
               </div>
             </TabsContent>
-            </TabsContent>
+
 
             <TabsContent value="emails" className="mt-4">
               <div className="rounded-xl border bg-card p-5 space-y-4">
