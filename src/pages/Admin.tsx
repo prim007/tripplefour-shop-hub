@@ -311,6 +311,8 @@ export default function Admin() {
                 Abandoned {carts.length > 0 && <span className="ml-1.5 rounded-full bg-accent/20 px-1.5 text-[10px]">{carts.length}</span>}
               </TabsTrigger>
               <TabsTrigger value="affiliates">Affiliates</TabsTrigger>
+              <TabsTrigger value="emails">Emails</TabsTrigger>
+
             </TabsList>
 
             <TabsContent value="orders" className="mt-4">
