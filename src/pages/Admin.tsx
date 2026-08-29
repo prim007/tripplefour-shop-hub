@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { CheckCircle, Clock, Lock, Package, RefreshCw, MessageCircle, X, Download } from "lucide-react";
+import { CheckCircle, Clock, Lock, Package, RefreshCw, MessageCircle, X, Download, Send } from "lucide-react";
 import { downloadInvoicePdf, type InvoiceStatus } from "@/lib/invoicePdf";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -52,6 +52,15 @@ export default function Admin() {
   const [invoiceDownloading, setInvoiceDownloading] = useState<string | null>(null);
   const [carts, setCarts] = useState<AbandonedCart[]>([]);
   const [cartsLoading, setCartsLoading] = useState(false);
+  const [testEmail, setTestEmail] = useState("");
+  const [testRunning, setTestRunning] = useState(false);
+  const [testResult, setTestResult] = useState<{
+    startedAt: string;
+    delivered: boolean;
+    support: { recipient: string; status: string; error: string | null; at: string | null };
+    partner: { recipient: string; status: string; error: string | null; at: string | null };
+  } | null>(null);
+
 
   const login = async () => {
     if (!adminKey.trim()) return;
@@ -192,6 +201,38 @@ export default function Admin() {
     }
   };
 
+  const sendTestInquiry = async () => {
+    const email = testEmail.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      toast({ title: "Enter a valid email", description: "We need a partner inbox to test against.", variant: "destructive" });
+      return;
+    }
+    setTestRunning(true);
+    setTestResult(null);
+    try {
+      const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-orders?action=test-partner-inquiry`;
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "x-admin-key": adminKey, "Content-Type": "application/json" },
+        body: JSON.stringify({ partner_email: email }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Test failed");
+      setTestResult(data);
+      toast({
+        title: data.delivered ? "✅ Both emails delivered" : "Test complete — check results",
+        description: data.delivered
+          ? "Support alert and partner confirmation were both sent."
+          : "One or both emails did not reach 'sent'. See the delivery results below.",
+        variant: data.delivered ? undefined : "destructive",
+      });
+    } catch (err: any) {
+      toast({ title: "Test failed", description: err?.message || "Could not run the test inquiry.", variant: "destructive" });
+    }
+    setTestRunning(false);
+  };
+
+
   const whatsappLink = (cart: AbandonedCart) => {
     const phone = (cart.customer_phone || "").replace(/[^\d]/g, "");
     // Default to ZA international format if user typed local
@@ -270,6 +311,8 @@ export default function Admin() {
                 Abandoned {carts.length > 0 && <span className="ml-1.5 rounded-full bg-accent/20 px-1.5 text-[10px]">{carts.length}</span>}
               </TabsTrigger>
               <TabsTrigger value="affiliates">Affiliates</TabsTrigger>
+              <TabsTrigger value="emails">Emails</TabsTrigger>
+
             </TabsList>
 
             <TabsContent value="orders" className="mt-4">
@@ -470,8 +513,73 @@ export default function Admin() {
                 ))}
               </div>
             </TabsContent>
+
+
+            <TabsContent value="emails" className="mt-4">
+              <div className="rounded-xl border bg-card p-5 space-y-4">
+                <div>
+                  <h2 className="font-display text-xl font-bold">Partner inquiry email test</h2>
+                  <p className="text-sm text-muted-foreground">
+                    Submits one real partner inquiry and reports whether the support alert
+                    (support@tripplefourshophub.online) and the partner confirmation actually sent.
+                    This can take up to 30 seconds.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+                  <div className="flex-1 space-y-1.5">
+                    <Label htmlFor="test-partner-email">Partner test inbox</Label>
+                    <Input
+                      id="test-partner-email"
+                      type="email"
+                      placeholder="you@example.com"
+                      value={testEmail}
+                      onChange={(e) => setTestEmail(e.target.value)}
+                    />
+                  </div>
+                  <Button onClick={sendTestInquiry} disabled={testRunning} aria-label="Send test partner inquiry">
+                    <Send className={`h-4 w-4 mr-1.5 ${testRunning ? "animate-pulse" : ""}`} />
+                    {testRunning ? "Testing..." : "Send test inquiry"}
+                  </Button>
+                </div>
+
+                {testResult && (
+                  <div className="space-y-3">
+                    <Separator />
+                    {[
+                      { label: "Support alert", r: testResult.support },
+                      { label: "Partner confirmation", r: testResult.partner },
+                    ].map(({ label, r }) => {
+                      const ok = r.status === "sent";
+                      return (
+                        <div key={label} className="rounded-lg border p-3 space-y-1">
+                          <div className="flex flex-wrap items-center justify-between gap-2">
+                            <p className="font-semibold text-sm">{label}</p>
+                            <span
+                              className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold uppercase ${
+                                ok ? "bg-primary/10 text-primary" : "bg-destructive/10 text-destructive"
+                              }`}
+                            >
+                              {ok ? <CheckCircle className="h-3 w-3" /> : <Clock className="h-3 w-3" />}
+                              {r.status}
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground">To: {r.recipient}</p>
+                          {r.at && (
+                            <p className="text-xs text-muted-foreground">
+                              Logged: {new Date(r.at).toLocaleString()}
+                            </p>
+                          )}
+                          {r.error && <p className="text-xs text-destructive break-words">{r.error}</p>}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </TabsContent>
           </Tabs>
         </div>
+
       </main>
       <Footer />
     </div>
