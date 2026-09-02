@@ -221,7 +221,7 @@ export default function LefLabsOrder() {
                     <span className="text-sm text-muted-foreground">Subtotal</span>
                     <span className="font-mono text-lg font-bold">R{subtotal.toFixed(2)}</span>
                   </div>
-                  <p className="mt-1 text-[11px] text-muted-foreground">Delivery arranged separately. Total billed via PayFast.</p>
+                  <p className="mt-1 text-[11px] text-muted-foreground">Delivery arranged separately. Volume floors and minimums apply per tier — your rep confirms final pricing.</p>
                 </div>
               </div>
 
