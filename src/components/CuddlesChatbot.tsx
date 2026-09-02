@@ -128,8 +128,28 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
       });
 
       if (!resp.ok || !resp.body) {
-        const errData = await resp.json().catch(() => ({}));
-        throw new Error(errData.error || "Failed to connect");
+        const errData = await resp.json().catch(() => ({} as { error?: string }));
+        if (resp.status === 429) {
+          setChatError({
+            title: "Cuddles is at capacity",
+            detail: "Too many requests right now. Wait about a minute and try again.",
+            retryable: true,
+          });
+        } else if (resp.status === 402) {
+          setChatError({
+            title: "Cuddles is temporarily unavailable",
+            detail: "Our AI service has run out of credits. Browse the shop or WhatsApp us on 064 543 6734 and a human will help.",
+            retryable: false,
+          });
+        } else {
+          setChatError({
+            title: "Cuddles is unavailable",
+            detail: errData.error || `The AI service returned an error (${resp.status}). Nothing was sent to our team — please retry or WhatsApp 064 543 6734.`,
+            retryable: true,
+          });
+        }
+        setIsLoading(false);
+        return;
       }
 
       const reader = resp.body.getReader();
