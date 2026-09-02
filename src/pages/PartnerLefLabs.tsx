@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import StrainThumb from "@/components/StrainThumb";
 import { LEFLABS_PRODUCTS } from "@/data/leflabsProducts";
 import flowerImg from "@/assets/products/leflabs-indoor-flower.jpg";
 import prerollImg from "@/assets/products/leflabs-prerolls.jpg";
@@ -331,7 +332,12 @@ export default function PartnerLefLabs() {
                         <TableBody>
                           {strains.map((s) => (
                             <TableRow key={s.id}>
-                              <TableCell className="font-semibold">{s.name}</TableCell>
+                              <TableCell className="font-semibold">
+                                <div className="flex items-center gap-3">
+                                  <StrainThumb id={s.id} name={s.name} className="h-12 w-12" />
+                                  <span>{s.name}</span>
+                                </div>
+                              </TableCell>
                               <TableCell className="text-right">
                                 {s.isBack ? (
                                   <Badge className="bg-accent text-accent-foreground">BACK</Badge>
