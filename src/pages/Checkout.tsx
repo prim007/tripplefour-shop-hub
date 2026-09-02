@@ -705,17 +705,42 @@ export default function Checkout() {
                       <span>-R{discountAmount.toLocaleString()}</span>
                     </div>
                   )}
-                  <div className="flex justify-between"><span className="text-muted-foreground">Delivery</span><span>R{deliveryFee.toLocaleString()}</span></div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Delivery</span>
+                    {deliveryUnavailable ? (
+                      <span className="text-destructive">Unavailable</span>
+                    ) : (
+                      <span>R{deliveryFee.toLocaleString()}</span>
+                    )}
+                  </div>
                   <Separator />
-                  <div className="flex justify-between font-bold text-base"><span>Total</span><span className="text-primary">R{grandTotal.toLocaleString()}</span></div>
+                  <div className="flex justify-between font-bold text-base">
+                    <span>Total</span>
+                    {deliveryUnavailable ? (
+                      <span className="text-destructive text-sm">Cannot be quoted</span>
+                    ) : (
+                      <span className="text-primary">R{grandTotal.toLocaleString()}</span>
+                    )}
+                  </div>
                 </div>
-                <Button type="submit" className="w-full" size="lg" disabled={submitting}>
+                <Button type="submit" className="w-full" size="lg" disabled={submitting || deliveryUnavailable}>
                   {submitting ? (
                     <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Placing Order...</>
+                  ) : deliveryUnavailable ? (
+                    <><AlertTriangle className="mr-2 h-4 w-4" /> Checkout unavailable</>
                   ) : (
                     <><Shield className="mr-2 h-4 w-4" /> Place Order</>
                   )}
                 </Button>
+                {deliveryUnavailable && (
+                  <p className="text-xs text-center text-destructive">
+                    {zonesState === "loading"
+                      ? "Loading delivery pricing…"
+                      : zonesState === "ready"
+                        ? "Select a delivery zone to continue."
+                        : "We can't confirm your delivery fee, so checkout is paused. Retry above."}
+                  </p>
+                )}
                 <p className="text-xs text-center text-muted-foreground">Prices verified server-side for your protection</p>
               </div>
             </div>
