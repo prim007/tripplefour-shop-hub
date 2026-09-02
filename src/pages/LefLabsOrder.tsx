@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import StrainThumb from "@/components/StrainThumb";
 import { LEFLABS_PRODUCTS, LEFLABS_PRODUCT_MAP, type LefLabsProduct } from "@/data/leflabsProducts";
 import { useAuth } from "@/context/AuthContext";
 
@@ -154,7 +155,8 @@ export default function LefLabsOrder() {
                   <div className="grid gap-3 sm:grid-cols-2">
                     {LEFLABS_PRODUCTS.filter((p) => p.category === cat).map((p) => (
                       <div key={p.id} className="flex items-center justify-between gap-3 rounded-xl border-2 border-border bg-card p-4">
-                        <div className="min-w-0">
+                        <StrainThumb id={p.id} name={p.name} />
+                        <div className="min-w-0 flex-1">
                           <p className="font-display font-bold leading-tight">
                             {p.name}
                             {p.isBack && <Badge className="ml-2 bg-accent text-accent-foreground align-middle text-[10px]">BACK</Badge>}
