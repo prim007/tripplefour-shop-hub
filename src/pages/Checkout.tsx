@@ -54,6 +54,8 @@ export default function Checkout() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ name: "", email: "", phone: "", address: "" });
   const [zones, setZones] = useState<DeliveryZone[]>([]);
+  const [zonesState, setZonesState] = useState<"loading" | "ready" | "empty" | "error">("loading");
+  const [zonesReload, setZonesReload] = useState(0);
   const [selectedZone, setSelectedZone] = useState<DeliveryZone | null>(null);
   const [step, setStep] = useState<CheckoutStep>("details");
   const [orderId, setOrderId] = useState<string | null>(null);
