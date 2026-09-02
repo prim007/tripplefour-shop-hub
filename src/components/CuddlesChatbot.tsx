@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { MessageCircle, X, Send, Sparkles, ShoppingBag } from "lucide-react";
+import { MessageCircle, X, Send, Sparkles, ShoppingBag, AlertTriangle, RefreshCw } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
