@@ -18,7 +18,7 @@ export default function FloatingLeaves() {
         duration: 18 + ((i * 7) % 16),
         delay: -((i * 5) % 20),
         drift: i % 2 === 0 ? 1 : -1,
-        opacity: 0.06 + ((i % 4) * 0.02),
+        opacity: 0.18 + ((i % 4) * 0.06),
       })),
     []
   );
