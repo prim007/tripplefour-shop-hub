@@ -30,6 +30,7 @@ export default function Footer() {
               <Link to="/shop" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Shop All</Link>
               <Link to="/cart" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Cart</Link>
               <Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</Link>
+              <Link to="/cbd-oil-south-africa" className="text-sm text-muted-foreground hover:text-foreground transition-colors">CBD Oil South Africa</Link>
               <Link to="/affiliate" className="text-sm text-primary hover:text-primary-glow transition-colors font-medium">Become an Affiliate</Link>
             </nav>
           </div>
