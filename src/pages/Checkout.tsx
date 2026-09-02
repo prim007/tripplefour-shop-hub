@@ -137,19 +137,35 @@ export default function Checkout() {
 
 
   useEffect(() => {
+    let cancelled = false;
+    setZonesState("loading");
     supabase
       .from("delivery_zones")
       .select("*")
       .order("min_km", { ascending: true })
-      .then(({ data }) => {
-        if (data) {
-          setZones(data);
-          if (data.length > 0 && !selectedZone) {
-            setSelectedZone(data[0]);
-          }
+      .then(({ data, error }) => {
+        if (cancelled) return;
+        if (error) {
+          console.error("Failed to load delivery zones:", error);
+          setZones([]);
+          setSelectedZone(null);
+          setZonesState("error");
+          return;
         }
+        const rows = data ?? [];
+        setZones(rows);
+        if (rows.length === 0) {
+          setSelectedZone(null);
+          setZonesState("empty");
+          return;
+        }
+        setSelectedZone((prev) => prev ?? rows[0]);
+        setZonesState("ready");
       });
-  }, []);
+    return () => {
+      cancelled = true;
+    };
+  }, [zonesReload]);
 
   // Poll payment status through token-protected edge function
   useEffect(() => {
