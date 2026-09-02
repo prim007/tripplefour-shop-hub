@@ -292,6 +292,19 @@ export default function Dispensaries() {
           content="Wholesale ordering portal for South African dispensaries. Browse the Tripplefour catalogue, build an order, download a PDF and pay by EFT."
         />
         <link rel="canonical" href="https://tripplefourshophub.online/dispensaries" />
+        <meta property="og:title" content="Dispensary Wholesale Orders | Tripplefour" />
+        <meta
+          property="og:description"
+          content="Wholesale ordering portal for South African dispensaries. Build an order, download a PDF quote and pay by EFT."
+        />
+        <meta property="og:url" content="https://tripplefourshophub.online/dispensaries" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:title" content="Dispensary Wholesale Orders | Tripplefour" />
+        <meta
+          name="twitter:description"
+          content="Wholesale ordering portal for South African dispensaries. Build an order, download a PDF quote and pay by EFT."
+        />
+        <meta name="robots" content="index, follow" />
       </Helmet>
 
       <Navbar />
