@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import SponsorInquiryForm from "@/components/SponsorInquiryForm";
 import { ExternalLink, Star, Check, Mail } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import FloatingLeaves from "@/components/FloatingLeaves";
 import Footer from "@/components/Footer";
 import { Badge } from "@/components/ui/badge";
 import { affiliates } from "@/data/affiliates";
@@ -14,7 +15,7 @@ export default function Partners() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="relative flex min-h-screen flex-col">
       <Helmet>
         <title>Partners & Sponsors | Tripplefour</title>
         <meta name="description" content="Partner with Tripplefour — South Africa's growing CBD infused products brand. Explore sponsorship tiers and affiliate opportunities." />
@@ -26,8 +27,9 @@ export default function Partners() {
         <meta property="og:description" content="Partner with Tripplefour — South Africa's growing CBD brand. Sponsorship tiers & affiliate opportunities." />
         <meta property="og:url" content="https://tripplefourshophub.online/partners" />
       </Helmet>
+      <FloatingLeaves />
       <Navbar />
-      <main className="flex-1 px-4 py-12">
+      <main className="relative z-10 flex-1 px-4 py-12">
         <div className="mx-auto max-w-5xl">
           {/* Header */}
           <div className="mb-10 text-center">
