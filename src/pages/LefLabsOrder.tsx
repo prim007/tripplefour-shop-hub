@@ -108,8 +108,8 @@ export default function LefLabsOrder() {
   return (
     <div className="flex min-h-screen flex-col">
       <Helmet>
-        <title>Order Online — Lëf Labs Wholesale | Tripplefour</title>
-        <meta name="description" content="Lëf Labs B2B wholesale order portal. Pay securely with PayFast. Authorised partners only." />
+        <title>Order Online — Lëf Labs September 2026 Catalogue | Tripplefour</title>
+        <meta name="description" content="Lëf Labs B2B wholesale order portal — September 2026 catalogue. Authorised partners only." />
         <meta name="robots" content="noindex, follow" />
       </Helmet>
 
@@ -126,20 +126,23 @@ export default function LefLabsOrder() {
             </Link>
             <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
               <div>
-                <Badge className="mb-2 bg-accent text-accent-foreground">Wholesale Portal</Badge>
+                <Badge className="mb-2 bg-accent text-accent-foreground">September 2026 Catalogue</Badge>
                 <h1 className="font-display text-3xl font-bold md:text-4xl">
-                  Order Online — <span className="text-primary">PayFast Secure Checkout</span>
+                  Order Online — <span className="text-primary">Direct EFT Checkout</span>
                 </h1>
                 <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                  Build your wholesale order and pay securely via PayFast (card, EFT, Instant EFT, SnapScan, Zapper). COA available on request for every batch.
+                  New this month: two additional vape suppliers (Funk't and Orphan Laboratory) at the same flat R350,
+                  plus returning strains back in stock across 4A, Greendoor and Exotic Greenhouse (flagged BACK).
+                  Same pricing structure as always — floors hold through 10–15kg on 4A. COA on request for every batch.
                 </p>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary">
-                <ShieldCheck className="h-3.5 w-3.5" /> Secured by PayFast
+                <ShieldCheck className="h-3.5 w-3.5" /> COA on request · B2B only
               </div>
             </div>
           </div>
         </section>
+
 
         <section className="mx-auto max-w-6xl px-4 py-8">
           <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
