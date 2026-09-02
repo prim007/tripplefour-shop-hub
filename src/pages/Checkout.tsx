@@ -54,6 +54,8 @@ export default function Checkout() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ name: "", email: "", phone: "", address: "" });
   const [zones, setZones] = useState<DeliveryZone[]>([]);
+  const [zonesState, setZonesState] = useState<"loading" | "ready" | "empty" | "error">("loading");
+  const [zonesReload, setZonesReload] = useState(0);
   const [selectedZone, setSelectedZone] = useState<DeliveryZone | null>(null);
   const [step, setStep] = useState<CheckoutStep>("details");
   const [orderId, setOrderId] = useState<string | null>(null);
@@ -109,6 +111,8 @@ export default function Checkout() {
   const rawDeliveryFee = selectedZone?.fee ?? 0;
   const deliveryFee = subtotalAfterDiscount >= FREE_SHIPPING_THRESHOLD ? 0 : rawDeliveryFee;
   const grandTotal = subtotalAfterDiscount + deliveryFee;
+  // Delivery pricing is server data — never silently fall back to R0.
+  const deliveryUnavailable = zonesState !== "ready" || !selectedZone;
 
   // GA4 items[] payload built from the cart
   const gaItems = items.map((it) => ({
@@ -135,19 +139,35 @@ export default function Checkout() {
 
 
   useEffect(() => {
+    let cancelled = false;
+    setZonesState("loading");
     supabase
       .from("delivery_zones")
       .select("*")
       .order("min_km", { ascending: true })
-      .then(({ data }) => {
-        if (data) {
-          setZones(data);
-          if (data.length > 0 && !selectedZone) {
-            setSelectedZone(data[0]);
-          }
+      .then(({ data, error }) => {
+        if (cancelled) return;
+        if (error) {
+          console.error("Failed to load delivery zones:", error);
+          setZones([]);
+          setSelectedZone(null);
+          setZonesState("error");
+          return;
         }
+        const rows = data ?? [];
+        setZones(rows);
+        if (rows.length === 0) {
+          setSelectedZone(null);
+          setZonesState("empty");
+          return;
+        }
+        setSelectedZone((prev) => prev ?? rows[0]);
+        setZonesState("ready");
       });
-  }, []);
+    return () => {
+      cancelled = true;
+    };
+  }, [zonesReload]);
 
   // Poll payment status through token-protected edge function
   useEffect(() => {
@@ -266,6 +286,15 @@ export default function Checkout() {
 
     if (name.length > 100 || email.length > 255 || address.length > 300) {
       toast({ title: "Input too long", description: "Please shorten your inputs.", variant: "destructive" });
+      return;
+    }
+
+    if (zonesState === "error" || zonesState === "empty") {
+      toast({
+        title: "Checkout unavailable",
+        description: "Delivery pricing could not be loaded, so we can't place your order. Please retry in a moment.",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -557,22 +586,47 @@ export default function Checkout() {
 
               <h2 className="font-display text-lg font-semibold">Delivery Zone</h2>
               <p className="text-sm text-muted-foreground">Select the area closest to your delivery address. Delivery fee is calculated based on distance from Joburg CBD.</p>
-              <div className="grid gap-3 sm:grid-cols-2">
-                {zones.map((zone) => (
-                  <button
-                    key={zone.id}
-                    type="button"
-                    onClick={() => setSelectedZone(zone)}
-                    className={`rounded-xl border-2 p-4 text-left transition-colors ${
-                      selectedZone?.id === zone.id ? "border-primary bg-primary/5" : "border-border"
-                    }`}
-                  >
-                    <p className="font-semibold">{zone.zone_name}</p>
-                    <p className="text-sm text-muted-foreground">{zone.min_km}–{zone.max_km} km</p>
-                    <p className="mt-1 font-bold text-primary">R{zone.fee}</p>
-                  </button>
-                ))}
-              </div>
+              {zonesState === "loading" && (
+                <div className="flex items-center gap-2 rounded-xl border-2 border-dashed border-border p-4 text-sm text-muted-foreground">
+                  <Loader2 className="h-4 w-4 animate-spin" /> Loading delivery zones…
+                </div>
+              )}
+
+              {(zonesState === "error" || zonesState === "empty") && (
+                <div className="rounded-xl border-2 border-destructive/40 bg-destructive/5 p-4 space-y-2">
+                  <p className="flex items-center gap-2 font-semibold text-destructive">
+                    <AlertTriangle className="h-4 w-4" />
+                    {zonesState === "error" ? "Delivery options unavailable" : "No delivery zones are currently active"}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {zonesState === "error"
+                      ? "We couldn't load delivery pricing, so we can't quote your order right now. Please retry — orders cannot be placed without a confirmed delivery fee."
+                      : "Delivery is temporarily closed. Please try again later or contact support on WhatsApp."}
+                  </p>
+                  <Button type="button" variant="outline" size="sm" onClick={() => setZonesReload((n) => n + 1)}>
+                    Retry
+                  </Button>
+                </div>
+              )}
+
+              {zonesState === "ready" && (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {zones.map((zone) => (
+                    <button
+                      key={zone.id}
+                      type="button"
+                      onClick={() => setSelectedZone(zone)}
+                      className={`rounded-xl border-2 p-4 text-left transition-colors ${
+                        selectedZone?.id === zone.id ? "border-primary bg-primary/5" : "border-border"
+                      }`}
+                    >
+                      <p className="font-semibold">{zone.zone_name}</p>
+                      <p className="text-sm text-muted-foreground">{zone.min_km}–{zone.max_km} km</p>
+                      <p className="mt-1 font-bold text-primary">R{zone.fee}</p>
+                    </button>
+                  ))}
+                </div>
+              )}
 
               <Separator />
 
@@ -660,17 +714,42 @@ export default function Checkout() {
                       <span>-R{discountAmount.toLocaleString()}</span>
                     </div>
                   )}
-                  <div className="flex justify-between"><span className="text-muted-foreground">Delivery</span><span>R{deliveryFee.toLocaleString()}</span></div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Delivery</span>
+                    {deliveryUnavailable ? (
+                      <span className="text-destructive">Unavailable</span>
+                    ) : (
+                      <span>R{deliveryFee.toLocaleString()}</span>
+                    )}
+                  </div>
                   <Separator />
-                  <div className="flex justify-between font-bold text-base"><span>Total</span><span className="text-primary">R{grandTotal.toLocaleString()}</span></div>
+                  <div className="flex justify-between font-bold text-base">
+                    <span>Total</span>
+                    {deliveryUnavailable ? (
+                      <span className="text-destructive text-sm">Cannot be quoted</span>
+                    ) : (
+                      <span className="text-primary">R{grandTotal.toLocaleString()}</span>
+                    )}
+                  </div>
                 </div>
-                <Button type="submit" className="w-full" size="lg" disabled={submitting}>
+                <Button type="submit" className="w-full" size="lg" disabled={submitting || deliveryUnavailable}>
                   {submitting ? (
                     <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Placing Order...</>
+                  ) : deliveryUnavailable ? (
+                    <><AlertTriangle className="mr-2 h-4 w-4" /> Checkout unavailable</>
                   ) : (
                     <><Shield className="mr-2 h-4 w-4" /> Place Order</>
                   )}
                 </Button>
+                {deliveryUnavailable && (
+                  <p className="text-xs text-center text-destructive">
+                    {zonesState === "loading"
+                      ? "Loading delivery pricing…"
+                      : zonesState === "ready"
+                        ? "Select a delivery zone to continue."
+                        : "We can't confirm your delivery fee, so checkout is paused. Retry above."}
+                  </p>
+                )}
                 <p className="text-xs text-center text-muted-foreground">Prices verified server-side for your protection</p>
               </div>
             </div>

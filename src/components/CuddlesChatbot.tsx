@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { MessageCircle, X, Send, Sparkles, ShoppingBag } from "lucide-react";
+import { MessageCircle, X, Send, Sparkles, ShoppingBag, AlertTriangle, RefreshCw } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
@@ -69,6 +69,9 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [hasTrackedInit, setHasTrackedInit] = useState(false);
+  // Explicit unavailable/error state — never faked as an assistant reply.
+  const [chatError, setChatError] = useState<{ title: string; detail: string; retryable: boolean } | null>(null);
+  const [lastUserText, setLastUserText] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -105,6 +108,8 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
 
     const userMsg: Msg = { role: "user", content: text.trim() };
     setInput("");
+    setChatError(null);
+    setLastUserText(text.trim());
     setMessages((prev) => [...prev, userMsg]);
     setIsLoading(true);
     Analytics.chatMessageSent(text);
@@ -123,8 +128,28 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
       });
 
       if (!resp.ok || !resp.body) {
-        const errData = await resp.json().catch(() => ({}));
-        throw new Error(errData.error || "Failed to connect");
+        const errData = await resp.json().catch(() => ({} as { error?: string }));
+        if (resp.status === 429) {
+          setChatError({
+            title: "Cuddles is at capacity",
+            detail: "Too many requests right now. Wait about a minute and try again.",
+            retryable: true,
+          });
+        } else if (resp.status === 402) {
+          setChatError({
+            title: "Cuddles is temporarily unavailable",
+            detail: "Our AI service has run out of credits. Browse the shop or WhatsApp us on 064 543 6734 and a human will help.",
+            retryable: false,
+          });
+        } else {
+          setChatError({
+            title: "Cuddles is unavailable",
+            detail: errData.error || `The AI service returned an error (${resp.status}). Nothing was sent to our team — please retry or WhatsApp 064 543 6734.`,
+            retryable: true,
+          });
+        }
+        setIsLoading(false);
+        return;
       }
 
       const reader = resp.body.getReader();
@@ -169,15 +194,24 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
         }
       }
 
-      if (assistantSoFar.toLowerCase().match(/recommend|try|suggest|perfect for/)) {
+      if (!assistantSoFar.trim()) {
+        setChatError({
+          title: "No reply received",
+          detail: "The AI service closed the connection before answering. Please retry.",
+          retryable: true,
+        });
+      } else if (assistantSoFar.toLowerCase().match(/recommend|try|suggest|perfect for/)) {
         Analytics.recommendationGiven();
       }
     } catch (e) {
       console.error("Cuddles chat error:", e);
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: "Oops, something went wrong 😅 Try again or WhatsApp us at wa.me/27645436734 ✌️" },
-      ]);
+      setChatError({
+        title: assistantSoFar ? "Reply cut off" : "Couldn't reach Cuddles",
+        detail: assistantSoFar
+          ? "The connection dropped mid-answer, so the reply above may be incomplete."
+          : "We couldn't connect to the AI service. Check your connection and retry, or WhatsApp 064 543 6734.",
+        retryable: true,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -250,6 +284,41 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
               <div className="flex justify-start">
                 <div className="rounded-2xl rounded-bl-sm bg-muted px-4 py-2 text-sm">
                   <span className="animate-pulse">Cuddles is thinking 🌿...</span>
+                </div>
+              </div>
+            )}
+            {chatError && (
+              <div role="alert" className="rounded-xl border-2 border-destructive/40 bg-destructive/5 p-3 text-sm">
+                <p className="flex items-center gap-1.5 font-semibold text-destructive">
+                  <AlertTriangle className="h-4 w-4 shrink-0" /> {chatError.title}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">{chatError.detail}</p>
+                <div className="mt-2 flex gap-2">
+                  {chatError.retryable && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="h-7 gap-1 text-xs"
+                      disabled={isLoading || !lastUserText}
+                      onClick={() => {
+                        const retryText = lastUserText;
+                        setChatError(null);
+                        setMessages((prev) => {
+                          const idx = [...prev].reverse().findIndex((m) => m.role === "user");
+                          if (idx === -1) return prev;
+                          return prev.slice(0, prev.length - 1 - idx);
+                        });
+                        sendMessage(retryText);
+                      }}
+                    >
+                      <RefreshCw className="h-3 w-3" /> Retry
+                    </Button>
+                  )}
+                  <Button asChild size="sm" variant="ghost" className="h-7 text-xs">
+                    <a href="https://wa.me/27645436734" target="_blank" rel="noopener noreferrer">
+                      WhatsApp us
+                    </a>
+                  </Button>
                 </div>
               </div>
             )}
