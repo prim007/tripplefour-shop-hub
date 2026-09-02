@@ -111,6 +111,8 @@ export default function Checkout() {
   const rawDeliveryFee = selectedZone?.fee ?? 0;
   const deliveryFee = subtotalAfterDiscount >= FREE_SHIPPING_THRESHOLD ? 0 : rawDeliveryFee;
   const grandTotal = subtotalAfterDiscount + deliveryFee;
+  // Delivery pricing is server data — never silently fall back to R0.
+  const deliveryUnavailable = zonesState !== "ready" || !selectedZone;
 
   // GA4 items[] payload built from the cart
   const gaItems = items.map((it) => ({
