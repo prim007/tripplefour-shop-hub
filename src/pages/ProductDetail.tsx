@@ -114,6 +114,11 @@ export default function ProductDetail() {
         <meta property="og:description" content={pageDesc} />
         <meta property="og:url" content={pageUrl} />
         <meta property="og:type" content="product" />
+        <meta property="og:image" content={new URL(product.image, "https://tripplefourshophub.online").href} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={pageDesc} />
+        <meta name="twitter:image" content={new URL(product.image, "https://tripplefourshophub.online").href} />
         <meta property="product:price:amount" content={String(product.price)} />
         <meta property="product:price:currency" content="ZAR" />
         <script type="application/ld+json">{JSON.stringify(productJsonLd)}</script>
