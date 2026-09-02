@@ -194,15 +194,24 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
         }
       }
 
-      if (assistantSoFar.toLowerCase().match(/recommend|try|suggest|perfect for/)) {
+      if (!assistantSoFar.trim()) {
+        setChatError({
+          title: "No reply received",
+          detail: "The AI service closed the connection before answering. Please retry.",
+          retryable: true,
+        });
+      } else if (assistantSoFar.toLowerCase().match(/recommend|try|suggest|perfect for/)) {
         Analytics.recommendationGiven();
       }
     } catch (e) {
       console.error("Cuddles chat error:", e);
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: "Oops, something went wrong 😅 Try again or WhatsApp us at wa.me/27645436734 ✌️" },
-      ]);
+      setChatError({
+        title: assistantSoFar ? "Reply cut off" : "Couldn't reach Cuddles",
+        detail: assistantSoFar
+          ? "The connection dropped mid-answer, so the reply above may be incomplete."
+          : "We couldn't connect to the AI service. Check your connection and retry, or WhatsApp 064 543 6734.",
+        retryable: true,
+      });
     } finally {
       setIsLoading(false);
     }
