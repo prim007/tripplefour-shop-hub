@@ -108,6 +108,8 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
 
     const userMsg: Msg = { role: "user", content: text.trim() };
     setInput("");
+    setChatError(null);
+    setLastUserText(text.trim());
     setMessages((prev) => [...prev, userMsg]);
     setIsLoading(true);
     Analytics.chatMessageSent(text);
