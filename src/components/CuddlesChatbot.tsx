@@ -287,6 +287,41 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
                 </div>
               </div>
             )}
+            {chatError && (
+              <div role="alert" className="rounded-xl border-2 border-destructive/40 bg-destructive/5 p-3 text-sm">
+                <p className="flex items-center gap-1.5 font-semibold text-destructive">
+                  <AlertTriangle className="h-4 w-4 shrink-0" /> {chatError.title}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">{chatError.detail}</p>
+                <div className="mt-2 flex gap-2">
+                  {chatError.retryable && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="h-7 gap-1 text-xs"
+                      disabled={isLoading || !lastUserText}
+                      onClick={() => {
+                        const retryText = lastUserText;
+                        setChatError(null);
+                        setMessages((prev) => {
+                          const idx = [...prev].reverse().findIndex((m) => m.role === "user");
+                          if (idx === -1) return prev;
+                          return prev.slice(0, prev.length - 1 - idx);
+                        });
+                        sendMessage(retryText);
+                      }}
+                    >
+                      <RefreshCw className="h-3 w-3" /> Retry
+                    </Button>
+                  )}
+                  <Button asChild size="sm" variant="ghost" className="h-7 text-xs">
+                    <a href="https://wa.me/27645436734" target="_blank" rel="noopener noreferrer">
+                      WhatsApp us
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
 
