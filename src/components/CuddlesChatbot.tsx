@@ -69,6 +69,9 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [hasTrackedInit, setHasTrackedInit] = useState(false);
+  // Explicit unavailable/error state — never faked as an assistant reply.
+  const [chatError, setChatError] = useState<{ title: string; detail: string; retryable: boolean } | null>(null);
+  const [lastUserText, setLastUserText] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
