@@ -152,7 +152,11 @@ export default function LefLabsOrder() {
                     {LEFLABS_PRODUCTS.filter((p) => p.category === cat).map((p) => (
                       <div key={p.id} className="flex items-center justify-between gap-3 rounded-xl border-2 border-border bg-card p-4">
                         <div className="min-w-0">
-                          <p className="font-display font-bold leading-tight">{p.name}</p>
+                          <p className="font-display font-bold leading-tight">
+                            {p.name}
+                            {p.isBack && <Badge className="ml-2 bg-accent text-accent-foreground align-middle text-[10px]">BACK</Badge>}
+                            {p.isNew && <Badge className="ml-2 bg-primary text-primary-foreground align-middle text-[10px]">NEW</Badge>}
+                          </p>
                           <p className="mt-0.5 text-xs text-muted-foreground">{p.description}</p>
                           <p className="mt-2 font-mono text-sm font-bold text-primary">
                             R{p.price.toFixed(2)} <span className="text-xs font-normal text-muted-foreground">/ {p.unit}</span>
@@ -163,6 +167,7 @@ export default function LefLabsOrder() {
                         </Button>
                       </div>
                     ))}
+
                   </div>
                 </div>
               ))}
