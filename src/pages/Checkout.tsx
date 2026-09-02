@@ -289,6 +289,15 @@ export default function Checkout() {
       return;
     }
 
+    if (zonesState === "error" || zonesState === "empty") {
+      toast({
+        title: "Checkout unavailable",
+        description: "Delivery pricing could not be loaded, so we can't place your order. Please retry in a moment.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!selectedZone) {
       toast({ title: "Select delivery zone", description: "Please select your delivery area.", variant: "destructive" });
       return;
