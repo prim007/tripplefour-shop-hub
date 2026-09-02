@@ -577,22 +577,47 @@ export default function Checkout() {
 
               <h2 className="font-display text-lg font-semibold">Delivery Zone</h2>
               <p className="text-sm text-muted-foreground">Select the area closest to your delivery address. Delivery fee is calculated based on distance from Joburg CBD.</p>
-              <div className="grid gap-3 sm:grid-cols-2">
-                {zones.map((zone) => (
-                  <button
-                    key={zone.id}
-                    type="button"
-                    onClick={() => setSelectedZone(zone)}
-                    className={`rounded-xl border-2 p-4 text-left transition-colors ${
-                      selectedZone?.id === zone.id ? "border-primary bg-primary/5" : "border-border"
-                    }`}
-                  >
-                    <p className="font-semibold">{zone.zone_name}</p>
-                    <p className="text-sm text-muted-foreground">{zone.min_km}–{zone.max_km} km</p>
-                    <p className="mt-1 font-bold text-primary">R{zone.fee}</p>
-                  </button>
-                ))}
-              </div>
+              {zonesState === "loading" && (
+                <div className="flex items-center gap-2 rounded-xl border-2 border-dashed border-border p-4 text-sm text-muted-foreground">
+                  <Loader2 className="h-4 w-4 animate-spin" /> Loading delivery zones…
+                </div>
+              )}
+
+              {(zonesState === "error" || zonesState === "empty") && (
+                <div className="rounded-xl border-2 border-destructive/40 bg-destructive/5 p-4 space-y-2">
+                  <p className="flex items-center gap-2 font-semibold text-destructive">
+                    <AlertTriangle className="h-4 w-4" />
+                    {zonesState === "error" ? "Delivery options unavailable" : "No delivery zones are currently active"}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {zonesState === "error"
+                      ? "We couldn't load delivery pricing, so we can't quote your order right now. Please retry — orders cannot be placed without a confirmed delivery fee."
+                      : "Delivery is temporarily closed. Please try again later or contact support on WhatsApp."}
+                  </p>
+                  <Button type="button" variant="outline" size="sm" onClick={() => setZonesReload((n) => n + 1)}>
+                    Retry
+                  </Button>
+                </div>
+              )}
+
+              {zonesState === "ready" && (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {zones.map((zone) => (
+                    <button
+                      key={zone.id}
+                      type="button"
+                      onClick={() => setSelectedZone(zone)}
+                      className={`rounded-xl border-2 p-4 text-left transition-colors ${
+                        selectedZone?.id === zone.id ? "border-primary bg-primary/5" : "border-border"
+                      }`}
+                    >
+                      <p className="font-semibold">{zone.zone_name}</p>
+                      <p className="text-sm text-muted-foreground">{zone.min_km}–{zone.max_km} km</p>
+                      <p className="mt-1 font-bold text-primary">R{zone.fee}</p>
+                    </button>
+                  ))}
+                </div>
+              )}
 
               <Separator />
 
