@@ -45,6 +45,15 @@ export const affiliates: AffiliateLink[] = [
     cta: "View Lëf Labs Catalogue",
     featured: true,
   },
+  {
+    id: "aff-daggaspot",
+    name: "DaggaSpot",
+    description:
+      "Find cannabis spots, dispensaries and lounges near you — a South African directory mapping the local dagga scene so you always know where the nearest plug is.",
+    category: "Lifestyle & Accessories",
+    url: "https://daggaspot.co.za",
+    cta: "Visit DaggaSpot",
+  },
 ];
 
 export interface SponsorTier {
