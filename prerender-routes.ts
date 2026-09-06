@@ -107,6 +107,7 @@ export const routes: RouteMeta[] = [
   { path: "/affiliate", title: "Affiliate Program — Earn With Tripplefour", description: "Join the Tripplefour affiliate program and earn commission on every CBD sale." },
   { path: "/dispensaries", title: "Wholesale Portal for Dispensaries SA | Tripplefour", description: "Order CBD stock wholesale in South Africa. Browse the catalogue, request custom items and download a PDF quote instantly." },
   { path: "/cbd-oil-south-africa", title: "CBD Oil South Africa — Buy Online, Legal Guide | Tripplefour", description: "CBD oil in South Africa: what it is, how it's dosed, the legal position under Schedule 0, and where to buy CBD products online with nationwide delivery in ZAR." },
+  { path: "/cbd-edibles-south-africa", title: "CBD Edibles South Africa — Gummies, Cookies & Dosage Guide", description: "CBD edibles in South Africa: gummies, cookies and infused cubes explained — mg per serving, onset times, the Schedule 0 legal position, and where to buy online in ZAR." },
   { path: "/donations", title: "Donations & Community Giving | Tripplefour", description: "We accept non-cash donations and give everything to a community home voted for each month." },
   { path: "/privacy-policy", title: "Privacy Policy | Tripplefour", description: "How Tripplefour collects, uses and protects your personal information. POPIA compliant." },
   { path: "/terms-of-service", title: "Terms of Service | Tripplefour", description: "Terms, 21+ age rules and conditions of use for the Tripplefour store." },

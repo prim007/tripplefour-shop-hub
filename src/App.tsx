@@ -36,6 +36,7 @@ import Affiliate from "./pages/Affiliate";
 import Dispensaries from "./pages/Dispensaries";
 import Donations from "./pages/Donations";
 import CbdOilSouthAfrica from "./pages/CbdOilSouthAfrica";
+import CbdEdiblesSouthAfrica from "./pages/CbdEdiblesSouthAfrica";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import Unsubscribe from "./pages/Unsubscribe";
@@ -101,6 +102,7 @@ const App = () => (
                 <Route path="/dispensaries" element={<Dispensaries />} />
                 <Route path="/donations" element={<Donations />} />
                 <Route path="/cbd-oil-south-africa" element={<CbdOilSouthAfrica />} />
+                <Route path="/cbd-edibles-south-africa" element={<CbdEdiblesSouthAfrica />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/terms-of-service" element={<TermsOfService />} />
                 <Route path="/admin" element={<Admin />} />
