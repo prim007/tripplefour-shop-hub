@@ -32,7 +32,7 @@ const PRODUCT_CATALOG: Record<string, { name: string; price: number }> = {
   "ind-2": { name: "Indoor Flower 2g", price: 315 },
   "ind-1": { name: "Indoor Flower 1g", price: 255 },
   "ed-cube40": { name: "Edible Cube 40mg", price: 60 },
-  "ed-chocchip-cookies": { name: "Tripple444 ChocChip Cookies (10 Pack)", price: 165 },
+  
   "dab-1": { name: "Dab Concentrate", price: 350 },
   "ot-moon": { name: "Moon Rock", price: 125 },
   "acc-airbuzz-shisha": { name: "AirBuzz Dubai Fusion Premium Shisha", price: 100 },

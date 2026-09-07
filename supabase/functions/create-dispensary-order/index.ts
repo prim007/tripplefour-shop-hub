@@ -24,7 +24,7 @@ const PRODUCT_CATALOG: Record<string, { name: string; price: number }> = {
   "acc-airbuzz-shisha": { name: "AirBuzz Dubai Fusion Premium Shisha", price: 100 },
   "vp-thalia-ice-cola": { name: "Thalia 8000 Puffs 2% Vape — Ice Cola", price: 100 },
   "ed-cube40": { name: "Edible Cube 40mg", price: 60 },
-  "ed-chocchip-cookies": { name: "Tripple444 ChocChip Cookies (10 Pack)", price: 165 },
+  
   "dab-1": { name: "Dab Concentrate", price: 350 },
   "dv-edibles-100mg": { name: "Dirty Vapes Edibles Tub 100mg", price: 150 },
   "dv-cart-1ml": { name: "Dirty Vapes 1ML Cart", price: 350 },
