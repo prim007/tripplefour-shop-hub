@@ -9,7 +9,7 @@ import dirtyVapesCart1mlImg from "@/assets/products/dirty-vapes-cart-1ml.jpg";
 import dirtyVapesSwitch2mlImg from "@/assets/products/dirty-vapes-switch-2ml.jpg";
 import dirtyVapesDisposable1mlImg from "@/assets/products/dirty-vapes-disposable-1ml.jpg";
 import airbuzzShishaAsset from "@/assets/products/airbuzz-dubai-fusion-shisha.png.asset.json";
-import chocChipCookiesAsset from "@/assets/products/tripple444-chocchip-cookies.png.asset.json";
+
 import t444ConesAsset from "@/assets/products/tripple444-108mm-cones.png.asset.json";
 import hornetTipsAsset from "@/assets/products/hornet-hemp-cotton-tips.png.asset.json";
 import hpCherryPigAsset from "@/assets/products/honeypuff-honey-cherry-pig.png.asset.json";
