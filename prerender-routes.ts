@@ -83,7 +83,7 @@ const lefLabsJsonLd = {
 
 const products: { id: string; name: string; price: number; desc: string }[] = [
   { id: "ed-cube40", name: "Edible Cube 40mg", price: 60, desc: "Hemp-infused edible cube, 40mg per piece." },
-  { id: "ed-chocchip-cookies", name: "Tripple444 ChocChip Cookies (10 Pack)", price: 165, desc: "Infused choc chip cookies — 10 per pack, resealable pouch." },
+  
   { id: "dab-1", name: "Dab Concentrate", price: 350, desc: "Premium hemp dab concentrate." },
   { id: "acc-airbuzz-shisha", name: "AirBuzz Dubai Fusion Shisha", price: 100, desc: "CBD-infused herbal shisha, <0.25% THC." },
   { id: "dv-edibles-100mg", name: "Dirty Vapes Edibles Tub 100mg", price: 150, desc: "Sugar-coated infused gummy cubes, 100mg per tub." },
