@@ -81,10 +81,12 @@ Deno.serve(async (req) => {
     }
 
     const trimmedMessages = messages.slice(-MAX_MESSAGES);
-    // Roles are server-owned: every caller-supplied message is treated as a user turn
-    // so nobody can inject text that appears to come from the assistant or the system.
-    const sanitizedMessages = trimmedMessages.map((msg: any) => ({
-      role: "user" as const,
+    // Roles are server-owned: the caller cannot choose them. The newest turn is always
+    // the shopper's, and earlier turns alternate backwards from there, so nobody can
+    // inject text that appears to come from the assistant or the system.
+    const lastIndex = trimmedMessages.length - 1;
+    const sanitizedMessages = trimmedMessages.map((msg: any, index: number) => ({
+      role: (lastIndex - index) % 2 === 0 ? ("user" as const) : ("assistant" as const),
       content: typeof msg.content === "string" ? msg.content.slice(0, MAX_CONTENT_LENGTH) : "",
     }));
 
