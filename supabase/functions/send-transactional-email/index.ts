@@ -14,6 +14,15 @@ const corsHeaders = {
     'authorization, x-client-info, apikey, content-type',
 }
 
+// Never write full recipient addresses to logs — keep just enough to debug.
+function maskEmail(value?: string | null): string {
+  if (!value) return 'unknown'
+  const [local, domain] = String(value).split('@')
+  if (!domain) return '***'
+  const head = local.slice(0, 1)
+  return `${head}***@${domain}`
+}
+
 // Generate a cryptographically random 32-byte hex token
 function generateToken(): string {
   const bytes = new Uint8Array(32)
