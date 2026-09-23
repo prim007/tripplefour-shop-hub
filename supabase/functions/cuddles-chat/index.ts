@@ -81,8 +81,10 @@ Deno.serve(async (req) => {
     }
 
     const trimmedMessages = messages.slice(-MAX_MESSAGES);
+    // Roles are server-owned: every caller-supplied message is treated as a user turn
+    // so nobody can inject text that appears to come from the assistant or the system.
     const sanitizedMessages = trimmedMessages.map((msg: any) => ({
-      role: msg.role === "assistant" ? "assistant" : "user",
+      role: "user" as const,
       content: typeof msg.content === "string" ? msg.content.slice(0, MAX_CONTENT_LENGTH) : "",
     }));
 

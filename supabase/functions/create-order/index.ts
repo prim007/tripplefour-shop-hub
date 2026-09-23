@@ -168,6 +168,25 @@ Deno.serve(async (req) => {
     const signingSecret = Deno.env.get("ADMIN_SECRET_KEY") || serviceRoleKey;
     const supabase = createClient(supabaseUrl, serviceRoleKey);
 
+    // Require an authenticated shopper — orders may not be created anonymously.
+    const authHeader = req.headers.get("Authorization") ?? "";
+    const accessToken = authHeader.toLowerCase().startsWith("bearer ")
+      ? authHeader.slice(7).trim()
+      : "";
+    if (!accessToken) {
+      return new Response(JSON.stringify({ error: "Please sign in to place an order." }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const { data: authData, error: authError } = await supabase.auth.getUser(accessToken);
+    if (authError || !authData?.user) {
+      return new Response(JSON.stringify({ error: "Please sign in to place an order." }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const ageTokenValid = await verifyAgeToken(age_token, signingSecret);
     if (!ageTokenValid) {
       return new Response(JSON.stringify({ error: "Age verification expired. Please verify again." }), {
