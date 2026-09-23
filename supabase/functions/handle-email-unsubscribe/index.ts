@@ -1,5 +1,19 @@
 import { createClient } from 'npm:@supabase/supabase-js@2'
 
+// Never write full recipient addresses or raw tokens to logs.
+function maskEmail(value?: string | null): string {
+  if (!value) return 'unknown'
+  const [local, domain] = String(value).split('@')
+  if (!domain) return '***'
+  return `${local.slice(0, 1)}***@${domain}`
+}
+
+function maskToken(value?: string | null): string {
+  if (!value) return 'none'
+  return `***${String(value).slice(-4)}`
+}
+
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers':
@@ -100,7 +114,7 @@ Deno.serve(async (req) => {
     .maybeSingle()
 
   if (updateError) {
-    console.error('Failed to mark token as used', { error: updateError, token })
+    console.error('Failed to mark token as used', { error: updateError, token: maskToken(token) })
     return jsonResponse({ error: 'Failed to process unsubscribe' }, 500)
   }
 
@@ -119,12 +133,12 @@ Deno.serve(async (req) => {
   if (suppressError) {
     console.error('Failed to suppress email', {
       error: suppressError,
-      email: tokenRecord.email,
+      recipient: maskEmail(tokenRecord.email),
     })
     return jsonResponse({ error: 'Failed to process unsubscribe' }, 500)
   }
 
-  console.log('Email unsubscribed', { email: tokenRecord.email })
+  console.log('Email unsubscribed', { recipient: maskEmail(tokenRecord.email) })
 
   return jsonResponse({ success: true })
 })
