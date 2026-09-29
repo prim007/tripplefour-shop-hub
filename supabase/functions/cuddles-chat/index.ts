@@ -25,37 +25,30 @@ function isRateLimited(clientIp: string): boolean {
 
 // Full product catalog for AI context
 const PRODUCT_CATALOG = `
-PRODUCT CATALOG (use these exact IDs when recommending):
-PRE-ROLLS:
-- [PRODUCT:pr-4gh] 4 Prerolls Greenhouse — R165 — Pack of 4 greenhouse pre-rolls
-- [PRODUCT:pr-1in] Indoor Preroll — R90 — Single indoor pre-roll, premium quality
-- [PRODUCT:pr-1gh] 1 Preroll Greenhouse — R75 — Single greenhouse pre-roll
-- [PRODUCT:pr-out] Outdoor Pre-roll — R50 — Single outdoor pre-roll, great value
-
-SMALL BANKY BAGS:
-- [PRODUCT:sb-out5] Small Banky Bag Outdoor 5G — R80 — 5 grams of outdoor
-- [PRODUCT:sb-swazi] Small Banky Bag Swazi — R60 — Swazi strain
-
-GREENHOUSE STRAINS:
-- [PRODUCT:ghs-50] Greenhouse Strains 50G — R1,085 — Top-shelf, 50 gram pack
-- [PRODUCT:ghs-20] Greenhouse Strains 20G — R735 — Top-shelf, 20 gram pack
-- [PRODUCT:ghs-2] Greenhouse Strains 2G — R260 — Top-shelf, 2 gram pack
-
-INDOOR DUST:
-- [PRODUCT:ind-10] Indoor Dust 10G — R500 — Premium indoor-grown, 10 gram pack
-- [PRODUCT:ind-2] Indoor Dust 2G — R315 — Premium indoor-grown, 2 gram pack
-- [PRODUCT:ind-1] Indoor Dust 1G — R255 — Premium indoor-grown, 1 gram pack
-
-EDIBLES:
-- [PRODUCT:ed-cube40] Edible Cube 40mg — R60 — Cannabis-infused edible cube
-
+PRODUCT CATALOG (the ONLY products in stock — use these exact IDs and prices):
+ACCESSORIES:
+- [PRODUCT:acc-t444-cones] TRIPPLE444 108mm Rolling Papers (100 per barrel) — R150
+- [PRODUCT:acc-owlfit-kit] OwlFit Rolling Kit (Hard Case) — R650 — complete rolling kit
+- [PRODUCT:acc-siho-grinder] SIHO Wood-Finish 4-Piece Grinder — R105
+- [PRODUCT:acc-q6-lighter-25] Q6 MR.RAM Lighter Box (25pcs) — R250
+- [PRODUCT:acc-hornet-tips] HORNET Hemp & Cotton Rolling Tips and Paper (50 leaves) — R165
+- [PRODUCT:acc-hp-cherry-pig] HoneyPuff Hemp Wraps — Honey Cherry Pig — R175 — tobacco/nicotine free
+- [PRODUCT:acc-fruitors-ashtray] Fruitors Skull-Shaped Ashtray Set — R650
+- [PRODUCT:acc-rickmorty-ashtray] Rick and Morty Round Ashtray Set — R650
+- [PRODUCT:acc-dot-lighter-50] DOT Lighter Box (50pcs) — R100
+- [PRODUCT:acc-psych-small-pkg] Psychedelic Graphic Small Packages — R95
+- [PRODUCT:acc-hp-rolling-tray] HoneyPuff Rolling Tray — R100
+- [PRODUCT:acc-airbuzz-shisha] AirBuzz Dubai Fusion CBD Herbal Shisha — R100
 VAPES:
-
+- [PRODUCT:vp-thalia-ice-cola] Thalia 8000 Puffs 2% Vape — Ice Cola — R100
+- [PRODUCT:dv-cart-1ml] Dirty Vapes 1ML Cart (510 thread) — R350
+- [PRODUCT:dv-disposable-1ml] Dirty Vapes 1ML Disposable — R450
+- [PRODUCT:dv-switch-2ml] Dirty Vapes 2ML SWITCH (Sativa/Indica dual mode) — R900
+EDIBLES:
+- [PRODUCT:ed-cube40] Edible Cube 40mg — R60 — great for beginners
+- [PRODUCT:dv-edibles-100mg] Dirty Vapes Edibles Tub 100mg — R150
 DAB:
-- [PRODUCT:dab-1] Dab Concentrate — R350 — Premium cannabis dab concentrate
-
-OTHER:
-- [PRODUCT:ot-moon] Moon Sticks — R125 — Premium moon sticks
+- [PRODUCT:dab-1] Dab Concentrate — R350
 `;
 
 Deno.serve(async (req) => {
@@ -127,8 +120,10 @@ CRITICAL RULES FOR PRODUCT RECOMMENDATIONS:
 - Always recommend specific products from the catalog, not generic suggestions.
 - After answering a question, ALWAYS suggest 1-3 relevant products.
 - Use persuasive but friendly language: "This would be perfect for you!", "Customers love this one!", "Best seller for that vibe!"
-- If someone asks about sleep → recommend Indica pre-rolls or edibles WITH the product tags
-- If someone asks about socializing → recommend Sativa options WITH product tags
+- ONLY recommend products listed in the catalog. Never invent products, strains or prices. Always state the exact price in Rands.
+- Put each [PRODUCT:id] tag on its own line.
+- If someone asks about sleep/relaxing → recommend edibles or the SWITCH (Indica mode) WITH the product tags
+- If someone asks about rolling → recommend papers, tips, wraps, grinder, tray or the OwlFit kit WITH product tags
 - If someone asks about vaping → recommend specific vape products WITH product tags
 - If someone is a beginner → recommend a small/affordable option WITH product tags
 - End conversations with a product suggestion when possible
@@ -136,11 +131,11 @@ CRITICAL RULES FOR PRODUCT RECOMMENDATIONS:
 ${PRODUCT_CATALOG}
 
 EXAMPLE RESPONSE FORMAT:
-"For deep relaxation and sleep, I'd recommend trying our Indoor Pre-roll 🌙 It's premium quality and perfect for winding down!
+"For deep relaxation and sleep, I'd recommend the Dirty Vapes Edibles Tub (R150) 🌙 Perfect for winding down!
 
-[PRODUCT:pr-1in]
+[PRODUCT:dv-edibles-100mg]
 
-If you want something lighter, the Edible Cube is great for a mellow evening:
+If you want something lighter, the Edible Cube (R60) is great for a mellow evening:
 
 [PRODUCT:ed-cube40]
 
