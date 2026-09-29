@@ -120,41 +120,27 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
 
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        sessionStorage.setItem("post_auth_redirect", window.location.pathname);
-        setChatError({
-          title: "Sign in to chat",
-          detail: "Please sign in (top-right menu) to chat with Cuddles.",
-          retryable: false,
-        });
-        setIsLoading(false);
-        return;
-      }
       const resp = await fetch(CHAT_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-          Authorization: `Bearer ${session.access_token}`,
+          Authorization: `Bearer ${session?.access_token ?? import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
         body: JSON.stringify({ messages: allMessages }),
       });
 
+
       if (!resp.ok || !resp.body) {
         const errData = await resp.json().catch(() => ({} as { error?: string }));
-        if (resp.status === 401) {
-          setChatError({
-            title: "Sign in to chat",
-            detail: "Please sign in (top-right menu) to chat with Cuddles.",
-            retryable: false,
-          });
-        } else if (resp.status === 429) {
+        if (resp.status === 429) {
           setChatError({
             title: "Cuddles is at capacity",
             detail: "Too many requests right now. Wait about a minute and try again.",
             retryable: true,
           });
         } else if (resp.status === 402) {
+
           setChatError({
             title: "Cuddles is temporarily unavailable",
             detail: "Our AI service has run out of credits. Browse the shop or WhatsApp us on 064 543 6734 and a human will help.",
