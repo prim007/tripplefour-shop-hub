@@ -25,7 +25,7 @@ const ORDER_PHONE = "0718065754";
 const ORDER_PHONE_DISPLAY = "071 806 5754";
 const WHATSAPP_NUMBER = "27718065754";
 const WHATSAPP_LEAD_MESSAGE =
-  "Hi Lëf Labs 👋 I'm a B2B lead from the Tripplefour Shop (tripplefourshophub.online) — I'd like the September 2026 wholesale catalogue / to place an order.";
+  "Hi Lëf Labs 👋 I'm a B2B lead from the Tripplefour Shop (tripplefourshophub.online) — I'd like the October 2026 wholesale catalogue / to place an order.";
 
 type LefProduct = {
   name: string;
@@ -34,16 +34,16 @@ type LefProduct = {
 };
 
 const lefProducts: LefProduct[] = [
-  { name: "Blue Zushi", caption: "4A Indoor · Tier I · R45/kg", image: flowerImg },
-  { name: "Rainbow Royale", caption: "4A Indoor · Tier I · R45/kg", image: flowerImg },
-  { name: "Animal Runtz", caption: "4A Indoor · BACK in stock", image: flowerImg },
+  { name: "Iron Grip", caption: "Hydro · Tier I · R45/kg", image: flowerImg },
+  { name: "Marshmallow Mimosa", caption: "Hydro · Tier I · R45/kg", image: flowerImg },
+  { name: "Kimbo Kush", caption: "Exotic Greenhouse · BACK in stock", image: flowerImg },
   { name: "Gelato 41", caption: "Indoor · Tier II · R35/kg", image: flowerImg },
-  { name: "Purple Panda (Organic)", caption: "Greendoor · Tier III · 4A grade", image: flowerImg },
+  { name: "Static Peach", caption: "Greendoor · Tier III · R27/kg", image: flowerImg },
   { name: "Indoor Moonstick", caption: "1.4g · kief-coated · R65", image: prerollImg },
   { name: "Greenhouse Pre-Roll", caption: "1.4g · glass tube · R30", image: prerollImg },
-  { name: "Funk't Cartridge", caption: "NEW supplier · R350 flat", image: disposableImg },
-  { name: "Orphan Laboratory", caption: "NEW supplier · R350 flat", image: cartridgeImg },
-  { name: "Liquid Gold Cartridge", caption: "Vapes · R350 flat", image: cartridgeImg },
+  { name: "LëF Labs Vapes", caption: "NEW line · R399 flat", image: disposableImg },
+  { name: "Kush & Tells", caption: "NEW line · R399 flat", image: cartridgeImg },
+  { name: "Liquid Gold Cartridge", caption: "Vapes · R399 flat", image: cartridgeImg },
 ];
 
 const LefProductCard = ({ p }: { p: LefProduct }) => (
@@ -85,8 +85,8 @@ const SectionHeader = ({
 
 const TIERS = [
   {
-    key: "4A Indoor · Tier I",
-    label: "4A Indoor · Tier I",
+    key: "Hydro · Tier I",
+    label: "Hydro · Tier I",
     range: "R43–R45/kg",
     blurb: "Full-cycle indoor hydroponic genetics. Floor held at R43 through 10kg and 15kg. 100g minimum.",
     breaks: [["1kg", "R45"], ["2kg", "R44.50"], ["3kg", "R44"], ["4kg", "R43.50"], ["5kg", "R43"], ["10kg", "R43"], ["15kg", "R43"]],
@@ -95,26 +95,26 @@ const TIERS = [
     key: "Indoor · Tier II",
     label: "Indoor · Tier II",
     range: "R28–R35/kg",
-    blurb: "Controlled environment, one step below 4A. 5kg floor requires a 50% deposit. 100g minimum.",
+    blurb: "Controlled environment, one step below Hydro. 5kg floor requires a 50% deposit. 100g minimum.",
     breaks: [["1kg", "R35"], ["5kg", "R28"]],
   },
   {
     key: "Greendoor · Tier III",
-    label: "Greendoor Organic Range · Tier III",
+    label: "Greendoor · Tier III",
     range: "R25–R27/kg",
-    blurb: "Light-assisted cultivation with an organic sub-range marked (4A). R0.50/kg reduction per additional kg to the 5kg floor. 250g minimum.",
+    blurb: "Light-assisted, artificial-lit cultivation — regulars call it the steal of the list. R0.50/kg reduction per additional kg to the 5kg floor. 250g minimum.",
     breaks: [["1kg", "R27"], ["2kg", "R26.50"], ["3kg", "R26"], ["4kg", "R25.50"], ["5kg", "R25"]],
   },
   {
     key: "Exotic Greenhouse · Tier IV",
     label: "Exotic Greenhouse · Tier IV",
     range: "R18–R24/kg",
-    blurb: "Greenhouse exotics plus BT Mids & Pops, stock dependent. 250g minimum.",
+    blurb: "Greenhouse exotics and organics plus BT Mids & Pops, stock dependent. 250g minimum.",
     breaks: [["1kg", "R24"], ["5kg", "R18"]],
   },
   {
-    key: "Greenhouse · Tier V",
-    label: "Greenhouse · Tier V",
+    key: "Sungrown · Tier V",
+    label: "Sungrown · Tier V",
     range: "R13–R15/kg",
     blurb: "Everyday range built for volume. 10–15kg by special arrangement only. 250g minimum.",
     breaks: [["1kg", "R15"], ["5kg", "R13"], ["10–15kg", "By arrangement"]],
@@ -130,10 +130,10 @@ export default function PartnerLefLabs() {
   return (
     <div className="flex min-h-screen flex-col">
       <Helmet>
-        <title>Lëf Labs September 2026 Catalogue — Wholesale | Tripplefour</title>
+        <title>Lëf Labs October 2026 Catalogue — Wholesale | Tripplefour</title>
         <meta
           name="description"
-          content="Lëf Labs September 2026 wholesale catalogue — 5 flower tiers from R13/kg, pre-rolls, R350 flat vapes and sour edibles. Authorised B2B partners only."
+          content="Lëf Labs October 2026 wholesale catalogue — 5 flower tiers from R13/kg, pre-rolls, R399 flat vapes and sour edibles. Authorised B2B partners only."
         />
         <link rel="canonical" href="https://tripplefourshophub.online/partners/lef-labs" />
         <meta name="robots" content="noindex, follow" />
@@ -154,14 +154,14 @@ export default function PartnerLefLabs() {
 
             <div className="mt-6 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
               <div>
-                <Badge className="mb-3 bg-accent text-accent-foreground">September 2026 Catalogue</Badge>
+                <Badge className="mb-3 bg-accent text-accent-foreground">October 2026 Catalogue</Badge>
                 <h1 className="font-display text-4xl font-bold md:text-5xl">
                   Lëf <span className="text-primary">Labs</span>{" "}
                   <span className="text-base font-normal text-muted-foreground">(Pty) Ltd</span>
                 </h1>
                 <p className="mt-3 max-w-xl text-muted-foreground">
-                  One supplier. Full stack. The September Collection — five flower tiers, in-house
-                  pre-rolls, a unified R350 vape price point and LëF Labs branded sour edibles.
+                  One supplier. Full stack. The October Collection — five flower tiers, in-house
+                  pre-rolls, a unified R399 vape price point and LëF Labs branded sour edibles.
                   COA on request for every batch. B2B only.
                 </p>
                 <div className="mt-4 flex flex-wrap gap-2">
@@ -216,21 +216,21 @@ export default function PartnerLefLabs() {
             <SectionHeader
               index="01 — What's new"
               title="New This Month"
-              subtitle="The September catalogue is ready. Same pricing structure as always — floors hold through 10–15kg on 4A."
+              subtitle="The October catalogue is ready — new tier names, fresh line-ups and six vape lines at one flat R399."
             />
             <div className="grid gap-4 md:grid-cols-3">
               {[
                 {
-                  t: "Two new vape suppliers",
-                  d: "Funk't and Orphan Laboratory join Liquid Gold, Pure Leaf and Dirty Vapes — all at the same flat R350. MOQ 20 units.",
+                  t: "Hydro & Sungrown line-ups",
+                  d: "Hydro replaces 4A Indoor with 15 new strains; Sungrown replaces Greenhouse with 6. Indoor tightened to 10 strains.",
                 },
                 {
-                  t: "Returning strains — BACK",
-                  d: "A number of previously under-exposed lines are back in stock across 4A Indoor, Greendoor and Exotic Greenhouse, flagged BACK on the list.",
+                  t: "New Greendoor · bigger Exotic list",
+                  d: "A brand-new 7-strain Greendoor line-up, and Exotic Greenhouse grows to 22 strains — returning lines flagged BACK.",
                 },
                 {
-                  t: "Pricing unchanged",
-                  d: "Same tier structure and volume breaks. R43/kg remains the hard 4A floor and is held flat through 10kg and 15kg orders.",
+                  t: "Vapes · R399 flat",
+                  d: "Six cartridge lines — Liquid Gold, Pure Leaf, Dirty Vapes, Funk't, LëF Labs Vapes and Kush & Tells. MOQ 20 units.",
                 },
               ].map((c) => (
                 <div key={c.t} className="rounded-2xl border-2 border-primary/30 bg-primary/5 p-5">
@@ -248,18 +248,18 @@ export default function PartnerLefLabs() {
             <SectionHeader
               index="02 — At a glance"
               title="Quick Reference"
-              subtitle="Minimum order: 100g on 4A Indoor & Indoor · 250g across the rest of the list. Highest price point R45/kg, floor price from R10/kg."
+              subtitle="Minimum order: 100g on Hydro & Indoor · 250g across the rest of the list. Highest price point R45/kg, floor price from R10/kg."
             />
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {[
-                ["4A Indoor · Tier I", "R43–R45", "Full-cycle indoor hydroponic. 28 strains. Floor held at R43 through 15kg. 100g min."],
-                ["Indoor · Tier II", "R28–R35", "Controlled environment, one step below 4A. 20 strains. 5kg floor requires 50% deposit."],
-                ["Greendoor · Tier III", "R25–R27", "Light-assisted. Organic sub-range available. 13 strains. 250g min."],
-                ["Exotic Greenhouse · Tier IV", "R18–R24", "Greenhouse exotics plus BT Mids & Pops. 9 strains. Stock dependent."],
-                ["Greenhouse · Tier V", "R13–R15", "Everyday range. 6 strains. 10–15kg by special arrangement only."],
+                ["Hydro · Tier I", "R43–R45", "Full-cycle indoor hydroponic. 15 strains. Floor held at R43 through 15kg. 100g min."],
+                ["Indoor · Tier II", "R28–R35", "Controlled environment, one step below Hydro. 10 strains. 5kg floor requires 50% deposit."],
+                ["Greendoor · Tier III", "R25–R27", "Light-assisted. Regulars call it the steal of the list. 7 strains. 250g min."],
+                ["Exotic Greenhouse · Tier IV", "R18–R24", "Exotics, organics plus BT Mids & Pops. 22 strains. Stock dependent."],
+                ["Sungrown · Tier V", "R13–R15", "Everyday range. 6 strains. 10–15kg by special arrangement only."],
                 ["Pops & Mini Pops", "R15–R25", "Assorted small/medium, or straight small. From 250g bags."],
                 ["Pre-Rolls & Moonsticks", "R25–R65", "1.4g in-house rolled. 7 formats across Indoor & Greenhouse. 100 unit min."],
-                ["Vapes", "R350/u", "5 lines, one flat price — now with two new suppliers. MOQ 20 units."],
+                ["Vapes", "R399/u", "6 lines, one flat price. MOQ 20 units."],
                 ["Sour Edibles", "R150–R180", "15mg & 30mg. LëF Labs branded. MOQ 10 packs per flavour."],
                 ["Concentrates", "POR", "Dab, honeycomb, crumble, distillate. Custom specs available."],
                 ["Untrimmed Bud", "R10/kg", "Seedless, Greendoor-sourced. Not outdoor. 250g min."],
@@ -281,9 +281,9 @@ export default function PartnerLefLabs() {
             <SectionHeader
               index="03 — Product range"
               title="Catalogue Highlights"
-              subtitle="Representative product photography of the September range. All products available with batch COA on request."
+              subtitle="Representative product photography of the October range. All products available with batch COA on request."
             />
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3">
               {lefProducts.map((p) => (
                 <LefProductCard key={p.name} p={p} />
               ))}
@@ -424,16 +424,17 @@ export default function PartnerLefLabs() {
           <div className="mx-auto max-w-6xl">
             <SectionHeader
               index="07 — Cartridges"
-              title="Vapes · R350 Unified Price Point"
-              subtitle="One flat price across every cartridge line we carry — Pure Leaf, Dirty Vapes and Liquid Gold, now joined by two new suppliers: Funk't and Orphan Laboratory. Cleanly sourced, all landing at the same number. MOQ 20 units."
+              title="Vapes · R399 Unified Price Point"
+              subtitle="One flat price across every cartridge line we carry — Liquid Gold, Pure Leaf, Dirty Vapes, Funk't, LëF Labs Vapes and Kush & Tells. Six lines, all landing at the same number. MOQ 20 units."
             />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {[
                 { line: "Line 01", name: "Liquid Gold", isNew: false },
                 { line: "Line 02", name: "Pure Leaf", isNew: false },
                 { line: "Line 03", name: "Dirty Vapes", isNew: false },
-                { line: "Line 04", name: "Funk't", isNew: true },
-                { line: "Line 05", name: "Orphan Laboratory", isNew: true },
+                { line: "Line 04", name: "Funk't", isNew: false },
+                { line: "Line 05", name: "LëF Labs Vapes", isNew: true },
+                { line: "Line 06", name: "Kush & Tells", isNew: true },
               ].map((v) => (
                 <div
                   key={v.name}
@@ -443,10 +444,10 @@ export default function PartnerLefLabs() {
                     <Badge className="absolute -top-2.5 right-3 bg-primary text-primary-foreground">NEW</Badge>
                   )}
                   <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-                    {v.line}{v.isNew ? " · New supplier" : ""}
+                    {v.line}{v.isNew ? " · New line" : ""}
                   </p>
                   <p className="mt-1 font-display text-base font-bold">{v.name}</p>
-                  <p className="mt-2 font-mono text-xl font-bold text-primary">R350</p>
+                  <p className="mt-2 font-mono text-xl font-bold text-primary">R399</p>
                   <p className="mt-2 text-xs text-muted-foreground">
                     Cleanly sourced cartridge line, one flat price point.
                   </p>
@@ -547,14 +548,14 @@ export default function PartnerLefLabs() {
             <SectionHeader index="10 — Ordering terms" title="How to Order" />
             <div className="grid gap-3 rounded-2xl border border-border bg-card p-6 text-sm md:grid-cols-2">
               {[
-                ["Minimum order", "100g on 4A Indoor & Indoor · 250g across the rest of the list."],
-                ["Volume floors", "R43/kg is the hard 4A floor, held flat through 10kg and 15kg orders."],
+                ["Minimum order", "100g on Hydro & Indoor · 250g across the rest of the list."],
+                ["Volume floors", "R43/kg is the hard Hydro floor, held flat through 10kg and 15kg orders."],
                 ["Deposits", "The Tier II 5kg floor price requires a 50% deposit, balance due on arrival."],
-                ["10–15kg greenhouse", "By special arrangement only, subject to limited availability. Deposit orders take preference."],
-                ["Mixed bundles", "Assorted kg split across 4A Indoor and Greendoor (or other combinations) built on request."],
+                ["10–15kg Sungrown", "By special arrangement only, subject to limited availability. Deposit orders take preference."],
+                ["Mixed bundles", "Assorted kg split across Hydro and Greendoor (or other combinations) built on request."],
                 ["Payment", "Direct EFT into the Lëf Labs Absa account using the reference generated with your order."],
                 ["COA", "Available on request for every batch, across every tier."],
-                ["Validity", "Pricing valid for September 2026. Updated catalogue issued monthly."],
+                ["Validity", "Pricing valid for October 2026. Updated catalogue issued monthly."],
               ].map(([k, v]) => (
                 <div key={k} className="border-b border-border pb-3 last:border-0">
                   <p className="text-xs font-semibold uppercase tracking-widest text-primary">{k}</p>
@@ -571,7 +572,7 @@ export default function PartnerLefLabs() {
               </p>
               <Button asChild className="mt-4 gap-2">
                 <Link to="/partners/lef-labs/order">
-                  <ShoppingCart className="h-4 w-4" /> Order the September catalogue
+                  <ShoppingCart className="h-4 w-4" /> Order the October catalogue
                 </Link>
               </Button>
               <p className="mt-3 text-[11px] text-muted-foreground">

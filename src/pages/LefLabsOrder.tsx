@@ -109,8 +109,8 @@ export default function LefLabsOrder() {
   return (
     <div className="flex min-h-screen flex-col">
       <Helmet>
-        <title>Order Online — Lëf Labs September 2026 Catalogue | Tripplefour</title>
-        <meta name="description" content="Lëf Labs B2B wholesale order portal — September 2026 catalogue. Authorised partners only." />
+        <title>Order Online — Lëf Labs October 2026 Catalogue | Tripplefour</title>
+        <meta name="description" content="Lëf Labs B2B wholesale order portal — October 2026 catalogue. Authorised partners only." />
         <meta name="robots" content="noindex, follow" />
       </Helmet>
 
@@ -127,14 +127,14 @@ export default function LefLabsOrder() {
             </Link>
             <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
               <div>
-                <Badge className="mb-2 bg-accent text-accent-foreground">September 2026 Catalogue</Badge>
+                <Badge className="mb-2 bg-accent text-accent-foreground">October 2026 Catalogue</Badge>
                 <h1 className="font-display text-3xl font-bold md:text-4xl">
                   Order Online — <span className="text-primary">Direct EFT Checkout</span>
                 </h1>
                 <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                  New this month: two additional vape suppliers (Funk't and Orphan Laboratory) at the same flat R350,
-                  plus returning strains back in stock across 4A, Greendoor and Exotic Greenhouse (flagged BACK).
-                  Same pricing structure as always — floors hold through 10–15kg on 4A. COA on request for every batch.
+                  New this month: Hydro replaces 4A Indoor (15 strains), a brand-new 7-strain Greendoor line-up,
+                  Exotic Greenhouse now 22 strains, Sungrown replaces Greenhouse, and six vape lines at a flat R399.
+                  COA on request for every batch.
                 </p>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary">
