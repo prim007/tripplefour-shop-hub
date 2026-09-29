@@ -74,9 +74,9 @@ Deno.serve(async (req) => {
   }
 
   const jwt = authHeader.slice(7)
-  // Accept either the raw service-role/secret key or a legacy service_role JWT.
+  // Only accept the exact server-side service key; never trust unverified JWT claims.
   const isServiceKey = jwt === supabaseServiceKey
-  if (!isServiceKey && getRoleFromJwt(jwt) !== 'service_role') {
+  if (!isServiceKey) {
     return new Response(JSON.stringify({ error: 'Forbidden' }), {
       status: 403,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
