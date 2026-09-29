@@ -81,14 +81,28 @@ Deno.serve(async (req) => {
     }
 
     const trimmedMessages = messages.slice(-MAX_MESSAGES);
-    // Roles are server-owned: the caller cannot choose them. The newest turn is always
-    // the shopper's, and earlier turns alternate backwards from there, so nobody can
-    // inject text that appears to come from the assistant or the system.
-    const lastIndex = trimmedMessages.length - 1;
-    const sanitizedMessages = trimmedMessages.map((msg: any, index: number) => ({
-      role: (lastIndex - index) % 2 === 0 ? ("user" as const) : ("assistant" as const),
-      content: typeof msg.content === "string" ? msg.content.slice(0, MAX_CONTENT_LENGTH) : "",
-    }));
+    // Only "user" and "assistant" are accepted (anything else, incl. "system", becomes
+    // "user"). Consecutive same-role turns — e.g. after a failed reply — are merged,
+    // leading assistant turns dropped, and the newest turn must be the shopper's.
+    const sanitizedMessages: { role: "user" | "assistant"; content: string }[] = [];
+    for (const msg of trimmedMessages as any[]) {
+      const role = msg?.role === "assistant" ? "assistant" : "user";
+      const content = typeof msg?.content === "string" ? msg.content.slice(0, MAX_CONTENT_LENGTH) : "";
+      if (!content.trim()) continue;
+      if (sanitizedMessages.length === 0 && role === "assistant") continue;
+      const prev = sanitizedMessages[sanitizedMessages.length - 1];
+      if (prev && prev.role === role) {
+        prev.content = `${prev.content}\n\n${content}`.slice(0, MAX_CONTENT_LENGTH * 2);
+      } else {
+        sanitizedMessages.push({ role, content });
+      }
+    }
+    if (sanitizedMessages.length === 0 || sanitizedMessages[sanitizedMessages.length - 1].role !== "user") {
+      return new Response(JSON.stringify({ error: "Invalid request" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
