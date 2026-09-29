@@ -133,12 +133,14 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
 
       if (!resp.ok || !resp.body) {
         const errData = await resp.json().catch(() => ({} as { error?: string }));
-        if (resp.status === 401) {
+        if (resp.status === 429) {
           setChatError({
-            title: "Sign in to chat",
-            detail: "Please sign in (top-right menu) to chat with Cuddles.",
-            retryable: false,
+            title: "Cuddles is at capacity",
+            detail: "Too many requests right now. Wait about a minute and try again.",
+            retryable: true,
           });
+        } else if (resp.status === 402) {
+
         } else if (resp.status === 429) {
           setChatError({
             title: "Cuddles is at capacity",
