@@ -141,13 +141,6 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
           });
         } else if (resp.status === 402) {
 
-        } else if (resp.status === 429) {
-          setChatError({
-            title: "Cuddles is at capacity",
-            detail: "Too many requests right now. Wait about a minute and try again.",
-            retryable: true,
-          });
-        } else if (resp.status === 402) {
           setChatError({
             title: "Cuddles is temporarily unavailable",
             detail: "Our AI service has run out of credits. Browse the shop or WhatsApp us on 064 543 6734 and a human will help.",
