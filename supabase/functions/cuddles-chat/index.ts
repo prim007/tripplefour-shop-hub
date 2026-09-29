@@ -55,7 +55,19 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+    const authHeader = req.headers.get("Authorization") ?? "";
+    const accessToken = authHeader.toLowerCase().startsWith("bearer ") ? authHeader.slice(7).trim() : "";
+    const authClient = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!);
+    const { data: authData, error: authError } = accessToken
+      ? await authClient.auth.getUser(accessToken)
+      : { data: { user: null }, error: new Error("missing token") };
+    if (authError || !authData?.user) {
+      return new Response(JSON.stringify({ error: "Please sign in to chat with Cuddles." }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const clientIp = authData.user.id;
     if (isRateLimited(clientIp)) {
       return new Response(JSON.stringify({ error: "Too many requests. Please wait a moment before trying again 🌿" }), {
         status: 429,

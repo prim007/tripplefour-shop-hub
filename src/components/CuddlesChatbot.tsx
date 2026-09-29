@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
 import { Analytics, trackEvent } from "@/lib/analytics";
 import ChatProductCard from "@/components/ChatProductCard";
+import { supabase } from "@/integrations/supabase/client";
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cuddles-chat`;
 
@@ -118,18 +119,36 @@ export default function CuddlesChatbot({ initialPrompt, autoOpen }: CuddlesChatb
     const allMessages = [...messages, userMsg];
 
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        sessionStorage.setItem("post_auth_redirect", window.location.pathname);
+        setChatError({
+          title: "Sign in to chat",
+          detail: "Please sign in (top-right menu) to chat with Cuddles.",
+          retryable: false,
+        });
+        setIsLoading(false);
+        return;
+      }
       const resp = await fetch(CHAT_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          Authorization: `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({ messages: allMessages }),
       });
 
       if (!resp.ok || !resp.body) {
         const errData = await resp.json().catch(() => ({} as { error?: string }));
-        if (resp.status === 429) {
+        if (resp.status === 401) {
+          setChatError({
+            title: "Sign in to chat",
+            detail: "Please sign in (top-right menu) to chat with Cuddles.",
+            retryable: false,
+          });
+        } else if (resp.status === 429) {
           setChatError({
             title: "Cuddles is at capacity",
             detail: "Too many requests right now. Wait about a minute and try again.",
