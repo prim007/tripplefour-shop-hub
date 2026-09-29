@@ -55,25 +55,27 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
+    // Chat is open to everyone (no sign-in required). Abuse is limited per
+    // signed-in user when available, otherwise per client IP.
     const authHeader = req.headers.get("Authorization") ?? "";
     const accessToken = authHeader.toLowerCase().startsWith("bearer ") ? authHeader.slice(7).trim() : "";
-    const authClient = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!);
-    const { data: authData, error: authError } = accessToken
-      ? await authClient.auth.getUser(accessToken)
-      : { data: { user: null }, error: new Error("missing token") };
-    if (authError || !authData?.user) {
-      return new Response(JSON.stringify({ error: "Please sign in to chat with Cuddles." }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+    let rateKey = "";
+    if (accessToken) {
+      const authClient = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!);
+      const { data: authData } = await authClient.auth.getUser(accessToken);
+      if (authData?.user) rateKey = `user:${authData.user.id}`;
     }
-    const clientIp = authData.user.id;
-    if (isRateLimited(clientIp)) {
+    if (!rateKey) {
+      const ip = (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
+      rateKey = `ip:${ip}`;
+    }
+    if (isRateLimited(rateKey)) {
       return new Response(JSON.stringify({ error: "Too many requests. Please wait a moment before trying again 🌿" }), {
         status: 429,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+
 
     const body = await req.json();
     const { messages } = body;
