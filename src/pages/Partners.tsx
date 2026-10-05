@@ -23,9 +23,6 @@ export default function Partners() {
         <meta property="og:title" content="Partners & Sponsors | Tripplefour" />
         <meta property="og:description" content="Partner with Tripplefour — sponsorship tiers and affiliate opportunities for SA brands." />
         <meta property="og:url" content="https://tripplefourshophub.online/partners" />
-        <meta property="og:title" content="Partners & Sponsors | Tripplefour" />
-        <meta property="og:description" content="Partner with Tripplefour — South Africa's growing CBD brand. Sponsorship tiers & affiliate opportunities." />
-        <meta property="og:url" content="https://tripplefourshophub.online/partners" />
       </Helmet>
       <FloatingLeaves />
       <Navbar />

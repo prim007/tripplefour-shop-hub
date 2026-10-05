@@ -136,6 +136,10 @@ export default function PartnerLefLabs() {
           content="Lëf Labs October 2026 wholesale catalogue — 5 flower tiers from R13/kg, pre-rolls, R399 flat vapes and sour edibles. Authorised B2B partners only."
         />
         <link rel="canonical" href="https://tripplefourshophub.online/partners/lef-labs" />
+        <meta property="og:title" content="Lëf Labs October 2026 Catalogue — Wholesale | Tripplefour" />
+        <meta property="og:description" content="Lëf Labs wholesale catalogue: flower tiers, pre-rolls, R399 vapes and edibles for authorised B2B partners." />
+        <meta property="og:url" content="https://tripplefourshophub.online/partners/lef-labs" />
+        <meta property="og:type" content="website" />
         <meta name="robots" content="noindex, follow" />
       </Helmet>
 

@@ -36,6 +36,10 @@ export default function PartnerDirtyVapes() {
           content="Shop Dirty Vapes — premium THC carts, disposables, SWITCH devices and infused edibles. Exclusive partner brand on Tripplefour."
         />
         <link rel="canonical" href="https://tripplefourshophub.online/partners/dirty-vapes" />
+        <meta property="og:title" content="Dirty Vapes — Partner Store | Tripplefour" />
+        <meta property="og:description" content="Premium THC carts, disposables, SWITCH devices and infused edibles from Dirty Vapes on Tripplefour." />
+        <meta property="og:url" content="https://tripplefourshophub.online/partners/dirty-vapes" />
+        <meta property="og:type" content="website" />
         <meta name="robots" content="noindex, follow" />
       </Helmet>
 

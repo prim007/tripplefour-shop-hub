@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -58,6 +59,11 @@ export default function ResetPassword() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <Helmet>
+        <title>Reset Your Password | Tripplefour</title>
+        <meta name="description" content="Set a new password for your Tripplefour account." />
+        <meta name="robots" content="noindex, follow" />
+      </Helmet>
       <Navbar />
       <main className="flex flex-1 items-center justify-center px-4 py-12">
         <div className="w-full max-w-md space-y-8">

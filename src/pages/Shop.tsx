@@ -62,6 +62,8 @@ export default function Shop() {
         <meta property="og:title" content="Shop CBD Products Online SA | Tripplefour" />
         <meta property="og:description" content="Browse edibles, vapes, dab & more from R70. Fast delivery across South Africa." />
         <meta property="og:url" content="https://tripplefourshophub.online/shop" />
+        <meta property="og:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2b7fbf53-ac04-45a0-a49c-dbe5b578778c/id-preview-f72b29ab--5e9c2c53-6805-4fa7-bdd4-e4ac49b4eec9.lovable.app-1772263799151.png" />
+        <meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2b7fbf53-ac04-45a0-a49c-dbe5b578778c/id-preview-f72b29ab--5e9c2c53-6805-4fa7-bdd4-e4ac49b4eec9.lovable.app-1772263799151.png" />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "CollectionPage",
