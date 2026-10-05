@@ -12,6 +12,11 @@ export default function Donations() {
           name="description"
           content="We don't accept money donations yet, but we welcome in-kind donations. Each month our community votes on a home to receive everything donated."
         />
+        <link rel="canonical" href="https://tripplefourshophub.online/donations" />
+        <meta property="og:title" content="Donations — Give Back With Tripplefour" />
+        <meta property="og:description" content="We welcome in-kind donations. Each month our community votes on a home to receive everything donated." />
+        <meta property="og:url" content="https://tripplefourshophub.online/donations" />
+        <meta property="og:type" content="website" />
       </Helmet>
       <Navbar />
 

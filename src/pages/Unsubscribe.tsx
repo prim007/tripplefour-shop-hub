@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -60,6 +61,11 @@ export default function Unsubscribe() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <Helmet>
+        <title>Email Preferences — Unsubscribe | Tripplefour</title>
+        <meta name="description" content="Manage your Tripplefour email preferences and unsubscribe from emails." />
+        <meta name="robots" content="noindex, follow" />
+      </Helmet>
       <Navbar />
       <main className="flex flex-1 items-center justify-center px-4 py-16">
         <div className="mx-auto max-w-md text-center space-y-6">

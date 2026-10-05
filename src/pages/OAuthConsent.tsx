@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -86,6 +87,11 @@ export default function OAuthConsent() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-4 py-16">
+      <Helmet>
+        <title>Authorize App Access | Tripplefour</title>
+        <meta name="description" content="Review and approve an app's request to access your Tripplefour account." />
+        <meta name="robots" content="noindex, follow" />
+      </Helmet>
       <div className="w-full max-w-md rounded-2xl border border-border/60 bg-card p-8 shadow-3d">
         <div className="mb-6 flex justify-center">
           <span className="font-display text-2xl font-bold tracking-widest text-primary">444</span>
