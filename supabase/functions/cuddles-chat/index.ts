@@ -11,6 +11,23 @@ const RATE_LIMIT_WINDOW_MS = 60_000;
 const MAX_REQUESTS_PER_WINDOW = 15;
 
 const rateLimitMap = new Map<string, { count: number; windowStart: number }>();
+// Daily caps keep anonymous chat free but bounded in cost.
+const DAILY_WINDOW_MS = 24 * 60 * 60_000;
+const MAX_DAILY_PER_VISITOR = 60;
+const MAX_DAILY_GLOBAL = 3000;
+const dailyMap = new Map<string, { count: number; windowStart: number }>();
+let globalDaily = { count: 0, windowStart: Date.now() };
+
+function isOverDailyCap(key: string): boolean {
+  const now = Date.now();
+  if (now - globalDaily.windowStart > DAILY_WINDOW_MS) globalDaily = { count: 0, windowStart: now };
+  if (globalDaily.count >= MAX_DAILY_GLOBAL) return true;
+  const e = dailyMap.get(key);
+  if (!e || now - e.windowStart > DAILY_WINDOW_MS) dailyMap.set(key, { count: 1, windowStart: now });
+  else if (++e.count > MAX_DAILY_PER_VISITOR) return true;
+  globalDaily.count++;
+  return false;
+}
 
 function isRateLimited(clientIp: string): boolean {
   const now = Date.now();
@@ -69,7 +86,7 @@ Deno.serve(async (req) => {
       const ip = (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
       rateKey = `ip:${ip}`;
     }
-    if (isRateLimited(rateKey)) {
+    if (isRateLimited(rateKey) || isOverDailyCap(rateKey)) {
       return new Response(JSON.stringify({ error: "Too many requests. Please wait a moment before trying again 🌿" }), {
         status: 429,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -168,6 +185,7 @@ OTHER INFO:
           ...sanitizedMessages,
         ],
         stream: true,
+        max_tokens: 600,
       }),
     });
 
