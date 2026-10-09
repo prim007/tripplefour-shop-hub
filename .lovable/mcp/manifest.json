@@ -11,9 +11,9 @@
   },
   "mcp": {
     "server": {
-      "name": "tripplefour-mcp",
+      "name": "triple-four-shop",
       "version": "0.1.0",
-      "title": "Tripplefour Shop MCP"
+      "title": "Triple Four Shop"
     },
     "tools": [
       {
