@@ -151,8 +151,8 @@ var list_categories_default = defineTool4({
 // src/lib/mcp/index.ts
 var projectRef = "yytjfmadcreajcrkjsrk";
 var mcp_default = defineMcp({
-  name: "tripplefour-mcp",
-  title: "Tripplefour Shop MCP",
+  name: "triple-four-shop",
+  title: "Triple Four Shop",
   version: "0.1.0",
   instructions: "Tools for browsing the Tripplefour cannabis shop (South Africa). Use list_categories and list_products to explore the catalog, search_products for keyword search, and get_product for full details. All prices are in South African Rands (ZAR).",
   auth: auth.oauth.issuer({
