@@ -152,11 +152,15 @@ Deno.serve(async (req) => {
       message,
       submittedAt,
     }),
-    send("partner-inquiry-confirmation", contactEmail, {
-      contactName,
-      companyName,
-      placementInterest: placementLabel,
-    }),
+    ...(isFirstInquiry
+      ? [
+          send("partner-inquiry-confirmation", contactEmail, {
+            contactName,
+            companyName,
+            placementInterest: placementLabel,
+          }),
+        ]
+      : []),
   ]);
 
   return json({ success: true });
