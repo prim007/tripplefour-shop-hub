@@ -25,11 +25,34 @@ function json(body: unknown, status = 200) {
 const str = (v: unknown, max: number) =>
   typeof v === "string" ? v.trim().slice(0, max) : "";
 
+// Simple per-IP rate limit so the public form can't be used to flood
+// arbitrary inboxes with confirmation emails.
+const RATE_WINDOW_MS = 60 * 60_000;
+const MAX_PER_WINDOW = 5;
+const rateMap = new Map<string, { count: number; windowStart: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateMap.get(ip);
+  if (!entry || now - entry.windowStart > RATE_WINDOW_MS) {
+    rateMap.set(ip, { count: 1, windowStart: now });
+    return false;
+  }
+  entry.count++;
+  return entry.count > MAX_PER_WINDOW;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
+
+  const clientIp =
+    (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
+  if (isRateLimited(clientIp)) {
+    return json({ error: "Too many requests. Please try again later." }, 429);
+  }
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
@@ -63,6 +86,14 @@ Deno.serve(async (req) => {
   }
 
   const supabase = createClient(supabaseUrl, serviceRoleKey);
+
+  // Only send a confirmation email the first time an address submits an
+  // inquiry, so the public form can't be abused to spam arbitrary inboxes.
+  const { count: priorCount } = await supabase
+    .from("sponsor_inquiries")
+    .select("id", { count: "exact", head: true })
+    .eq("contact_email", contactEmail);
+  const isFirstInquiry = (priorCount ?? 0) === 0;
 
   const { data: inquiry, error: insertError } = await supabase
     .from("sponsor_inquiries")
@@ -121,11 +152,15 @@ Deno.serve(async (req) => {
       message,
       submittedAt,
     }),
-    send("partner-inquiry-confirmation", contactEmail, {
-      contactName,
-      companyName,
-      placementInterest: placementLabel,
-    }),
+    ...(isFirstInquiry
+      ? [
+          send("partner-inquiry-confirmation", contactEmail, {
+            contactName,
+            companyName,
+            placementInterest: placementLabel,
+          }),
+        ]
+      : []),
   ]);
 
   return json({ success: true });
