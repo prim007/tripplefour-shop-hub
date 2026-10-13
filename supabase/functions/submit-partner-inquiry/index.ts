@@ -48,6 +48,12 @@ Deno.serve(async (req) => {
   }
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
 
+  const clientIp =
+    (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
+  if (isRateLimited(clientIp)) {
+    return json({ error: "Too many requests. Please try again later." }, 429);
+  }
+
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!supabaseUrl || !serviceRoleKey) {
@@ -80,6 +86,14 @@ Deno.serve(async (req) => {
   }
 
   const supabase = createClient(supabaseUrl, serviceRoleKey);
+
+  // Only send a confirmation email the first time an address submits an
+  // inquiry, so the public form can't be abused to spam arbitrary inboxes.
+  const { count: priorCount } = await supabase
+    .from("sponsor_inquiries")
+    .select("id", { count: "exact", head: true })
+    .eq("contact_email", contactEmail);
+  const isFirstInquiry = (priorCount ?? 0) === 0;
 
   const { data: inquiry, error: insertError } = await supabase
     .from("sponsor_inquiries")
