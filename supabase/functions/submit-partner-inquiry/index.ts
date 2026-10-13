@@ -25,6 +25,23 @@ function json(body: unknown, status = 200) {
 const str = (v: unknown, max: number) =>
   typeof v === "string" ? v.trim().slice(0, max) : "";
 
+// Simple per-IP rate limit so the public form can't be used to flood
+// arbitrary inboxes with confirmation emails.
+const RATE_WINDOW_MS = 60 * 60_000;
+const MAX_PER_WINDOW = 5;
+const rateMap = new Map<string, { count: number; windowStart: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateMap.get(ip);
+  if (!entry || now - entry.windowStart > RATE_WINDOW_MS) {
+    rateMap.set(ip, { count: 1, windowStart: now });
+    return false;
+  }
+  entry.count++;
+  return entry.count > MAX_PER_WINDOW;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
