@@ -52,13 +52,11 @@ export default function Admin() {
   const [invoiceDownloading, setInvoiceDownloading] = useState<string | null>(null);
   const [carts, setCarts] = useState<AbandonedCart[]>([]);
   const [cartsLoading, setCartsLoading] = useState(false);
-  const [testEmail, setTestEmail] = useState("");
   const [testRunning, setTestRunning] = useState(false);
   const [testResult, setTestResult] = useState<{
     startedAt: string;
     delivered: boolean;
     support: { recipient: string; status: string; error: string | null; at: string | null };
-    partner: { recipient: string; status: string; error: string | null; at: string | null };
   } | null>(null);
 
 
@@ -202,11 +200,6 @@ export default function Admin() {
   };
 
   const sendTestInquiry = async () => {
-    const email = testEmail.trim();
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-      toast({ title: "Enter a valid email", description: "We need a partner inbox to test against.", variant: "destructive" });
-      return;
-    }
     setTestRunning(true);
     setTestResult(null);
     try {
@@ -214,15 +207,15 @@ export default function Admin() {
       const res = await fetch(url, {
         method: "POST",
         headers: { "x-admin-key": adminKey, "Content-Type": "application/json" },
-        body: JSON.stringify({ partner_email: email }),
+        body: JSON.stringify({}),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Test failed");
       setTestResult(data);
       toast({
-        title: data.delivered ? "✅ Both emails delivered" : "Test complete — check results",
+        title: data.delivered ? "✅ Support alert delivered" : "Test complete — check results",
         description: data.delivered
-          ? "Support alert and partner confirmation were both sent."
+          ? "The inquiry alert reached your support inbox."
           : "One or both emails did not reach 'sent'. See the delivery results below.",
         variant: data.delivered ? undefined : "destructive",
       });
@@ -520,22 +513,11 @@ export default function Admin() {
                 <div>
                   <h2 className="font-display text-xl font-bold">Partner inquiry email test</h2>
                   <p className="text-sm text-muted-foreground">
-                    Submits one real partner inquiry and reports whether the support alert
-                    (support@tripplefourshophub.online) and the partner confirmation actually sent.
-                    This can take up to 30 seconds.
+                    Submits one test partner inquiry and reports whether the alert reached
+                    support@tripplefourshophub.online. This can take up to 30 seconds.
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
-                  <div className="flex-1 space-y-1.5">
-                    <Label htmlFor="test-partner-email">Partner test inbox</Label>
-                    <Input
-                      id="test-partner-email"
-                      type="email"
-                      placeholder="you@example.com"
-                      value={testEmail}
-                      onChange={(e) => setTestEmail(e.target.value)}
-                    />
-                  </div>
                   <Button onClick={sendTestInquiry} disabled={testRunning} aria-label="Send test partner inquiry">
                     <Send className={`h-4 w-4 mr-1.5 ${testRunning ? "animate-pulse" : ""}`} />
                     {testRunning ? "Testing..." : "Send test inquiry"}
@@ -547,7 +529,6 @@ export default function Admin() {
                     <Separator />
                     {[
                       { label: "Support alert", r: testResult.support },
-                      { label: "Partner confirmation", r: testResult.partner },
                     ].map(({ label, r }) => {
                       const ok = r.status === "sent";
                       return (
