@@ -141,27 +141,18 @@ Deno.serve(async (req) => {
       }
     }).catch((e) => console.error(`${templateName} send error`, e));
 
-  await Promise.allSettled([
-    send("partner-inquiry-alert", SUPPORT_EMAIL, {
-      companyName,
-      contactName,
-      contactEmail,
-      websiteUrl,
-      placementInterest: placementLabel,
-      productDescription,
-      message,
-      submittedAt,
-    }),
-    ...(isFirstInquiry
-      ? [
-          send("partner-inquiry-confirmation", contactEmail, {
-            contactName,
-            companyName,
-            placementInterest: placementLabel,
-          }),
-        ]
-      : []),
-  ]);
+  // Only the internal support alert is sent. No email goes to the caller-supplied
+  // contact address, so this public form cannot be used to email arbitrary people.
+  await send("partner-inquiry-alert", SUPPORT_EMAIL, {
+    companyName,
+    contactName,
+    contactEmail,
+    websiteUrl,
+    placementInterest: placementLabel,
+    productDescription,
+    message,
+    submittedAt,
+  });
 
   return json({ success: true });
 });

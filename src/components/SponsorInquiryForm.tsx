@@ -70,7 +70,7 @@ export default function SponsorInquiryForm() {
       setSubmitted(true);
       toast({
         title: "Inquiry sent!",
-        description: "Check your inbox for a confirmation email — we'll reply within 48 hours.",
+        description: "Thanks! Our team will reply to your email within 48 hours.",
       });
     } catch {
       toast({
