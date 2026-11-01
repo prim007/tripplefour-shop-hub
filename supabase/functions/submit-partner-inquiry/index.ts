@@ -87,14 +87,6 @@ Deno.serve(async (req) => {
 
   const supabase = createClient(supabaseUrl, serviceRoleKey);
 
-  // Only send a confirmation email the first time an address submits an
-  // inquiry, so the public form can't be abused to spam arbitrary inboxes.
-  const { count: priorCount } = await supabase
-    .from("sponsor_inquiries")
-    .select("id", { count: "exact", head: true })
-    .eq("contact_email", contactEmail);
-  const isFirstInquiry = (priorCount ?? 0) === 0;
-
   const { data: inquiry, error: insertError } = await supabase
     .from("sponsor_inquiries")
     .insert({
@@ -141,27 +133,18 @@ Deno.serve(async (req) => {
       }
     }).catch((e) => console.error(`${templateName} send error`, e));
 
-  await Promise.allSettled([
-    send("partner-inquiry-alert", SUPPORT_EMAIL, {
-      companyName,
-      contactName,
-      contactEmail,
-      websiteUrl,
-      placementInterest: placementLabel,
-      productDescription,
-      message,
-      submittedAt,
-    }),
-    ...(isFirstInquiry
-      ? [
-          send("partner-inquiry-confirmation", contactEmail, {
-            contactName,
-            companyName,
-            placementInterest: placementLabel,
-          }),
-        ]
-      : []),
-  ]);
+  // Only the internal support alert is sent. No email goes to the caller-supplied
+  // contact address, so this public form cannot be used to email arbitrary people.
+  await send("partner-inquiry-alert", SUPPORT_EMAIL, {
+    companyName,
+    contactName,
+    contactEmail,
+    websiteUrl,
+    placementInterest: placementLabel,
+    productDescription,
+    message,
+    submittedAt,
+  });
 
   return json({ success: true });
 });
