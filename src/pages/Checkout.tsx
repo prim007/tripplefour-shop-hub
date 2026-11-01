@@ -132,7 +132,7 @@ export default function Checkout() {
 
   // Pre-fill email from auth
   useEffect(() => {
-    if (user?.email && !form.email) {
+    if (user?.email && form.email !== user.email) {
       setForm((prev) => ({ ...prev, email: user.email! }));
     }
   }, [user]);
@@ -570,7 +570,8 @@ export default function Checkout() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" name="email" type="email" value={form.email} onChange={handleChange} placeholder="john@example.com" required maxLength={255} />
+                  <Input id="email" name="email" type="email" value={form.email} readOnly aria-describedby="email-hint" className="bg-muted" placeholder="john@example.com" required maxLength={255} />
+                  <p id="email-hint" className="text-xs text-muted-foreground">Your order confirmation goes to your account email.</p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone</Label>
