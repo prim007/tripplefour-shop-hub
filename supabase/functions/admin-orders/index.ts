@@ -246,20 +246,11 @@ Deno.serve(async (req) => {
 
     // ===== Partner inquiry email delivery test =====
     if (action === "test-partner-inquiry") {
-      const body = await req.json().catch(() => ({}));
-      const partnerEmail = String(body.partner_email || "").trim().toLowerCase().slice(0, 255);
+      // The test never accepts a caller-chosen recipient: it submits a test inquiry
+      // from the fixed support address, and the only email sent is the internal alert.
       const SUPPORT_EMAIL = "support@tripplefourshophub.online";
-
-      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(partnerEmail)) {
-        return new Response(JSON.stringify({ error: "A valid partner test email is required" }), {
-          status: 400,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
-
       const startedAt = new Date().toISOString();
 
-      // Run the real partner inquiry flow (insert + both emails).
       const res = await fetch(`${supabaseUrl}/functions/v1/submit-partner-inquiry`, {
         method: "POST",
         headers: {
@@ -270,7 +261,7 @@ Deno.serve(async (req) => {
         body: JSON.stringify({
           company_name: "TEST — Email delivery check",
           contact_name: "Tripplefour Admin",
-          contact_email: partnerEmail,
+          contact_email: SUPPORT_EMAIL,
           website_url: "https://tripplefourshophub.online",
           product_description:
             "Automated delivery test triggered from the Tripplefour admin dashboard to confirm partner inquiry emails are sending.",
@@ -282,62 +273,33 @@ Deno.serve(async (req) => {
       if (!res.ok) {
         const detail = await res.text();
         console.error("test-partner-inquiry submit failed", res.status, detail);
-        return new Response(JSON.stringify({ error: "Inquiry submission failed", detail }), {
+        return new Response(JSON.stringify({ error: "Inquiry submission failed" }), {
           status: 502,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
 
-      const templates = ["partner-inquiry-alert", "partner-inquiry-confirmation"];
       const finalStatuses = ["sent", "dlq", "failed", "suppressed", "bounced", "complained"];
-
-      // Poll the send log until both emails reach a final state (or we time out).
-      let rows: any[] = [];
+      let latestRow: any = null;
       for (let i = 0; i < 12; i++) {
         await new Promise((r) => setTimeout(r, 2500));
         const { data } = await supabase
           .from("email_send_log")
           .select("message_id, template_name, recipient_email, status, error_message, created_at")
-          .in("template_name", templates)
+          .eq("template_name", "partner-inquiry-alert")
           .gte("created_at", startedAt)
-          .order("created_at", { ascending: false });
-        rows = data ?? [];
-
-        // Latest row per message_id
-        const latest = new Map<string, any>();
-        for (const r of rows) if (!latest.has(r.message_id)) latest.set(r.message_id, r);
-        const byTemplate = [...latest.values()];
-        const done =
-          templates.every((t) => byTemplate.some((r) => r.template_name === t)) &&
-          byTemplate.every((r) => finalStatuses.includes(r.status));
-        if (done) break;
+          .order("created_at", { ascending: false })
+          .limit(1);
+        latestRow = data?.[0] ?? null;
+        if (latestRow && finalStatuses.includes(latestRow.status)) break;
       }
 
-      const latest = new Map<string, any>();
-      for (const r of rows) if (!latest.has(r.message_id)) latest.set(r.message_id, r);
-
-      const pick = (t: string) => {
-        const r = [...latest.values()].find((x) => x.template_name === t);
-        return r
-          ? {
-              recipient: r.recipient_email,
-              status: r.status,
-              error: r.error_message ?? null,
-              at: r.created_at,
-            }
-          : { recipient: t === "partner-inquiry-alert" ? SUPPORT_EMAIL : partnerEmail, status: "no_log", error: null, at: null };
-      };
-
-      const support = pick("partner-inquiry-alert");
-      const partner = pick("partner-inquiry-confirmation");
+      const support = latestRow
+        ? { recipient: latestRow.recipient_email, status: latestRow.status, error: latestRow.error_message ?? null, at: latestRow.created_at }
+        : { recipient: SUPPORT_EMAIL, status: "no_log", error: null, at: null };
 
       return new Response(
-        JSON.stringify({
-          startedAt,
-          support,
-          partner,
-          delivered: support.status === "sent" && partner.status === "sent",
-        }),
+        JSON.stringify({ startedAt, support, delivered: support.status === "sent" }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
