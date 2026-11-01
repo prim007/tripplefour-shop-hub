@@ -87,14 +87,6 @@ Deno.serve(async (req) => {
 
   const supabase = createClient(supabaseUrl, serviceRoleKey);
 
-  // Only send a confirmation email the first time an address submits an
-  // inquiry, so the public form can't be abused to spam arbitrary inboxes.
-  const { count: priorCount } = await supabase
-    .from("sponsor_inquiries")
-    .select("id", { count: "exact", head: true })
-    .eq("contact_email", contactEmail);
-  const isFirstInquiry = (priorCount ?? 0) === 0;
-
   const { data: inquiry, error: insertError } = await supabase
     .from("sponsor_inquiries")
     .insert({
