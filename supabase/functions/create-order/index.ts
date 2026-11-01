@@ -187,6 +187,15 @@ Deno.serve(async (req) => {
       });
     }
 
+    // Order emails always go to the verified account email, never a caller-supplied address.
+    const accountEmail = (authData.user.email ?? "").trim().toLowerCase();
+    if (!accountEmail || !emailRegex.test(accountEmail)) {
+      return new Response(JSON.stringify({ error: "Your account needs a verified email address to place an order." }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const ageTokenValid = await verifyAgeToken(age_token, signingSecret);
     if (!ageTokenValid) {
       return new Response(JSON.stringify({ error: "Age verification expired. Please verify again." }), {
@@ -265,7 +274,7 @@ Deno.serve(async (req) => {
       .insert({
         order_ref: orderRef,
         customer_name: customer_name.trim(),
-        customer_email: customer_email.trim(),
+        customer_email: accountEmail,
         customer_phone: customer_phone.trim(),
         delivery_address: delivery_address.trim(),
         delivery_zone_id: zone.id,
@@ -314,7 +323,7 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         templateName: "order-confirmation",
-        recipientEmail: customer_email.trim(),
+        recipientEmail: accountEmail,
         idempotencyKey: `order-confirm-${order.id}`,
         templateData: {
           customerName: customer_name.trim(),
@@ -344,7 +353,7 @@ Deno.serve(async (req) => {
           source: "Tripplefour Shop",
           paymentMethod: "eft",
           customerName: customer_name.trim(),
-          customerEmail: customer_email.trim(),
+          customerEmail: accountEmail,
           customerPhone: customer_phone.trim(),
           deliveryAddress: delivery_address.trim(),
           deliveryZone: zone.zone_name,
