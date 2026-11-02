@@ -22,21 +22,20 @@ const clip = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1) + "…"
 // Lëf Labs wholesale price list — mirrors src/data/leflabsProducts.ts.
 // Duplicated here (not imported) to keep the build config free of runtime deps.
 const lefLabsProducts: { name: string; category: string; unit: string; price: number; description: string }[] = [
-  { name: "Animal Runtz", category: "Indoor Flower", unit: "per gram", price: 120, description: "Hybrid · Sweet / Fruity · COA per batch" },
-  { name: "Lemon Silver Haze", category: "Indoor Flower", unit: "per gram", price: 120, description: "Sativa · Citrus / Earthy · COA per batch" },
-  { name: "Guava Bomba", category: "Indoor Flower", unit: "per gram", price: 120, description: "Hybrid · Tropical / Floral · COA per batch" },
-  { name: "Purple Ghost Candy", category: "Indoor Flower", unit: "per gram", price: 120, description: "Indica · Berry / Candy · COA per batch" },
-  { name: "Jack Herer (Tunnel AAA)", category: "Tunnel Flower", unit: "per gram", price: 70, description: "Sativa · Spicy / Pine · single-nug grade" },
-  { name: "Planet of the Grapes (Tunnel AAA)", category: "Tunnel Flower", unit: "per gram", price: 70, description: "Indica · Grape / Earthy · single-nug grade" },
-  { name: "Gorilla Skittles (Tunnel AAA)", category: "Tunnel Flower", unit: "per gram", price: 70, description: "Hybrid · Sweet / Diesel · single-nug grade" },
-  { name: "Standard Pre-Roll 1g", category: "Pre-Rolls", unit: "per unit", price: 35, description: "Tunnel popcorn blend · COA-backed" },
-  { name: "Premium Pre-Roll 1g", category: "Pre-Rolls", unit: "per unit", price: 55, description: "Indoor multi-nug · COA-backed" },
-  { name: "Moon Stick Pre-Roll (infused)", category: "Pre-Rolls", unit: "per unit", price: 85, description: "Indoor flower + kief coat · premium" },
-  { name: "Liquid Gold Disposable 1ml", category: "Vapes", unit: "per unit", price: 390, description: "THC distillate · Partner D extraction" },
-  { name: "Pure Leaf 510 Cartridge 1ml", category: "Vapes", unit: "per unit", price: 320, description: "Full spectrum · 510 thread" },
-  { name: "THC Distillate 1g", category: "Distillates", unit: "per gram", price: 280, description: "90–95% purity · COA + solvent screening" },
-  { name: "CBD Distillate 1g", category: "Distillates", unit: "per gram", price: 180, description: "80–90% purity · COA + solvent screening" },
-  { name: "Live Resin 1g", category: "Distillates", unit: "per gram", price: 320, description: "65–80% potency · solvent-screened" },
+  { name: "Hydro Flower · Tier I", category: "Hydro · Tier I", unit: "per kg (1kg+ price)", price: 45, description: "15 strains · R65 up to 500g, R55 at 750g, R45 from 1kg · 100g min" },
+  { name: "Indoor Flower · Tier II", category: "Indoor · Tier II", unit: "per kg (1kg+ price)", price: 35, description: "10 strains · R55 up to 500g, R45 at 750g, R35 from 1kg · 100g min" },
+  { name: "Greendoor Flower · Tier III", category: "Greendoor · Tier III", unit: "per kg (1kg+ price)", price: 27, description: "7 strains · R45 up to 500g, R36 at 750g, R27 from 1kg · 250g min" },
+  { name: "Exotic Greenhouse Flower · Tier IV", category: "Exotic Greenhouse · Tier IV", unit: "per kg (1kg+ price)", price: 24, description: "22 strains · R44 up to 500g, R34 at 750g, R24 from 1kg · 250g min" },
+  { name: "Sungrown Flower · Tier V", category: "Sungrown · Tier V", unit: "per kg (1kg+ price)", price: 15, description: "Unavailable until December, orders open · R35 up to 500g, R25 at 750g, R15 from 1kg" },
+  { name: "Pops — Assorted Small/Medium", category: "Pops & Mini Pops", unit: "each", price: 25, description: "From 250g bags" },
+  { name: "Mini Pops — Small Only", category: "Pops & Mini Pops", unit: "each", price: 15, description: "From 250g bags" },
+  { name: "Untrimmed Bud (Greendoor)", category: "Raw Material", unit: "per kg", price: 10, description: "Fixed price · 2.5kg min · R1,500 delivery" },
+  { name: "Trim", category: "Raw Material", unit: "per kg", price: 6, description: "Fixed price · 2kg min · R1,500 delivery" },
+  { name: "Indoor Moonstick 1.4g", category: "Pre-Rolls & Moonsticks", unit: "per unit", price: 65, description: "MOQ 100 units" },
+  { name: "Greenhouse Pre-Roll 1.4g", category: "Pre-Rolls & Moonsticks", unit: "per unit", price: 25, description: "MOQ 100 units" },
+  { name: "Vape Cartridge (6 lines)", category: "Vapes", unit: "per unit", price: 399, description: "Flat price · MOQ 20 units" },
+  { name: "Sour Edibles 15mg", category: "Sour Edibles", unit: "per pack", price: 150, description: "MOQ 10 packs per flavour" },
+  { name: "Sour Edibles 30mg", category: "Sour Edibles", unit: "per pack", price: 180, description: "MOQ 10 packs per flavour" },
 ];
 
 const escHtml = (s: string) =>
