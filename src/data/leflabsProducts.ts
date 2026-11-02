@@ -1,4 +1,4 @@
-// Lëf Labs wholesale order list — OCTOBER 2026 CATALOGUE.
+// Lëf Labs wholesale order list — NOVEMBER 2026 CATALOGUE.
 // IMPORTANT: Prices MUST match `supabase/functions/create-leflabs-order/index.ts`.
 // The Edge Function is the source of truth — frontend prices are display only.
 
@@ -11,78 +11,79 @@ export type LefLabsProduct = {
   price: number; // ZAR (1kg / single-unit list price)
   isBack?: boolean; // returning line, back in stock this month
   isNew?: boolean; // new this month
+  isPreorder?: boolean; // unavailable now — orders open for a later month
 };
 
 export const LEFLABS_PRODUCTS: LefLabsProduct[] = [
-  // ── HYDRO · TIER I · R45/kg list
-  { id: "lef-hy-iron-grip", name: "Iron Grip", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R0.50/kg steps to the R43/kg floor at 5kg, held through 10–15kg. 100g min.", unit: "per kg (1kg list)", price: 45 },
-  { id: "lef-hy-candy-cartel", name: "Candy Cartel", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R0.50/kg steps to the R43/kg floor at 5kg, held through 10–15kg. 100g min.", unit: "per kg (1kg list)", price: 45 },
-  { id: "lef-hy-redline", name: "Redline", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R0.50/kg steps to the R43/kg floor at 5kg, held through 10–15kg. 100g min.", unit: "per kg (1kg list)", price: 45 },
-  { id: "lef-hy-blue-vault", name: "Blue Vault", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R0.50/kg steps to the R43/kg floor at 5kg, held through 10–15kg. 100g min.", unit: "per kg (1kg list)", price: 45 },
-  { id: "lef-hy-nutcracker", name: "Nutcracker", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R0.50/kg steps to the R43/kg floor at 5kg, held through 10–15kg. 100g min.", unit: "per kg (1kg list)", price: 45 },
-  { id: "lef-hy-permafrost", name: "Permafrost", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R0.50/kg steps to the R43/kg floor at 5kg, held through 10–15kg. 100g min.", unit: "per kg (1kg list)", price: 45 },
-  { id: "lef-hy-purple-parve", name: "Purple Parve", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R0.50/kg steps to the R43/kg floor at 5kg, held through 10–15kg. 100g min.", unit: "per kg (1kg list)", price: 45 },
-  { id: "lef-hy-marshmallow-mimosa", name: "Marshmallow Mimosa", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R0.50/kg steps to the R43/kg floor at 5kg, held through 10–15kg. 100g min.", unit: "per kg (1kg list)", price: 45 },
-  { id: "lef-hy-galaxy-exotica", name: "Galaxy Exotica", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R0.50/kg steps to the R43/kg floor at 5kg, held through 10–15kg. 100g min.", unit: "per kg (1kg list)", price: 45 },
-  { id: "lef-hy-bubblegum-glue", name: "Bubblegum Glue", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R0.50/kg steps to the R43/kg floor at 5kg, held through 10–15kg. 100g min.", unit: "per kg (1kg list)", price: 45 },
-  { id: "lef-hy-durban-poison", name: "Durban Poison", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R0.50/kg steps to the R43/kg floor at 5kg, held through 10–15kg. 100g min.", unit: "per kg (1kg list)", price: 45 },
-  { id: "lef-hy-mandarin-orange", name: "Mandarin Orange", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R0.50/kg steps to the R43/kg floor at 5kg, held through 10–15kg. 100g min.", unit: "per kg (1kg list)", price: 45 },
-  { id: "lef-hy-rainbow-skittles", name: "Rainbow Skittles", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R0.50/kg steps to the R43/kg floor at 5kg, held through 10–15kg. 100g min.", unit: "per kg (1kg list)", price: 45 },
-  { id: "lef-hy-guava-bomb", name: "Guava Bomb", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R0.50/kg steps to the R43/kg floor at 5kg, held through 10–15kg. 100g min.", unit: "per kg (1kg list)", price: 45 },
-  { id: "lef-hy-black-cherry-pie", name: "Black Cherry Pie", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R0.50/kg steps to the R43/kg floor at 5kg, held through 10–15kg. 100g min.", unit: "per kg (1kg list)", price: 45 },
+  // ── HYDRO · TIER I · R45/kg from 1kg
+  { id: "lef-hy-steel-clamp", name: "Steel Clamp", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R65 up to 500g · R55 at 750g · R45 from 1kg (hard floor). 100g min.", unit: "per kg (1kg+ price)", price: 45 },
+  { id: "lef-hy-sugar-syndicate", name: "Sugar Syndicate", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R65 up to 500g · R55 at 750g · R45 from 1kg (hard floor). 100g min.", unit: "per kg (1kg+ price)", price: 45 },
+  { id: "lef-hy-crimson-limit", name: "Crimson Limit", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R65 up to 500g · R55 at 750g · R45 from 1kg (hard floor). 100g min.", unit: "per kg (1kg+ price)", price: 45 },
+  { id: "lef-hy-cobalt-cellar", name: "Cobalt Cellar", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R65 up to 500g · R55 at 750g · R45 from 1kg (hard floor). 100g min.", unit: "per kg (1kg+ price)", price: 45 },
+  { id: "lef-hy-walnut-splitter", name: "Walnut Splitter", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R65 up to 500g · R55 at 750g · R45 from 1kg (hard floor). 100g min.", unit: "per kg (1kg+ price)", price: 45 },
+  { id: "lef-hy-glacier-rime", name: "Glacier Rime", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R65 up to 500g · R55 at 750g · R45 from 1kg (hard floor). 100g min.", unit: "per kg (1kg+ price)", price: 45 },
+  { id: "lef-hy-amethyst-calm", name: "Amethyst Calm", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R65 up to 500g · R55 at 750g · R45 from 1kg (hard floor). 100g min.", unit: "per kg (1kg+ price)", price: 45 },
+  { id: "lef-hy-cloud-spritz", name: "Cloud Spritz", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R65 up to 500g · R55 at 750g · R45 from 1kg (hard floor). 100g min.", unit: "per kg (1kg+ price)", price: 45 },
+  { id: "lef-hy-nebula-rare", name: "Nebula Rare", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R65 up to 500g · R55 at 750g · R45 from 1kg (hard floor). 100g min.", unit: "per kg (1kg+ price)", price: 45 },
+  { id: "lef-hy-chewy-taffy", name: "Chewy Taffy", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R65 up to 500g · R55 at 750g · R45 from 1kg (hard floor). 100g min.", unit: "per kg (1kg+ price)", price: 45 },
+  { id: "lef-hy-natal-thunder", name: "Natal Thunder", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R65 up to 500g · R55 at 750g · R45 from 1kg (hard floor). 100g min.", unit: "per kg (1kg+ price)", price: 45 },
+  { id: "lef-hy-satsuma-zest", name: "Satsuma Zest", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R65 up to 500g · R55 at 750g · R45 from 1kg (hard floor). 100g min.", unit: "per kg (1kg+ price)", price: 45 },
+  { id: "lef-hy-spectrum-drops", name: "Spectrum Drops", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R65 up to 500g · R55 at 750g · R45 from 1kg (hard floor). 100g min.", unit: "per kg (1kg+ price)", price: 45 },
+  { id: "lef-hy-tropic-grenade", name: "Tropic Grenade", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R65 up to 500g · R55 at 750g · R45 from 1kg (hard floor). 100g min.", unit: "per kg (1kg+ price)", price: 45 },
+  { id: "lef-hy-obsidian-cherry", name: "Obsidian Cherry", category: "Hydro · Tier I", description: "Full-cycle indoor hydroponic. R65 up to 500g · R55 at 750g · R45 from 1kg (hard floor). 100g min.", unit: "per kg (1kg+ price)", price: 45 },
 
-  // ── INDOOR · TIER II · R35/kg list
-  { id: "lef-ind-atomic-jelly", name: "Atomic Jelly", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R28/kg at 5kg (50% deposit). 100g min.", unit: "per kg (1kg list)", price: 35 },
-  { id: "lef-ind-nightwalker", name: "Nightwalker", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R28/kg at 5kg (50% deposit). 100g min.", unit: "per kg (1kg list)", price: 35 },
-  { id: "lef-ind-gelato-41", name: "Gelato 41", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R28/kg at 5kg (50% deposit). 100g min.", unit: "per kg (1kg list)", price: 35 },
-  { id: "lef-ind-apples-bananas", name: "Apples & Bananas", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R28/kg at 5kg (50% deposit). 100g min.", unit: "per kg (1kg list)", price: 35 },
-  { id: "lef-ind-wedding", name: "Wedding", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R28/kg at 5kg (50% deposit). 100g min.", unit: "per kg (1kg list)", price: 35 },
-  { id: "lef-ind-nanaglue", name: "NanaGlue", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R28/kg at 5kg (50% deposit). 100g min.", unit: "per kg (1kg list)", price: 35 },
-  { id: "lef-ind-chocolope", name: "ChocoLope", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R28/kg at 5kg (50% deposit). 100g min.", unit: "per kg (1kg list)", price: 35 },
-  { id: "lef-ind-king-bling", name: "King Bling", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R28/kg at 5kg (50% deposit). 100g min.", unit: "per kg (1kg list)", price: 35 },
-  { id: "lef-ind-sapphire-blue", name: "Sapphire Blue", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R28/kg at 5kg (50% deposit). 100g min.", unit: "per kg (1kg list)", price: 35 },
-  { id: "lef-ind-runts", name: "Runts", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R28/kg at 5kg (50% deposit). 100g min.", unit: "per kg (1kg list)", price: 35 },
+  // ── INDOOR · TIER II · R35/kg from 1kg
+  { id: "lef-ind-fission-jam", name: "Fission Jam", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R55 up to 500g · R45 at 750g · R35 from 1kg. 5kg+ needs a 50% deposit. 100g min.", unit: "per kg (1kg+ price)", price: 35 },
+  { id: "lef-ind-moonstalker", name: "Moonstalker", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R55 up to 500g · R45 at 750g · R35 from 1kg. 5kg+ needs a 50% deposit. 100g min.", unit: "per kg (1kg+ price)", price: 35 },
+  { id: "lef-ind-affogato-14", name: "Affogato 14", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R55 up to 500g · R45 at 750g · R35 from 1kg. 5kg+ needs a 50% deposit. 100g min.", unit: "per kg (1kg+ price)", price: 35 },
+  { id: "lef-ind-orchard-split", name: "Orchard Split", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R55 up to 500g · R45 at 750g · R35 from 1kg. 5kg+ needs a 50% deposit. 100g min.", unit: "per kg (1kg+ price)", price: 35 },
+  { id: "lef-ind-bridal-layer", name: "Bridal Layer", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R55 up to 500g · R45 at 750g · R35 from 1kg. 5kg+ needs a 50% deposit. 100g min.", unit: "per kg (1kg+ price)", price: 35 },
+  { id: "lef-ind-plantain-bond", name: "Plantain Bond", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R55 up to 500g · R45 at 750g · R35 from 1kg. 5kg+ needs a 50% deposit. 100g min.", unit: "per kg (1kg+ price)", price: 35 },
+  { id: "lef-ind-cocoa-cantaloupe", name: "Cocoa Cantaloupe", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R55 up to 500g · R45 at 750g · R35 from 1kg. 5kg+ needs a 50% deposit. 100g min.", unit: "per kg (1kg+ price)", price: 35 },
+  { id: "lef-ind-monarch-chain", name: "Monarch Chain", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R55 up to 500g · R45 at 750g · R35 from 1kg. 5kg+ needs a 50% deposit. 100g min.", unit: "per kg (1kg+ price)", price: 35 },
+  { id: "lef-ind-lapis-lagoon", name: "Lapis Lagoon", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R55 up to 500g · R45 at 750g · R35 from 1kg. 5kg+ needs a 50% deposit. 100g min.", unit: "per kg (1kg+ price)", price: 35 },
+  { id: "lef-ind-pastel-pebbles", name: "Pastel Pebbles", category: "Indoor · Tier II", description: "Indoor-grown, one step below Hydro. R55 up to 500g · R45 at 750g · R35 from 1kg. 5kg+ needs a 50% deposit. 100g min.", unit: "per kg (1kg+ price)", price: 35 },
 
-  // ── GREENDOOR · TIER III · R27/kg list
-  { id: "lef-gd-carnaval", name: "Carnaval", category: "Greendoor · Tier III", description: "Light-assisted cultivation. R0.50/kg steps to R25/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 27 },
-  { id: "lef-gd-dusk-run", name: "Dusk Run", category: "Greendoor · Tier III", description: "Light-assisted cultivation. R0.50/kg steps to R25/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 27 },
-  { id: "lef-gd-copper-triangle", name: "Copper Triangle", category: "Greendoor · Tier III", description: "Light-assisted cultivation. R0.50/kg steps to R25/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 27 },
-  { id: "lef-gd-static-peach", name: "Static Peach", category: "Greendoor · Tier III", description: "Light-assisted cultivation. R0.50/kg steps to R25/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 27 },
-  { id: "lef-gd-static-crimson", name: "Static Crimson", category: "Greendoor · Tier III", description: "Light-assisted cultivation. R0.50/kg steps to R25/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 27 },
-  { id: "lef-gd-prism-trail", name: "Prism Trail", category: "Greendoor · Tier III", description: "Light-assisted cultivation. R0.50/kg steps to R25/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 27 },
-  { id: "lef-gd-the-vow", name: "The Vow", category: "Greendoor · Tier III", description: "Light-assisted cultivation. R0.50/kg steps to R25/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 27 },
+  // ── GREENDOOR · TIER III · R27/kg from 1kg
+  { id: "lef-gd-fiesta-parade", name: "Fiesta Parade", category: "Greendoor · Tier III", description: "Light-assisted cultivation. R45 up to 500g · R36 at 750g · R27 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 27 },
+  { id: "lef-gd-twilight-sprint", name: "Twilight Sprint", category: "Greendoor · Tier III", description: "Light-assisted cultivation. R45 up to 500g · R36 at 750g · R27 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 27 },
+  { id: "lef-gd-bronze-delta", name: "Bronze Delta", category: "Greendoor · Tier III", description: "Light-assisted cultivation. R45 up to 500g · R36 at 750g · R27 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 27 },
+  { id: "lef-gd-spark-apricot", name: "Spark Apricot", category: "Greendoor · Tier III", description: "Light-assisted cultivation. R45 up to 500g · R36 at 750g · R27 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 27 },
+  { id: "lef-gd-voltage-crimson", name: "Voltage Crimson", category: "Greendoor · Tier III", description: "Light-assisted cultivation. R45 up to 500g · R36 at 750g · R27 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 27 },
+  { id: "lef-gd-aurora-path", name: "Aurora Path", category: "Greendoor · Tier III", description: "Light-assisted cultivation. R45 up to 500g · R36 at 750g · R27 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 27 },
+  { id: "lef-gd-the-pledge", name: "The Pledge", category: "Greendoor · Tier III", description: "Light-assisted cultivation. R45 up to 500g · R36 at 750g · R27 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 27 },
 
-  // ── EXOTIC GREENHOUSE · TIER IV · R24/kg list
-  { id: "lef-ex-black-cherry-tart", name: "Black Cherry Tart", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-breakpad-breath", name: "Breakpad Breath", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-zkittlez-pop", name: "Zkittlez Pop", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-x7m", name: "X7M", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-garlic-fusion", name: "Garlic Fusion", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-gg42", name: "GG42", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-papaya", name: "Papaya", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24, isBack: true },
-  { id: "lef-ex-ice-cream", name: "Ice Cream (Organic)", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-blunicorn", name: "Blunicorn", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-dirty-banana", name: "Dirty Banana", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-kimbo-kush", name: "Kimbo Kush", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24, isBack: true },
-  { id: "lef-ex-strwadawg", name: "Strwadawg", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-nag", name: "Nag", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-sour-diesel-chemdawg", name: "Sour Diesel Chemdawg", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-purple-panda", name: "Purple Panda (Organic)", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-vibranium", name: "Vibranium", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-cheese", name: "Cheese", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-endgame", name: "Endgame", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24, isBack: true },
-  { id: "lef-ex-zwich-pave", name: "Zwich Pavé", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-facade", name: "Facade", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
-  { id: "lef-ex-rs11", name: "RS11", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24, isBack: true },
-  { id: "lef-ex-slurry-boss", name: "Slurry Boss (Organic)", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R18/kg at 5kg. 250g min.", unit: "per kg (1kg list)", price: 24 },
+  // ── EXOTIC GREENHOUSE · TIER IV · R24/kg from 1kg
+  { id: "lef-ex-sable-cherry-tart", name: "Sable Cherry Tart", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-interval-breath", name: "Interval Breath", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-fruitburst-pop", name: "Fruitburst Pop", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-mach-seven", name: "Mach Seven", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-allium-blend", name: "Allium Blend", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-titan-glue", name: "Titan Glue", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-pawpaw-punch", name: "Pawpaw Punch", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24, isBack: true },
+  { id: "lef-ex-vanilla-frost-cream", name: "Vanilla Frost Cream (Organic)", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-indigo-pegasus", name: "Indigo Pegasus", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-muddy-banoffee", name: "Muddy Banoffee", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-bongo-kush", name: "Bongo Kush", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24, isBack: true },
+  { id: "lef-ex-bramble-hound", name: "Bramble Hound", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-steed", name: "Steed", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-sour-fuel-hound", name: "Sour Fuel Hound", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-orchid-bear", name: "Orchid Bear (Organic)", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-starmetal", name: "Starmetal", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-cheddar-cloud", name: "Cheddar Cloud", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-final-round", name: "Final Round", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24, isBack: true },
+  { id: "lef-ex-cobblestone-swirl", name: "Cobblestone Swirl", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-veneer", name: "Veneer", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
+  { id: "lef-ex-pastel-sorbet-11", name: "Pastel Sorbet 11", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24, isBack: true },
+  { id: "lef-ex-slush-chief", name: "Slush Chief (Organic)", category: "Exotic Greenhouse · Tier IV", description: "Greenhouse exotics & organics plus BT Mids & Pops. R44 up to 500g · R34 at 750g · R24 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 24 },
 
-  // ── SUNGROWN · TIER V · R15/kg list
-  { id: "lef-sg-sunup-blend", name: "Sunup Blend", category: "Sungrown · Tier V", description: "Everyday range. R13/kg at 5kg; 10–15kg by arrangement. 250g min.", unit: "per kg (1kg list)", price: 15 },
-  { id: "lef-sg-fifty-fifty", name: "Fifty/Fifty", category: "Sungrown · Tier V", description: "Everyday range. R13/kg at 5kg; 10–15kg by arrangement. 250g min.", unit: "per kg (1kg list)", price: 15 },
-  { id: "lef-sg-carnaval", name: "Carnaval", category: "Sungrown · Tier V", description: "Everyday range. R13/kg at 5kg; 10–15kg by arrangement. 250g min.", unit: "per kg (1kg list)", price: 15 },
-  { id: "lef-sg-dusk-run", name: "Dusk Run", category: "Sungrown · Tier V", description: "Everyday range. R13/kg at 5kg; 10–15kg by arrangement. 250g min.", unit: "per kg (1kg list)", price: 15 },
-  { id: "lef-sg-the-vow", name: "The Vow", category: "Sungrown · Tier V", description: "Everyday range. R13/kg at 5kg; 10–15kg by arrangement. 250g min.", unit: "per kg (1kg list)", price: 15 },
-  { id: "lef-sg-scarlett-siren", name: "Scarlett Siren", category: "Sungrown · Tier V", description: "Everyday range. R13/kg at 5kg; 10–15kg by arrangement. 250g min.", unit: "per kg (1kg list)", price: 15 },
+  // ── SUNGROWN · TIER V · R15/kg from 1kg
+  { id: "lef-sg-dawn-mix", name: "Dawn Mix", category: "Sungrown · Tier V", description: "Unavailable until December — orders open, send us your numbers. R35 up to 500g · R25 at 750g · R15 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 15, isPreorder: true },
+  { id: "lef-sg-even-split", name: "Even Split", category: "Sungrown · Tier V", description: "Unavailable until December — orders open, send us your numbers. R35 up to 500g · R25 at 750g · R15 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 15, isPreorder: true },
+  { id: "lef-sg-fiesta-parade", name: "Fiesta Parade", category: "Sungrown · Tier V", description: "Unavailable until December — orders open, send us your numbers. R35 up to 500g · R25 at 750g · R15 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 15, isPreorder: true },
+  { id: "lef-sg-twilight-sprint", name: "Twilight Sprint", category: "Sungrown · Tier V", description: "Unavailable until December — orders open, send us your numbers. R35 up to 500g · R25 at 750g · R15 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 15, isPreorder: true },
+  { id: "lef-sg-the-pledge", name: "The Pledge", category: "Sungrown · Tier V", description: "Unavailable until December — orders open, send us your numbers. R35 up to 500g · R25 at 750g · R15 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 15, isPreorder: true },
+  { id: "lef-sg-ruby-beacon", name: "Ruby Beacon", category: "Sungrown · Tier V", description: "Unavailable until December — orders open, send us your numbers. R35 up to 500g · R25 at 750g · R15 from 1kg. 250g min.", unit: "per kg (1kg+ price)", price: 15, isPreorder: true },
 
   // ── POPS & MINI POPS
   {
@@ -107,16 +108,16 @@ export const LEFLABS_PRODUCTS: LefLabsProduct[] = [
     id: "lef-raw-untrimmed",
     name: "Untrimmed Bud (Greendoor)",
     category: "Raw Material",
-    description: "Fully seedless Greendoor-grown bud, untrimmed. Not outdoor. Minimum 250g.",
+    description: "Fully seedless Greendoor-grown bud, untrimmed. Not outdoor. Fixed price, minimum 2.5kg. Raw material delivery R1,500 per order.",
     unit: "per kg",
     price: 10,
   },
   {
     id: "lef-raw-crush-shake",
-    name: "Crush & Shake",
+    name: "Trim",
     category: "Raw Material",
-    description: "For buyers rolling their own pre-rolls. Estimates on request.",
-    unit: "per gram",
+    description: "For buyers making their own pre-rolls. Fixed price, minimum 2kg. Raw material delivery R1,500 per order.",
+    unit: "per kg",
     price: 6,
   },
 
@@ -179,12 +180,12 @@ export const LEFLABS_PRODUCTS: LefLabsProduct[] = [
   },
 
   // ── VAPES · R399 FLAT · MOQ 20
-  { id: "lef-vp-liquid-gold", name: "Liquid Gold Cartridge", category: "Vapes · R399 Flat", description: "One flat price across all six lines. Flavours: Blueberry Blitz, Lucy's Breath, Dante's Donuts, Daffy Duck, Strawberry Kim, Dosido, Blue Dream. MOQ 20 units.", unit: "per unit", price: 399 },
-  { id: "lef-vp-pure-leaf", name: "Pure Leaf Cartridge", category: "Vapes · R399 Flat", description: "One flat price across all six lines. Flavours: Blueberry Blitz, Lucy's Breath, Dante's Donuts, Daffy Duck, Strawberry Kim, Dosido, Blue Dream. MOQ 20 units.", unit: "per unit", price: 399 },
-  { id: "lef-vp-dirty-vapes", name: "Dirty Vapes Cartridge", category: "Vapes · R399 Flat", description: "One flat price across all six lines. Flavours: Blueberry Blitz, Lucy's Breath, Dante's Donuts, Daffy Duck, Strawberry Kim, Dosido, Blue Dream. MOQ 20 units.", unit: "per unit", price: 399 },
-  { id: "lef-vp-funkt", name: "Funk't Cartridge", category: "Vapes · R399 Flat", description: "One flat price across all six lines. Flavours: Blueberry Blitz, Lucy's Breath, Dante's Donuts, Daffy Duck, Strawberry Kim, Dosido, Blue Dream. MOQ 20 units.", unit: "per unit", price: 399 },
-  { id: "lef-vp-leflabs", name: "LëF Labs Vapes Cartridge", category: "Vapes · R399 Flat", description: "One flat price across all six lines. Flavours: Blueberry Blitz, Lucy's Breath, Dante's Donuts, Daffy Duck, Strawberry Kim, Dosido, Blue Dream. MOQ 20 units.", unit: "per unit", price: 399, isNew: true },
-  { id: "lef-vp-kush-tells", name: "Kush & Tells Cartridge", category: "Vapes · R399 Flat", description: "One flat price across all six lines. Flavours: Blueberry Blitz, Lucy's Breath, Dante's Donuts, Daffy Duck, Strawberry Kim, Dosido, Blue Dream. MOQ 20 units.", unit: "per unit", price: 399, isNew: true },
+  { id: "lef-vp-liquid-gold", name: "Liquid Gold Cartridge", category: "Vapes · R399 Flat", description: "One flat price across all six lines. Flavours: Bilberry Rush, Maeve's Breath, Dario's Doughnuts, Dizzy Mallard, Strawberry Kai, Square Dance, Azure Reverie. MOQ 20 units.", unit: "per unit", price: 399 },
+  { id: "lef-vp-pure-leaf", name: "Pure Leaf Cartridge", category: "Vapes · R399 Flat", description: "One flat price across all six lines. Flavours: Bilberry Rush, Maeve's Breath, Dario's Doughnuts, Dizzy Mallard, Strawberry Kai, Square Dance, Azure Reverie. MOQ 20 units.", unit: "per unit", price: 399 },
+  { id: "lef-vp-dirty-vapes", name: "Dirty Vapes Cartridge", category: "Vapes · R399 Flat", description: "One flat price across all six lines. Flavours: Bilberry Rush, Maeve's Breath, Dario's Doughnuts, Dizzy Mallard, Strawberry Kai, Square Dance, Azure Reverie. MOQ 20 units.", unit: "per unit", price: 399 },
+  { id: "lef-vp-funkt", name: "Funk't Cartridge", category: "Vapes · R399 Flat", description: "One flat price across all six lines. Flavours: Bilberry Rush, Maeve's Breath, Dario's Doughnuts, Dizzy Mallard, Strawberry Kai, Square Dance, Azure Reverie. MOQ 20 units.", unit: "per unit", price: 399 },
+  { id: "lef-vp-leflabs", name: "LëF Labs Vapes Cartridge", category: "Vapes · R399 Flat", description: "One flat price across all six lines. Flavours: Bilberry Rush, Maeve's Breath, Dario's Doughnuts, Dizzy Mallard, Strawberry Kai, Square Dance, Azure Reverie. MOQ 20 units.", unit: "per unit", price: 399 },
+  { id: "lef-vp-kush-tells", name: "Kush & Tells Cartridge", category: "Vapes · R399 Flat", description: "One flat price across all six lines. Flavours: Bilberry Rush, Maeve's Breath, Dario's Doughnuts, Dizzy Mallard, Strawberry Kai, Square Dance, Azure Reverie. MOQ 20 units.", unit: "per unit", price: 399 },
 
   // ── SOUR EDIBLES
   {

@@ -109,8 +109,8 @@ export default function LefLabsOrder() {
   return (
     <div className="flex min-h-screen flex-col">
       <Helmet>
-        <title>Order Online — Lëf Labs October 2026 Catalogue | Tripplefour</title>
-        <meta name="description" content="Lëf Labs B2B wholesale order portal — October 2026 catalogue. Authorised partners only." />
+        <title>Order Online — Lëf Labs November 2026 Catalogue | Tripplefour</title>
+        <meta name="description" content="Lëf Labs B2B wholesale order portal — November 2026 catalogue. Authorised partners only." />
         <meta name="robots" content="noindex, follow" />
       </Helmet>
 
@@ -127,14 +127,14 @@ export default function LefLabsOrder() {
             </Link>
             <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
               <div>
-                <Badge className="mb-2 bg-accent text-accent-foreground">October 2026 Catalogue</Badge>
+                <Badge className="mb-2 bg-accent text-accent-foreground">November 2026 Catalogue</Badge>
                 <h1 className="font-display text-3xl font-bold md:text-4xl">
                   Order Online — <span className="text-primary">Direct EFT Checkout</span>
                 </h1>
                 <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                  New this month: Hydro replaces 4A Indoor (15 strains), a brand-new 7-strain Greendoor line-up,
-                  Exotic Greenhouse now 22 strains, Sungrown replaces Greenhouse, and six vape lines at a flat R399.
-                  COA on request for every batch.
+                  New this month: every strain re-catalogued under new names, a new price ladder stepping down in
+                  250g steps to the 1kg price, Sungrown open for December orders, and fixed-price untrimmed bud and trim.
+                  Prices shown are the 1kg+ rate. COA on request.
                 </p>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary">
@@ -161,6 +161,7 @@ export default function LefLabsOrder() {
                             {p.name}
                             {p.isBack && <Badge className="ml-2 bg-accent text-accent-foreground align-middle text-[10px]">BACK</Badge>}
                             {p.isNew && <Badge className="ml-2 bg-primary text-primary-foreground align-middle text-[10px]">NEW</Badge>}
+                            {p.isPreorder && <Badge variant="outline" className="ml-2 align-middle text-[10px]">DEC · ORDERS OPEN</Badge>}
                           </p>
                           <p className="mt-0.5 text-xs text-muted-foreground">{p.description}</p>
                           <p className="mt-2 font-mono text-sm font-bold text-primary">
